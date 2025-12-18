@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+ENV/
+env/
+*.egg-info/
+dist/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# LaTeX
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+
+# Large data files (optional - uncomment if needed)
+# *.zip
+# *.pdf
+
+# Output directories (generated content)
+workspace/*/output/
+workspace/*/data/
+workspace/*/2025_Problem_C_Data/
+
+# Keep structure but ignore generated content
+!workspace/*/output/.gitkeep

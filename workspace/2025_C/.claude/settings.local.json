@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(unzip:*)",
+      "Bash(python:*)",
+      "Bash(pdflatex:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
