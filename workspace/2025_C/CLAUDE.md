@@ -150,6 +150,83 @@ After first major section complete:
 
 ---
 
+## 🤝 MANDATORY CONSULTATION (Critical!)
+
+> [!IMPORTANT]
+> **Model design and major decisions REQUIRE multi-agent consultation.**
+> A single agent working alone will produce weak results.
+
+### Consultation Protocol
+
+**BEFORE finalizing any model design, you MUST:**
+
+1. **@modeler proposes** → writes initial design to `output/model_proposals/model_X_draft.md`
+2. **@researcher reviews** → checks if proposal aligns with past O-Prize methods
+3. **@coder evaluates feasibility** → confirms data availability and implementation complexity
+4. **@advisor critiques** → identifies weaknesses and suggests improvements
+5. **@modeler revises** → incorporates feedback into final `model_design.md`
+
+### Consultation Triggers
+
+| Decision Type | Who Must Be Consulted | Why |
+|--------------|----------------------|-----|
+| **Model Selection** | @researcher + @advisor | Ensure method is appropriate and sophisticated enough |
+| **Assumption Making** | @modeler + @advisor | Assumptions must be justified and reasonable |
+| **Feature Engineering** | @coder + @modeler | Data scientist + theorist must agree |
+| **Visualization Design** | @coder + @writer | Technical accuracy + visual appeal |
+| **Sensitivity Analysis Scope** | @modeler + @advisor | What parameters to test |
+
+### How to Run a Consultation
+
+```
+STEP 1: Initial Proposal
+@modeler: "I propose using Random Forest for medal prediction because..."
+Save to: output/consultations/proposal_model1.md
+
+STEP 2: Gather Feedback
+@researcher: "Past papers show ensemble methods worked for 2024 C problem, 
+             but suggest adding time-series component."
+@coder: "We have 35 years of data. RF can work but may need feature lag."
+@advisor: "Too simple for O-Prize. Consider hybrid approach."
+
+STEP 3: Revised Design
+@modeler incorporates all feedback into final design.
+Save to: output/model_design.md with section "Consultation Summary"
+```
+
+### Example Consultation Output
+
+```markdown
+# Model 1: Medal Prediction - Consultation Summary
+
+## Original Proposal
+Random Forest regression on country features.
+
+## Feedback Received
+- @researcher: "Add time-series lag features" ✓ Incorporated
+- @coder: "Need to handle missing data for new countries" ✓ Added imputation
+- @advisor: "Add uncertainty quantification" ✓ Added bootstrap CI
+- @advisor: "Too simple alone" ✓ Combined with Gradient Boosting ensemble
+
+## Final Design
+Hybrid ensemble: RF + XGBoost + time-series features + bootstrap CI
+```
+
+### Consultation Directory Structure
+
+```
+output/
+├── consultations/
+│   ├── proposal_model1.md      # Initial proposal
+│   ├── feedback_model1.md      # Collected feedback
+│   ├── proposal_model2.md
+│   └── feedback_model2.md
+├── model_design.md             # Final designs with consultation summaries
+└── ...
+```
+
+---
+
 ## 🔁 Iteration Triggers
 
 **Go back to earlier phases when:**
