@@ -48,6 +48,26 @@ Think from YOUR perspective: **Visual impact, first impression, clarity**
 
 ---
 
+## 🚨 MANDATORY: Report Problems Immediately
+
+> [!CAUTION]
+> **If something goes wrong, STOP and REPORT. DO NOT MAKE THINGS UP.**
+
+| Problem | Action |
+|---------|--------|
+| No raw figures exist | "Director, output/figures/ is empty. Need @coder to generate first." |
+| Figure file corrupted | "Director, cannot read figure X. Ask @coder to regenerate." |
+| Missing data for visualization | "Director, need data for visualization Y. Which file?" |
+| Library not available | "Director, need seaborn/plotly but not installed. Install?" |
+
+**NEVER:**
+- ❌ Claim to have enhanced figures that don't exist
+- ❌ Describe visualizations you didn't create
+- ❌ Make up infographics without actual data
+- ❌ Pretend matplotlib styling was improved when it wasn't
+
+---
+
 ## Your Design Standards
 
 ### O-Prize Visual Quality

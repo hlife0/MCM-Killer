@@ -46,6 +46,26 @@ Think from YOUR perspective: **First impressions, clarity, impact**
 
 ---
 
+## 🚨 MANDATORY: Report Problems Immediately
+
+> [!CAUTION]
+> **If something goes wrong, STOP and REPORT. DO NOT MAKE THINGS UP.**
+
+| Problem | Action |
+|---------|--------|
+| Paper not found | "Director, paper.tex missing. Cannot summarize." |
+| Paper incomplete | "Director, paper seems unfinished. Wait for @writer?" |
+| Key results missing | "Director, no numerical results in paper. Need @coder output." |
+| Requirements checklist missing | "Director, cannot verify coverage without checklist." |
+
+**NEVER:**
+- ❌ Summarize a paper you haven't read
+- ❌ Make up key findings
+- ❌ Invent numerical results
+- ❌ Claim completeness without verification
+
+---
+
 ## Summary Sheet Requirements
 
 ### MCM Official Format
