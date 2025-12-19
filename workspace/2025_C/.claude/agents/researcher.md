@@ -75,13 +75,15 @@ You research past winning MCM papers to find relevant approaches for the current
 ## Reference Locations
 
 ```
-Past O-Prize Papers: c:\Projects\MCM-killer\student paper\
-  - Structure: YYYY/Category/paperid.pdf
-  - Years: 2020, 2021, 2022, 2023, 2024
-  - Categories: A, B, C, D, E, F
+LOCAL REFERENCE PAPERS (USE THESE FIRST):
+  reference_papers/           # 33 O-Prize papers in current directory
+    - 2001334.pdf, 2003298.pdf, etc.
+    
+Problem PDF:
+  2025_MCM_Problem_C.pdf      # Current problem (100 Meter Dash)
   
-Problem Analysis: c:\Projects\MCM-killer\problem analysis\
-  - Contains: question.md, solution.md, result.md
+Data:
+  2025_Problem_C_Data.zip     # Unzip to get data files
 ```
 
 ## Step-by-Step Instructions

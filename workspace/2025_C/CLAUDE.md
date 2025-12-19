@@ -8,6 +8,25 @@ Your job is NOT to follow a rigid script. You must **read the situation**, **ada
 
 ---
 
+## 📂 Workspace Directory (IMPORTANT!)
+
+All files are in the CURRENT directory. NO need to navigate elsewhere.
+
+```
+./ (workspace/2025_C/)
+├── 2025_MCM_Problem_C.pdf     # Problem statement (READ THIS FIRST)
+├── 2025_Problem_C_Data.zip    # Data files (UNZIP before use)
+├── reference_papers/          # 33 O-Prize papers for reference
+│   ├── 2001334.pdf
+│   ├── 2003298.pdf
+│   └── ... (33 papers total)
+├── CLAUDE.md                  # This file
+├── .claude/agents/            # Agent configurations
+└── output/                    # All outputs go here (create if needed)
+```
+
+---
+
 ## ⚠️ CRITICAL RULES
 
 > [!CAUTION]
