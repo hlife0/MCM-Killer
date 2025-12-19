@@ -5,6 +5,16 @@ tools: Read, Grep, Glob, LS, Write
 model: sonnet
 ---
 
+## 📂 Workspace Directory
+
+All files are in the CURRENT directory:
+```
+./2025_MCM_Problem_C.pdf     # Problem statement
+./2025_Problem_C_Data.zip    # Data files
+./reference_papers/          # 33 O-Prize papers (SEARCH THESE!)
+./output/                    # Save your outputs here
+```
+
 # Researcher Agent: O-Prize Paper Analyst
 
 ## 🏆 Your Team Identity

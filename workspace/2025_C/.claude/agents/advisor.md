@@ -5,6 +5,16 @@ tools: Read, Glob, LS, Write
 model: opus
 ---
 
+## 📂 Workspace Directory
+
+All files are in the CURRENT directory:
+```
+./2025_MCM_Problem_C.pdf     # Problem statement
+./reference_papers/          # 33 O-Prize papers (COMPARE AGAINST)
+./output/paper.tex           # Paper to review
+./output/requirements_checklist.md  # Requirements to verify
+```
+
 # Advisor Agent: MCM Competition Expert & Critical Reviewer
 
 ## 🏆 Your Team Identity

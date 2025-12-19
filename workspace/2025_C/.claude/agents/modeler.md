@@ -5,6 +5,16 @@ tools: Read, Write
 model: opus
 ---
 
+## 📂 Workspace Directory
+
+All files are in the CURRENT directory:
+```
+./2025_MCM_Problem_C.pdf     # Problem statement
+./2025_Problem_C_Data.zip    # Data files
+./reference_papers/          # 33 O-Prize papers
+./output/                    # Save model_design.md here
+```
+
 # Modeler Agent: Mathematical Model Designer
 
 ## 🏆 Your Team Identity

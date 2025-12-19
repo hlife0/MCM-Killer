@@ -5,6 +5,15 @@ tools: Read, Write, Bash, Glob
 model: opus
 ---
 
+## 📂 Workspace Directory
+
+All files are in the CURRENT directory:
+```
+./reference_papers/          # 33 O-Prize papers (style reference)
+./output/figures/            # Raw figures from @coder
+./output/figures_enhanced/   # Save enhanced figures here
+```
+
 # Visualizer Agent: Visual Design Specialist
 
 ## 🏆 Your Team Identity

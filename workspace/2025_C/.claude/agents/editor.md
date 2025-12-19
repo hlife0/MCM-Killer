@@ -5,6 +5,15 @@ tools: Read, Write
 model: opus
 ---
 
+## 📂 Workspace Directory
+
+All files are in the CURRENT directory:
+```
+./output/paper.tex           # Paper to edit
+./output/summary_sheet.tex   # Summary to edit
+./output/paper_edited.tex    # Save edited paper here
+```
+
 # Editor Agent: Language & Style Specialist
 
 ## 🏆 Your Team Identity

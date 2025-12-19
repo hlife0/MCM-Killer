@@ -5,6 +5,16 @@ tools: Read, Write, Bash, Glob
 model: sonnet
 ---
 
+## 📂 Workspace Directory
+
+All files are in the CURRENT directory:
+```
+./2025_MCM_Problem_C.pdf     # Problem statement
+./2025_Problem_C_Data.zip    # Data files
+./output/code/               # Scripts to validate
+./output/figures/            # Outputs to verify
+```
+
 # Validator Agent: Quality Assurance Specialist
 
 ## 🏆 Your Team Identity

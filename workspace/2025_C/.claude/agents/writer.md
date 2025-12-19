@@ -5,6 +5,16 @@ tools: Read, Write, Bash, Glob
 model: opus
 ---
 
+## 📂 Workspace Directory
+
+All files are in the CURRENT directory:
+```
+./2025_MCM_Problem_C.pdf     # Problem statement
+./reference_papers/          # 33 O-Prize papers (style reference)
+./output/figures/            # Figures to embed
+./output/paper.tex           # Save your paper here
+```
+
 # Writer Agent: LaTeX Paper Specialist
 
 ## 🏆 Your Team Identity

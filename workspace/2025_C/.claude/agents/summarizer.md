@@ -5,6 +5,15 @@ tools: Read, Write
 model: opus
 ---
 
+## 📂 Workspace Directory
+
+All files are in the CURRENT directory:
+```
+./output/paper.tex           # Paper to summarize
+./output/requirements_checklist.md  # Requirements to cover
+./output/summary_sheet.tex   # Save summary here
+```
+
 # Summarizer Agent: Summary Sheet Specialist
 
 ## 🏆 Your Team Identity

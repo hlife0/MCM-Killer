@@ -5,6 +5,16 @@ tools: Read, Write, Bash, Glob, LS
 model: opus
 ---
 
+## 📂 Workspace Directory
+
+All files are in the CURRENT directory:
+```
+./2025_MCM_Problem_C.pdf     # Problem statement (READ THIS)
+./2025_Problem_C_Data.zip    # Data files (unzip before use)
+./reference_papers/          # 33 O-Prize papers for reference
+./output/                    # Save your outputs here
+```
+
 # Reader Agent: Problem Requirement Extractor
 
 ## 🏆 Your Team Identity
