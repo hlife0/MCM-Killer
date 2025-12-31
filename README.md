@@ -14,26 +14,38 @@ graph TD
     D --> Re[Researcher]
     D --> M[Modeler]
     D --> C[Coder]
+    D --> V[Validator]
+    D --> Vi[Visualizer]
     D --> W[Writer]
+    D --> S[Summarizer]
+    D --> E[Editor]
     D --> A[Advisor]
-    
+
     R --> |requirements_checklist.md| Re
     Re --> |research_notes.md| M
     M --> |model_design.md| C
-    C --> |code/, figures/, results_summary.md| W
-    W --> |paper.tex| A
+    C --> |code/, results_summary.md| V
+    V --> |verified_code/| Vi
+    Vi --> |figures/| W
+    W --> |paper_draft.tex| S
+    S --> |summary_sheet.md| E
+    E --> |paper.tex| A
     A --> |advisor_review.md| D
 ```
 
 | Agent | Role | Model | Key Responsibility |
 |-------|------|-------|-------------------|
-| **Director** | Orchestrator | - | Coordinates workflow, verifies outputs |
-| **Reader** | Problem Analyst | Opus | Extracts ALL requirements from PDF |
-| **Researcher** | Knowledge Miner | Sonnet | Searches past O-Prize papers |
-| **Modeler** | Math Designer | Opus | Designs models for each requirement |
-| **Coder** | Implementer | Sonnet | Writes and executes Python code |
-| **Writer** | Paper Author | Opus | Writes 25-page LaTeX paper |
-| **Advisor** | Quality Reviewer | Opus | Compares against O-Prize standards |
+| **Director** | Team Captain | - | Orchestrates workflow, coordinates parallel work, verifies gates |
+| **Reader** | Problem Analyst | Opus | Extracts ALL requirements from PDF using docling MCP |
+| **Researcher** | Strategy Advisor | Sonnet | Brainstorms methods based on O-Prize papers |
+| **Modeler** | Math Architect | Opus | Designs models with multi-agent consultation |
+| **Coder** | Implementation Engineer | Sonnet | Writes and executes Python code |
+| **Validator** | Quality Checker | Sonnet | Verifies code reproducibility and correctness |
+| **Visualizer** | Graphics Designer | Sonnet | Creates professional figures and visualizations |
+| **Writer** | Paper Author | Opus | Writes LaTeX paper using mcmthesis template |
+| **Summarizer** | Summary Expert | Opus | Creates 1-page summary sheet |
+| **Editor** | Language Polisher | Sonnet | Grammar, style, consistency check |
+| **Advisor** | Faculty Reviewer | Opus | Quality gate against O-Prize standards |
 
 ---
 
@@ -57,6 +69,41 @@ graph TD
 3. **Use Advisor agent** as final quality gate before completion
 4. **Maintain Git history** for recovery and debugging
 5. **Protect source data** with read-only permissions
+6. **Enforce auto-reverification loop** when revisions are requested
+7. **Mandatory multi-agent consultation** for model design decisions
+
+---
+
+## 🔄 Auto-Reverification Protocol
+
+> [!IMPORTANT]
+> **Critical quality control mechanism:** When agents report "revisions complete", the Director MUST automatically send the work back for re-verification.
+
+### How It Works
+
+```
+Round 1:
+Director → Agent: "Implement feature"
+Agent → "Implementation complete"
+Director → Validator: "Please verify"
+Validator → "NEEDS REVISION: Missing X, Y, Z"
+
+Round 2:
+Director → Agent: "Please fix: X, Y, Z"
+Agent → "Revisions complete. Request re-verification from @validator"
+Director → Validator: "Please re-verify the fixes for X, Y, Z"
+
+Validator → "APPROVED: All issues resolved"
+Director → "Great! Proceeding to next phase"
+```
+
+### Key Rules
+
+- ❌ **WRONG**: Agent says "revisions complete" → Director moves to next step without re-checking
+- ✅ **CORRECT**: Agent says "revisions complete" → Director automatically calls reviewing agent for re-verification
+- 🔄 **LOOP**: If re-verification finds issues → send back to original agent → repeat until APPROVED
+
+This prevents partial fixes and ensures quality gates are actually met.
 
 ---
 
@@ -90,11 +137,30 @@ MCM-killer/
 │       ├── question.md
 │       └── solution.md
 │
+├── LaTeX__Template_for_MCM_ICM/  # [MCM/ICM Template] LaTeX class files
+│   ├── mcmthesis.cls           # Custom document class
+│   ├── mcmthesis-demo.tex      # Example paper
+│   └── figures/                # Template figures
+│
 ├── workspace/                  # [Working Directory] Agent Output
 │   └── 2025_C/                 # Current problem workspace
+│       ├── 2025_MCM_Problem_C.pdf  # Problem statement
+│       ├── 2025_Problem_C_Data.zip # Data files
+│       ├── reference_papers/   # 33 O-Prize reference papers
+│       ├── latex_template/     # LaTeX template copy
 │       ├── CLAUDE.md           # Director configuration
-│       ├── .claude/agents/     # Subagent configurations
+│       ├── .claude/
+│       │   ├── agents/         # 10 agent configurations
+│       │   └── settings.local.json
+│       ├── .mcp.json           # MCP server config
 │       └── output/             # Generated files
+│           ├── requirements_checklist.md
+│           ├── research_notes.md
+│           ├── model_design.md
+│           ├── consultations/  # Multi-agent consultation logs
+│           ├── code/           # Python scripts
+│           ├── figures/        # Generated figures
+│           └── paper.tex       # Final LaTeX paper
 │
 └── .gitignore                  # Excludes generated content
 ```
