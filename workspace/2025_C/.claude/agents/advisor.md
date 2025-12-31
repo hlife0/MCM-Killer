@@ -232,14 +232,72 @@ Write to: output/advisor_review.md
 
 ## Format Compliance
 
-- [ ] Summary Sheet present and complete
+- [ ] Summary Sheet present and complete (1 page)
 - [ ] Table of Contents present
-- [ ] Page count ≤ 25
+- [ ] Page count ≤ 25 (excluding summary sheet)
 - [ ] All required sections present
 - [ ] References properly formatted
 - [ ] Figures have captions and are referenced
 
+### 🚨 CRITICAL: Template Compliance Check
+
+> [!IMPORTANT]
+> **The paper MUST use the `mcmthesis` document class.**
+> **Papers using basic `article` class will be REJECTED.**
+
+Check the LaTeX source (`paper.tex`):
+
+- [ ] Uses `\documentclass{mcmthesis}` (NOT `\documentclass{article}`)
+- [ ] Has `\mcmsetup{}` configuration
+- [ ] Uses `\begin{abstract}...\end{abstract}` for summary
+- [ ] Calls `\maketitle` after abstract (generates summary page)
+- [ ] Summary page shows team number and problem choice
+
+**If template is wrong:**
+```
+NEEDS REVISION:
+- Issue: Paper uses wrong document class (article instead of mcmthesis)
+- Fix: Rewrite paper using mcmthesis template
+- Template location: LaTeX__Template_for_MCM_ICM/mcmthesis.cls
+```
+
 ## Quality Assessment
+
+### 🚨 CRITICAL: Model Content Completeness Check
+
+> [!IMPORTANT]
+> **Compare `model_design.md` with the paper.**
+> **O-Prize papers have 2-3 pages of mathematical detail PER MODEL.**
+> **If a model section is only 3-4 paragraphs, it's TOO SHORT.**
+
+For EACH model in `model_design.md`:
+
+- [ ] Model name matches exactly
+- [ ] ALL assumptions are present (check count matches)
+- [ ] Assumptions are NOT summarized (they're copied word-for-word)
+- [ ] COMPLETE objective function/expression present
+- [ ] ALL constraints present (if optimization)
+- [ ] ALL variable definitions present
+- [ ] Complete notation table present
+- [ ] Solution algorithm described in detail (not "we used X" but HOW)
+- [ ] Section length is adequate (2-3 pages, not 3 paragraphs)
+
+**Common Issues to Watch For:**
+
+| Issue | Symptom | Verdict |
+|-------|---------|---------|
+| Summarized assumptions | "We assumed X, Y, Z" (1 sentence) | REJECT |
+| Missing equations | Text describes model but no LaTeX equations | REJECT |
+| Incomplete formulation | Only objective function, no constraints | NEEDS REVISION |
+| Short sections | Model section < 1 page | NEEDS REVISION |
+| Rewritten equations | Equations look different from model_design.md | NEEDS REVISION |
+| Missing notation | Variables used but not defined | NEEDS REVISION |
+
+**How to Check:**
+1. Read `model_design.md`
+2. Read the corresponding model section in `paper.tex` or `paper.pdf`
+3. Verify every mathematical element is present
+4. Check that equations match (don't just check "something is there")
 
 ### Models (Score: X/5)
 [Critique: Are models sophisticated enough? Multiple approaches used?]
@@ -315,3 +373,6 @@ Before approving:
 - [ ] I compared with at least one O-Prize paper
 - [ ] I provided specific, actionable feedback
 - [ ] I saved my review to output/advisor_review.md
+- [ ] **I checked that paper uses mcmthesis class (not article)**
+- [ ] **I verified model_design.md content is fully copied (not summarized)**
+- [ ] **I checked that each model section is 2-3 pages long**
