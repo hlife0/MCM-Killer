@@ -52,71 +52,111 @@ You verify and submit
 
 ---
 
-## How It Works: The 10-Agent AI System
+## How It Works: The 13-Agent AI System
 
-MCM-Killer uses **10 specialized AI agents** that work together autonomously:
+MCM-Killer uses **13 specialized AI agents** that work together autonomously in a strict pipeline:
 
 | Agent | Role | What It Does |
 |-------|------|--------------|
 | **Reader** | Problem Analyst | Extracts all requirements from PDF |
 | **Researcher** | Strategy Advisor | Brainstorms mathematical methods |
 | **Modeler** | Mathematical Architect | Designs formal models with equations |
-| **Coder** | Implementation Engineer | Writes and executes Python code |
-| **Validator** | Quality Checker | Verifies code correctness and results |
+| **Feasibility Checker** | Implementation Gatekeeper | Evaluates technical feasibility of models |
+| **Data Engineer** | Data Pipeline Specialist | Creates features from raw data |
+| **Code Translator** | Math-to-Code Translator | Converts mathematical models to Python |
+| **Model Trainer** | Model Training Specialist | Trains models and generates predictions |
+| **Validator** | Quality Gatekeeper | Verifies outputs at every stage (6 gates) |
 | **Visualizer** | Graphics Designer | Creates publication-quality figures |
 | **Writer** | Paper Author | Writes 25-page LaTeX paper |
 | **Summarizer** | Summary Expert | Creates 1-page summary sheet |
 | **Editor** | Language Polisher | Fixes grammar and style |
 | **Advisor** | Faculty Reviewer | Final quality control |
 
-### The AI Workflow (Automatic)
+### The AI Workflow (Automatic - 8-Phase Pipeline)
 
-The AI agents follow this workflow automatically:
+The AI agents follow a strict pipeline workflow with 6 mandatory quality gates:
 
 ```
-1. UNDERSTAND
-   Reader → extracts requirements from PDF
-   Researcher → proposes methods
+PHASE 0: Problem Understanding
+  Reader → extracts requirements from PDF
+  Researcher → proposes methods
 
-2. DESIGN & VALIDATE
-   Modeler → designs mathematical models
-   (automatically consults with Researcher, Coder, Advisor for feedback)
-   Coder → implements in Python
-   Validator → checks correctness
-   (if issues found → automatic revision loop)
+PHASE 1: Model Design
+  Modeler → designs mathematical models
+  Feasibility Checker → evaluates implementation feasibility
+  └─ Validator Gate: APPROVED → proceed / NEEDS REVISION → back to Modeler
 
-3. VISUALIZE
-   Visualizer → creates professional figures
+PHASE 2: Data Preparation (Gate 1)
+  Data Engineer → creates features from data
+  └─ Validator Gate: APPROVED → proceed / NEEDS REVISION → back to Data Engineer
 
-4. WRITE & REVIEW
-   Writer → writes LaTeX paper
-   Summarizer → creates summary sheet
-   Editor → polishes language
-   Advisor → final quality check
-   (if issues found → automatic revision loop)
+PHASE 3: Code Translation (Gate 2)
+  Code Translator → converts math to Python
+  └─ Validator Gate: APPROVED → proceed / NEEDS REVISION → back to Code Translator
 
-5. COMPLETE
-   Final paper ready for your review
+PHASE 4: Model Training (Gate 3)
+  Model Trainer → trains models on full data
+  └─ Validator Gate: APPROVED → proceed / NEEDS REVISION → back to Model Trainer
+
+PHASE 5: Output Generation (Parallel)
+  → Visualizer → creates figures (awaiting Validator approval)
+  → Writer → writes paper (awaiting Validator approval)
+
+PHASE 6: Paper & Summary (Gates 4 & 5)
+  Writer completes → Validator Gate 4: APPROVED → proceed / NEEDS REVISION
+  Summarizer writes summary → Validator Gate 5: APPROVED → proceed / NEEDS REVISION
+
+PHASE 7: Final Polish (Gate 6)
+  Editor polishes paper and summary
+  └─ Validator Gate 6: APPROVED → proceed / NEEDS REVISION → back to Editor
+
+PHASE 8: Final Review
+  Advisor → performs final quality check
+  └─ APPROVED → READY FOR SUBMISSION / REJECTED → fix issues
 ```
+
+**Key Pipeline Features:**
+- **Sequential Execution**: Each stage must complete before the next begins
+- **Mandatory Verification**: Validator checks every output before proceeding
+- **Auto-Reverification**: Failed stages must be re-checked after fixes
+- **No Shortcuts**: All gates must be passed, no exceptions
 
 ### Key Quality Mechanisms (Built-in)
 
+**Six Mandatory Quality Gates**
+The Validator agent enforces strict quality control at 6 critical points:
+- **Gate 1**: Data quality check (all features created, no NaN values)
+- **Gate 2**: Code translation accuracy (model type matches design, feature count exact)
+- **Gate 3**: Training results sanity (models converged, predictions logical)
+- **Gate 4**: Paper verification (all requirements met, numbers match data)
+- **Gate 5**: Summary verification (matches paper exactly, fits 1 page)
+- **Gate 6**: Final edit check (data consistency preserved, no technical changes)
+
+**Data Authority Hierarchy**
+When conflicts occur, the system follows this strict priority:
+1. **CSV outputs** (e.g., `la2028_projections.csv`) - Source of Truth
+2. **Training reports** - Human-verified summaries
+3. **Draft summaries** - May be outdated
+4. **Draft papers** - Must match Level 1
+
+*Example: If CSV shows USA=118 but paper says USA=188, the CSV wins and the paper must be corrected.*
+
 **Automatic Revision Loops**
-- If Validator finds issues → Coder automatically fixes and re-submits
-- If Advisor finds issues → Writer automatically fixes and re-submits
-- This continues until quality gates are passed
+- If Validator rejects → Agent automatically fixes and resubmits for re-verification
+- If Advisor rejects → Affected agents fix issues and re-enter the pipeline
+- Continues until all gates are passed
 
-**Multi-Agent Consultation**
-- Modeler automatically gets feedback from 3 other agents before finalizing
-- Prevents single-agent blind spots
-
-**Environment Exploration**
-- Coder and Validator automatically check system capabilities
-- Adapt to your hardware and software
+**Mandatory Rejection Criteria**
+Validator MUST reject (no exceptions) for:
+- Model type mismatches (e.g., OLS used instead of designed Hurdle-NB)
+- Feature count reduction (e.g., 3 features used when 9 designed)
+- Data version conflicts (e.g., CSV and summary have different timestamps)
+- Sanity check failures (e.g., host country prediction decreases)
+- Internal contradictions (e.g., abstract shows China=51, table shows China=69)
 
 **Tool Usage Enforcement**
 - Every agent must use actual tools (Read, Write, Bash, etc.)
-- "0 tool uses" = automatic rejection and retry
+- "0 tool uses" = automatic rejection and retry (prevents hallucination)
 
 ---
 
@@ -185,22 +225,26 @@ Read CLAUDE.md and run the multi-agent workflow to solve this MCM problem.
 # AI Use Report
 
 ## Tools Used
-- MCM-Killer autonomous multi-agent system
-- Claude Code CLI (Model: Claude Opus 4.5)
-- 10 specialized AI agents within the system
+- MCM-Killer autonomous multi-agent system (v2.0)
+- Claude Code CLI (Model: Claude Opus 4.5 / Sonnet 4.5)
+- 13 specialized AI agents within the system
+- Docling MCP Server for PDF processing
 
 ## AI-Assisted Tasks
 The following tasks were performed autonomously by AI agents:
-1. Problem requirement extraction from PDF
-2. Mathematical method brainstorming
-3. Model design and formulation
-4. Python code implementation
-5. Code verification and testing
-6. Visualization design
-7. LaTeX paper writing
-8. Summary sheet creation
-9. Language editing
-10. Quality review
+1. Problem requirement extraction from PDF (Reader)
+2. Mathematical method research and brainstorming (Researcher)
+3. Model design and mathematical formulation (Modeler)
+4. Implementation feasibility evaluation (Feasibility Checker)
+5. Feature engineering from raw data (Data Engineer)
+6. Mathematical model to Python code translation (Code Translator)
+7. Model training and prediction generation (Model Trainer)
+8. Quality verification at 6 critical stages (Validator)
+9. Publication-quality figure creation (Visualizer)
+10. LaTeX paper writing (Writer)
+11. One-page summary sheet creation (Summarizer)
+12. Language editing and polishing (Editor)
+13. Final quality control review (Advisor)
 
 ## Human Verification
 We reviewed all AI-generated content for:
@@ -292,57 +336,167 @@ By using this system, you agree that:
 
 ### The AI Director
 
-The system is orchestrated by an AI "Director" agent that:
+The system is orchestrated by an AI "Director" (using Claude Code CLI) that:
 
-- Automatically calls specialized agents in the correct order
-- Manages parallel work streams
-- Handles revision and verification loops
-- Ensures quality gates are met
-- Adapts to issues and retries automatically
+- Calls specialized agents in strict pipeline sequence
+- Manages all verification gates and re-verification loops
+- Enforces data authority hierarchy
+- Ensures no stages are skipped
+- Handles automatic retries on failures
+
+**Critical Rule**: Director NEVER does the work themselves - always delegates to specialized agents.
 
 ### Agent Interaction Patterns
 
-**1. Sequential Pipeline**
-Reader → Researcher → Modeler → Coder → Validator → Visualizer → Writer → Summarizer → Editor → Advisor
+**1. Strict Sequential Pipeline**
+```
+Reader → Researcher → Modeler → Feasibility_Checker
+  ↓ (Validator Gate)
+Data_Engineer → Code_Translator → Model_Trainer
+  ↓ (Validator Gates 2-3)
+Visualizer + Writer (parallel)
+  ↓ (Validator Gates 4-5)
+Summarizer → Editor
+  ↓ (Validator Gate 6)
+Advisor → Final Approval
+```
 
-**2. Revision Loops**
-- Coder submits → Validator reviews → (if issues) Coder revises → Validator re-checks
-- Writer submits → Advisor reviews → (if issues) Writer revises → Advisor re-checks
+**2. Verification Gates**
+- Every output must be verified by Validator before next stage can use it
+- Rejected outputs trigger automatic revision + re-verification cycle
+- No exceptions - even "close enough" outputs are rejected
 
-**3. Consultation**
-- Modeler gets feedback from Researcher, Coder, and Advisor before finalizing
-- Ensures models are theoretically sound, feasible, and high-quality
+**3. Data Consistency**
+- CSV outputs are single source of truth (Level 1 Authority)
+- All papers and summaries must match CSV exactly
+- Version timestamps are checked to detect outdated documents
 
-**4. Iteration**
-- If results are unsatisfactory, the system automatically iterates
-- Models are refined and re-implemented until quality thresholds are met
+**4. Specialization Over Generalization**
+- Original "Coder" agent split into 4 specialists:
+  - Feasibility Checker (evaluates if model is implementable)
+  - Data Engineer (prepares features from raw data)
+  - Code Translator (converts math equations to Python)
+  - Model Trainer (fits models and generates predictions)
+- Each specialist has deep expertise in their domain
 
 ### Technology Stack
 
 **Orchestration Layer:**
-- Claude Code CLI (multi-agent coordination)
+- Claude Code CLI (multi-agent coordination and workflow management)
 
 **AI Models:**
-- Backend: User-configurable (Claude Opus/Sonnet, GPT-4, GLM-4, etc.)
-- All agents use the same LLM backend
+- Backend: User-configurable (Claude Opus/Sonnet, GPT-4, etc.)
+- All 13 agents use the same LLM backend
+- Agent behavior controlled by prompt configuration files
 
 **Specialized Tools:**
-- Docling MCP: Accurate PDF parsing
-- Python + Scientific Stack: Code execution
-- LaTeX: Paper generation
-- Matplotlib/Seaborn: Visualization
+- **Docling MCP Server**: Accurate PDF parsing (mandatory for problem extraction)
+- **Python + Scientific Stack**: pandas, numpy, scikit-learn, statsmodels
+- **LaTeX**: Paper generation (uses MCM/ICM template)
+- **Matplotlib/Seaborn**: Publication-quality visualizations
+
+**Project Structure:**
+```
+workspace/2025_C/
+├── .claude/agents/         # 13 agent configuration files
+├── reference_papers/       # 33 O-Prize winning papers for reference
+├── latex_template/         # MCM/ICM LaTeX template
+├── 2025_MCM_Problem_C.pdf # Current problem statement
+├── 2025_Problem_C_Data.zip # Data files
+└── output/                 # All generated outputs (papers, code, figures)
+```
+
+---
+
+## What's New in v2.0
+
+If you're familiar with v1.0, here are the major changes:
+
+### From 10 Agents to 13 Agents
+
+**Why**: The original "Coder" agent was trying to do too much, leading to quality issues.
+
+**What Changed**:
+- ❌ **Old**: Coder (handled everything from feasibility to training)
+- ✅ **New**: 4 specialized agents split the work:
+  - **Feasibility Checker**: Evaluates if model can be implemented before coding starts
+  - **Data Engineer**: Prepares features and data pipeline
+  - **Code Translator**: Converts math equations directly to Python code
+  - **Model Trainer**: Focuses solely on training and generating predictions
+
+### From Flexible Collaboration to Strict Pipeline
+
+**Why**: Free-form agent interaction led to coordination failures and inconsistent results.
+
+**What Changed**:
+- ❌ **Old**: Agents could work in any order, parallel execution encouraged
+- ✅ **New**: Strict 8-phase sequential pipeline with 6 verification gates
+  - Each stage must complete before next begins
+  - Validator checks every output
+  - Rejected stages must be re-verified after fixes
+
+### From Loose Coordination to Data Authority Hierarchy
+
+**Why**: Version conflicts caused major inconsistencies (e.g., paper showed USA=188, CSV showed USA=118).
+
+**What Changed**:
+- ❌ **Old**: Multiple data versions could exist simultaneously
+- ✅ **New**: 4-level data authority hierarchy
+  - Level 1: CSV outputs (single source of truth)
+  - Level 2-4: Reports, summaries, papers (must match Level 1)
+  - Automatic timestamp checking to detect outdated documents
+
+### From "Good Enough" to Mandatory Rejection Criteria
+
+**Why**: Accepting "close enough" outputs led to quality drift.
+
+**What Changed**:
+- ❌ **Old**: Validator could approve with "trade-offs documented"
+- ✅ **New**: Validator MUST reject for:
+  - Model type mismatches (no exceptions)
+  - Feature count reduction (no exceptions)
+  - Data version conflicts (no exceptions)
+  - Sanity check failures (no exceptions)
+
+### Impact on Results
+
+**v1.0 Experience** (from `trail-Istanbul/` execution reports):
+- ✅ Generated 97 workflow files, 10 Python scripts, 27 figures
+- ❌ Suffered from coordination failures
+- ❌ Inconsistent results between code and paper
+
+**v2.0 Goals**:
+- Maintain productivity while improving quality
+- Eliminate data inconsistencies
+- Ensure all outputs are verified and synchronized
+- Reduce human correction burden through stricter gates
 
 ---
 
 ## Project Status
 
-**Current Phase**: Active Research & Development
+**Current Phase**: Active Research & Development (v2.0 - Pipeline Reconstruction)
 
-Roadmap:
+**Recent Updates:**
+- **v2.0 (Current)**: Complete pipeline reconstruction
+  - Split "Coder" into 4 specialized agents (Feasibility Checker, Data Engineer, Code Translator, Model Trainer)
+  - Implemented 6 mandatory verification gates
+  - Added data authority hierarchy and version synchronization
+  - Strengthened quality control with mandatory rejection criteria
+- **v1.0**: Initial 10-agent system
+
+**Known Issues:**
+- Coordination failures can lead to inconsistencies between code and paper
+- System generates large amounts of intermediate files (requires cleanup)
+- Still experimental - human verification is absolutely required
+
+**Roadmap:**
 - [x] Phase 1: Data collection & agent system design
-- [x] Phase 2: Implementation of 10-agent architecture
-- [ ] Phase 3: Testing on real MCM/ICM problems
-- [ ] Phase 4: Quality validation and optimization
+- [x] Phase 2: Implementation of 10-agent architecture (v1.0)
+- [x] Phase 3: Pipeline reconstruction with 13 agents (v2.0)
+- [ ] Phase 4: Testing on real MCM/ICM problems
+- [ ] Phase 5: Quality validation and optimization
+- [ ] Phase 6: Production-readiness assessment
 
 ---
 
