@@ -2,6 +2,19 @@
 
 > **Project Goal**: 构建一个可复用的多agent系统框架，用于自动化数学建模竞赛全流程
 
+> [!WARNING]
+> **⚠️ IMPORTANT: READ THIS BEFORE USING**
+>
+> - This is a **RESEARCH PROJECT**, not a production tool
+> - AI-generated content is **unreliable** and requires **human verification**
+> - You **MUST** disclose AI use per competition rules (e.g., MCM AI Use Report)
+> - You are **SOLELY RESPONSIBLE** for all content you submit
+> - Developers provide **NO WARRANTY** and accept **NO LIABILITY**
+>
+> See [Academic Integrity & AI Use Policy](#-academic-integrity--ai-use-policy) and [Disclaimer](#-disclaimer--liability) below.
+
+---
+
 ## 🎯 What is MCM-Killer?
 
 **MCM-Killer is a framework, not a paper generator.**
@@ -24,7 +37,7 @@
 │  Input: Problem PDF + Reference Papers                      │
 │  Process: MCM-Killer configures agents, prompts, workflows  │
 │  Output: workspace/YYYY_X/ with 10 specialized agents       │
-│  Creator: Framework developers (Hongrui Li)                  │
+│  Creator: Framework developers                              │
 └─────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────┐
@@ -33,6 +46,7 @@
 │  Process: YOU direct agents to solve the problem           │
 │  Output: Requirements, models, code, figures, paper         │
 │  Owner: YOU (the competition participant)                   │
+│  ⚠️ YOU MUST report AI usage per competition rules         │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -43,10 +57,13 @@
 - The framework defines: Agent roles, workflows, quality gates, file structure
 - **You provide**: The LLM backend, strategic decisions, iteration direction
 - **You own**: The generated paper, models, code, and competition results
+- **You are responsible for**: AI use disclosure, academic integrity, submission quality
 
-This is analogous to using a compiler:
-- GCC/Clang don't co-author your C program
-- MCM-Killer doesn't co-author your MCM paper
+> [!CAUTION]
+> **Important**: Unlike a compiler, AI tools **DO** contribute to your work. You **MUST**:
+> - Follow competition AI use policies (e.g., MCM/ICM AI Use Report requirements)
+> - Properly disclose AI assistance in your submission
+> - Take full responsibility for the generated content
 
 ---
 
@@ -367,6 +384,142 @@ attrib +R "student paper\*" /S
 
 ---
 
+## ⚖️ Academic Integrity & AI Use Policy
+
+> [!WARNING]
+> **CRITICAL**: This project uses AI tools extensively. You **MUST** follow these guidelines.
+
+### AI Use Disclosure Requirements
+
+**For MCM/ICM Competitions:**
+- **AI IS permitted** by COMAP for MCM/ICM competitions
+- **AI Use Report is REQUIRED** if you use any AI tools
+- Report does **NOT** count toward the 25-page limit
+- Report must follow [COMAP AI Use Policy](https://www.comap.com/undergraduate/contests/mcm/instructions.html#AI)
+
+**What You Must Disclose:**
+- ✅ Which AI tools you used (Claude, GPT-4, GLM, etc.)
+- ✅ What tasks AI assisted with (brainstorming, coding, writing, etc.)
+- ✅ How you verified and refined AI-generated content
+- ✅ Your role in directing and validating the work
+
+**Example AI Use Report Structure:**
+```markdown
+# AI Use Report
+
+## Tools Used
+- Claude Code CLI (Model: Claude Opus 4.5 / GPT-4 Turbo / GLM-4)
+- GitHub Copilot (code completion)
+
+## AI-Assisted Tasks
+1. Problem analysis and requirement extraction
+2. Model design and mathematical formulation
+3. Python code implementation
+4. LaTeX paper writing
+
+## Human Verification
+- All models were reviewed for mathematical correctness
+- Code was tested and debugged
+- Paper content was edited for clarity and consistency
+- Final submission was approved by human team members
+
+## Responsibility Statement
+We take full responsibility for the content of this submission.
+The AI tools served as productivity aids, not replacements for our work.
+```
+
+### Academic Integrity Principles
+
+| Principle | Your Responsibility |
+|-----------|-------------------|
+| **Honesty** | Disclose ALL AI use, don't hide AI assistance |
+| **Accuracy** | Verify AI-generated content for correctness |
+| **Attribution** | Don't claim AI-generated work as solely your own |
+| **Understanding** | Be able to explain everything in your submission |
+| **Accountability** | You are responsible for the final product, not the AI |
+
+**Consequences of Misuse:**
+- ❌ **Academic misconduct** if you fail to disclose AI use
+- ❌ **Disqualification** from competitions
+- ❌ **Reputation damage** to you and your institution
+
+---
+
+## ⚠️ Disclaimer & Liability
+
+> [!DANGER]
+> **READ THIS SECTION CAREFULLY BEFORE USING THIS PROJECT**
+
+### Research-Only Status
+
+**This project is currently in RESEARCH and DEVELOPMENT stage.**
+
+- ❌ **NOT production-ready**
+- ❌ **NOT suitable for unattended use**
+- ❌ **NOT a substitute for human reviewers**
+- ✅ **Intended for research and educational purposes only**
+
+### Reliability Warnings
+
+**AI-generated content is fundamentally unreliable:**
+
+| Risk Category | Description |
+|---------------|-------------|
+| **Hallucinations** | AI may generate false citations, incorrect math, fabricated data |
+| **Logical Errors** | Reasoning may be flawed or unsound |
+| **Code Bugs** | Generated code may contain errors, security vulnerabilities |
+| **Plagiarism Risk** | AI may reproduce text without proper attribution |
+| **Quality Variance** | Output quality varies widely between runs and models |
+
+### No Warranty
+
+**THIS PROJECT IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.**
+
+THE AUTHORS AND CONTRIBUTORS:
+- ❌ **Do NOT guarantee** the correctness of any AI-generated content
+- ❌ **Do NOT guarantee** suitability for any purpose
+- ❌ **Do NOT guarantee** competition results or performance
+- ❌ **Will NOT be liable** for any damages from using this project
+
+### Your Responsibility
+
+**By using this project, you agree that:**
+
+1. **YOU are solely responsible** for verifying all AI-generated content
+2. **YOU must conduct human review** of all outputs before submission
+3. **YOU take full liability** for any consequences of using this project
+4. **YOU will not hold the developers liable** for any damages, including but not limited to:
+   - Academic penalties
+   - Competition disqualification
+   - Reputation damage
+   - Financial losses
+
+### Recommended Usage
+
+**✅ DO:**
+- Use as a productivity aid for brainstorming and drafting
+- Verify all mathematical derivations
+- Test all code thoroughly
+- Review and edit all text
+- Disclose AI use per competition rules
+- Conduct multiple quality checks
+
+**❌ DON'T:**
+- Blindly trust AI-generated content
+- Submit without human review
+- Use AI to cheat or plagiarize
+- Hide AI assistance
+- Skip verification steps
+
+### Contact
+
+For questions about appropriate use, consult with:
+- Your academic advisor
+- Competition officials
+- Your institution's research ethics board
+
+---
+
 ## 🗺️ Roadmap
 
 - [x] **Phase 1**: Data Collection & Standardization
@@ -437,13 +590,44 @@ export ZHIPU_MODEL=glm-4
 
 | Aspect | Framework Development (Stage 1) | Competition Usage (Stage 2) |
 |--------|--------------------------------|----------------------------|
-| **Who** | Hongrui Li + AI tools | **YOU** + your chosen LLM |
+| **Who** | Framework developers + AI tools | **YOU** + your chosen LLM |
 | **AI Tools Used** | Claude Code (GLM-4.7/4.6), Antigravity, Copilot | **Your choice**: Claude, GPT-4, GLM, etc. |
 | **Output Ownership** | Framework code, configs, documentation | **Your** paper, models, competition results |
-| **AI Co-authorship?** | Documented in this README | **No** - You own everything |
+| **AI Co-authorship?** | Documented in this README | **YES - You MUST report AI use per competition rules** |
+| **Your Responsibility** | N/A | **Disclose AI use, verify content, take full liability** |
 
 ---
 
 ## 📄 License
 
-This project is for research and educational purposes.
+**This project is for research and educational purposes only.**
+
+### Usage Terms
+
+By using this project, you agree to:
+
+1. **Research/Educational Use Only**
+   - This is a research prototype, not a production tool
+   - Use at your own risk
+
+2. **Academic Integrity**
+   - Follow all competition AI use policies
+   - Disclose AI assistance honestly
+   - Take responsibility for generated content
+
+3. **No Liability**
+   - Developers provide NO warranty
+   - Developers are NOT liable for any damages
+   - You are SOLELY responsible for your submissions
+
+4. **Human Review Required**
+   - AI outputs MUST be verified by humans
+   - Do NOT submit unreviewed AI-generated content
+
+### License Type
+
+This project is shared for research and educational purposes. Commercial use is prohibited without explicit permission.
+
+---
+
+**For questions about licensing or appropriate use, please contact the framework developers.**
