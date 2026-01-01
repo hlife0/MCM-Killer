@@ -332,6 +332,46 @@ attrib +R "student paper\*" /S
 
 ---
 
+## 🤖 AI Tools & Models
+
+This project leverages multiple AI-powered tools and Large Language Models (LLMs) to automate mathematical modeling competition workflows.
+
+### Multi-Agent Orchestration
+
+| Tool | LLM Backend | Primary Use |
+|------|-------------|-------------|
+| **Claude Code CLI** | GLM-4.7 / GLM-4.6 | Multi-agent coordination, task execution, code generation |
+| **Antigravity** | Claude Sonnet 4.5 | Exploratory analysis, prototyping |
+| **GitHub Copilot** | Claude Sonnet 4.5 | Code completion, inline suggestions |
+
+### Tool Roles
+
+**Claude Code (Primary)**
+- Manages 10 specialized agents (Reader, Researcher, Modeler, Coder, Validator, Visualizer, Writer, Summarizer, Editor, Advisor)
+- Coordinates parallel workflows and enforces quality gates
+- Handles PDF parsing via Docling MCP integration
+
+**Antigravity (Support)**
+- Rapid prototyping and exploratory work
+- Testing alternative approaches
+
+**GitHub Copilot (Support)**
+- Real-time code completion during development
+- Syntax assistance and boilerplate generation
+
+### Model Architecture
+
+This is a **multi-LLM system** - different tools are used for different tasks based on their strengths:
+
+- **GLM-4.x**: Primary backend for Claude Code, handles complex reasoning and multi-agent coordination
+- **Claude Sonnet 4.5**: Supporting backend for Antigravity and Copilot, provides code completion and prototyping assistance
+
+### Transparency
+
+All AI-assisted development is documented here at the project level. Individual commits do not include AI co-authorship tags to maintain commit history clarity.
+
+---
+
 ## 📄 License
 
 This project is for research and educational purposes.
