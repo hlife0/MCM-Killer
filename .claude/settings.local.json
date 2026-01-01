@@ -3,7 +3,18 @@
     "allow": [
       "Bash(dir:*)",
       "mcp__docling__convert_document_into_docling_document",
-      "mcp__docling__export_docling_document_to_markdown"
+      "mcp__docling__export_docling_document_to_markdown",
+      "Bash(pdflatex:*)",
+      "Bash(tlmgr install:*)",
+      "Bash(git config:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push)",
+      "Bash(ssh:*)",
+      "Bash(cat:*)",
+      "Bash(ssh-keygen:*)",
+      "Bash(GIT_SSH_COMMAND=\"ssh -i ~/.ssh/id_ed25519_6628388826 -o IdentitiesOnly=yes\" ssh:*)",
+      "Bash(ls:*)"
     ],
     "deny": [],
     "ask": []
