@@ -1,8 +1,52 @@
 # MCM-Killer Agent 🤖
 
-> **Project Goal**: Building an Autonomous Multi-Agent AI System to conquer the Mathematical Contest in Modeling (MCM/ICM).
+> **Project Goal**: 构建一个可复用的多agent系统框架，用于自动化数学建模竞赛全流程
 
-**MCM-Killer** is an active research project using Claude Code's multi-agent architecture to fully automate the MCM competition process—from reading the problem to producing an O-Prize quality paper.
+## 🎯 What is MCM-Killer?
+
+**MCM-Killer is a framework, not a paper generator.**
+
+### The Core Distinction
+
+| Aspect | ❌ Common Misconception | ✅ What MCM-Killer Actually Is |
+|--------|------------------------|-------------------------------|
+| **Nature** | An AI that writes your MCM paper | A tool that CREATES multi-agent systems |
+| **Input** | Just the problem PDF | Problem PDF + O-Prize reference papers |
+| **Output** | A finished paper | A **customized 10-agent system** |
+| **User's Role** | Passive recipient | Active participant who runs and directs the agents |
+| **Ownership** | AI-generated content | **You own everything the agents produce** |
+
+### The Two-Stage Workflow
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  STAGE 1: Framework Setup (One-time, per competition)      │
+│  Input: Problem PDF + Reference Papers                      │
+│  Process: MCM-Killer configures agents, prompts, workflows  │
+│  Output: workspace/YYYY_X/ with 10 specialized agents       │
+│  Creator: Framework developers (Hongrui Li)                  │
+└─────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────┐
+│  STAGE 2: Competition Execution (You control this)          │
+│  Input: Your chosen LLM backend (Claude/GPT-4/GLM/etc.)     │
+│  Process: YOU direct agents to solve the problem           │
+│  Output: Requirements, models, code, figures, paper         │
+│  Owner: YOU (the competition participant)                   │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Key Principle
+
+**MCM-Killer provides the ARCHITECTURE, YOU provide the INTELLIGENCE.**
+
+- The framework defines: Agent roles, workflows, quality gates, file structure
+- **You provide**: The LLM backend, strategic decisions, iteration direction
+- **You own**: The generated paper, models, code, and competition results
+
+This is analogous to using a compiler:
+- GCC/Clang don't co-author your C program
+- MCM-Killer doesn't co-author your MCM paper
 
 ---
 
@@ -142,25 +186,25 @@ MCM-killer/
 │   ├── mcmthesis-demo.tex      # Example paper
 │   └── figures/                # Template figures
 │
-├── workspace/                  # [Working Directory] Agent Output
-│   └── 2025_C/                 # Current problem workspace
-│       ├── 2025_MCM_Problem_C.pdf  # Problem statement
-│       ├── 2025_Problem_C_Data.zip # Data files
-│       ├── reference_papers/   # 33 O-Prize reference papers
+├── workspace/                  # [Generated Workspace] Framework Output
+│   └── 2025_C/                 # Generated multi-agent system for 2025 Problem C
+│       ├── 2025_MCM_Problem_C.pdf  # Problem statement (input)
+│       ├── 2025_Problem_C_Data.zip # Data files (input)
+│       ├── reference_papers/   # 33 O-Prize reference papers (knowledge base)
 │       ├── latex_template/     # LaTeX template copy
-│       ├── CLAUDE.md           # Director configuration
+│       ├── CLAUDE.md           # Director agent configuration
 │       ├── .claude/
-│       │   ├── agents/         # 10 agent configurations
+│       │   ├── agents/         # 10 specialized agent configurations
 │       │   └── settings.local.json
 │       ├── .mcp.json           # MCP server config
-│       └── output/             # Generated files
+│       └── output/             # YOUR work products (you own these!)
 │           ├── requirements_checklist.md
 │           ├── research_notes.md
 │           ├── model_design.md
 │           ├── consultations/  # Multi-agent consultation logs
 │           ├── code/           # Python scripts
 │           ├── figures/        # Generated figures
-│           └── paper.tex       # Final LaTeX paper
+│           └── paper.tex       # YOUR final LaTeX paper
 │
 └── .gitignore                  # Excludes generated content
 ```
@@ -334,41 +378,69 @@ attrib +R "student paper\*" /S
 
 ## 🤖 AI Tools & Models
 
-This project leverages multiple AI-powered tools and Large Language Models (LLMs) to automate mathematical modeling competition workflows.
+### 🔧 Development Tools (Framework Creation)
 
-### Multi-Agent Orchestration
+**Tools used to BUILD the MCM-Killer framework:**
 
-| Tool | LLM Backend | Primary Use |
-|------|-------------|-------------|
-| **Claude Code CLI** | GLM-4.7 / GLM-4.6 | Multi-agent coordination, task execution, code generation |
-| **Antigravity** | Claude Sonnet 4.5 | Exploratory analysis, prototyping |
-| **GitHub Copilot** | Claude Sonnet 4.5 | Code completion, inline suggestions |
+| Tool | LLM Backend | Role in Framework Development |
+|------|-------------|-------------------------------|
+| **Claude Code CLI** | GLM-4.7 / GLM-4.6 | Architecture design, prompt engineering, agent configuration |
+| **Antigravity** | Claude Sonnet 4.5 | Exploratory prototyping, alternative approach testing |
+| **GitHub Copilot** | Claude Sonnet 4.5 | Code completion, syntax assistance during development |
 
-### Tool Roles
+**Why These Tools?**
+- **GLM-4.x**: Strong multi-agent reasoning capabilities for complex workflow design
+- **Claude Sonnet 4.5**: Excellent code completion and rapid prototyping
 
-**Claude Code (Primary)**
-- Manages 10 specialized agents (Reader, Researcher, Modeler, Coder, Validator, Visualizer, Writer, Summarizer, Editor, Advisor)
-- Coordinates parallel workflows and enforces quality gates
-- Handles PDF parsing via Docling MCP integration
+**Transparency Note**: All AI-assisted development is documented here. Framework commits use clean commit messages without AI co-authorship tags to maintain repository clarity.
 
-**Antigravity (Support)**
-- Rapid prototyping and exploratory work
-- Testing alternative approaches
+---
 
-**GitHub Copilot (Support)**
-- Real-time code completion during development
-- Syntax assistance and boilerplate generation
+### 🚀 Runtime Configuration (Framework Usage)
 
-### Model Architecture
+**When YOU use MCM-Killer, YOU control the AI backend:**
 
-This is a **multi-LLM system** - different tools are used for different tasks based on their strengths:
+#### Supported LLM Backends
 
-- **GLM-4.x**: Primary backend for Claude Code, handles complex reasoning and multi-agent coordination
-- **Claude Sonnet 4.5**: Supporting backend for Antigravity and Copilot, provides code completion and prototyping assistance
+MCM-Killer (via Claude Code CLI) supports multiple LLM backends:
 
-### Transparency
+| LLM | Provider | Characteristics |
+|-----|----------|-----------------|
+| **Claude Opus/Sonnet** | Anthropic | Excellent for complex reasoning, long-context tasks |
+| **GPT-4 / GPT-4 Turbo** | OpenAI | Strong coding capabilities, fast responses |
+| **GLM-4** | Zhipu AI | Cost-effective, good Chinese language support |
+| **Other Claude-compatible APIs** | Various | Configurable via Claude Code settings |
 
-All AI-assisted development is documented here at the project level. Individual commits do not include AI co-authorship tags to maintain commit history clarity.
+#### You Decide Everything
+
+- **Choice of Model**: Pick based on your budget, quality requirements, language needs
+- **Usage Pattern**: Run agents sequentially or in parallel, iterate as needed
+- **Strategic Decisions**: You direct the agents, not the other way around
+- **Output Ownership**: The paper, models, and code belong to **YOU**, not the AI
+
+#### Example Configuration
+
+```bash
+# Use Claude Opus for best quality
+export ANTHROPIC_MODEL=claude-opus-4
+
+# Or use GPT-4 for faster iterations
+export OPENAI_MODEL=gpt-4-turbo
+
+# Or use GLM-4 for cost efficiency
+export ZHIPU_MODEL=glm-4
+```
+
+---
+
+### 📊 Summary: Framework vs. Usage
+
+| Aspect | Framework Development (Stage 1) | Competition Usage (Stage 2) |
+|--------|--------------------------------|----------------------------|
+| **Who** | Hongrui Li + AI tools | **YOU** + your chosen LLM |
+| **AI Tools Used** | Claude Code (GLM-4.7/4.6), Antigravity, Copilot | **Your choice**: Claude, GPT-4, GLM, etc. |
+| **Output Ownership** | Framework code, configs, documentation | **Your** paper, models, competition results |
+| **AI Co-authorship?** | Documented in this README | **No** - You own everything |
 
 ---
 
