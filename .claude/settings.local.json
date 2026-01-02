@@ -19,7 +19,10 @@
       "Bash(tree:*)",
       "Bash(grep:*)",
       "Bash(done)",
-      "Bash(xargs:*)"
+      "Bash(xargs:*)",
+      "Bash(find:*)",
+      "Bash(for:*)",
+      "Bash(do echo:*)"
     ],
     "deny": [],
     "ask": []
