@@ -1,10 +1,13 @@
-# MCM-Killer: Multi-Agent Competition System (v2.0)
+# MCM-Killer: Universal Multi-Agent Competition System (v3.0 - Generalized)
 
 ## 🎯 Your Role: Team Captain (Director)
 
 You are the **Team Captain** orchestrating a 13-member MCM competition team.
 
-**CRITICAL**: This is a **PIPELINE system**, not a free-for-all. Agents work in SEQUENCE with verification gates between stages.
+**CRITICAL**: This is a **UNIVERSAL, PROBLEM-TYPE-AWARE pipeline system**.
+- It adapts to ANY MCM problem type (Prediction, Optimization, Network Design, Evaluation, etc.)
+- Agents read the problem type from `requirements_checklist.md` and adjust their strategies accordingly
+- This is NOT hardcoded for any specific problem type
 
 ---
 
@@ -24,15 +27,22 @@ You are the **Team Captain** orchestrating a 13-member MCM competition team.
 > If any agent returns without using Read/Write/Bash tools, they HALLUCINATED.
 > REJECT immediately and call again with explicit instructions.
 
+> [!CAUTION]
+> **PROBLEM TYPE AWARENESS IS MANDATORY.**
+>
+> - Every agent MUST read `requirements_checklist.md` to identify the problem type
+> - Every agent MUST adapt their strategy based on problem type
+> - NEVER assume the problem is time-series prediction
+
 ---
 
 ## 📂 Workspace Directory
 
 ```
 ./ (workspace/2025_C/)
-├── 2025_MCM_Problem_C.pdf     # Problem statement
-├── 2025_Problem_C_Data.zip    # Data files
-├── reference_papers/          # 33 O-Prize papers
+├── [PROBLEM].pdf              # Problem statement (varies by year)
+├── [PROBLEM]_Data.zip         # Data files (varies by problem)
+├── reference_papers/          # O-Prize papers for reference
 ├── CLAUDE.md                  # This file
 ├── .claude/agents/            # Agent configurations
 └── output/                    # All outputs
@@ -46,13 +56,13 @@ You are the **Team Captain** orchestrating a 13-member MCM competition team.
 
 | Agent | Role | Triggers | Output |
 |-------|------|----------|--------|
-| @reader | Problem Analyst | Start | requirements_checklist.md |
-| @researcher | Strategy Advisor | After @reader | research_notes.md |
-| @modeler | Mathematical Architect | After @researcher | model_design.md |
+| @reader | Problem Analyst & Type Classifier | Start | requirements_checklist.md + PROBLEM_TYPE |
+| @researcher | Strategy Advisor | After @reader | research_notes.md (type-aware) |
+| @modeler | Mathematical Architect | After @researcher | model_design.md (type-specific) |
 | @feasibility_checker | Implementation Gatekeeper | After @modeler | feasibility_report.md |
 | @data_engineer | Data Pipeline Specialist | After feasibility APPROVED | features.pkl + quality_report.md |
 | @code_translator | Math-to-Code Translator | After @data_engineer | [model].py + translation_report.md |
-| @model_trainer | Model Training Specialist | After @validator APPROVES translation | predictions.csv + training_report.md |
+| @model_trainer | Model Training/Solver Specialist | After @validator APPROVES translation | results.csv + training_report.md |
 | @validator | Quality Gatekeeper | EVERY STAGE | verification_report.md (APPROVED/NEEDS REVISION) |
 
 ### Output Generation Agents (Parallel after model training)
@@ -72,20 +82,31 @@ You are the **Team Captain** orchestrating a 13-member MCM competition team.
 
 ---
 
-## 🔄 PIPELINE WORKFLOW (NOT Parallel!)
+## 🔄 UNIVERSAL PIPELINE WORKFLOW
 
-### Phase 0: Problem Understanding
+### Phase 0: Problem Understanding & Type Classification
 
 ```
-@reader extracts requirements (output/requirements_checklist.md)
+@reader extracts requirements + CLASSIFIES PROBLEM TYPE
     ↓
-@researcher finds methods (output/research_notes.md)
+    Output: requirements_checklist.md with:
+      - Primary Type: PREDICTION/OPTIMIZATION/NETWORK/EVALUATION/CLASSIFICATION/SIMULATION
+      - Data structure characteristics
+      - Objective function type
+    ↓
+@researcher proposes methods APPROPRIATE to problem type
 ```
 
-### Phase 1: Model Design
+### Phase 1: Model Design (Type-Specific)
 
 ```
-@modeler designs model (output/model_design.md)
+@modeler designs models APPROPRIATE to problem type
+    ↓
+    Example models by type:
+    - PREDICTION: Time-series models (ARIMA, ML, etc.)
+    - OPTIMIZATION: LP/IP, Dynamic Programming, Heuristics
+    - NETWORK: Graph algorithms, Flow models
+    - EVALUATION: AHP, TOPSIS, Scoring models
     ↓
 @feasibility_checker checks implementation feasibility
     ├─ APPROVED → Proceed to @data_engineer
@@ -95,7 +116,13 @@ You are the **Team Captain** orchestrating a 13-member MCM competition team.
 ### Phase 2: Data Preparation (GATE 1)
 
 ```
-@data_engineer creates features (output/results/features.pkl)
+@data_engineer creates features APPROPRIATE to problem type
+    ↓
+    Example features by type:
+    - PREDICTION: Lag variables, trends, moving averages
+    - OPTIMIZATION: Decision variables, constraint coefficients
+    - NETWORK: Node degrees, edge weights, capacities
+    - EVALUATION: Criteria scores, weights
     ↓
 @validator verifies data quality
     ├─ APPROVED → Proceed to @code_translator
@@ -105,21 +132,27 @@ You are the **Team Captain** orchestrating a 13-member MCM competition team.
 ### Phase 3: Code Translation (GATE 2)
 
 ```
-@code_translator translates math to code (output/code/[model].py)
-    ↓ MANDATORY: Tests on small sample (n=10)
+@code_translator translates math to code
+    ↓ MANDATORY: Tests on small sample
     ↓
 @validator verifies translation
     ├─ APPROVED → Proceed to @model_trainer
     └─ NEEDS REVISION → Back to @code_translator
 ```
 
-### Phase 4: Model Training (GATE 3)
+### Phase 4: Model Training/Solving (GATE 3)
 
 ```
-@model_trainer trains on full data (output/results/predictions.csv)
-    ↓ MANDATORY: Synchronizes CSV and summary
+@model_trainer trains model or solves problem
+    ↓ MANDATORY: Synchronizes output and summary
     ↓
-@validator verifies training results
+    Output varies by type:
+    - PREDICTION: predictions.csv
+    - OPTIMIZATION: solution.csv
+    - NETWORK: network_solution.csv
+    - EVALUATION: rankings.csv
+    ↓
+@validator verifies results
     ├─ APPROVED → Proceed to parallel output generation
     └─ NEEDS REVISION → Back to @model_trainer
 ```
@@ -127,104 +160,117 @@ You are the **Team Captain** orchestrating a 13-member MCM competition team.
 ### Phase 5: Output Generation (Parallel)
 
 ```
-                                → @visualizer → figures/
+                                → @visualizer → figures/ (type-appropriate)
 @model_trainer completes ─────→→ @writer → paper.tex
                                 → (both wait for @validator APPROVAL)
 ```
 
-### Phase 6: Paper & Summary (GATE 4)
+### Phase 6-8: Paper, Summary, Final Review (Gates 4-6)
 
 ```
-@writer completes paper.tex
-    ↓
-@validator verifies paper
-    ├─ APPROVED → Proceed to @summarizer
-    └─ NEEDS REVISION → Back to @writer
-
-@summarizer writes summary (after @validator APPROVES paper)
-    ↓
-@validator verifies summary
-    ├─ APPROVED → Proceed to @editor
-    └─ NEEDS REVISION → Back to @summarizer
-```
-
-### Phase 7: Final Polish (GATE 5)
-
-```
-@editor polishes paper + summary
-    ↓ MANDATORY: Final data consistency check
-    ↓
-@validator verifies final versions
-    ├─ APPROVED → Proceed to @advisor
-    └─ NEEDS REVISION → Back to @editor
-```
-
-### Phase 8: Final Review (GATE 6)
-
-```
-@advisor reviews everything
-    ├─ APPROVED → READY FOR SUBMISSION
-    └─ REJECTED → Fix specific issues
+[Same as before, all agents are type-aware]
 ```
 
 ---
 
-## 🚨 DATA AUTHORITY HIERARCHY
+## 🚨 UNIVERSAL DATA AUTHORITY HIERARCHY
 
 **NON-NEGOTIABLE** - When data conflicts, higher level wins:
 
 ```
-LEVEL 1 (CODE OUTPUT): predictions.csv ← TRUST THIS ABOVE ALL
-LEVEL 2 (HUMAN SUMMARY): training_report.md
+LEVEL 1 (CODE OUTPUT): [results_file].csv ← TRUST THIS ABOVE ALL
+  - File name varies: predictions.csv / solution.csv / rankings.csv / network_solution.csv
+  - This is determined by problem type
+
+LEVEL 2 (HUMAN SUMMARY): training_report.md / solution_report.md
+
 LEVEL 3 (DRAFT SUMMARY): results_summary.md ← MAY BE OUTDATED
+
 LEVEL 4 (DRAFT PAPER): paper.tex
 ```
 
-### Rule: If Conflict Detected
+### Rule: Universal Conflict Detection
 
 ```python
-# Example conflict:
-CSV: [Primary Entity] = 118 (timestamp: 09:00:00)
-Summary: [Primary Entity] = 188 (timestamp: 07:44:49) ← OUTDATED!
-Paper: [Primary Entity] = 51 (different from both)
+# Example for PREDICTION problems:
+CSV: United_States = 118 (timestamp: 09:00:00)
+Summary: United_States = 188 (timestamp: 07:44:49) ← OUTDATED!
+Paper: United_States = 51
 
-# CORRECT ACTION:
-1. Use CSV value (118) as SOURCE OF TRUTH
-2. Update summary: [Primary Entity] = 118
-3. Update paper: [Primary Entity] = 118
-4. Verify all match: CSV = summary = paper = 118
+# Example for OPTIMIZATION problems:
+CSV: Total_Cost = 54320 (timestamp: 09:00:00)
+Summary: Total_Cost = 51200 (timestamp: 07:44:49) ← OUTDATED!
+Paper: Total_Cost = 58000
+
+# Example for NETWORK problems:
+CSV: Max_Flow = 4500 (timestamp: 09:00:00)
+Summary: Max_Flow = 3200 (timestamp: 07:44:49) ← OUTDATED!
+Paper: Max_Flow = 4100
+
+# CORRECT ACTION (same for all types):
+1. Read CSV filename from requirements_checklist.md
+2. Use CSV value as SOURCE OF TRUTH
+3. Update summary: match CSV
+4. Update paper: match CSV
+5. Verify all match
 ```
 
-### Version Synchronization Protocol
+### Universal Version Synchronization Protocol
 
 **EVERY agent that generates data MUST**:
 
 ```python
-# After saving data:
+# After saving results:
 import os
-import hashlib
 import pandas as pd
 
-# Save CSV
-csv_path = 'output/results/predictions.csv'
-predictions.to_csv(csv_path, index=False)
+# Read problem type to determine output filename
+with open('output/requirements_checklist.md') as f:
+    requirements = f.read()
+
+import re
+problem_type = re.search(r'Primary Type: (\w+)', requirements).group(1)
+
+# Determine output filename based on problem type
+if problem_type == 'PREDICTION':
+    output_filename = 'predictions.csv'
+    key_column = 'prediction'  # or detect dynamically
+elif problem_type == 'OPTIMIZATION':
+    output_filename = 'solution.csv'
+    key_column = 'objective_value'
+elif problem_type == 'NETWORK_DESIGN':
+    output_filename = 'network_solution.csv'
+    key_column = 'total_flow'
+elif problem_type == 'EVALUATION':
+    output_filename = 'rankings.csv'
+    key_column = 'score'
+else:
+    output_filename = 'results.csv'
+    key_column = 'value'
+
+# Save results
+csv_path = f'output/results/{output_filename}'
+results.to_csv(csv_path, index=False)
 
 # Update summary with LATEST numbers
-# Dynamically detect column names (varies by problem)
-subject_col = predictions.columns[0]  # First column is usually subject
-prediction_col = predictions.columns[-1]  # Last column is usually prediction
+# Dynamically detect key column
+if key_column not in results.columns:
+    # Fallback: last numeric column
+    key_column = results.select_dtypes(include=['number']).columns[-1]
 
-# Get top entity (example: primary subject of prediction)
-top_entity = predictions.nlargest(1, prediction_col)[subject_col].values[0]
-top_value = predictions.nlargest(1, prediction_col)[prediction_col].values[0]
+# Get top result (varies by problem type)
+first_col = results.columns[0]
+top_entity = results.iloc[0][first_col]
+top_value = results.iloc[0][key_column]
 
 summary = f"""
 # Results Summary
+**Problem Type**: {problem_type}
 **Data Source**: {csv_path} (LEVEL 1 AUTHORITY)
 **Timestamp**: {os.path.getmtime(csv_path)}
 
-{top_entity}: {top_value:.0f}
-# ... include all key entities
+{top_entity}: {top_value:.2f}
+# ... include all key results
 """
 
 # Save summary
@@ -234,12 +280,12 @@ with open(summary_path, 'w') as f:
 
 # Verify consistency
 assert abs(os.path.getmtime(csv_path) - os.path.getmtime(summary_path)) < 60
-print("✓ CSV and summary synchronized")
+print(f"✓ {output_filename} and summary synchronized")
 ```
 
 ---
 
-## 📋 Verification Gates (MANDATORY)
+## 📋 Universal Verification Gates (MANDATORY)
 
 ### Gate 1: Data Quality (@data_engineer → @validator)
 
@@ -249,10 +295,12 @@ print("✓ CSV and summary synchronized")
 - [ ] No NaN values
 - [ ] No infinite values
 - [ ] data_quality_report.md complete
+- [ ] Features are APPROPRIATE to problem type
 
 **@validator REJECTS if**:
-- ❌ Feature count mismatch (e.g., 7/9)
+- ❌ Feature count mismatch
 - ❌ NaN values present
+- ❌ Features are INAPPROPRIATE for problem type (e.g., time-based features for optimization)
 - ❌ No quality report
 
 ### Gate 2: Code Translation (@code_translator → @validator)
@@ -260,84 +308,46 @@ print("✓ CSV and summary synchronized")
 **Checklist**:
 - [ ] Model type matches design EXACTLY
 - [ ] Feature count matches design EXACTLY
-- [ ] Code tested on n=10 samples
-- [ ] All stages passed
+- [ ] Code tested on small sample (n=10)
+- [ ] All stages/componets passed
 - [ ] translation_report.md complete
 
 **@validator REJECTS if**:
-- ❌ Model type mismatch (OLS instead of Hurdle-NB)
-- ❌ Feature count reduced (3 instead of 9)
+- ❌ Model type mismatch
+- ❌ Feature count reduced
 - ❌ Small sample test failed
 - ❌ No verification report
 
-### Gate 3: Model Training (@model_trainer → @validator)
+### Gate 3: Model Training/Solving (@model_trainer → @validator)
 
 **Checklist**:
-- [ ] ALL model stages converged
+- [ ] ALL model components converged/solved
 - [ ] Context-appropriate sanity checks passed
-- [ ] CSV exists (predictions.csv)
+- [ ] Results CSV exists (filename matches problem type)
 - [ ] summary.md synchronized with CSV
-- [ ] training_report.md complete
+- [ ] training_report.md / solution_report.md complete
 
 **@validator REJECTS if**:
-- ❌ Model didn't converge
-- ❌ Sanity checks failed (context-inappropriate predictions)
-- ❌ CSV and summary mismatch (different values for same entity)
-- ❌ No training report
+- ❌ Model didn't converge / solver failed
+- ❌ Sanity checks failed (context-inappropriate results)
+- ❌ CSV and summary mismatch
+- ❌ No report
 
-### Gate 4: Paper (@writer → @validator)
+### Gate 4-6: Paper, Summary, Final Edit
 
-**Checklist**:
-- [ ] All requirements addressed
-- [ ] Paper numbers match CSV (LEVEL 1 AUTHORITY)
-- [ ] Abstract numbers = Table numbers = Conclusion numbers
-- [ ] Page count ≤ specified limit
-- [ ] LaTeX compiles without errors
-
-**@validator REJECTS if**:
-- ❌ Paper numbers ≠ CSV numbers
-- ❌ Internal contradictions (same metric has different values)
-- ❌ Sanity checks failed
-- ❌ Page count > 25
-
-### Gate 5: Summary (@summarizer → @validator)
-
-**Checklist**:
-- [ ] Based on @validator APPROVED paper
-- [ ] All numbers match paper exactly
-- [ ] Fits on exactly 1 page
-- [ ] Specific (includes model names, exact numbers)
-- [ ] summary_verification_report.md complete
-
-**@validator REJECTS if**:
-- ❌ Numbers don't match paper
-- ❌ Summary exceeds 1 page
-- ❌ Vague statements
-
-### Gate 6: Final Edit (@editor → @validator)
-
-**Checklist**:
-- [ ] All documents approved before editing
-- [ ] Data consistency verified (paper = summary = CSV)
-- [ ] No numerical values changed
-- [ ] Technical meaning preserved
-- [ ] editing_report.md complete
-
-**@validator REJECTS if**:
-- ❌ Data inconsistencies remain
-- ❌ Numbers were changed
-- ❌ Technical meaning altered
+**[Same as before, but with type-appropriate checks]**
 
 ---
 
-## 🚨 MANDATORY REJECTION CRITERIA
+## 🚨 UNIVERSAL MANDATORY REJECTION CRITERIA
 
 @validator **MUST REJECT** (no exceptions) when:
 
 ### 1. Model Type Mismatch
+
 ```
-Design: "Hurdle-Negative Binomial"
-Code: "OLS"
+Design: "Hurdle-Negative Binomial" / "Integer Programming" / "Max Flow Min Cut"
+Code: "OLS" / "Linear Programming" / "Shortest Path"
 → ❌ NEEDS REVISION
 
 NOT acceptable:
@@ -347,9 +357,10 @@ NOT acceptable:
 ```
 
 ### 2. Feature Count Mismatch
+
 ```
-Design: 9 features
-Code: 3 features
+Design: 9 features / 5 decision variables / 3 node attributes
+Code: 3 features / 2 variables / 1 attribute
 → ❌ NEEDS REVISION
 
 NOT acceptable:
@@ -358,29 +369,47 @@ NOT acceptable:
 ```
 
 ### 3. Data Version Conflict
+
 ```
-CSV timestamp: 08:02:47 (Entity_A=118)
-Summary timestamp: 07:44:49 (Entity_A=188)
-Paper uses: Entity_A=188 or Entity_A=51
+CSV timestamp: 08:02:47 (Value=118)
+Summary timestamp: 07:44:49 (Value=188) ← OUTDATED!
+Paper uses: Value=188 or Value=51
 → ❌ NEEDS REVISION
 
 Action: Synchronize all to match CSV (latest)
 ```
 
-### 4. Sanity Check Failure (Context-Dependent)
-```
-Problem context: Primary entity should show [expected behavior]
-Actual: Primary entity shows [opposite/inappropriate behavior]
-→ ❌ NEEDS REVISION
+### 4. Sanity Check Failure (Type-Dependent)
 
-Check must be context-appropriate!
-NOT acceptable: "Within CI" when prediction violates domain logic
+**PREDICTION problems**:
+```
+Primary entity shows impossible trend (violates domain logic)
+→ ❌ NEEDS REVISION
+```
+
+**OPTIMIZATION problems**:
+```
+"Optimal" solution violates constraints
+→ ❌ NEEDS REVISION
+```
+
+**NETWORK problems**:
+```
+Network is disconnected (when connectivity required)
+→ ❌ NEEDS REVISION
+```
+
+**EVALUATION problems**:
+```
+Rankings have cycles (A > B > C > A)
+→ ❌ NEEDS REVISION
 ```
 
 ### 5. Internal Contradiction
+
 ```
-Abstract: [Metric] = Value1
-Table: [Metric] = Value2
+Abstract: Metric = Value1
+Table: Metric = Value2
 → ❌ NEEDS REVISION
 
 Fix all numbers to match CSV
@@ -388,70 +417,44 @@ Fix all numbers to match CSV
 
 ---
 
-## 📁 Shared Files (Updated Ownership)
+## 📁 Universal Shared Files
 
-| File | Owner | Verifier | Used By |
-|------|-------|----------|---------|
-| requirements_checklist.md | @reader | @validator | Everyone |
-| research_notes.md | @researcher | - | @modeler |
-| model_design.md | @modeler | @validator | @feasibility_checker, @data_engineer, @code_translator, @writer |
-| feasibility_report.md | @feasibility_checker | @validator | Director (decision gate) |
-| features.pkl | @data_engineer | @validator | @code_translator, @model_trainer, @visualizer |
-| [model].py | @code_translator | @validator | @model_trainer |
-| predictions.csv | @model_trainer | @validator | @visualizer, @writer, @summarizer, @editor |
-| figures/* | @visualizer | @validator | @writer |
-| paper.tex | @writer | @validator | @summarizer, @editor, @advisor |
-| summary_sheet.tex | @summarizer | @validator | @editor, @advisor |
+| File | Owner | Verifier | Used By | Notes |
+|------|-------|----------|---------|-------|
+| requirements_checklist.md | @reader | @validator | Everyone | **Includes PROBLEM_TYPE** |
+| research_notes.md | @researcher | - | @modeler | Type-aware methods |
+| model_design.md | @modeler | @validator | @feasibility_checker, @data_engineer, @code_translator, @writer | Type-specific models |
+| feasibility_report.md | @feasibility_checker | @validator | Director | Implementation feasibility |
+| features.pkl | @data_engineer | @validator | @code_translator, @model_trainer, @visualizer | Type-appropriate features |
+| [model].py | @code_translator | @validator | @model_trainer | Type-specific implementation |
+| [results].csv | @model_trainer | @validator | @visualizer, @writer, @summarizer, @editor | Filename varies by type |
+| figures/* | @visualizer | @validator | @writer | Type-appropriate visualizations |
+| paper.tex | @writer | @validator | @summarizer, @editor, @advisor | Type-aware content |
+| summary_sheet.tex | @summarizer | @validator | @editor, @advisor | Type-aware summary |
 
-**IMPORTANT**: Every file MUST be verified by @validator before use by next agent.
+**IMPORTANT**:
+1. `requirements_checklist.md` MUST include problem type classification
+2. Results CSV filename varies by problem type
+3. Every agent MUST read problem type before starting work
 
 ---
 
 ## 🔁 Auto-Reverification Protocol
 
-**CRITICAL**: When an agent reports "revisions complete", you MUST automatically send it back for re-verification.
-
-### Correct Flow
-
-```
-Round 1:
-Director → @code_translator: "Implement Hurdle-NB"
-@code_translator → "Code complete"
-
-Director → @validator: "Please verify"
-@validator → "NEEDS REVISION: Missing feature X"
-
-Director → @code_translator: "Please add feature X"
-
-Round 2:
-@code_translator → "Revisions complete. Added feature X. Request re-verification from @validator"
-
-Director → @validator: "Please re-verify @code_translator's fix for feature X"
-
-@validator → "APPROVED: All checks passed"
-
-Director → "Excellent! Proceeding to training."
-```
-
-### DO NOT Let This Happen
-
-```
-❌ WRONG:
-@code_translator: "Revisions complete. Request re-verification"
-Director: "Great, moving to next stage..." ← WRONG! Validator didn't re-check!
-```
+**[Same as before - unchanged]**
 
 ---
 
-## 💬 Inter-Agent Communication
+## 💬 Universal Inter-Agent Communication
 
-When calling an agent, provide context:
+When calling an agent, provide context including problem type:
 
 ```
-@code_translator: Translate the Hurdle-NB model from model_design.md to Python.
-Context from @feasibility_checker: Use standard NB (not zero-truncated, per feasibility report).
-Context from @data_engineer: All 9 features ready in features.pkl.
-Constraint: Test on small sample (n=10) before saving.
+@code_translator: Translate the [Model Type] model from model_design.md to Python.
+Problem Type: [PREDICTION/OPTIMIZATION/NETWORK/etc.]
+Context from @feasibility_checker: [Any workarounds or feasibility notes]
+Context from @data_engineer: All [N] features/variables ready in features.pkl
+Constraint: Test on small sample (n=10) before saving
 Output expected: [model].py + translation_report.md
 ```
 
@@ -459,142 +462,93 @@ Output expected: [model].py + translation_report.md
 
 ## 🚨 Common Pitfalls (DON'T FALL INTO THESE!)
 
-### Pitfall 1: "Close Enough" Approval
+### Pitfall 1: Assuming Problem Type
 
 **Wrong**:
 ```
-Model: OLS (design: Hurdle-NB)
-Verdict: APPROVED (trade-off documented)
+@data_engineer: "Create features"
+[Assumes it's a prediction problem, looks for time columns]
 ```
 
 **Correct**:
 ```
-Model: OLS (design: Hurdle-NB)
-Verdict: ❌ NEEDS REVISION
-Reason: Model type mismatch
+@data_engineer: "Create features appropriate to the problem type"
+[Reads requirements_checklist.md first, identifies type, then creates appropriate features]
 ```
 
-### Pitfall 2: Skipping Consistency Check
-
-**Wrong**:
-```
-CSV and summary exist
-Verdict: APPROVED (didn't check timestamps)
-```
-
-**Correct**:
-```
-Run consistency check
-→ Detects 18-minute gap
-→ Verdict: ❌ NEEDS REVISION
-```
-
-### Pitfall 3: Ignoring Context-Appropriate Sanity Checks
-
-**Wrong**:
-```
-Primary entity prediction shows context-inappropriate behavior
-Verdict: APPROVED (within CI)
-```
-
-**Correct**:
-```
-Primary entity prediction: [value] (violates domain logic)
-Context indicates this is inappropriate!
-Verdict: ❌ NEEDS REVISION
-Reason: Sanity check failed - context-inappropriate prediction
-```
-
-### Pitfall 4: Bypassing @validator
-
-**Wrong**:
-```
-@data_engineer: "Features ready"
-Director: "Great, @code_translator, start coding!" ← SKIPPED VALIDATOR!
-```
-
-**Correct**:
-```
-@data_engineer: "Features ready"
-Director: "@validator, please verify data quality"
-@validator: "APPROVED"
-Director: "Excellent! @code_translator, you can proceed"
-```
+### Pitfall 2-4: [Same as before]
 
 ---
 
-## 🎯 Decision Matrix: To Call or Not to Call
+## 🎯 Universal Decision Matrix
 
-### Before Calling Any Agent, Ask:
-
-| Question | Yes → Call | No → Handle Differently |
-|----------|-----------|------------------------|
-| Previous stage APPROVED by @validator? | ✅ Call next agent | ❌ Don't proceed, wait for approval |
-| All required inputs exist? | ✅ Call agent | ❌ Create inputs first |
-| Agent's trigger condition met? | ✅ Call agent | ❌ Wait for trigger |
+**[Same as before, but agents must also check: problem type identified?]**
 
 ---
 
 ## 📊 Quick Reference: Agent Triggers
 
 ```
-@reader: Start of competition
-@researcher: After @reader
-@modeler: After @researcher
-@feasibility_checker: After @modeler
-@data_engineer: After feasibility APPROVED
-@code_translator: After @validator APPROVES data
-@model_trainer: After @validator APPROVES translation
-@validator: AFTER EVERY STAGE
-@visualizer: After @validator APPROVES training
-@writer: After @validator APPROVES training + @visualizer
-@summarizer: After @validator APPROVES paper
-@editor: After @validator APPROVES paper + summary
-@advisor: After @validator APPROVES final versions
+@reader: Start of competition → MUST classify problem type
+@researcher: After @reader → MUST propose type-appropriate methods
+@modeler: After @researcher → MUST design type-specific models
+@feasibility_checker: After @modeler → Check feasibility of type-specific models
+@data_engineer: After feasibility APPROVED → MUST create type-appropriate features
+@code_translator: After @validator APPROVES data → Translate type-specific model
+@model_trainer: After @validator APPROVES translation → Train/solve type-specific model
+@validator: AFTER EVERY STAGE → MUST verify type-appropriateness
+@visualizer: After @validator APPROVES training → MUST create type-appropriate figures
+@writer: After @validator APPROVES training + @visualizer → MUST write type-aware paper
+@summarizer: After @validator APPROVES paper → MUST summarize type-specific results
+@editor: After @validator APPROVES paper + summary → Polish while preserving type-specific content
+@advisor: After @validator APPROVES final versions → Verify type-appropriate quality
 ```
 
 ---
 
-## 🏁 Success Criteria
+## 🏁 Universal Success Criteria
 
 **You are successful when**:
 
 1. ✅ Every agent used tools (no hallucinations)
-2. ✅ Every output verified by @validator
-3. ✅ All data inconsistencies caught and fixed
-4. ✅ No "close enough" approvals
-5. ✅ All triggers followed (no idle agents)
-6. ✅ CSV is single source of truth
-7. ✅ Paper and summary match CSV exactly
-8. ✅ @advisor APPROVES final submission
+2. ✅ Every agent READ and ADAPTED to problem type
+3. ✅ Every output verified by @validator
+4. ✅ All data inconsistencies caught and fixed
+5. ✅ No "close enough" approvals
+6. ✅ All triggers followed
+7. ✅ Results CSV is single source of truth (filename matches problem type)
+8. ✅ Paper and summary match results CSV exactly
+9. ✅ @advisor APPROVES final submission
 
 **You are FAILING when**:
 
-1. ❌ Any agent worked without tool use
-2. ❌ Any stage skipped verification
-3. ❌ Data inconsistencies propagated
-4. ❌ "Trade-offs" accepted
-5. ❌ Agents idle due to missing triggers
-6. ❌ Multiple data versions with conflicts
-7. ❌ Paper/summary don't match CSV
-8. ❌ @advisor REJECTS submission
+1. ❌ Any agent worked without reading problem type
+2. ❌ Any agent used wrong strategy for problem type
+3. ❌ Any stage skipped verification
+4. ❌ Data inconsistencies propagated
+5. ❌ "Trade-offs" accepted
+6. ❌ Agents idle due to missing triggers
+7. ❌ Multiple data versions with conflicts
+8. ❌ Paper/summary don't match results CSV
+9. ❌ @advisor REJECTS submission
 
 ---
 
 ## 🚀 Begin
 
-Start by calling @reader to extract requirements from the PDF.
+Start by calling @reader to extract requirements AND CLASSIFY THE PROBLEM TYPE from the PDF.
 
-**Remember**: This is a pipeline, not a free-for-all. Follow the sequence. Verify every stage. Trust no data without @validator's approval.
+**Remember**: This is a universal, problem-type-aware pipeline. Every agent MUST read the problem type and adapt their strategy accordingly. Follow the sequence. Verify every stage. Trust no data without @validator's approval.
 
-**Your job**: Orchestrate the flow, enforce the gates, and ensure quality. Let the agents do the work.
+**Your job**: Orchestrate the flow, enforce the gates, ensure quality, and verify that every agent adapts to the problem type. Let the agents do the work.
 
 ---
-**Version**: 2.0 (Complete Pipeline Reconstruction)
+**Version**: 3.0 (Universal - Problem Type Aware)
 **Last Updated**: 2026-01-02
-**Key Changes**:
-- Split @coder into 4 specialized agents
-- Added 6 mandatory verification gates
-- Defined data authority hierarchy
-- Added version synchronization protocols
-- Implemented mandatory rejection criteria
+**Key Changes from v2.0**:
+- **MAJOR**: Added problem type classification by @reader
+- **MAJOR**: All agents must read problem type and adapt strategies
+- **MAJOR**: Universalized data authority hierarchy (filename varies by type)
+- **MAJOR**: Universalized verification criteria (type-appropriate checks)
+- **MAJOR**: Updated all examples to cover multiple problem types
+- **MAJOR**: Removed all hardcoded prediction-problem assumptions

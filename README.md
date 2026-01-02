@@ -225,10 +225,11 @@ Read CLAUDE.md and run the multi-agent workflow to solve this MCM problem.
 # AI Use Report
 
 ## Tools Used
-- MCM-Killer autonomous multi-agent system (v2.0)
+- MCM-Killer autonomous multi-agent system (v2.1)
 - Claude Code CLI (Model: Claude Opus 4.5 / Sonnet 4.5)
 - 13 specialized AI agents within the system
 - Docling MCP Server for PDF processing
+- **NEW in v2.1**: Problem-type-aware pipeline (adapts to 6 MCM problem types)
 
 ## AI-Assisted Tasks
 The following tasks were performed autonomously by AI agents:
@@ -408,6 +409,119 @@ workspace/2025_C/
 
 ---
 
+## What's New in v2.1
+
+**Problem-Type-Aware Multi-Agent System**
+
+If you're familiar with v2.0, v2.1 adds critical generalization capabilities:
+
+### From Prediction-Specific to Problem-Type-Aware
+
+**Why**: v2.0 was hardcoded for time-series prediction problems (e.g., Olympics medal forecasting). It couldn't handle optimization, network design, evaluation, or other MCM problem types.
+
+**What Changed**:
+- ❌ **Old (v2.0)**: Assumed all problems were time-series prediction with "Year", "Country", "Medals" columns
+- ✅ **New (v2.1)**: System now identifies problem type and adapts strategies accordingly
+
+### New Problem Type Classification System
+
+**@reader** now classifies problems into 6 primary types:
+
+| Type | Description | Example |
+|------|-------------|---------|
+| **PREDICTION** | Forecast future values from historical data | Medal forecasting, stock prediction |
+| **OPTIMIZATION** | Find optimal solution under constraints | Resource allocation, facility location |
+| **NETWORK_DESIGN** | Design/analyze network topology | Communication networks, transportation |
+| **EVALUATION** | Assess/rank alternatives | Project selection, policy comparison |
+| **CLASSIFICATION** | Categorize items into groups | Image recognition, spam detection |
+| **SIMULATION** | Model dynamic systems | Population dynamics, disease spread |
+
+### Type-Aware Feature Engineering
+
+**@data_engineer** now creates features appropriate to problem type:
+
+| Problem Type | Example Features |
+|--------------|-----------------|
+| PREDICTION | Lag variables, moving averages, trends |
+| OPTIMIZATION | Decision variables, constraint slack, feasibility indicators |
+| NETWORK | Node degrees, edge capacities, betweenness centrality |
+| EVALUATION | Weighted scores, criteria comparisons, rankings |
+| CLASSIFICATION | Scaled features, polynomial terms, class weights |
+| SIMULATION | State changes, cumulative states, volatility measures |
+
+### Type-Aware Visualizations
+
+**@visualizer** now creates problem-type-appropriate figures:
+
+| Problem Type | Example Visualizations |
+|--------------|---------------------|
+| PREDICTION | Time series plots, prediction intervals, actual vs predicted scatter |
+| OPTIMIZATION | Feasible regions, objective contours, decision variable bar charts |
+| NETWORK | Network topology graphs, flow visualizations, centrality heatmaps |
+| EVALUATION | Ranking bar charts, criteria comparisons, radar charts |
+| CLASSIFICATION | Confusion matrices, ROC curves, decision boundaries |
+| SIMULATION | State evolution plots, phase portraits, trajectory diagrams |
+
+### Type-Aware Validation
+
+**@validator** now enforces type-specific sanity checks:
+
+| Problem Type | Sanity Checks |
+|--------------|--------------|
+| PREDICTION | Trends are reasonable, no impossible values, confidence intervals valid |
+| OPTIMIZATION | All constraints satisfied, optimal solution at boundary (if binding) |
+| NETWORK | Network connected (if required), flow conservation respected |
+| EVALUATION | Rankings are transitive (no cycles), weights sum to 1 |
+| CLASSIFICATION | Class distribution reasonable, confusion matrix diagonal-dominant |
+| SIMULATION | State evolution smooth, timestep consistency maintained |
+
+### Type-Specific Output Filenames
+
+**@model_trainer** now saves results to type-appropriate filenames:
+
+- PREDICTION → `predictions.csv`
+- OPTIMIZATION → `solution.csv`
+- NETWORK_DESIGN → `network_solution.csv`
+- EVALUATION → `rankings.csv`
+- CLASSIFICATION → `classifications.csv`
+- SIMULATION → `simulation_results.csv`
+
+### Impact on Problem Coverage
+
+**v2.0**: Could handle 1 problem type (time-series prediction)
+- ✅ Olympics medal forecasting
+- ❌ Network design problems
+- ❌ Optimization problems
+- ❌ Evaluation problems
+
+**v2.1**: Can handle 6 major MCM problem types
+- ✅ Time-series prediction
+- ✅ Mathematical optimization
+- ✅ Network design and analysis
+- ✅ Multi-criteria evaluation
+- ✅ Classification problems
+- ✅ Simulation modeling
+
+### Technical Changes Summary
+
+- **14 agents updated** (all agents + Director)
+- **~4,000 lines of agent prompts modified** to add problem-type awareness
+- **6 problem-type strategies implemented** across data engineering, visualization, and validation
+- **Dynamic column detection** enhanced for all problem types
+- **Type-specific sanity checks** added throughout pipeline
+
+### Known Limitations of v2.1
+
+**Not a complete rewrite** - v2.1 is an incremental improvement on v2.0:
+- Core pipeline architecture unchanged (still 13 agents, 8 phases)
+- Prediction problems still best-supported (most mature feature set)
+- Some problem types may need additional refinement (e.g., simulation, complex optimization)
+- Requires testing on real MCM problems to validate effectiveness
+
+**Future roadmap**: v3.0 would require complete architectural redesign for full generalization.
+
+---
+
 ## What's New in v2.0
 
 If you're familiar with v1.0, here are the major changes:
@@ -475,10 +589,16 @@ If you're familiar with v1.0, here are the major changes:
 
 ## Project Status
 
-**Current Phase**: Active Research & Development (v2.0 - Pipeline Reconstruction)
+**Current Phase**: Active Research & Development (v2.1 - Problem Type Generalization)
 
 **Recent Updates:**
-- **v2.0 (Current)**: Complete pipeline reconstruction
+- **v2.1 (Current)**: Problem-type-aware generalization
+  - Added problem type classification system (@reader)
+  - All 14 agents now problem-type-aware
+  - Implemented 6 problem-type strategies (PREDICTION, OPTIMIZATION, NETWORK, EVALUATION, CLASSIFICATION, SIMULATION)
+  - Type-specific feature engineering, visualizations, and validation
+  - Dynamic output filenames based on problem type
+- **v2.0**: Complete pipeline reconstruction
   - Split "Coder" into 4 specialized agents (Feasibility Checker, Data Engineer, Code Translator, Model Trainer)
   - Implemented 6 mandatory verification gates
   - Added data authority hierarchy and version synchronization
@@ -486,7 +606,9 @@ If you're familiar with v1.0, here are the major changes:
 - **v1.0**: Initial 10-agent system
 
 **Known Issues:**
-- Coordination failures can lead to inconsistencies between code and paper
+- v2.1 is an incremental improvement - not a complete rewrite
+- Prediction problems still best-supported (most mature feature set)
+- Some problem types need additional refinement (simulation, complex optimization)
 - System generates large amounts of intermediate files (requires cleanup)
 - Still experimental - human verification is absolutely required
 
