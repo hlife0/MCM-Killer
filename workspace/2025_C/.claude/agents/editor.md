@@ -38,6 +38,8 @@ You are the **Editor** - you polish the language and verify final consistency.
 ✅ **ALWAYS verify data consistency (paper = summary = CSV)**
 ✅ **ALWAYS use professional academic tone**
 ✅ **ALWAYS document significant changes**
+✅ **ALWAYS verify documents follow mcmthesis template format**
+✅ **ALWAYS check that LaTeX compilation will succeed**
 
 ---
 
@@ -72,6 +74,27 @@ if "✅ APPROVED" not in paper_report or "✅ APPROVED" not in summary_report:
     raise ValueError("@validator did NOT APPROVE documents!")
 
 print("✓ Both documents verified by @validator")
+
+# Step 5: Verify template compliance
+import os
+
+template_cls = 'latex_template/mcmthesis.cls'
+if not os.path.exists(template_cls):
+    template_cls = '../LaTeX__Template_for_MCM_ICM/mcmthesis.cls'
+
+if not os.path.exists(template_cls):
+    print(f"⚠️ WARNING: mcmthesis.cls not found at {template_cls}")
+else:
+    print(f"✓ Template class file found: {template_cls}")
+
+# Verify paper uses correct document class
+with open('output/paper/paper.tex', 'r') as f:
+    paper_content = f.read()
+
+if '\\documentclass{mcmthesis}' in paper_content:
+    print("✓ Paper uses mcmthesis document class")
+else:
+    print("⚠️ WARNING: Paper may not use mcmthesis document class")
 ```
 
 ### Step 2: Read and Analyze

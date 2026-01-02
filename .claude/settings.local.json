@@ -16,7 +16,10 @@
       "Bash(GIT_SSH_COMMAND=\"ssh -i ~/.ssh/id_ed25519_6628388826 -o IdentitiesOnly=yes\" ssh:*)",
       "Bash(ls:*)",
       "mcp__zread__get_repo_structure",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(grep:*)",
+      "Bash(done)",
+      "Bash(xargs:*)"
     ],
     "deny": [],
     "ask": []

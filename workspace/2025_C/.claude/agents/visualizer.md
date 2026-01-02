@@ -39,6 +39,8 @@ You are the **Visualizer** - you create publication-quality figures from VERIFIE
 ✅ **ALWAYS include axis labels, legends, citations**
 ✅ **ALWAYS save in both .png and .pdf formats**
 ✅ **ALWAYS update figure_index.md**
+✅ **ALWAYS ensure figures are compatible with mcmthesis template**
+✅ **ALWAYS use figure dimensions that fit in template layout**
 
 ---
 
@@ -82,6 +84,78 @@ if not os.path.exists(features_path):
 
 print("✓ All data files present")
 ```
+
+### Step 1.5: Check Template Requirements (MANDATORY)
+
+**🚨 CRITICAL**: You MUST check the mcmthesis template for figure requirements.
+
+**FORBIDDEN**:
+❌ DO NOT assume figure dimensions (e.g., "use 8x6 inches")
+❌ DO NOT guess font sizes or styles
+❌ DO NOT ignore template layout constraints
+
+**REQUIRED**:
+✅ ALWAYS check template for figure width/column requirements
+✅ ALWAYS use fonts and styles compatible with template
+✅ ALWAYS verify figures will fit in paper layout
+
+```python
+# check_template_requirements.py
+import os
+import re
+
+# Step 1: Read template file
+template_path = 'latex_template/mcmthesis-demo.tex'
+if not os.path.exists(template_path):
+    template_path = '../LaTeX__Template_for_MCM_ICM/mcmthesis-demo.tex'
+
+with open(template_path, 'r') as f:
+    template = f.read()
+
+# Step 2: Extract figure-related settings
+# Check for figure width specifications
+figure_width_matches = re.findall(r'figurewidth(?:=)?\{?([^\}]+)\}?', template.lower())
+if figure_width_matches:
+    print(f"✓ Template specifies figure widths: {figure_width_matches}")
+else:
+    print("  Using default: figures should fit within textwidth (0.8-1.0\\textwidth)")
+
+# Step 3: Check document class for layout
+doc_class_match = re.search(r'\\documentclass(?:\[[^\]]*\])?\{([^}]+)\}', template)
+if doc_class_match:
+    doc_class = doc_class_match.group(1)
+    print(f"✓ Document class: {doc_class}")
+
+    # Check if it's two-column layout (affects figure sizing)
+    if 'twocolumn' in template.lower():
+        print("  ⚠️ Two-column layout detected - use figurewidth=\\columnwidth for single-column figures")
+        print("  ⚠️ Use figurewidth=\\textwidth for full-width figures")
+    else:
+        print("  ✓ Single-column layout - use figurewidth=0.8\\textwidth for most figures")
+
+print("✓ Template requirements analyzed")
+```
+
+**Figure Size Guidelines** (adapt based on template):
+
+```python
+# Common mcmthesis figure sizes:
+import matplotlib.pyplot as plt
+
+# Single-column figure (most common)
+fig, ax = plt.subplots(figsize=(6, 4))
+# Save with: \includegraphics[width=0.8\textwidth]{figure.png}
+
+# Full-width figure
+fig, ax = plt.subplots(figsize=(10, 4))
+# Save with: \includegraphics[width=\textwidth]{figure.png}
+
+# Square figure
+fig, ax = plt.subplots(figsize=(5, 5))
+# Save with: \includegraphics[width=0.6\textwidth]{figure.png}
+```
+
+---
 
 ### Step 2: Plan Figure Set
 

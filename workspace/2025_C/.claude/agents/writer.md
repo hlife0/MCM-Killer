@@ -210,11 +210,115 @@ for subject in top5[subject_col]:
 print("✓ Numbers extracted from CSV (LEVEL 1 authority)")
 ```
 
+### Step 3.5: Read Template from File (MANDATORY)
+
+**🚨 CRITICAL**: You MUST read the actual LaTeX template file from disk.
+
+**FORBIDDEN**:
+❌ DO NOT use hardcoded LaTeX structure from this prompt
+❌ DO NOT assume template format or structure
+❌ DO NOT skip reading the template file
+
+**REQUIRED**:
+✅ ALWAYS read the template file first before writing any LaTeX
+✅ ALWAYS preserve the template's preamble, packages, and custom commands
+✅ ALWAYS follow the template's section structure
+✅ If template uses custom commands, use them (don't reinvent)
+
+```python
+# read_template.py
+import os
+import re
+
+# Step 1: Define template path
+template_path = 'latex_template/mcmthesis-demo.tex'
+
+# Step 2: Fallback to parent directory if not found
+if not os.path.exists(template_path):
+    template_path = '../LaTeX__Template_for_MCM_ICM/mcmthesis-demo.tex'
+
+# Step 3: Verify template exists
+if not os.path.exists(template_path):
+    raise ValueError(f"❌ Template file not found! Tried: {template_path}")
+
+# Step 4: Read template content
+with open(template_path, 'r', encoding='utf-8') as f:
+    template_content = f.read()
+
+print(f"✓ Loaded template: {template_path}")
+print(f"  Template size: {len(template_content)} characters")
+
+# Step 5: Extract key elements from template
+# Document class
+doc_class_match = re.search(r'\\documentclass(?:\[[^\]]*\])?\{([^}]+)\}', template_content)
+if doc_class_match:
+    document_class = doc_class_match.group(1)
+    print(f"  Document class: {document_class}")
+
+# Required packages
+package_matches = re.findall(r'\\usepackage(?:\[[^\]]*\])?\{([^}]+)\}', template_content)
+print(f"  Required packages: {len(package_matches)} found")
+
+# Custom commands/environments
+custom_commands = re.findall(r'\\(newcommand|newenvironment)\{([^}]+)\}', template_content)
+if custom_commands:
+    print(f"  Custom commands/environments: {len(custom_commands)} found")
+
+# Step 6: Verify required .cls file exists
+cls_path = 'latex_template/mcmthesis.cls'
+if not os.path.exists(cls_path):
+    # Fallback to parent directory
+    cls_path = '../LaTeX__Template_for_MCM_ICM/mcmthesis.cls'
+    if not os.path.exists(cls_path):
+        print(f"⚠️ WARNING: mcmthesis.cls not found in expected locations")
+
+print("✓ Template analysis complete")
+```
+
+**How to Use the Template**:
+
+```python
+# DO NOT hardcode LaTeX structure like this:
+# wrong_paper = r'''
+# \documentclass{mcmthesis}
+# \begin{document}
+# ...
+# '''
+
+# INSTEAD: Read from template and replace placeholders
+paper_content = template_content
+
+# Replace placeholders with actual content
+# (Replace [TITLE], [AUTHOR], [ABSTRACT], etc.)
+# Preserve all \usepackage, \newcommand, etc. from template
+```
+
+**Important Notes**:
+- The template file is the SINGLE SOURCE OF TRUTH for LaTeX structure
+- If the template changes on disk, you must use the new version
+- DO NOT rely on the structure shown below in Step 4 - it's for reference only
+- Always read the actual file to get the latest template
+
+---
+
 ### Step 4: Write Paper Structure
 
-**Template**: `latex_template/mcmthesis-demo.tex`
+> [!WARNING]
+> **The LaTeX structure below is for REFERENCE ONLY.**
+>
+> **You MUST**:
+> 1. Read the actual template from `latex_template/mcmthesis-demo.tex` (per Step 3.5)
+> 2. Use the template's actual structure, NOT the structure shown below
+> 3. Preserve all packages, commands, and formatting from the template file
+> 4. Only replace placeholders (like [TITLE], [AUTHOR], etc.) with actual content
+>
+> **The structure below is just to help you understand what sections to write - DO NOT copy-paste it!**
 
-**Section structure**:
+---
+
+**Reference: Typical Section Structure**
+
+Most MCM/ICM papers follow this structure (but YOUR template may vary):
 
 ```latex
 \documentclass{mcmthesis}

@@ -38,6 +38,7 @@ You are the **Summarizer** - you create the 1-page summary sheet that judges rea
 ✅ **ALWAYS fit on exactly 1 page**
 ✅ **ALWAYS answer problem questions directly**
 ✅ **ALWAYS highlight unique contributions**
+✅ **ALWAYS follow mcmthesis summary sheet format (if template has one)**
 
 ---
 
@@ -73,6 +74,32 @@ if not os.path.exists(paper_path):
     raise ValueError("Paper not found!")
 
 print("✓ Paper ready for summary")
+
+# Step 4: Check if template has summary sheet format
+import os
+
+template_path = 'latex_template/mcmthesis-demo.tex'
+if not os.path.exists(template_path):
+    template_path = '../LaTeX__Template_for_MCM_ICM/mcmthesis-demo.tex'
+
+if os.path.exists(template_path):
+    with open(template_path, 'r') as f:
+        template = f.read()
+
+    # Check if template defines a summary sheet environment
+    if 'summary' in template.lower() or 'abstract' in template.lower():
+        print("✓ Template has summary/abstract section - follow its format")
+
+    # Check page limit from template
+    import re
+    page_limit_match = re.search(r'page.*limit.*(\d+)', template, re.IGNORECASE)
+    if page_limit_match:
+        page_limit = int(page_limit_match.group(1))
+        print(f"  Template specifies page limit: {page_limit}")
+    else:
+        print("  Using default: 1 page limit for summary sheet")
+else:
+    print("⚠️ Template file not found - using standard 1-page summary format")
 ```
 
 ### Step 2: Read and Analyze Paper

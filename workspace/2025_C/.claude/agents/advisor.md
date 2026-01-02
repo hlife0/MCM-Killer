@@ -244,6 +244,36 @@ Write to: output/advisor_review.md
 > [!IMPORTANT]
 > **The paper MUST use the `mcmthesis` document class.**
 > **Papers using basic `article` class will be REJECTED.**
+> **You MUST verify the template file exists and is being used.**
+
+**Step 1: Verify template files exist**
+
+```python
+import os
+
+# Check template class file
+template_cls = 'latex_template/mcmthesis.cls'
+if not os.path.exists(template_cls):
+    template_cls = '../LaTeX__Template_for_MCM_ICM/mcmthesis.cls'
+
+if not os.path.exists(template_cls):
+    print("❌ ERROR: mcmthesis.cls not found!")
+    print("   Paper cannot comply with template requirements")
+else:
+    print(f"✓ Template class file found: {template_cls}")
+
+# Check template demo file
+template_demo = 'latex_template/mcmthesis-demo.tex'
+if not os.path.exists(template_demo):
+    template_demo = '../LaTeX__Template_for_MCM_ICM/mcmthesis-demo.tex'
+
+if os.path.exists(template_demo):
+    print(f"✓ Template demo file found: {template_demo}")
+else:
+    print("⚠️ WARNING: mcmthesis-demo.tex not found")
+```
+
+**Step 2: Check paper uses correct template**
 
 Check the LaTeX source (`paper.tex`):
 
@@ -252,13 +282,14 @@ Check the LaTeX source (`paper.tex`):
 - [ ] Uses `\begin{abstract}...\end{abstract}` for summary
 - [ ] Calls `\maketitle` after abstract (generates summary page)
 - [ ] Summary page shows team number and problem choice
+- [ ] Paper structure matches template demo file structure
 
 **If template is wrong:**
 ```
 NEEDS REVISION:
 - Issue: Paper uses wrong document class (article instead of mcmthesis)
-- Fix: Rewrite paper using mcmthesis template
-- Template location: LaTeX__Template_for_MCM_ICM/mcmthesis.cls
+- Fix: Rewrite paper using mcmthesis template from latex_template/mcmthesis-demo.tex
+- Template location: latex_template/mcmthesis.cls OR latex_template/mcmthesis-demo.tex
 ```
 
 ## Quality Assessment
@@ -373,6 +404,8 @@ Before approving:
 - [ ] I compared with at least one O-Prize paper
 - [ ] I provided specific, actionable feedback
 - [ ] I saved my review to output/advisor_review.md
+- [ ] **I verified template files exist (latex_template/mcmthesis.cls)**
 - [ ] **I checked that paper uses mcmthesis class (not article)**
+- [ ] **I verified paper structure matches template demo file**
 - [ ] **I verified model_design.md content is fully copied (not summarized)**
 - [ ] **I checked that each model section is 2-3 pages long**
