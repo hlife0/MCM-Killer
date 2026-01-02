@@ -225,11 +225,12 @@ Read CLAUDE.md and run the multi-agent workflow to solve this MCM problem.
 # AI Use Report
 
 ## Tools Used
-- MCM-Killer autonomous multi-agent system (v2.1)
+- MCM-Killer autonomous multi-agent system (v2.2)
 - Claude Code CLI (Model: Claude Opus 4.5 / Sonnet 4.5)
 - 13 specialized AI agents within the system
 - Docling MCP Server for PDF processing
-- **NEW in v2.1**: Problem-type-aware pipeline (adapts to 6 MCM problem types)
+- **v2.1**: Problem-type-aware pipeline (adapts to 6 MCM problem types)
+- **v2.2**: Radical prompt simplification (rules-based, no implementation code)
 
 ## AI-Assisted Tasks
 The following tasks were performed autonomously by AI agents:
@@ -406,6 +407,111 @@ workspace/2025_C/
 ├── 2025_Problem_C_Data.zip # Data files
 └── output/                 # All generated outputs (papers, code, figures)
 ```
+
+---
+
+## What's New in v2.2
+
+**Radical Prompt Simplification - Rules Over Code**
+
+If you're familiar with v2.1, v2.2 brings a fundamental change to how agent prompts are designed:
+
+### From Code Tutorials to Rule-Based Prompts
+
+**Why**: v2.1 agent prompts contained massive Python code blocks (20-70 lines each), turning prompts into programming tutorials. This violated the principle that prompts should specify WHAT to do, not HOW to do it.
+
+**What Changed**:
+- ❌ **Old (v2.1)**: 60+ Python implementation code blocks across 13 agents (~2000 lines of code)
+- ✅ **New (v2.2)**: All code removed, replaced with concise rules and checklists
+
+### Prompt Optimization Results
+
+**Code Cleanup Statistics**:
+| Agent | v2.1 Lines | v2.2 Lines | Code Blocks Removed |
+|-------|-----------|-----------|---------------------|
+| data_engineer.md | 1130 | 307 | 23 blocks 🔴 Worst |
+| visualizer.md | 714 | 177 | 11 blocks 🟠 |
+| writer.md | 326 | 162 | 7 blocks |
+| validator.md | 269 | 204 | 3 blocks |
+| reader.md | 94+ | 390 | 2 blocks* |
+| Other 8 agents | Various | All <80 lines | All cleaned |
+
+**Total Impact**:
+- **~2000+ lines of code removed**
+- **60+ Python code blocks eliminated**
+- **Prompts now focus on rules, not implementation**
+- **All agents maintain same functionality**
+
+*Note: reader.md added docling usage instructions, increasing to 390 lines
+
+### Example: data_engineer.md Transformation
+
+**Before (v2.1)**: 1130 lines with 23 code blocks
+```python
+# 67-line manifest update code block
+import json
+from datetime import datetime
+with open('output/VERSION_MANIFEST.json') as f:
+    manifest = json.load(f)
+# ... 60+ more lines
+```
+
+**After (v2.2)**: 307 lines with simple checklist
+```
+Required workflow:
+1. Read VERSION_MANIFEST.json
+2. Determine version number
+3. Save as features_v{version}.pkl
+4. Update manifest with authority_level: 1
+5. Create quality report with SAME version
+6. Save manifest
+```
+
+### Universal FILE SYSTEM SAFETY
+
+**All 13 agents now have consistent FILE SYSTEM SAFETY rules**:
+```
+FORBIDDEN:
+❌ NEVER modify ANY file outside output/ directory
+
+ALLOWED:
+✅ READ from anywhere in workspace/
+✅ WRITE to [specific subdirectories based on role]
+```
+
+**Coverage**: 13/13 agents (100%) - previously only 8/13
+
+### Benefits
+
+**For Agent Performance**:
+- ✅ Clearer rules → better compliance
+- ✅ Less confusion → fewer errors
+- ✅ Faster execution → less token usage
+- ✅ Easier maintenance → rule updates only
+
+**For Humans**:
+- ✅ Easier to understand what agents do
+- ✅ Easier to modify rules
+- ✅ Easier to debug issues
+- ✅ Easier to extend system
+
+### Technical Changes Summary
+
+- **13 agent prompts completely rewritten** to remove implementation code
+- **FILE SYSTEM SAFETY added to 5 agents** that were missing it
+- **All Python code blocks replaced** with concise rules/checklists
+- **Prompt consistency improved** across all agents
+- **Total prompt size reduced** by ~50% while maintaining functionality
+
+### What Stayed the Same
+
+- ✅ All v2.1 problem-type-aware features intact
+- ✅ 13-agent architecture unchanged
+- ✅ Version control system unchanged
+- ✅ Data authority hierarchy unchanged
+- ✅ 6 verification gates unchanged
+
+**v2.2 is a prompt optimization release - no functional changes to the pipeline.**
 
 ---
 
@@ -589,10 +695,16 @@ If you're familiar with v1.0, here are the major changes:
 
 ## Project Status
 
-**Current Phase**: Active Research & Development (v2.1 - Problem Type Generalization)
+**Current Phase**: Active Research & Development (v2.2 - Prompt Optimization)
 
 **Recent Updates:**
-- **v2.1 (Current)**: Problem-type-aware generalization
+- **v2.2 (Current)**: Radical prompt simplification
+  - Removed 60+ Python code blocks from agent prompts (~2000 lines)
+  - Replaced implementation code with concise rules and checklists
+  - Added FILE SYSTEM SAFETY to all 13 agents (100% coverage)
+  - Improved prompt consistency across all agents
+  - Reduced prompt size by ~50% while maintaining functionality
+- **v2.1**: Problem-type-aware generalization
   - Added problem type classification system (@reader)
   - All 14 agents now problem-type-aware
   - Implemented 6 problem-type strategies (PREDICTION, OPTIMIZATION, NETWORK, EVALUATION, CLASSIFICATION, SIMULATION)
@@ -606,7 +718,7 @@ If you're familiar with v1.0, here are the major changes:
 - **v1.0**: Initial 10-agent system
 
 **Known Issues:**
-- v2.1 is an incremental improvement - not a complete rewrite
+- v2.2 is a prompt optimization release - functional changes from v2.1 intact
 - Prediction problems still best-supported (most mature feature set)
 - Some problem types need additional refinement (simulation, complex optimization)
 - System generates large amounts of intermediate files (requires cleanup)

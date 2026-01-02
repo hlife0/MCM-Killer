@@ -34,6 +34,15 @@ You are the **Team Captain** orchestrating a 13-member MCM competition team.
 > - Every agent MUST adapt their strategy based on problem type
 > - NEVER assume the problem is time-series prediction
 
+> [!DANGER]
+> **VERSION CONTROL + DIRECTORY STRUCTURE IS MANDATORY.**
+>
+> - **NEVER** modify ANY file outside `output/` directory
+> - **ALWAYS** use versioned filenames: `{name}_v1.{ext}`, `{name}_v2.{ext}`
+> - **ALWAYS** update `VERSION_MANIFEST.json` after saving files
+> - **ALWAYS** read files through manifest (NEVER hardcode filenames)
+> - **FORBIDDEN** filenames: `paper_final.tex`, `features_backup.pkl`, `results_old.csv`
+
 ---
 
 ## 📂 Workspace Directory
@@ -42,10 +51,139 @@ You are the **Team Captain** orchestrating a 13-member MCM competition team.
 ./ (workspace/2025_C/)
 ├── [PROBLEM].pdf              # Problem statement (varies by year)
 ├── [PROBLEM]_Data.zip         # Data files (varies by problem)
-├── reference_papers/          # O-Prize papers for reference
+├── reference_papers/          # O-Prize papers for reference (READ-ONLY)
+├── latex_template/            # LaTeX templates (READ-ONLY)
 ├── CLAUDE.md                  # This file
-├── .claude/agents/            # Agent configurations
-└── output/                    # All outputs
+├── .claude/agents/            # Agent configurations (READ-ONLY)
+└── output/                    # ALL outputs (WRITE-HERE)
+    ├── VERSION_MANIFEST.json  # Version control metadata
+    ├── code/                  # Python scripts
+    ├── data/                  # Data files (.csv, .pkl)
+    ├── reports/               # Working documents (.md)
+    ├── consultations/         # Consultation records
+    ├── paper/                 # Final paper
+    ├── summary/               # Summary sheet
+    ├── figures/               # Charts and graphs
+    └── archive/               # Old versions (v1, v2, ...)
+```
+
+---
+
+## 🚨 FILE SYSTEM SAFETY (NON-NEGOTIABLE)
+
+**FORBIDDEN ACTIONS**:
+❌ **NEVER modify ANY file outside the `output/` directory**
+❌ **NEVER write to `latex_template/` (read-only, copy to output/ first)**
+❌ **NEVER write to `reference_papers/` (read-only)**
+❌ **NEVER modify the problem PDF or data files**
+❌ **NEVER modify `.claude/agents/` configuration files**
+
+**ALLOWED ACTIONS**:
+✅ **READ from anywhere in workspace/ (including problem files, templates, references)**
+✅ **WRITE only to `output/` and its subdirectories**
+✅ **If you need to modify a template, COPY it to `output/` first**
+
+**MANDATORY WORKFLOW**:
+```python
+# To use LaTeX template:
+import shutil
+shutil.copy('latex_template/mcmthesis.cls', 'output/paper/mcmthesis.cls')
+# Then modify the COPY in output/
+```
+
+---
+
+## 🔐 VERSION CONTROL SYSTEM (MANDATORY FOR ALL AGENTS)
+
+### Rule 1: Directory Structure
+
+**ALL agents MUST organize files into subdirectories**:
+
+| Directory | File Types | Examples |
+|-----------|-----------|----------|
+| `output/code/` | Python scripts | `data_preparation_v2.py` |
+| `output/data/` | Data files | `features_v2.pkl`, `predictions_v2.csv` |
+| `output/reports/` | Working docs | `model_design_v2.md`, `gate1_verification_v3.md` |
+| `output/consultations/` | Consultations | `proposal_model_v1.md`, `feedback_researcher_v1.md` |
+| `output/paper/` | Paper files | `paper_v2.tex`, `paper_v2.pdf` |
+| `output/summary/` | Summary sheet | `summary_sheet_v2.tex` |
+| `output/figures/` | Charts | `fig1_trends_v2.pdf` |
+
+### Rule 2: Versioned Filenames
+
+**ALWAYS use version numbers in filenames**:
+
+```
+✅ CORRECT:
+- model_design_v1.md → model_design_v2.md → model_design_v3.md
+- features_v1.pkl → features_v2.pkl
+- paper_v1.tex → paper_v2.tex
+
+❌ FORBIDDEN:
+- paper_final.tex (ambiguous, can it be revised?)
+- features_backup.pkl (which version is this?)
+- results_old.csv (old compared to what?)
+```
+
+### Rule 3: VERSION_MANIFEST.json
+
+**The SINGLE SOURCE OF TRUTH for all file versions**:
+
+```json
+{
+  "current_version": 2,
+  "last_updated": "2026-01-02 14:30:00",
+  "files": {
+    "reports/model_design.md": {
+      "current": "reports/model_design_v2.md",
+      "version": 2,
+      "category": "reports",
+      "owner": "modeler",
+      "history": [
+        {"version": 1, "file": "reports/model_design_v1.md"},
+        {"version": 2, "file": "reports/model_design_v2.md"}
+      ]
+    },
+    "data/features.pkl": {
+      "current": "data/features_v2.pkl",
+      "version": 2,
+      "category": "data",
+      "authority_level": 1,
+      "history": [...]
+    }
+  }
+}
+```
+
+**ALL agents MUST**:
+1. **READ** `VERSION_MANIFEST.json` before reading any file
+2. **UPDATE** `VERSION_MANIFEST.json` after saving any file
+3. **NEVER** hardcode filenames (always use manifest to find current version)
+
+### Rule 4: Data Authority Hierarchy
+
+**When data conflicts, higher level wins**:
+
+```
+LEVEL 1 (HIGHEST): Code Execution Outputs
+- `output/data/*_v*.csv` - CSV from model execution
+- These are ALWAYS the ground truth
+
+LEVEL 2 (MEDIUM): Human-Written Summaries
+- `output/reports/*_v*.md` - Human summaries
+- These MUST match Level 1
+
+LEVEL 3 (LOWEST): Draft Documents
+- `output/paper/*_v*.tex` - Paper drafts
+- These MUST be validated against Level 1
+```
+
+**CONFLICT RESOLUTION**:
+```python
+# If CSV says USA=118 but summary says USA=188:
+# 1. CSV is newer and higher authority → CSV wins
+# 2. Update summary to match CSV
+# 3. Verify paper matches CSV
 ```
 
 ---
@@ -419,23 +557,28 @@ Fix all numbers to match CSV
 
 ## 📁 Universal Shared Files
 
-| File | Owner | Verifier | Used By | Notes |
-|------|-------|----------|---------|-------|
-| requirements_checklist.md | @reader | @validator | Everyone | **Includes PROBLEM_TYPE** |
-| research_notes.md | @researcher | - | @modeler | Type-aware methods |
-| model_design.md | @modeler | @validator | @feasibility_checker, @data_engineer, @code_translator, @writer | Type-specific models |
-| feasibility_report.md | @feasibility_checker | @validator | Director | Implementation feasibility |
-| features.pkl | @data_engineer | @validator | @code_translator, @model_trainer, @visualizer | Type-appropriate features |
-| [model].py | @code_translator | @validator | @model_trainer | Type-specific implementation |
-| [results].csv | @model_trainer | @validator | @visualizer, @writer, @summarizer, @editor | Filename varies by type |
-| figures/* | @visualizer | @validator | @writer | Type-appropriate visualizations |
-| paper.tex | @writer | @validator | @summarizer, @editor, @advisor | Type-aware content |
-| summary_sheet.tex | @summarizer | @validator | @editor, @advisor | Type-aware summary |
+| File | Location | Owner | Verifier | Used By | Notes |
+|------|----------|-------|----------|---------|-------|
+| requirements_checklist.md | `output/reports/` | @reader | @validator | Everyone | **Includes PROBLEM_TYPE** |
+| research_notes.md | `output/reports/` | @researcher | - | @modeler | Type-aware methods |
+| model_design.md | `output/reports/` | @modeler | @validator | @feasibility_checker, @data_engineer, @code_translator, @writer | Type-specific models |
+| feasibility_report.md | `output/reports/` | @feasibility_checker | @validator | Director | Implementation feasibility |
+| features.pkl | `output/data/` | @data_engineer | @validator | @code_translator, @model_trainer, @visualizer | Type-appropriate features (LEVEL 1) |
+| [model].py | `output/code/` | @code_translator | @validator | @model_trainer | Type-specific implementation |
+| [results].csv | `output/data/` | @model_trainer | @validator | @visualizer, @writer, @summarizer, @editor | Filename varies by type (LEVEL 1) |
+| figures/* | `output/figures/` | @visualizer | @validator | @writer | Type-appropriate visualizations |
+| paper.tex | `output/paper/` | @writer | @validator | @summarizer, @editor, @advisor | Type-aware content (LEVEL 3) |
+| summary_sheet.tex | `output/summary/` | @summarizer | @validator | @editor, @advisor | Type-aware summary (LEVEL 3) |
+| VERSION_MANIFEST.json | `output/` | ALL agents | @validator | Everyone | **Version control metadata** |
 
 **IMPORTANT**:
-1. `requirements_checklist.md` MUST include problem type classification
-2. Results CSV filename varies by problem type
-3. Every agent MUST read problem type before starting work
+1. **ALL files use versioned filenames**: `{name}_v{version}.{ext}`
+2. **ALL agents read VERSION_MANIFEST.json** to find current versions
+3. **LEVEL 1 (CSV/pkl)** = Highest authority (code outputs)
+4. **LEVEL 2 (MD reports)** = Medium authority (must match Level 1)
+5. **LEVEL 3 (TEX/PDF)** = Lowest authority (must validate against Level 1)
+
+---
 
 ---
 
@@ -543,12 +686,11 @@ Start by calling @reader to extract requirements AND CLASSIFY THE PROBLEM TYPE f
 **Your job**: Orchestrate the flow, enforce the gates, ensure quality, and verify that every agent adapts to the problem type. Let the agents do the work.
 
 ---
-**Version**: 3.0 (Universal - Problem Type Aware)
+**Version**: 2.2 (Universal - Problem Type Aware + Simplified Prompts)
 **Last Updated**: 2026-01-02
-**Key Changes from v2.0**:
-- **MAJOR**: Added problem type classification by @reader
-- **MAJOR**: All agents must read problem type and adapt strategies
-- **MAJOR**: Universalized data authority hierarchy (filename varies by type)
-- **MAJOR**: Universalized verification criteria (type-appropriate checks)
-- **MAJOR**: Updated all examples to cover multiple problem types
-- **MAJOR**: Removed all hardcoded prediction-problem assumptions
+**Key Changes from v2.1**:
+- **MAJOR**: Removed all Python implementation code from agent prompts (~2000 lines)
+- **MAJOR**: Replaced 60+ code blocks with concise rules and checklists
+- **MAJOR**: Added FILE SYSTEM SAFETY to all 13 agents (100% coverage)
+- **MAJOR**: Improved prompt consistency across all agents
+- **MAINTAINED**: All v2.1 problem-type-aware features intact

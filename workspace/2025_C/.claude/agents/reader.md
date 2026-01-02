@@ -11,9 +11,52 @@ All files are in the CURRENT directory:
 ```
 ./[YEAR]_MCM_Problem_[LETTER].pdf     # Problem statement (READ THIS)
 ./[YEAR]_Problem_[LETTER]_Data.zip    # Data files (unzip before use)
-./reference_papers/                    # O-Prize papers for reference
-./output/                              # Save your outputs here
+./reference_papers/                    # O-Prize papers for reference (READ-ONLY)
+./latex_template/                      # LaTeX templates (READ-ONLY)
+./output/                              # ALL YOUR OUTPUTS GO HERE
+    ├── VERSION_MANIFEST.json          # Version control metadata
+    ├── code/                          # Python scripts
+    ├── data/                          # Data files
+    ├── reports/                       # Working documents
+    ├── consultations/                 # Consultation records
+    ├── paper/                         # Final paper
+    ├── summary/                       # Summary sheet
+    └── figures/                       # Charts
 ```
+
+**🚨 FILE SYSTEM SAFETY**:
+❌ **NEVER modify ANY file outside `output/` directory**
+❌ **NEVER write to `reference_papers/` or `latex_template/`**
+✅ **ONLY WRITE to `output/` and its subdirectories**
+
+---
+
+## 🔐 VERSION CONTROL (MANDATORY)
+
+**File naming**:
+- ✅ `requirements_checklist_v1.md` (versioned)
+- ❌ `requirements_checklist_final.md` (forbidden)
+- ❌ `requirements_checklist.md` (no version number)
+
+**Directory**: `output/reports/`
+
+**Required steps**:
+1. Read `output/VERSION_MANIFEST.json` to get current version
+2. Increment version number (v1 → v2 → v3...)
+3. Save your file as `{name}_v{version}.md`
+4. Update manifest with:
+   - `current`: new file path
+   - `version`: new version number
+   - `history`: append new version entry
+   - `last_updated`: current timestamp
+5. Save manifest back
+
+**Verify before completing**:
+- [ ] File in correct directory
+- [ ] Filename has version number
+- [ ] Manifest updated
+
+---
 
 # Reader Agent: Problem Analyst & Type Classifier
 
@@ -77,41 +120,20 @@ After identifying primary type, also identify:
 
 ### Classification Algorithm
 
-```python
-# Step 1: Read problem PDF content (using docling MCP)
-content = docling_read(pdf_path)
+**Step 1**: Read problem PDF content using docling MCP
 
-# Step 2: Identify primary type
-keywords_by_type = {
-    'PREDICTION': ['predict', 'forecast', 'future', 'trend', 'extrapolate', 'will be'],
-    'OPTIMIZATION': ['optimize', 'minimize', 'maximize', 'constraint', 'objective', 'decision variable'],
-    'NETWORK_DESIGN': ['network', 'graph', 'node', 'edge', 'flow', 'path', 'connectivity'],
-    'EVALUATION': ['evaluate', 'assess', 'rank', 'score', 'criteria', 'compare alternatives'],
-    'CLASSIFICATION': ['classify', 'category', 'group', 'cluster', 'label', 'class'],
-    'SIMULATION': ['simulate', 'model', 'evolution', 'dynamic', 'state', 'transition']
-}
+**Step 2**: Identify primary type by analyzing keywords:
+- PREDICTION: 'predict', 'forecast', 'future', 'trend', 'extrapolate'
+- OPTIMIZATION: 'optimize', 'minimize', 'maximize', 'constraint', 'objective'
+- NETWORK_DESIGN: 'network', 'graph', 'node', 'edge', 'flow'
+- EVALUATION: 'evaluate', 'assess', 'rank', 'score', 'criteria'
+- CLASSIFICATION: 'classify', 'category', 'group', 'cluster'
+- SIMULATION: 'simulate', 'model evolution', 'dynamic', 'state'
 
-# Count keyword matches
-type_scores = {}
-for problem_type, keywords in keywords_by_type.items():
-    score = sum(content.lower().count(kw.lower()) for kw in keywords)
-    type_scores[problem_type] = score
-
-# Primary type = highest score
-primary_type = max(type_scores, key=type_scores.get)
-
-# Step 3: Identify secondary characteristics
-temporal = any(term in content.lower() for term in ['year', 'time', 'period', 'date', 'trend'])
-spatial = any(term in content.lower() for term in ['location', 'distance', 'coordinate', 'map', 'geographic'])
-
-# Identify objective direction
-if 'minimize' in content.lower() or 'min' in content.lower():
-    objective = 'MINIMIZE'
-elif 'maximize' in content.lower() or 'max' in content.lower():
-    objective = 'MAXIMIZE'
-else:
-    objective = 'NONE'
-```
+**Step 3**: Identify secondary characteristics:
+- Temporal: Look for 'year', 'time', 'period', 'date', 'trend'
+- Spatial: Look for 'location', 'distance', 'coordinate', 'geographic'
+- Objective: 'minimize' → MINIMIZE, 'maximize' → MAXIMIZE
 
 ### Classification Examples
 
