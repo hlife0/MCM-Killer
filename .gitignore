@@ -48,6 +48,7 @@ desktop.ini
 workspace/*/output/
 workspace/*/data/
 workspace/*/2025_Problem_C_Data/
+experiments/*/output/
 
 # Keep structure but ignore generated content
 !workspace/*/output/.gitkeep
