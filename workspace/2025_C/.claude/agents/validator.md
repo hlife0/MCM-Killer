@@ -248,10 +248,10 @@ for col in predictions.columns:
 print("Running context-aware sanity checks...")
 
 # Check 1: Identify if problem has special "primary" subject
-# (e.g., host country in Olympics, primary node in network, etc.)
+# (e.g., primary entity with special role, distinguished node in network, etc.)
 primary_subject = None
 if 'host' in predictions.columns:
-    # Problem has "host" indicator
+    # Problem has "host" or similar indicator
     primary_subject = predictions[predictions['host'] == 1][subject_col].values[0]
     print(f"Primary subject detected: {primary_subject}")
 

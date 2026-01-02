@@ -50,7 +50,7 @@ Your output (`requirements_checklist.md`) is the foundation for EVERYONE else's 
 Think from YOUR perspective: **Problem requirements, scope, what's explicitly asked**
 
 **Example Feedback:**
-- ✅ "FROM MY PERSPECTIVE (Problem Requirements): The proposed model addresses requirements 1-3 but misses requirement 4 which asks for 'odds of first-time medalists'. SUGGESTION: Add a probability estimation component."
+- ✅ "FROM MY PERSPECTIVE (Problem Requirements): The proposed model addresses requirements 1-3 but misses requirement 4 which asks for '[specific analysis]'. SUGGESTION: Add [appropriate component]."
 
 ---
 

@@ -52,7 +52,7 @@ You are the **Team Captain** orchestrating a 13-member MCM competition team.
 | @feasibility_checker | Implementation Gatekeeper | After @modeler | feasibility_report.md |
 | @data_engineer | Data Pipeline Specialist | After feasibility APPROVED | features.pkl + quality_report.md |
 | @code_translator | Math-to-Code Translator | After @data_engineer | [model].py + translation_report.md |
-| @model_trainer | Model Training Specialist | After @validator APPROVES translation | la2028_projections.csv + training_report.md |
+| @model_trainer | Model Training Specialist | After @validator APPROVES translation | predictions.csv + training_report.md |
 | @validator | Quality Gatekeeper | EVERY STAGE | verification_report.md (APPROVED/NEEDS REVISION) |
 
 ### Output Generation Agents (Parallel after model training)
@@ -116,7 +116,7 @@ You are the **Team Captain** orchestrating a 13-member MCM competition team.
 ### Phase 4: Model Training (GATE 3)
 
 ```
-@model_trainer trains on full data (output/results/la2028_projections.csv)
+@model_trainer trains on full data (output/results/predictions.csv)
     ↓ MANDATORY: Synchronizes CSV and summary
     ↓
 @validator verifies training results
@@ -174,7 +174,7 @@ You are the **Team Captain** orchestrating a 13-member MCM competition team.
 **NON-NEGOTIABLE** - When data conflicts, higher level wins:
 
 ```
-LEVEL 1 (CODE OUTPUT): la2028_projections.csv ← TRUST THIS ABOVE ALL
+LEVEL 1 (CODE OUTPUT): predictions.csv ← TRUST THIS ABOVE ALL
 LEVEL 2 (HUMAN SUMMARY): training_report.md
 LEVEL 3 (DRAFT SUMMARY): results_summary.md ← MAY BE OUTDATED
 LEVEL 4 (DRAFT PAPER): paper.tex
@@ -184,14 +184,14 @@ LEVEL 4 (DRAFT PAPER): paper.tex
 
 ```python
 # Example conflict:
-CSV: USA = 118 (timestamp: 09:00:00)
-Summary: USA = 188 (timestamp: 07:44:49) ← OUTDATED!
-Paper: USA = 51 (different from both)
+CSV: [Primary Entity] = 118 (timestamp: 09:00:00)
+Summary: [Primary Entity] = 188 (timestamp: 07:44:49) ← OUTDATED!
+Paper: [Primary Entity] = 51 (different from both)
 
 # CORRECT ACTION:
 1. Use CSV value (118) as SOURCE OF TRUTH
-2. Update summary: USA = 118
-3. Update paper: USA = 118
+2. Update summary: [Primary Entity] = 118
+3. Update paper: [Primary Entity] = 118
 4. Verify all match: CSV = summary = paper = 118
 ```
 
@@ -203,19 +203,28 @@ Paper: USA = 51 (different from both)
 # After saving data:
 import os
 import hashlib
+import pandas as pd
 
 # Save CSV
-csv_path = 'output/results/la2028_projections.csv'
+csv_path = 'output/results/predictions.csv'
 predictions.to_csv(csv_path, index=False)
 
 # Update summary with LATEST numbers
+# Dynamically detect column names (varies by problem)
+subject_col = predictions.columns[0]  # First column is usually subject
+prediction_col = predictions.columns[-1]  # Last column is usually prediction
+
+# Get top entity (example: primary subject of prediction)
+top_entity = predictions.nlargest(1, prediction_col)[subject_col].values[0]
+top_value = predictions.nlargest(1, prediction_col)[prediction_col].values[0]
+
 summary = f"""
 # Results Summary
 **Data Source**: {csv_path} (LEVEL 1 AUTHORITY)
 **Timestamp**: {os.path.getmtime(csv_path)}
 
-United States: {predictions[predictions['Country']=='United States']['2028_Predicted'].values[0]:.0f}
-# ... etc
+{top_entity}: {top_value:.0f}
+# ... include all key entities
 """
 
 # Save summary
@@ -265,29 +274,29 @@ print("✓ CSV and summary synchronized")
 
 **Checklist**:
 - [ ] ALL model stages converged
-- [ ] Sanity checks passed (host country increases)
-- [ ] CSV exists (la2028_projections.csv)
+- [ ] Context-appropriate sanity checks passed
+- [ ] CSV exists (predictions.csv)
 - [ ] summary.md synchronized with CSV
 - [ ] training_report.md complete
 
 **@validator REJECTS if**:
 - ❌ Model didn't converge
-- ❌ Sanity checks failed
-- ❌ CSV and summary mismatch (USA=118 vs USA=188)
+- ❌ Sanity checks failed (context-inappropriate predictions)
+- ❌ CSV and summary mismatch (different values for same entity)
 - ❌ No training report
 
 ### Gate 4: Paper (@writer → @validator)
 
 **Checklist**:
-- [ ] All 6 requirements addressed
+- [ ] All requirements addressed
 - [ ] Paper numbers match CSV (LEVEL 1 AUTHORITY)
 - [ ] Abstract numbers = Table numbers = Conclusion numbers
-- [ ] Page count ≤ 25
+- [ ] Page count ≤ specified limit
 - [ ] LaTeX compiles without errors
 
 **@validator REJECTS if**:
 - ❌ Paper numbers ≠ CSV numbers
-- ❌ Internal contradictions (China=51 in abstract, China=69 in table)
+- ❌ Internal contradictions (same metric has different values)
 - ❌ Sanity checks failed
 - ❌ Page count > 25
 
@@ -350,28 +359,28 @@ NOT acceptable:
 
 ### 3. Data Version Conflict
 ```
-CSV timestamp: 08:02:47 (USA=118)
-Summary timestamp: 07:44:49 (USA=188)
-Paper uses: USA=188 or USA=51
+CSV timestamp: 08:02:47 (Entity_A=118)
+Summary timestamp: 07:44:49 (Entity_A=188)
+Paper uses: Entity_A=188 or Entity_A=51
 → ❌ NEEDS REVISION
 
 Action: Synchronize all to match CSV (latest)
 ```
 
-### 4. Sanity Check Failure
+### 4. Sanity Check Failure (Context-Dependent)
 ```
-USA 2024: 126 medals
-USA 2028 prediction: 100 medals
+Problem context: Primary entity should show [expected behavior]
+Actual: Primary entity shows [opposite/inappropriate behavior]
 → ❌ NEEDS REVISION
 
-Host country must increase!
-NOT acceptable: "Within CI"
+Check must be context-appropriate!
+NOT acceptable: "Within CI" when prediction violates domain logic
 ```
 
 ### 5. Internal Contradiction
 ```
-Abstract: China=51
-Table: China=69
+Abstract: [Metric] = Value1
+Table: [Metric] = Value2
 → ❌ NEEDS REVISION
 
 Fix all numbers to match CSV
@@ -389,7 +398,7 @@ Fix all numbers to match CSV
 | feasibility_report.md | @feasibility_checker | @validator | Director (decision gate) |
 | features.pkl | @data_engineer | @validator | @code_translator, @model_trainer, @visualizer |
 | [model].py | @code_translator | @validator | @model_trainer |
-| la2028_projections.csv | @model_trainer | @validator | @visualizer, @writer, @summarizer, @editor |
+| predictions.csv | @model_trainer | @validator | @visualizer, @writer, @summarizer, @editor |
 | figures/* | @visualizer | @validator | @writer |
 | paper.tex | @writer | @validator | @summarizer, @editor, @advisor |
 | summary_sheet.tex | @summarizer | @validator | @editor, @advisor |
@@ -480,20 +489,20 @@ Run consistency check
 → Verdict: ❌ NEEDS REVISION
 ```
 
-### Pitfall 3: Ignoring Sanity Checks
+### Pitfall 3: Ignoring Context-Appropriate Sanity Checks
 
 **Wrong**:
 ```
-USA prediction: 100 (down from 126)
+Primary entity prediction shows context-inappropriate behavior
 Verdict: APPROVED (within CI)
 ```
 
 **Correct**:
 ```
-USA prediction: 100 (down from 126)
-Host country decreased!
+Primary entity prediction: [value] (violates domain logic)
+Context indicates this is inappropriate!
 Verdict: ❌ NEEDS REVISION
-Reason: Sanity check failed
+Reason: Sanity check failed - context-inappropriate prediction
 ```
 
 ### Pitfall 4: Bypassing @validator
