@@ -408,6 +408,84 @@ workspace/2025_C/
 └── output/                 # All generated outputs (papers, code, figures)
 ```
 
+## What's New in v2.4.0
+
+**Complete Architecture Redesign - Self-Consistent Specification Layer**
+
+v2.4.0 is a major architectural overhaul focused on creating a "single source of truth" for system design.
+
+### New Architecture Documents
+
+The `architectures/v2-4-0/` directory now contains:
+
+| Document | Purpose |
+|----------|---------|
+| `retrospective.md` | Analysis of v2.0-v2.3 problems |
+| `methodology.md` | Design principles |
+| **`architecture.md`** | **Authoritative architecture definition** |
+| `workflow_design.md` | Detailed 10-phase execution flow |
+| `validation_design.md` | Multi-participant validation mechanism |
+| `consultation_design.md` | Agent consultation protocol |
+| `report_design.md` | Agent reporting mechanism |
+
+### Key Architectural Changes
+
+**1. Multi-Participant Validation**
+- Each validation stage now involves **multiple agents** from different perspectives
+- Validators include: reader (compliance), modeler (design consistency), validator (data integrity), advisor (quality)
+- **No consultation allowed during validation** - independent judgment only
+
+**2. Structured Collaboration Contracts**
+- **Consultation**: Agent-to-agent information requests (blocking, file-based)
+- **Validation**: Quality gates with APPROVED/CONDITIONAL/REJECTED results
+- **Report**: Mandatory agent-to-Director reports after each call
+
+**3. Strict Rework Mechanism**
+- **"Rework does not exempt verification"**: Reworked outputs must pass the same high standards
+- Validators are explicitly reminded not to lower standards for rework versions
+- Maximum 3 rework attempts per gate before escalation
+
+**4. New Directory Structure**
+```
+output/
+├── problem/           # Problem files
+├── docs/              # Collaboration documents
+│   ├── consultation/  # Agent consultations
+│   ├── validation/    # Validation reports
+│   └── report/        # Agent reports
+├── model/             # Model designs
+├── implementation/    # Code, data, logs
+└── paper/             # LaTeX paper and figures
+```
+
+**5. Global Version Counting**
+- Consultation files: `{i}_{from}_{to}.md` (global count)
+- Validation files: `{i}_{stage}_{agent}.md` (global count)
+- Enables clear temporal ordering of all activities
+
+### 10-Phase Workflow with 7 Validation Gates
+
+| Phase | Name | Validation Gate | Participants |
+|-------|------|-----------------|--------------|
+| 0 | Problem Understanding | - | - |
+| 1 | Model Design | ✅ MODEL | reader, feasibility, advisor, researcher |
+| 2 | Feasibility Check | - | - |
+| 3 | Data Processing | ✅ DATA | modeler, validator, reader |
+| 4 | Code Translation | ✅ CODE | modeler, code_translator, feasibility |
+| 5 | Model Training | ✅ TRAINING | modeler, code_translator, validator, reader |
+| 6 | Visualization | - | - |
+| 7 | Paper Writing | ✅ PAPER | reader, validator, advisor, writer |
+| 8 | Summary | ✅ SUMMARY | validator, reader |
+| 9 | Polish | ✅ FINAL | validator, advisor, reader |
+| 10 | Final Review | - | - |
+
+### Design Philosophy
+
+- **Single Source of Truth**: `architecture.md` is the authoritative definition
+- **Contracts Over Implementation**: Define WHAT, not HOW
+- **Independent Validation**: Validators judge independently, no consultation
+- **High Standards Always**: No lowering standards for rework
+
 ---
 
 ## What's New in v2.2
@@ -695,10 +773,17 @@ If you're familiar with v1.0, here are the major changes:
 
 ## Project Status
 
-**Current Phase**: Active Research & Development (v2.2 - Prompt Optimization)
+**Current Phase**: Active Research & Development (v2.4.0 - Architecture Redesign)
 
 **Recent Updates:**
-- **v2.2 (Current)**: Radical prompt simplification
+- **v2.4.0 (Current)**: Complete architecture redesign
+  - Created `architectures/v2-4-0/` with authoritative architecture documents
+  - Multi-participant validation mechanism (multiple agents verify each stage)
+  - Structured collaboration contracts (Consultation, Validation, Report)
+  - Strict rework mechanism ("rework does not exempt verification")
+  - 10-phase workflow with 7 validation gates
+  - New directory structure with `docs/` for collaboration files
+- **v2.2**: Radical prompt simplification
   - Removed 60+ Python code blocks from agent prompts (~2000 lines)
   - Replaced implementation code with concise rules and checklists
   - Added FILE SYSTEM SAFETY to all 13 agents (100% coverage)

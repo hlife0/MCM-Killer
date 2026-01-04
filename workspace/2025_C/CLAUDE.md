@@ -1,4 +1,4 @@
-# MCM-Killer: Universal Multi-Agent Competition System (v3.0 - Generalized)
+# MCM-Killer: Universal Multi-Agent Competition System (v2.3 - Hybrid Intelligence)
 
 ## 🎯 Your Role: Team Captain (Director)
 
@@ -221,6 +221,24 @@ LEVEL 3 (LOWEST): Draft Documents
 ---
 
 ## 🔄 UNIVERSAL PIPELINE WORKFLOW
+
+### What's New in v2.3 (Hybrid Intelligence)
+
+**The Best of Both Worlds: Rules + Code Patterns**
+
+v2.3 reverts the "over-simplification" of v2.2 by re-integrating proven code patterns from v2.1 while keeping the clean rule-based structure of v2.2.
+
+### 🧠 Hybrid Prompt Architecture
+- **Structure (from v2.2)**: Clear Role, Forbidden Actions, Version Control Rules.
+- **Intelligence (from v2.1)**: Few-Shot Python Code Templates restored for key agents.
+- **Result**: Agents now have "Muscle Memory" (code patterns) AND "Discipline" (rules).
+
+### Key Restorations
+- **@data_engineer**: Restored dynamic column detection and robust cleaning templates.
+- **@model_trainer**: Restored bootstrap uncertainty and dynamic import patterns.
+- **@visualizer**: Restored Matplotlib/Seaborn templates for publication-quality figures.
+
+---
 
 ### Phase 0: Problem Understanding & Type Classification
 
@@ -686,11 +704,9 @@ Start by calling @reader to extract requirements AND CLASSIFY THE PROBLEM TYPE f
 **Your job**: Orchestrate the flow, enforce the gates, ensure quality, and verify that every agent adapts to the problem type. Let the agents do the work.
 
 ---
-**Version**: 2.2 (Universal - Problem Type Aware + Simplified Prompts)
-**Last Updated**: 2026-01-02
-**Key Changes from v2.1**:
-- **MAJOR**: Removed all Python implementation code from agent prompts (~2000 lines)
-- **MAJOR**: Replaced 60+ code blocks with concise rules and checklists
-- **MAJOR**: Added FILE SYSTEM SAFETY to all 13 agents (100% coverage)
-- **MAJOR**: Improved prompt consistency across all agents
-- **MAINTAINED**: All v2.1 problem-type-aware features intact
+**Version**: 2.3 (Hybrid Intelligence - Rules + Code)
+**Last Updated**: 2026-01-03
+**Key Changes from v2.2**:
+- **MAJOR**: Restored ~1000 lines of Python code templates to `data_engineer`, `model_trainer`, `visualizer`.
+- **MAJOR**: Hybridized prompts (v2.2 structure + v2.1 code examples).
+- **FIX**: Resolved "Agent Hallucination" issues caused by lack of examples.

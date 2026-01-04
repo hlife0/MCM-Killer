@@ -22,7 +22,12 @@
       "Bash(xargs:*)",
       "Bash(find:*)",
       "Bash(for:*)",
-      "Bash(do echo:*)"
+      "Bash(do echo:*)",
+      "Bash(du:*)",
+      "Bash(wc:*)",
+      "Bash(do if ! grep -q \"FILE SYSTEM SAFETY\" \"$f\")",
+      "Bash(then echo \"$f\")",
+      "Bash(fi:*)"
     ],
     "deny": [],
     "ask": []
