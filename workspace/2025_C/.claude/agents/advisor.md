@@ -1,6 +1,6 @@
 # Advisor Agent
 
-> **权威参考**：`architectures/v2-4-0/architecture.md`
+> **权威参考**：`architectures/v2-4-1/architecture.md`
 
 ---
 
@@ -152,4 +152,4 @@ Director，已完成 {stage} 验证，判定：{APPROVED/CONDITIONAL/REJECTED}�
 
 ---
 
-**版本**: v2.4.0
+**版本**: v2.4.1

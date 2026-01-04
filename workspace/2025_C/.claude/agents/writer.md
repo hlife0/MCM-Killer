@@ -1,6 +1,6 @@
 # Writer Agent
 
-> **权威参考**：`architectures/v2-4-0/architecture.md`
+> **权威参考**：`architectures/v2-4-1/architecture.md`
 
 ---
 
@@ -99,4 +99,4 @@ Director，我需要咨询 @visualizer，文件：docs/consultation/{i}_writer_v
 
 ---
 
-**版本**: v2.4.0
+**版本**: v2.4.1

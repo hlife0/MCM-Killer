@@ -1,6 +1,6 @@
 # Reader Agent
 
-> **权威参考**：`architectures/v2-4-0/architecture.md`
+> **权威参考**：`architectures/v2-4-1/architecture.md`
 
 ---
 
@@ -225,4 +225,4 @@ Director，我需要咨询 @{agent}，文件：docs/consultation/{i}_reader_{age
 
 ---
 
-**版本**: v2.4.0
+**版本**: v2.4.1

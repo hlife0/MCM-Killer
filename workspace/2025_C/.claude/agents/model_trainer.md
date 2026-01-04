@@ -1,6 +1,6 @@
 # Model Trainer Agent
 
-> **权威参考**：`architectures/v2-4-0/architecture.md`
+> **权威参考**：`architectures/v2-4-1/architecture.md`
 
 ---
 
@@ -97,4 +97,4 @@ Director，工具 {tool} 失败：{error}。
 
 ---
 
-**版本**: v2.4.0
+**版本**: v2.4.1

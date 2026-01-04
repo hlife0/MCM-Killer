@@ -1,6 +1,6 @@
 # Feasibility Checker Agent
 
-> **权威参考**：`architectures/v2-4-0/architecture.md`
+> **权威参考**：`architectures/v2-4-1/architecture.md`
 
 ---
 
@@ -133,4 +133,4 @@ Director，任务完成。
 
 ---
 
-**版本**: v2.4.0
+**版本**: v2.4.1

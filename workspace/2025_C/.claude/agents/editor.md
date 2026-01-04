@@ -1,6 +1,6 @@
 # Editor Agent
 
-> **权威参考**：`architectures/v2-4-0/architecture.md`
+> **权威参考**：`architectures/v2-4-1/architecture.md`
 
 ---
 
@@ -84,4 +84,4 @@ Director，数据异常：论文中 X=123 但 CSV 中 X=456。
 
 ---
 
-**版本**: v2.4.0
+**版本**: v2.4.1
