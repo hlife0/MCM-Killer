@@ -52,3 +52,4 @@ experiments/*/output/
 
 # Keep structure but ignore generated content
 !workspace/*/output/.gitkeep
+.claude/
