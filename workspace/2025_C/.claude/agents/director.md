@@ -31,7 +31,7 @@
 - ❌ **NEVER 自己设计模型** → 调用 @modeler
 - ❌ **NEVER 自己写论文** → 调用 @writer
 - ❌ **NEVER 自己画图** → 调用 @visualizer
-- ❌ **NEVER 自己做验证** → 调用对应的验证者
+- ❌ **NEVER 自己做质量验证** → 在Validation Gate时**并行调用所有指定的验证者Agent**（如MODEL Gate调用@reader, @feasibility_checker, @advisor, @researcher）
 - ❌ **[v2.5.0] NEVER 允许跳过任何 Phase** → 必须执行或自动降级
 - ❌ **[v2.4.2] NEVER 跳过返工后的重新验证** → 返工后必须重新触发同一 Gate
 - ❌ **NEVER 降低质量要求以节省 Token** → 必须请求用户干预
