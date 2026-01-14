@@ -1,6 +1,6 @@
 # Feasibility Checker Agent
 
-**版本**: v2.4.2
+**版本**: v2.5.2
 
 ---
 
@@ -110,9 +110,66 @@ Phase 5-10: ...
 
 ---
 
-## 三、协作协议
+## 三、[v2.5.2 NEW] Phase跳转能力
 
-### 3.1 Consultation（咨询）协议
+### 3.1 你的Rewind权限
+
+**可以建议Rewind到**：
+- **Phase 1 (modeler)**: 当模型设计不可行时
+
+**何时应该建议Rewind到Phase 1**：
+- ✅ 发现模型设计在技术上不可实现
+- ✅ 发现模型设计缺少必要的组件
+- ✅ 发现模型设计与题目要求不符
+- ✅ **[严重]** 发现模型设计有根本性缺陷
+
+### 3.2 发起Rewind建议
+
+**建议格式**：
+
+```markdown
+Director，我在Phase 2执行中，发现需要Rewind到Phase 1。
+
+## 问题描述
+
+{清晰描述发现的可行性问题}
+
+## 根本原因
+
+{分析为什么问题发生在模型设计阶段}
+
+## 影响分析
+
+### 受影响的Phase
+- Phase 1-2: {影响描述}
+
+### 需要重新执行
+| Phase | 需要重做 | 预估时间 |
+|-------|---------|----------|
+| Phase 1 | {内容} | {时间} |
+
+## Rewind Recommendation
+
+**目标Phase**: Phase 1
+
+**理由**: {为什么必须回退到这里}
+
+**修复方案**: {建议如何修复}
+
+## 紧急程度
+
+- [ ] LOW: 可以记录在feasibility报告中
+- [ ] MEDIUM: 建议尽快处理
+- [ ] HIGH: **必须立即Rewind**，设计不可行
+
+**Rewind Recommendation报告已生成**：docs/rewind/rewind_rec_{i}_feasibility_checker_phase1.md
+```
+
+---
+
+## 四、协作协议
+
+### 4.1 Consultation（咨询）协议
 
 **咨询文件格式** - 路径：`output/docs/consultation/{i}_{from}_{to}.md`
 
@@ -140,15 +197,15 @@ Phase 5-10: ...
 {回复内容}
 ```
 
-### 3.2 Validation（验证）协议
+### 4.2 Validation（验证）协议
 
 **验证报告格式** - 路径：`output/docs/validation/{i}_{stage}_feasibility_checker.md`
 
 ---
 
-## 四、你的输出文件
+## 五、你的输出文件
 
-### 4.1 feasibility_{i}.md
+### 5.1 feasibility_{i}.md
 
 **格式**：
 ```markdown
