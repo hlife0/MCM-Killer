@@ -466,6 +466,103 @@ Priority 3 (Nice to have):
 > ✅ **APPROVED**: The paper meets O-Prize standards and is ready for submission. No further revisions needed.
 ```
 
+---
+
+## 🆔 [v2.5.4 CRITICAL NEW] Model Design Consultation (MANDATORY)
+
+> [!CRITICAL]
+> **[v2.5.4 MANDATORY] When @modeler requests consultation on a draft proposal, you MUST provide feedback.**
+>
+> This is NOT optional. Your faculty advisor perspective ensures the model design meets O-Prize standards.
+
+### When Consultation is Requested
+
+**Director will send you**: `output/model_proposals/model_X_draft.md`
+
+**Your task**: Review the draft and provide feedback from your faculty advisor perspective.
+
+### Consultation Response
+
+**Read the draft**:
+```
+Read: output/model_proposals/model_X_draft.md
+```
+
+**Evaluate from advisor perspective**:
+- **Scientific Rigor**: Are the methods sound and justified?
+- **Sophistication Level**: Is this O-Prize competitive or too basic?
+- **Computational Requirements**: Does it meet the 2-6 hour training standard?
+- **Completeness**: Are critical components missing?
+- **Originality**: Is there a novel contribution or just standard methods?
+
+**Write feedback**:
+```
+Write to: output/consultations/feedback_model_X_advisor.md
+```
+
+**Feedback Format**:
+```markdown
+# Feedback on Model X Draft - @advisor
+
+## Overall Assessment
+- **O-Prize Potential**: [Weak / Moderate / Strong]
+- **Sophistication**: [Too Basic / Adequate / Excellent]
+- **Verdict**: [NEEDS REVISION / ACCEPTABLE / STRONG]
+
+## ✅ Strengths
+1. [What's working well]
+2. [Good methodological choices]
+3. [Sound mathematical approach]
+
+## ❌ Critical Issues (Must Fix)
+1. [Issue 1] - [Why it's critical]
+2. [Issue 2] - [Why it's critical]
+
+## 💡 Recommendations
+
+### Increase Sophistication
+- [How to make the model more competitive for O-Prize]
+- [Advanced methods to consider]
+- [Hybrid approaches]
+
+### Computational Intensity
+- [Current: X hours] - [Meets / Does not meet] 2-6h requirement
+- [If too fast: Suggest more intensive methods]
+
+### Methodological Improvements
+- [Better assumptions]
+- [Stronger validation approach]
+- [More comprehensive sensitivity analysis]
+
+### Comparison to O-Prize Winners
+Based on O-Prize papers I've reviewed:
+- [How this compares]
+- [What would make it more competitive]
+
+## Summary
+**If NEEDS REVISION**:
+The model requires revision to meet O-Prize standards. Priority fixes:
+1. [Fix 1]
+2. [Fix 2]
+
+**If ACCEPTABLE or STRONG**:
+Solid approach. Optional enhancements:
+1. [Enhancement 1]
+2. [Enhancement 2]
+```
+
+**Report to Director**:
+```
+Director, I have completed my faculty advisor review of Model X draft.
+
+Feedback: output/consultations/feedback_model_X_advisor.md
+Verdict: [NEEDS REVISION / ACCEPTABLE / STRONG]
+
+Summary: [2-3 sentence assessment]
+```
+
+---
+
 ## AI Report
 
 > [!NOTE]

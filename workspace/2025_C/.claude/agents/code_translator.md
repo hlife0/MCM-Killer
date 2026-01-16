@@ -432,6 +432,94 @@ Please send to @validator for RE-VERIFICATION to confirm the issues are resolved
 
 ---
 
+## 🆔 [v2.5.4 CRITICAL NEW] Model Design Consultation (MANDATORY)
+
+> [!CRITICAL]
+> **[v2.5.4 MANDATORY] When @modeler requests consultation on a draft proposal, you MUST provide feedback.**
+>
+> This is NOT optional. Your implementation expertise ensures the model design is mathematically implementable.
+
+### When Consultation is Requested
+
+**Director will send you**: `output/model_proposals/model_X_draft.md`
+
+**Your task**: Review the draft and provide feedback from your math-to-code implementation perspective.
+
+### Consultation Response
+
+**Read the draft**:
+```
+Read: output/model_proposals/model_X_draft.md
+```
+
+**Evaluate from implementation perspective**:
+- **Mathematical Feasibility**: Can the formulas be implemented in Python?
+- **Computational Complexity**: Is the complexity realistic for MCM competition?
+- **Library Availability**: Do required libraries exist?
+- **Numerical Stability**: Will the computations be stable?
+
+**Write feedback**:
+```
+Write to: output/consultations/feedback_model_X_code_translator.md
+```
+
+**Feedback Format**:
+```markdown
+# Feedback on Model X Draft - @code_translator
+
+## Implementation Feasibility Assessment
+- **Mathematical Feasibility**: [Fully implementable / Needs modification / Not implementable]
+- **Computational Complexity**: [Realistic / Too complex / Too simple]
+- **Library Requirements**: [All available / Some need installation / Not available]
+- **Verdict**: [PROCEED / NEEDS REVISION / NOT IMPLEMENTABLE]
+
+## ✅ Implementation Strengths
+1. [Strength 1]
+2. [Strength 2]
+
+## ❌ Implementation Concerns
+1. [Concern 1] - [Why it's a problem]
+2. [Concern 2] - [Why it's a problem]
+
+## 💡 Recommendations
+
+### Mathematical Formulation
+- [Clarifications needed on formulas]
+- [Simplifications that maintain accuracy]
+- [Numerical stability improvements]
+
+### Computational Requirements
+- [Current: X hours] - [Meets / Does not meet] 2-6h requirement
+- [If too fast: Suggest more intensive algorithms]
+- [If too slow: Suggest optimizations]
+
+### Library and Implementation Details
+- [Required libraries and their availability]
+- [Implementation complexity concerns]
+- [Alternative implementation approaches]
+
+## Summary
+**If PROCEED**:
+Model design is mathematically sound and implementable. Ready to proceed.
+
+**If NEEDS REVISION**:
+Model design has implementation issues. Suggested revisions:
+1. [Revision 1]
+2. [Revision 2]
+```
+
+**Report to Director**:
+```
+Director, I have completed my implementation review of Model X draft.
+
+Feedback: output/consultations/feedback_model_X_code_translator.md
+Verdict: [PROCEED / NEEDS REVISION / NOT IMPLEMENTABLE]
+
+Summary: [2-3 sentence assessment]
+```
+
+---
+
 ## 📋 Code Quality Standards
 
 ### Mandatory Requirements

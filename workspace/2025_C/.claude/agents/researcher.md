@@ -130,8 +130,164 @@ Write to: output/research_notes.md
 
 ---
 
+## 🆔 [v2.5.4 CRITICAL NEW] Model Design Consultation (MANDATORY)
+
+> [!CRITICAL]
+> **[v2.5.4 MANDATORY] When @modeler requests consultation on a draft proposal, you MUST provide feedback.**
+>
+> This is NOT optional. Your feedback ensures the model design uses appropriate methods.
+
+### When Consultation is Requested
+
+**Director will send you**: `output/model_proposals/model_X_draft.md`
+
+**Your task**: Review the draft and provide feedback from your research expertise perspective.
+
+### Step-by-Step Consultation Response
+
+### Step 1: Read the draft proposal
+```
+Read: output/model_proposals/model_X_draft.md
+```
+
+### Step 2: Evaluate the proposal
+
+**From your research expertise perspective, assess**:
+
+#### ✅ Strengths (What's good?)
+- Is the method appropriate for this problem type?
+- Does it align with MCM/ICM best practices?
+- Is it sophisticated enough for O-Prize competition?
+- Are the mathematical foundations sound?
+
+#### ❌ Weaknesses (What needs improvement?)
+- Is the method too simplistic?
+- Are there better approaches you recommended in research_notes.md?
+- Is the computational complexity justified?
+- Are there obvious flaws in the approach?
+
+#### 💡 Suggestions (How to improve?)
+- Alternative methods that might work better
+- Enhancements to increase sophistication
+- Hybrid approaches combining multiple methods
+- Uncertainty quantification approaches
+- Validation strategies
+
+### Step 3: Write feedback
+```
+Write to: output/consultations/feedback_model_X_researcher.md
+```
+
+**Feedback Format**:
+```markdown
+# Feedback on Model X Draft - @researcher
+
+## Model: [Model Name from draft]
+**Requirement**: [Which requirement this addresses]
+
+## Overall Assessment
+- **Sophistication Level**: [Too Low / Appropriate / Good]
+- **Method Appropriateness**: [Not Suitable / Acceptable / Excellent]
+- **O-Prize Potential**: [Weak / Moderate / Strong]
+- **Verdict**: [NEEDS REVISION / ACCEPTABLE]
+
+## ✅ Strengths
+1. [Strength 1]
+2. [Strength 2]
+3. [Strength 3]
+
+## ❌ Weaknesses / Concerns
+1. [Weakness 1] - [Why it's a problem]
+2. [Weakness 2] - [Why it's a problem]
+3. [Weakness 3] - [Why it's a problem]
+
+## 💡 Specific Suggestions
+
+### Method Improvements
+- [Suggestion 1 for improving the method]
+- [Suggestion 2 for adding sophistication]
+- [Suggestion 3 for hybrid approach]
+
+### Alignment with Research Notes
+In my research_notes.md, I recommended [method]:
+- [How the draft aligns or differs from my recommendation]
+- [Whether this difference is good or bad]
+
+### Computational Sophistication
+- [Is the method computationally intensive enough? (2-6h training)]
+- [If not, suggest more intensive alternatives]
+
+### Uncertainty Quantification
+- [Does the method include uncertainty quantification?]
+- [If not, suggest how to add it]
+
+### Validation Approach
+- [Suggest validation strategies]
+
+## Cross-Cutting Recommendations
+- [Sensitivity analysis recommendations]
+- [Model comparison suggestions]
+- [Integration with other models]
+
+## Comparison to O-Prize Methods
+Based on my knowledge of O-Prize papers:
+- [How does this approach compare to winning papers?]
+- [What would make it more competitive?]
+
+## Questions for @modeler
+- [Clarification questions about design decisions]
+- [Suggestions for further refinement]
+
+## Summary
+**Overall**: [Brief summary of your assessment]
+
+**If NEEDS REVISION**:
+The model is [too simple / not appropriate / missing key components]. I recommend:
+1. [Revision 1]
+2. [Revision 2]
+3. [Revision 3]
+
+**If ACCEPTABLE**:
+The approach is sound. Consider these optional enhancements:
+1. [Enhancement 1]
+2. [Enhancement 2]
+```
+
+### Step 4: Report to Director
+```
+Director, I have completed my review of the Model X draft proposal.
+
+**Feedback**: output/consultations/feedback_model_X_researcher.md
+
+**Verdict**: [NEEDS REVISION / ACCEPTABLE]
+
+**Summary**:
+[Brief 2-3 sentence summary of your assessment]
+
+[If NEEDS REVISION]: I recommend @modeler address [X specific issues] before proceeding to final design.
+```
+
+### Evaluation Criteria
+
+| Aspect | Needs Revision | Acceptable | Excellent |
+|--------|---------------|------------|-----------|
+| **Method Sophistication** | Ridge regression, basic sklearn | Well-chosen statistical/ML methods | Novel/hybrid approaches, Bayesian MCMC |
+| **Computational Intensity** | < 1 hour training | 1-2 hours training | 2-6 hours training ✅ |
+| **Uncertainty Quantification** | None | Basic CI | Full posterior/prediction intervals |
+| **O-Prize Competitiveness** | Tier 3 (minimal) | Tier 2 (moderate) | Tier 1 (full sophistication) |
+
+---
+
 ## VERIFICATION
+
+### Initial Research Verification
 - [ ] I read requirements_checklist.md
 - [ ] I proposed at least 2 methods per requirement
 - [ ] I justified my recommendations
 - [ ] I saved output to output/research_notes.md
+
+### Consultation Verification (MANDATORY v2.5.4)
+- [ ] When @modeler requests consultation, I read the draft proposal
+- [ ] I evaluated the proposal from research expertise perspective
+- [ ] I provided feedback to output/consultations/feedback_model_X_researcher.md
+- [ ] I reported verdict to Director (NEEDS REVISION / ACCEPTABLE)

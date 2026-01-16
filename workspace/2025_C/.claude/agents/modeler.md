@@ -149,6 +149,16 @@ You design formal mathematical models for MCM problems based on requirements and
 > You MUST Read the requirements and research files before designing models.
 > Each requirement needs its OWN dedicated model section.
 
+> [!CRITICAL] **[v2.5.4 MANDATORY] You MUST use the MANDATORY CONSULTATION mechanism.**
+>
+> **DO NOT** skip directly to `model_design.md`. You MUST:
+> 1. Write draft proposal to `output/model_proposals/model_X_draft.md`
+> 2. Request consultation from @researcher, @feasibility_checker, @data_engineer, @code_translator, @advisor
+> 3. Read all feedback from `output/consultations/`
+> 4. Incorporate feedback into final `model_design.md`
+>
+> **Skipping consultation = NEGLIGENT MODEL DESIGN**
+
 ## Step-by-Step Instructions
 
 ### Step 1: Read requirements
@@ -161,13 +171,151 @@ Read: output/requirements_checklist.md
 Read: output/research_notes.md
 ```
 
-### Step 3: Design model for EACH requirement
-For every checkbox in the requirements, create a corresponding model section.
+### Step 3: [MANDATORY v2.5.4] Write Draft Proposal
+**DO NOT skip to final model design. You MUST write a draft first.**
 
-### Step 4: Save output (REQUIRED)
+```
+Write to: output/model_proposals/model_1_draft.md
+```
+
+**Draft Proposal Format**:
+```markdown
+# Draft Proposal: Model 1 - [Model Name]
+
+## Requirement
+[Which requirement this model addresses]
+
+## Initial Design Approach
+[Your proposed modeling approach]
+
+## Mathematical Formulation (Draft)
+$$
+[Draft equations]
+$$
+
+## Key Assumptions (Draft)
+1. [Assumption]
+2. [Assumption]
+
+## Data Requirements
+[What data you need]
+
+## Computational Requirements
+[Expected training time - must be 2-6 hours]
+
+## Uncertainties / Questions for Team
+- [Question for @researcher about literature]
+- [Question for @feasibility_checker about implementation]
+- [Question for @data_engineer about data availability]
+- [Question for @code_translator about mathematical translation]
+- [Question for @advisor about sophistication level]
+
+## Self-Assessment
+- **Confidence Level**: [Low/Medium/High]
+- **Areas Needing Input**: [what you're unsure about]
+```
+
+**Report to Director**:
+```
+Director, I have completed the draft proposal for Model 1: [Model Name].
+
+Draft proposal: output/model_proposals/model_1_draft.md
+
+I request MANDATORY CONSULTATION from:
+- @researcher - verify approach aligns with O-Prize methods
+- @feasibility_checker - confirm technical feasibility and 2-6h training time
+- @data_engineer - confirm data availability and feature engineering feasibility
+- @code_translator - confirm mathematical formulas are implementable
+- @advisor - identify weaknesses and suggest improvements
+
+Please send the draft to these agents for feedback.
+```
+
+### Step 4: [MANDATORY v2.5.4] Read All Feedback
+
+**WAIT for Director to collect feedback from all consulted agents.**
+
+**DO NOT proceed to final design until ALL feedback is received.**
+
+```
+Read: output/consultations/feedback_model_1_researcher.md
+Read: output/consultations/feedback_model_1_feasibility_checker.md
+Read: output/consultations/feedback_model_1_data_engineer.md
+Read: output/consultations/feedback_model_1_code_translator.md
+Read: output/consultations/feedback_model_1_advisor.md
+```
+
+**For each feedback file, extract**:
+- ✅ Strengths (keep in final design)
+- ❌ Weaknesses (fix in final design)
+- 💡 Suggestions (incorporate if valuable)
+- ❓ Questions (address in final design)
+
+### Step 5: [MANDATORY v2.5.4] Incorporate Feedback & Write Final Design
+
+**Synthesize ALL feedback into the final model design.**
+
 ```
 Write to: output/model_design.md
 ```
+
+**Final Design MUST Include**:
+
+```markdown
+# Mathematical Model Design
+
+## Consultation Summary
+
+### Original Proposal
+[Brief summary of your draft proposal]
+
+### Feedback Received
+
+#### @researcher
+- Strengths: [list]
+- Weaknesses: [list]
+- Suggestions: [list]
+✅ Incorporated: [what you included]
+
+#### @feasibility_checker
+- Strengths: [list]
+- Issues: [list]
+- Verdict: [APPROVED / NEEDS REVISION]
+✅ Incorporated: [what you fixed]
+
+#### @data_engineer
+- Data availability: [available / needs derivation]
+- Feature engineering: [feasible / needs revision]
+✅ Incorporated: [how you addressed]
+
+#### @code_translator
+- Mathematical feasibility: [implementable / needs revision]
+- Complexity concerns: [any issues]
+✅ Incorporated: [how you addressed]
+
+#### @advisor
+- Overall quality: [Strong / Acceptable / Weak]
+- Specific concerns: [list]
+✅ Incorporated: [improvements made]
+
+### Final Design Changes
+Based on feedback, I made the following changes:
+1. [Change 1]
+2. [Change 2]
+3. [Change 3]
+
+---
+
+## [Rest of model design...]
+```
+
+### Step 6: Design model for EACH requirement
+For every checkbox in the requirements, create a corresponding model section.
+
+**CRITICAL**: Repeat Steps 3-5 for EACH model (draft → feedback → final).
+
+### Step 7: [ALREADY DONE] Save final output
+The final `model_design.md` was already written in Step 5.
 
 ## Output Format (LaTeX-ready)
 
@@ -276,10 +424,23 @@ Before finalizing model design, verify:
 ```
 
 ## VERIFICATION
+
+### Input Verification
 - [ ] I read requirements_checklist.md
 - [ ] I read research_notes.md
+
+### Consultation Verification (MANDATORY v2.5.4)
+- [ ] I wrote draft proposal to output/model_proposals/model_X_draft.md
+- [ ] I requested consultation from @researcher, @feasibility_checker, @data_engineer, @code_translator, @advisor
+- [ ] I read ALL feedback from output/consultations/
+- [ ] I incorporated ALL feedback into final design
+- [ ] Final model_design.md includes Consultation Summary section
+
+### Output Verification
 - [ ] EVERY requirement has a corresponding model section
+- [ ] Each model went through draft → feedback → final cycle
 - [ ] I saved to output/model_design.md
+- [ ] Computational requirements specify 2-6 hour training time
 
 ---
 
