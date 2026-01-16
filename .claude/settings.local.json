@@ -27,7 +27,11 @@
       "Bash(wc:*)",
       "Bash(do if ! grep -q \"FILE SYSTEM SAFETY\" \"$f\")",
       "Bash(then echo \"$f\")",
-      "Bash(fi:*)"
+      "Bash(fi:*)",
+      "Bash(mkdir:*)",
+      "Bash(while read f)",
+      "Bash(do grep:*)",
+      "Bash(echo:*)"
     ],
     "deny": [],
     "ask": []
