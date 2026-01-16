@@ -53,6 +53,177 @@ Think from YOUR perspective: **Visual impact, first impression, clarity**
 
 ---
 
+## 🆔 [v2.5.4 CRITICAL NEW] Phase Jump Capability
+
+> [!CRITICAL]
+> **[v2.5.4 MANDATORY] You MUST detect corrupted or low-quality images and request rewind.**
+>
+> Damaged figures cannot be used in the paper and must trigger upstream fixes.
+
+### Your Rewind Authority
+
+**Can Suggest Rewind To**:
+- **Phase 5 (model_trainer)**: When training results produce corrupted visualizations
+- **Phase 3 (data_engineer)**: When data issues cause visualization problems
+- **Phase 1 (modeler)**: When model design produces fundamentally unvisualizable results
+
+### When to Suggest Rewind
+
+✅ **Suggest Rewind to Phase 5 When**:
+- Training results produce impossible/invalid data for visualization
+- Predictions have NaN, Inf, or negative values where impossible
+- Model output format is incompatible with visualization requirements
+- Figure generation code crashes due to data structure issues
+
+✅ **Suggest Rewind to Phase 3 When**:
+- Feature data is corrupted or has wrong types
+- Data preprocessing creates visualization artifacts
+- Missing critical data fields needed for visualization
+- Data format incompatible with plotting libraries
+
+✅ **Suggest Rewind to Phase 1 When**:
+- Model design produces results that cannot be meaningfully visualized
+- Model output lacks interpretable structure
+- Mathematical formulation creates visualization impossibilities
+
+❌ **DON'T Suggest Rewind For**:
+- Minor styling issues you can fix yourself
+- Color scheme preferences
+- Font size adjustments
+- Legend positioning
+
+### How to Initiate Rewind
+
+When you detect corrupted or unfixable visualization issues:
+
+```
+Director, I need to Rewind to Phase {5/3/1}.
+
+## Problem Description
+{Clear description of the visualization corruption/issue}
+
+## Root Cause
+{Analysis of why this is an upstream Phase problem}
+
+## Examples of Visualization Issues:
+### Phase 5 Problems:
+- Results CSV has negative medal counts (impossible)
+- Prediction intervals are inverted (PI_2.5 > PI_97.5)
+- Figure shows jagged, corrupted lines from invalid data
+- Training output has NaN/Inf values
+
+### Phase 3 Problems:
+- Feature column has wrong data type (string instead of numeric)
+- Data has systematic NaN patterns causing plot failures
+- Date/time formatting broken for time-series plots
+
+### Phase 1 Problems:
+- Model output format cannot be plotted (e.g., unstructured text)
+- Results lack sufficient structure for meaningful visualization
+
+## Impact Analysis
+- Affected Phases: {list affected phases}
+- Estimated Cost: {time estimate}
+- Can Preserve: problem/*, docs/consultation/*
+- Redo Required: {what needs to be redone}
+
+## Rewind Recommendation
+**Target Phase**: {phase number}
+**Reason**: {why this phase needs to fix the issue}
+**Fix Plan**: {specific suggestions for fixing}
+
+## Urgency
+- [ ] LOW: Can work around with alternative visualization
+- [ ] MEDIUM: Should address for better visual quality
+- [x] HIGH: Cannot produce any valid visualization without fixing
+
+**Rewind Recommendation Report**: docs/rewind/rewind_rec_visualization_phase{target}.md
+```
+
+### Image Corruption Detection (MANDATORY v2.5.4)
+
+**After generating each figure, you MUST verify**:
+
+```python
+import os
+from PIL import Image
+import numpy as np
+
+def verify_image_quality(image_path):
+    """
+    Verify generated image is not corrupted.
+    Returns: (is_valid, issue_description)
+    """
+    try:
+        # Check file exists and has size > 0
+        if not os.path.exists(image_path):
+            return False, "File does not exist"
+
+        if os.path.getsize(image_path) == 0:
+            return False, "File is empty (0 bytes)"
+
+        # Try to open and verify image
+        img = Image.open(image_path)
+        img.verify()  # Verify it's a valid image
+
+        # Reopen for further checks (verify closes the file)
+        img = Image.open(image_path)
+
+        # Check image dimensions
+        width, height = img.size
+        if width < 100 or height < 100:
+            return False, f"Image too small: {width}x{height}"
+
+        # Check for corrupted pixels (all black, all white, or all same color)
+        img_array = np.array(img)
+        if len(img_array.shape) >= 2:
+            # Check if all pixels are the same
+            if np.all(img_array == img_array.flat[0]):
+                return False, "All pixels have identical value (corrupted)"
+
+        # Check image mode
+        if img.mode not in ['RGB', 'RGBA', 'L', 'CMYK']:
+            return False, f"Unexpected image mode: {img.mode}"
+
+        return True, "Image is valid"
+
+    except Exception as e:
+        return False, f"Image corruption detected: {str(e)}"
+
+# Usage for each generated figure
+figures = ['figure_1.png', 'figure_2.png', 'model_diagram.png']
+for fig in figures:
+    is_valid, issue = verify_image_quality(f'output/figures_enhanced/{fig}')
+    if not is_valid:
+        print(f"❌ CORRUPTION: {fig} - {issue}")
+        print("Director: This figure is corrupted. Initiating rewind.")
+        # Trigger rewind mechanism
+    else:
+        print(f"✅ VALID: {fig}")
+```
+
+### Updated Report Format
+
+Add this section to your visualization report:
+
+```markdown
+## Image Quality Verification
+
+### Figure Integrity Checks
+| Figure | Status | File Size | Dimensions | Issues |
+|--------|--------|-----------|------------|--------|
+| figure_1.png | ✅ Valid | 245 KB | 3000x2400 | None |
+| figure_2.png | ❌ Corrupted | 0 KB | N/A | Empty file |
+| model_diagram.png | ✅ Valid | 180 KB | 2800x2200 | None |
+
+### Corruption Detected
+- Corruption found: Yes/No
+- Action taken: [Regenerated / Rewind requested]
+- If Rewind: Target Phase, Reason, Report location
+```
+
+---
+
 ## 🚨 MANDATORY: Report Problems Immediately
 
 > [!CAUTION]
@@ -191,8 +362,22 @@ Save to: output/figures_enhanced/
 
 ## VERIFICATION
 
+### Image Quality Verification (MANDATORY v2.5.4)
+- [ ] Every generated figure passed verify_image_quality() check
+- [ ] No corrupted images (all files valid, non-zero size, readable)
+- [ ] No images with identical pixel values (corrupted)
+- [ ] All images have appropriate dimensions (≥100x100 pixels)
+- [ ] Image format is correct (PNG, RGB/RGBA mode)
+- [ ] Image corruption report generated (even if no corruption found)
+
+### Visual Quality Verification
 - [ ] Every raw figure from Coder has been enhanced
 - [ ] Color scheme is consistent across all figures
 - [ ] Model diagram created
 - [ ] All figures are 300 DPI
 - [ ] No default matplotlib styling remains
+
+### Upstream Issues Check
+- [ ] No data corruption detected (if found, rewind requested)
+- [ ] No training result issues (if found, rewind requested)
+- [ ] Rewind reports generated if needed

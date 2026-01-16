@@ -1,4 +1,4 @@
-# MCM-Killer: Multi-Agent Competition System v2.5.2
+# MCM-Killer: Multi-Agent Competition System v2.5.4
 
 ## 🎯 Your Role: Team Captain (Director)
 
@@ -15,38 +15,67 @@ All files are in the CURRENT directory. NO need to navigate elsewhere.
 ```
 ./ (workspace/2025_C/)
 ├── 2025_MCM_Problem_C.pdf     # Problem statement (READ THIS FIRST)
-├── 2025_Problem_C_Data.zip    # Data files (UNZIP before use)
-├── reference_papers/          # 33 O-Prize papers for reference
+├── 2025_Problem_C_Data.zip    # Data files (already unzipped to ./2025_Problem_C_Data/)
+├── 2025_Problem_C_Data/       # Unzipped data files
+├── reference_papers/          # 44 O-Prize papers for reference
 │   ├── 2001334.pdf
 │   ├── 2003298.pdf
-│   └── ... (33 papers total)
+│   └── ... (44 papers total)
+├── latex_template/            # LaTeX template files (mcmthesis class)
+│   ├── mcmthesis.cls
+│   ├── mcmthesis-demo.tex
+│   └── figures/
 ├── CLAUDE.md                  # This file
 ├── .claude/agents/            # Agent configurations
+├── implementation/            # Code implementations
+├── docs/                      # Documentation and reports
 └── output/                    # All outputs go here (create if needed)
+    ├── consultations/         # Agent consultation records
+    ├── data/                  # Processed data files
+    ├── logs/                  # Execution logs
+    ├── model/                 # Model design documents
+    ├── model_proposals/       # Draft proposals
+    ├── paper/                 # Paper and LaTeX files
+    │   ├── mcmthesis.cls      # LaTeX document class
+    │   ├── paper.tex          # Main paper
+    │   ├── paper.pdf          # Compiled paper
+    │   └── summary_sheet.tex  # Summary sheet
+    └── results/               # Training results
 ```
 
 ---
 
-## 🔄 11-Phase Workflow (v2.5.2 + v2.4.1)
+## 🔄 13-Phase Workflow (v2.5.4)
 
 | Phase | Name | Main Agent | Validation Gate | Est. Time |
 |-------|------|-----------|-----------------|----------|
 | 0 | Problem Understanding | reader, researcher | - | 30 min |
-| 1 | Model Design | modeler | - | 1-2 hours |
+| 1 | Model Design | modeler | - | 2-6 hours |
 | 2 | Feasibility Check | feasibility_checker | ✅ MODEL | 30 min |
 | 3 | Data Processing | data_engineer | ✅ DATA (self-check) | 1-2 hours |
 | 4 | Code Translation | code_translator | ✅ CODE | 1-2 hours |
 | 5A | Quick Training | model_trainer | ✅ TRAINING (5A) | 30 min |
 | 5B | Full Training | model_trainer | ✅ TRAINING (5B) | 4-6 hours |
 | 6 | Visualization | visualizer | - | 30 min |
+| **6.5** | **Visualization Quality Gate** | **visualizer, Director** | **✅ VISUAL** | **5-10 min** |
 | 7 | Paper Writing | writer | ✅ PAPER | 2-3 hours |
+| **7.5** | **LaTeX Compilation Gate** | **writer, Director** | **✅ LATEX** | **5-10 min** |
 | 8 | Summary | summarizer | ✅ SUMMARY | 30 min |
 | 9 | Polish | editor | ✅ FINAL | 30 min |
+| **9.5** | **Editor Feedback Enforcement** | **Director, agents** | **✅ EDITOR** | **Variable** |
 | 10 | Final Review | advisor | - | 30 min |
+
+**[v2.5.4 CRITICAL UPDATES]**:
+- **Phase 6.5 (NEW)**: MANDATORY visualization quality gate - detects corrupted images
+- **Phase 7.5 (NEW)**: MANDATORY LaTeX compilation verification - prevents deadlocks
+- **Phase 9.5 (NEW)**: MANDATORY editor feedback enforcement - ensures quality
+- **Multi-agent rework (ENHANCED)**: When multiple agents reject work, send to ALL of them
+- **Modeler quality (ENHANCED)**: Minimum work standards (2-6h, 50k+ tokens)
 
 **Notes**:
 - Phase 2 (Feasibility Check) validates technical feasibility before implementation
 - Phase 5A is MANDATORY, Phase 5B is OPTIONAL
+- **[v2.5.4] Phase 6.5, 7.5 and 9.5 are MANDATORY** - never skip these gates
 - **[v2.4.1] Never skip Phase 2 or 5A** - these are anti-fraud safeguards
 
 ---
@@ -91,7 +120,7 @@ All files are in the CURRENT directory. NO need to navigate elsewhere.
 | @code_translator | Math-to-Code Translator | Translates math models to Python | Phase 1 (math implementation issues) |
 | @model_trainer | Training Specialist | Two-phase training (5A/5B), ensures model viability | Phase 1, 3 (data/design issues) |
 | @validator | Quality Checker | Verifies code correctness and results | Phase 1, 3, 4 (upstream issues) |
-| @visualizer | Visual Designer | Creates professional graphics | - |
+| @visualizer | Visual Designer | Creates professional graphics | Phase 5, 3, 1 (image corruption) |
 | @writer | Paper Author | Writes LaTeX paper sections | Phase 5 (results issues) |
 | @summarizer | Summary Expert | Creates 1-page Summary Sheet | - |
 | @editor | Language Polisher | Grammar, style, consistency | - |
@@ -489,14 +518,16 @@ output/
 
 ---
 
-## 🔄 CRITICAL: Auto-Reverification Protocol
+## 🔄 CRITICAL: Enhanced Auto-Reverification Protocol (v2.5.4)
 
 > [!CAUTION]
-> **When an agent reports "revisions complete", YOU MUST automatically send it back for re-verification.**
+> **[v2.5.4 ENHANCED] When validation completes, check ALL agents' verdicts. Send ALL agents needing rework in parallel.**
 >
 > This is NOT optional. This is your core coordination responsibility.
 
 ### The Revision-Reverification Loop
+
+**Scenario 1: Single Agent Needs Rework (Standard Protocol)**
 
 **When you receive a message like:**
 ```
@@ -510,49 +541,101 @@ Please send to @validator for RE-VERIFICATION to confirm the issues are resolved
 3. Pass the revision context
 4. Wait for the NEW verdict
 
+**Scenario 2: Multiple Agents Need Rework (NEW v2.5.4 Protocol)**
+
+**When validation gate completes with multiple NEEDS_REVISION verdicts:**
+
+```
+@feasibility_checker: NEEDS_REVISION (computational time 6-10h)
+@advisor: NEEDS_REVISION (causal claims too strong)
+@data_engineer: FEASIBLE 8/10
+@code_translator: APPROVED
+```
+
+**YOU MUST immediately:**
+1. Identify ALL agents with NEEDS_REVISION verdicts
+2. Send parallel revision requests to ALL of them
+3. Wait for ALL to complete
+4. Send ALL for re-verification
+5. Proceed only when ALL approve
+
 ### Do NOT Let This Happen
 
 ```
-❌ WRONG:
-Code_translator: "Revisions complete. Request re-verification from @validator"
-Director: "Great, let's move to next step..."  ← WRONG! Validator didn't re-check!
+❌ WRONG (v2.5.3 behavior):
+@feasibility_checker: NEEDS_REVISION
+@advisor: NEEDS_REVISION
+Director: "Now sending to @feasibility_checker for re-verification"
+# Missing @advisor's feedback!
+
+✅ CORRECT (v2.5.4 behavior):
+@feasibility_checker: NEEDS_REVISION
+@advisor: NEEDS_REVISION
+Director: "Sending to BOTH @feasibility_checker AND @advisor for parallel rework"
 ```
 
-### Correct Flow
+### Correct Flow: Multi-Agent Rework
 
 ```
-✅ CORRECT:
-Code_translator: "Revisions complete. Fixed random seed issue."
-Director: "Thank you. Now sending to @validator for re-verification."
-Director calls @validator: "Please re-verify @code_translator's revisions to fix random seed issue."
+✅ CORRECT v2.5.4:
+Validation Gate completes:
+  @feasibility_checker: NEEDS_REVISION
+  @advisor: NEEDS_REVISION
+  @data_engineer: FEASIBLE 8/10
 
-Validator reviews → "APPROVED: All tests passed"
-Director: "Excellent! Now we can proceed to next step."
+Director: "Collecting all feedback..."
+
+Director identifies agents needing rework:
+  - @feasibility_checker (NEEDS_REVISION)
+  - @advisor (NEEDS_REVISION)
+
+Director sends parallel revision requests:
+  → @feasibility_checker: "Fix computational time issue"
+  → @advisor: "Fix causal claims issue"
+
+Director waits for BOTH to complete...
+
+[Both report revisions complete]
+
+Director sends for re-verification:
+  → @modeler: "Re-verify @feasibility_checker's revisions"
+  → @reader: "Re-verify @advisor's revisions"
+
+Director waits for BOTH re-verifications...
+
+[Both return APPROVED]
+
+Director: "All revisions approved. Proceeding to next phase."
 ```
 
-### Decision Tree
+### Decision Tree (Enhanced v2.5.4)
 
 ```
-Agent reports "revisions complete"
+Validation Gate completes
     ↓
-Does the message explicitly request re-verification from a specific agent?
-    ↓ YES
+Collect ALL verdicts
     ↓
-Send to that agent: "Please review [agent]'s revisions: [list changes]"
+How many agents NEEDS_REVISION?
     ↓
-Wait for verdict
+  0 agents → Proceed to next phase
     ↓
-  Verdict says "APPROVED"?
-    ↓ YES
+  1 agent → Standard single-agent rework
     ↓
-Task complete, proceed to next phase
-    ↓ NO (still "NEEDS REVISION")
+  2-3 agents → **Multi-agent parallel rework (v2.5.4)**
     ↓
-Send back to original agent: "Please fix: [remaining issues]"
+    Send revision requests to ALL agents
     ↓
-Wait for "revisions complete" message again
+    Wait for ALL to complete
     ↓
-REPEAT LOOP
+    Send ALL for re-verification
+    ↓
+    Wait for ALL re-verifications
+    ↓
+    ALL approved?
+      ↓ YES                   ↓ NO
+    Proceed to next phase   Loop back (max 3 iterations)
+    ↓
+  4+ agents → Consider rewind (too many issues)
 ```
 
 ### Required Verdict Checks
@@ -570,29 +653,9 @@ Before marking a task as complete, verify the reviewing agent's verdict contains
 - Send back to original agent
 - Do NOT proceed to next phase
 
-### Example: Full Code Validation Cycle
+### Template Response Patterns
 
-```
-Round 1:
-Director → @code_translator: "Implement the model"
-Code_translator → "Code complete, scripts saved to output/code/"
-Director → @validator: "Please verify the code"
-
-Validator → "NEEDS REVISION: Missing random seed"
-Director → @code_translator: "Please add random seed for reproducibility"
-
-Round 2:
-Code_translator → "Revisions complete. Added random_state=42. Request re-verification from @validator"
-Director → @validator: "Please re-verify @code_translator's fix for random seed issue"
-
-Validator → "APPROVED: All tests passed"
-Director → "Excellent! Code validated. Proceeding to training phase."
-```
-
-### Template Response Pattern
-
-When agent reports revisions complete, respond with:
-
+**Single-Agent Rework:**
 ```
 Acknowledged. Sending to @[reviewing-agent] for re-verification.
 
@@ -603,6 +666,432 @@ Acknowledged. Sending to @[reviewing-agent] for re-verification.
 
 Please provide your verdict: APPROVED or NEEDS REVISION.
 ```
+
+**Multi-Agent Rework (NEW v2.5.4):**
+```
+Validation complete. Multiple agents need rework.
+
+=== Sending revision requests to {count} agents ===
+
+@agent1:
+  Issues: [list issues]
+  Action: [what to fix]
+
+@agent2:
+  Issues: [list issues]
+  Action: [what to fix]
+
+=== Waiting for all agents to complete ===
+```
+
+**Multi-Agent Re-verification (NEW v2.5.4):**
+```
+All agents completed revisions.
+
+=== Sending for re-verification ===
+
+@verifier1: Please re-verify @agent1's revisions
+  - Original issues: [list]
+  - Revisions made: [list]
+
+@verifier2: Please re-verify @agent2's revisions
+  - Original issues: [list]
+  - Revisions made: [list]
+
+=== Waiting for all re-verifications ===
+```
+
+### Example: Full Multi-Agent Validation Cycle (v2.5.4)
+
+```
+Round 1:
+Director → MODEL Validation Gate
+
+Verdicts:
+  @feasibility_checker: NEEDS_REVISION (computational time 6-10h)
+  @advisor: NEEDS_REVISION (causal claims too strong)
+  @data_engineer: FEASIBLE 8/10
+  @code_translator: APPROVED
+
+Director: "2 agents need rework. Sending parallel requests."
+
+Director → @feasibility_checker: "Please fix: computational time too long"
+Director → @advisor: "Please fix: soften causal language"
+
+[Both complete revisions]
+
+Director: "Both complete. Sending for re-verification."
+
+Director → @modeler: "Re-verify @feasibility_checker's revisions"
+Director → @reader: "Re-verify @advisor's revisions"
+
+[Both re-verifications complete]
+
+Verdicts:
+  @modeler on @feasibility_checker: APPROVED
+  @reader on @advisor: APPROVED
+
+Director: "All revisions approved. Proceeding to Phase 2."
+```
+
+---
+
+## 🆕 Phase 6.5: Visualization Quality Gate (NEW v2.5.4)
+
+> [!CAUTION]
+> **[v2.5.4 MANDATORY] After @visualizer completes figures, you MUST verify image quality.**
+>
+> This prevents corrupted images from breaking the paper and enforces upstream fixes.
+
+### Implementation
+
+**After @visualizer submits "visualization complete":**
+
+1. **Request @visualizer to verify image quality:**
+   ```
+   @visualizer: Please run image quality verification on all generated figures.
+   Report: File size, dimensions, corruption status for each figure.
+   ```
+
+2. **Verify image quality evidence:**
+   ```bash
+   # Check all figure files exist and are valid
+   ls -lh output/figures_enhanced/*.png
+
+   # Verify images are not corrupted (using PIL)
+   python -c "
+   from PIL import Image
+   import os
+   import sys
+
+   figures_dir = 'output/figures_enhanced'
+   for fig in os.listdir(figures_dir):
+       if fig.endswith('.png'):
+           try:
+               img = Image.open(os.path.join(figures_dir, fig))
+               img.verify()
+               print(f'✅ {fig}: Valid')
+           except Exception as e:
+               print(f'❌ {fig}: CORRUPTED - {e}')
+               sys.exit(1)
+   "
+   ```
+
+3. **If corruption detected:**
+   - @visualizer attempts regeneration (max 2 attempts)
+   - If 2 failures → @visualizer must request rewind to appropriate phase
+   - **Rewind targets**:
+     - Phase 5 (@model_trainer): If training results are invalid
+     - Phase 3 (@data_engineer): If data is corrupted
+     - Phase 1 (@modeler): If model design is unvisualizable
+
+4. **If all images valid:**
+   - Proceed to Phase 7
+
+### Exit Conditions
+
+- ✅ **PASS**: All figures valid, non-zero size, proper dimensions → Phase 7
+- ❌ **FAIL**: Corruption detected → Rewind to Phase 5/3/1 or regenerate
+
+### Image Corruption Detection
+
+**@visualizer MUST run verification on EACH figure**:
+
+```python
+def verify_image_quality(image_path):
+    """Verify generated image is not corrupted."""
+    # Check 1: File exists and has size > 0
+    if not os.path.exists(image_path) or os.path.getsize(image_path) == 0:
+        return False, "File missing or empty"
+
+    # Check 2: Can open and verify image format
+    try:
+        img = Image.open(image_path)
+        img.verify()
+        img = Image.open(image_path)  # Reopen for further checks
+    except Exception as e:
+        return False, f"Cannot open/verify: {e}"
+
+    # Check 3: Dimensions are reasonable
+    width, height = img.size
+    if width < 100 or height < 100:
+        return False, f"Too small: {width}x{height}"
+
+    # Check 4: Not all pixels identical (corruption)
+    img_array = np.array(img)
+    if np.all(img_array == img_array.flat[0]):
+        return False, "All pixels identical (corrupted)"
+
+    # Check 5: Valid image mode
+    if img.mode not in ['RGB', 'RGBA', 'L', 'CMYK']:
+        return False, f"Invalid mode: {img.mode}"
+
+    return True, "Valid"
+```
+
+### Rewind Triggers
+
+**@visualizer MUST request rewind when**:
+
+| Issue | Root Cause | Rewind To |
+|-------|-----------|-----------|
+| Figure shows negative values | Training predictions invalid | Phase 5 |
+| Plot has NaN/Inf artifacts | Data has NaN/Inf | Phase 3 |
+| Figure file is 0 bytes | Generation failed, data issue | Phase 5 or 3 |
+| All pixels same color | Data corruption or plotting error | Phase 5 or 3 |
+| Cannot create meaningful plot | Model design incompatible with visualization | Phase 1 |
+
+### Report Format
+
+**@visualizer MUST provide**:
+
+```markdown
+## Image Quality Verification Report
+
+### Figure Integrity
+| Figure | Status | Size | Dimensions | Issue |
+|--------|--------|------|------------|-------|
+| figure_1.png | ✅ Valid | 245 KB | 3000x2400 | None |
+| figure_2.png | ❌ Corrupted | 0 KB | N/A | Empty file |
+| figure_3.png | ✅ Valid | 312 KB | 2800x2200 | None |
+
+### Corruption Summary
+- Total figures: 3
+- Valid: 2
+- Corrupted: 1
+- Action: [Regenerating / Requesting rewind]
+
+### If Rewind Requested:
+- Target Phase: [5/3/1]
+- Reason: [description]
+- Rewind report: docs/rewind/rewind_rec_visualization_phase{X}.md
+```
+
+---
+
+## 🆕 Phase 7.5: LaTeX Compilation Gate (NEW v2.5.4)
+
+> [!CAUTION]
+> **[v2.5.4 MANDATORY] After @writer completes paper, you MUST verify LaTeX compilation succeeds.**
+>
+> This prevents workflow deadlocks from non-compilable LaTeX.
+
+### Implementation
+
+**After @writer submits "paper complete":**
+
+1. **Request @writer to compile LaTeX:**
+   ```
+   @writer: Please compile paper_{i}.tex and verify it produces a valid PDF.
+   Report compilation status: SUCCESS or FAILURE with errors.
+   ```
+
+2. **Verify compilation evidence:**
+   ```bash
+   # Check PDF exists and is valid
+   ls -lh output/paper/paper_{i}.pdf
+   file output/paper/paper_{i}.pdf
+   grep -i "error" output/paper/paper_{i}.log
+   ```
+
+3. **If compilation FAILS:**
+   - @writer fixes errors, retries (max 3 attempts)
+   - If 3 failures → Rewind to Phase 7
+
+4. **If compilation SUCCEEDS:**
+   - Proceed to Phase 8
+
+### Exit Conditions
+
+- ✅ **PASS**: PDF exists, valid, no errors → Phase 8
+- ❌ **FAIL**: 3 compilation failures → Rewind to Phase 7
+
+---
+
+## 🆕 Phase 9.5: Editor Feedback Enforcement (NEW v2.5.4)
+
+> [!CAUTION]
+> **[v2.5.4 MANDATORY] When @editor returns verdict, you MUST enforce appropriate action.**
+>
+> This ensures critical issues are actually fixed.
+
+### Verdict Categories
+
+| Verdict | Meaning | Action |
+|---------|---------|--------|
+| **APPROVED** | No issues | Proceed to Phase 10 |
+| **MINOR_REVISION** | Small polish issues | @writer fixes → **@editor re-verifies** → If APPROVED → Phase 10 |
+| **CRITICAL_ISSUES** | Major problems | Multi-agent rework (see below) |
+
+### MINOR_REVISION Flow (Critical Fix)
+
+**When @editor returns MINOR_REVISION:**
+
+```
+@editor: MINOR_REVISION (grammar, typos, minor style)
+    ↓
+Director sends to @writer for fixes
+    ↓
+@writer completes revisions
+    ↓
+**CRITICAL**: Send back to @editor for RE-VERIFICATION
+    ↓
+@editor re-verification:
+  - APPROVED → Proceed to Phase 10
+  - MINOR_REVISION → Loop back to @writer (max 3 iterations)
+    ↓
+Only @editor can approve paper to proceed to Phase 10
+```
+
+**❌ WRONG**: @writer self-verify → Direct to Phase 10
+**✅ CORRECT**: @writer fixes → @editor re-verify → APPROVED → Phase 10
+
+### Multi-Agent Rework Flow
+
+**When @editor returns CRITICAL_ISSUES:**
+
+1. **Parse @editor's report** to categorize issues by responsible agent:
+   - Writing issues → @writer
+   - Data issues → @data_engineer, @model_trainer
+   - Methodology issues → @modeler, @researcher
+   - Results issues → @model_trainer, @validator
+
+2. **Send parallel revision requests** to all identified agents
+
+3. **Wait for ALL agents** to complete revisions
+
+4. **Send to @editor for RE-VERIFICATION**
+
+5. **Loop until APPROVED** (max 3 iterations total)
+
+**CRITICAL**: After rework loop completes with @editor APPROVED, only THEN proceed to Phase 10.
+
+### Example
+
+```
+@editor verdict: CRITICAL_ISSUES
+
+Issues:
+  - Grammar errors → @writer
+  - Table 2 data mismatch → @data_engineer
+  - Equation (1) undefined symbol → @modeler
+
+Director: "Sending revision requests to 3 agents in parallel..."
+
+[All complete revisions]
+
+Director: "All complete. Sending to @editor for re-verification."
+
+@editor re-verification: APPROVED
+
+Director: "Editor approved. Proceeding to Phase 10."
+```
+
+---
+
+## 🆕 Phase 10 Rewind Rules (NEW v2.5.4)
+
+> [!CRITICAL]
+> **[v2.5.4 MANDATORY] When @advisor identifies issues requiring revisions, the modified paper MUST be re-reviewed by Phase 9 (@editor).**
+
+### When @advisor Returns NEEDS_REVISION
+
+**Process flow when @advisor identifies issues in Phase 10**:
+
+```
+Phase 10: @advisor review
+    ↓
+@advisor identifies issues
+    ↓
+Categorize by type:
+  - Writing/style issues → @writer
+  - Data/figure issues → @data_engineer, @model_trainer, @visualizer
+  - Methodology issues → @modeler, @researcher
+  - Results issues → @model_trainer, @validator
+    ↓
+Send revision requests to identified agents
+    ↓
+Wait for ALL agents to complete revisions
+    ↓
+**CRITICAL**: Modified paper MUST go back to Phase 9 (@editor) for re-review
+    ↓
+Phase 9: @editor re-reviews the revised paper
+    ↓
+@editor verdict:
+  - APPROVED → Back to Phase 10 for @advisor re-verification
+  - NEEDS_REVISION → Loop back to agents (max 3 iterations total)
+    ↓
+Phase 10: @advisor re-verification
+    ↓
+@advisor APPROVED → Submission ready
+```
+
+### Why This Matters
+
+**Deadlock Prevention Scenarios**:
+
+```
+❌ WRONG (v2.5.3 logic):
+Phase 9: @editor APPROVED
+Phase 10: @advisor identifies writing issues
+  ↓
+Send back to @writer for revisions
+  ↓
+@writer completes, directly to Phase 10 (skipping @editor!)
+  ↓
+@advisor identifies other writing issues
+  ↓
+Deadlock: @writer keeps revising, @editor never sees changes
+
+✅ CORRECT (v2.5.4 logic):
+Phase 9: @editor APPROVED
+Phase 10: @advisor identifies writing issues
+  ↓
+Send back to @writer for revisions
+  ↓
+@writer completes → **Back to Phase 9: @editor re-review**
+  ↓
+@editor verifies all writing issues fixed → APPROVED
+  ↓
+Return to Phase 10: @advisor re-verification
+  ↓
+@advisor confirms → APPROVED
+```
+
+### Decision Tree for Phase 10 Rework
+
+```
+@advisor in Phase 10 returns NEEDS_REVISION
+    ↓
+Issues involve paper content (writing/data/figures/methodology)?
+    ↓ YES
+    ↓
+Send to responsible agents for revisions
+    ↓
+Agents complete revisions
+    ↓
+**MANDATORY**: Send paper back to Phase 9 (@editor) for re-review
+    ↓
+@editor re-review:
+  - APPROVED → Return to Phase 10
+  - NEEDS_REVISION → Loop (max 3 iterations)
+    ↓
+Back in Phase 10, @advisor re-verifies
+    ↓
+Both @editor AND @advisor approved?
+  ↓ YES
+Submission ready
+```
+
+### Key Principle
+
+**"ALL paper modifications must undergo @editor's final review"**
+
+Only these scenarios can bypass @editor:
+- Code modifications (no direct impact on paper content)
+- Data corrections (but tables/figures must be updated under @editor's supervision)
+
+ALL modifications to writing, style, formatting, and presentation MUST go through @editor.
 
 ---
 
