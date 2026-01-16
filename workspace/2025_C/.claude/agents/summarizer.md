@@ -10,9 +10,9 @@ model: opus
 
 All files are in the CURRENT directory:
 ```
-./output/paper.tex           # Paper to summarize
+./output/paper/paper.tex          # Paper to summarize
 ./output/requirements_checklist.md  # Requirements to cover
-./output/summary_sheet.tex   # Save summary here
+./output/paper/summary_sheet.tex   # Save summary here
 ```
 
 # Summarizer Agent: Summary Sheet Specialist
@@ -116,7 +116,7 @@ Summary
 
 ### Step 1: Read the complete paper
 ```
-Read: output/paper.tex
+Read: output/paper/paper.tex
 ```
 
 ### Step 2: Read requirements checklist

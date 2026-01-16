@@ -11,7 +11,7 @@ All files are in the CURRENT directory:
 ```
 ./2025_MCM_Problem_C.pdf     # Problem statement
 ./2025_Problem_C_Data.zip    # Data files
-./reference_papers/          # 33 O-Prize papers
+./reference_papers/          # 44 O-Prize papers
 ./output/                    # Save model_design.md here
 ```
 
@@ -220,6 +220,59 @@ $$
 ## 4. Uncertainty Quantification Plan
 - Method: [Monte Carlo / Bootstrap / etc.]
 - Metrics: [what to measure]
+
+## 5. Computational Requirements (MANDATORY v2.5.4)
+
+### Expected Training Time
+- **Minimum Training Time**: 2-6 hours per model
+- **Expected Computational Cost**: High (computationally intensive methods required)
+- **Forbidden**: Quick methods (< 1 hour), simple linear models, basic sklearn defaults
+
+### Required Method Complexity
+Your model design MUST specify one of these computationally intensive approaches:
+
+#### Option A: Bayesian Hierarchical Models (RECOMMENDED for O-Prize)
+- **Method**: PyMC/NumPyro with MCMC sampling
+- **Expected Training Time**: 3-5 hours
+- **Key Components**:
+  - Hierarchical priors for country-level effects
+  - NUTS/HMC sampling (2000+ samples × 4 chains)
+  - Posterior predictive checks
+  - Model comparison (WAIC/LOO-CV)
+- **Why O-Prize**: Sophisticated statistical inference, uncertainty quantification
+
+#### Option B: Deep Neural Networks
+- **Method**: PyTorch/TensorFlow with deep architectures
+- **Expected Training Time**: 2-4 hours
+- **Key Components**:
+  - Multi-layer perceptrons (256-128-64 hidden units)
+  - 5000+ training epochs
+  - Batch normalization, dropout
+  - Hyperparameter tuning
+- **Why O-Prize**: Modern ML approach, captures complex non-linear patterns
+
+#### Option C: Large-Scale Ensemble Methods
+- **Method**: Bootstrap + extensive hyperparameter search
+- **Expected Training Time**: 2-3 hours
+- **Key Components**:
+  - 1000+ bootstrap samples
+  - Grid/randomized search over hyperparameters
+  - Ensemble of 100+ base models
+  - Out-of-bag validation
+- **Why O-Prize**: Robust predictions, model uncertainty
+
+### FORBIDDEN Methods (Do NOT Use)
+- ❌ Simple Ridge/Lasso regression (trains in seconds)
+- ❌ Basic sklearn defaults without tuning
+- ❌ Single model without uncertainty quantification
+- ❌ Analytical solutions only (no iterative computation)
+
+### Validation of Computational Requirements
+Before finalizing model design, verify:
+- [ ] Method explicitly requires 2-6 hours training time
+- [ ] Computational complexity is justified (not unnecessarily slow)
+- [ ] Method is sophisticated enough for O-Prize competition
+- [ ] Training time scales appropriately with data size
 ```
 
 ## VERIFICATION
@@ -227,3 +280,51 @@ $$
 - [ ] I read research_notes.md
 - [ ] EVERY requirement has a corresponding model section
 - [ ] I saved to output/model_design.md
+
+---
+
+## 🆔 [v2.5.4 CRITICAL NEW] Anti-Simplification Requirements
+
+> [!CRITICAL]
+> **[v2.5.4 MANDATORY] You MUST produce substantial, sophisticated models. Do NOT oversimplify.**
+
+### Minimum Work Standards
+
+**Expected Time**: 2-6 hours for full model design
+**Token Usage**: Minimum 50k, Expected 80-120k
+**Deliverables**: At least 3 mathematical models, fully specified
+
+### Required Components (MANDATORY for Each Model)
+
+1. **Mathematical Formulation** - Complete LaTeX equations, all symbols defined
+2. **Variables Table** - Symbol, description, type, range, data source
+3. **Assumptions List** - 5-10 assumptions with justifications and validation plans
+4. **Solution Method** - Specific algorithm, implementation details, convergence criteria
+5. **Complexity Analysis** - Big-O notation, concrete estimates, scalability
+6. **Validation Approach** - Multiple methods (3-5), success criteria
+
+### Forbidden Simplifications
+
+❌ DO NOT:
+- Provide 1-paragraph model descriptions
+- Skip required components to "work faster"
+- Use vague descriptions ("fit a model")
+
+✅ DO INSTEAD:
+- Write 100-300 lines per model
+- Include all 6 required components
+- Provide complete LaTeX equations
+- Be specific about algorithms
+
+### Quality Indicators
+
+| Indicator | Minimal (Tier 3) | Expected (Tier 1) |
+|-----------|------------------|-------------------|
+| Tokens per model | 5-8k | 20-40k |
+| Lines per model | 50-80 | 100-200 |
+| Equations | 1-2 core | 3-5 with extensions |
+| Variables | 5-10 | 10-20 |
+| Assumptions | 3-5 | 5-10 |
+| Validation methods | 1-2 | 3-5 |
+
+**v2.5.4**: This section added to prevent oversimplification and ensure model quality.

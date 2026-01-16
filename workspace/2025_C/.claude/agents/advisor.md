@@ -9,9 +9,9 @@ model: opus
 
 All files are in the CURRENT directory:
 ```
-./2025_MCM_Problem_C.pdf     # Problem statement
-./reference_papers/          # 33 O-Prize papers (COMPARE AGAINST)
-./output/paper.tex           # Paper to review
+./2025_MCM_Problem_C.pdf          # Problem statement
+./reference_papers/               # 44 O-Prize papers (COMPARE AGAINST)
+./output/paper/paper.tex          # Paper to review
 ./output/requirements_checklist.md  # Requirements to verify
 ```
 
@@ -279,7 +279,7 @@ Read: output/requirements_checklist.md
 
 ### Step 2: Read the Submitted Paper (PDF preferred, or LaTeX)
 ```
-Read: output/paper.pdf (or output/paper.tex)
+Read: output/paper/paper.pdf (or output/paper/paper.tex)
 ```
 
 ### Step 3: Compare Against O-Prize Papers (Use Docling MCP)

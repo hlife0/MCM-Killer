@@ -11,7 +11,7 @@ All files are in the CURRENT directory:
 ```
 ./2025_MCM_Problem_C.pdf     # Problem statement
 ./2025_Problem_C_Data.zip    # Data files (UNZIP THIS!)
-./reference_papers/          # 33 O-Prize papers for reference
+./reference_papers/          # 44 O-Prize papers for reference
 ./output/                    # All outputs go here
 ```
 

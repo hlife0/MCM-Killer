@@ -462,6 +462,273 @@ if hasattr(torch, 'manual_seed'):
 
 ---
 
+## 🆔 [v2.5.4 CRITICAL NEW] Computational Requirements Enforcement (MANDATORY)
+
+> [!CRITICAL]
+> **[v2.5.4 MANDATORY] You MUST implement computationally intensive methods that require 2-6 hours of training.**
+>
+> Do NOT implement lightweight methods like Ridge regression or basic sklearn defaults.
+
+### Pre-Implementation Check
+
+Before writing ANY code, verify the **Computational Requirements** section in `model_design.md`:
+
+**Required Training Time**: 2-6 hours per model
+
+### ✅ Approved Implementation Patterns
+
+You MUST implement one of these computationally intensive approaches:
+
+#### Pattern A: Bayesian Hierarchical Models (RECOMMENDED)
+
+```python
+import pymc as pm
+import arviz as az
+
+def train_model(X_train, y_train, **kwargs):
+    """
+    Train Bayesian Hierarchical Model using MCMC sampling.
+    Expected training time: 3-5 hours
+    """
+    # Model specification
+    with pm.Model() as hierarchical_model:
+        # Hyperpriors for country-level effects
+        mu_alpha = pm.Normal('mu_alpha', mu=0, sigma=10)
+        sigma_alpha = pm.HalfCauchy('sigma_alpha', beta=2)
+
+        # Country-specific intercepts (hierarchical)
+        alpha = pm.Normal('alpha', mu=mu_alpha, sigma=sigma_alpha, shape=n_countries)
+
+        # Other priors
+        beta = pm.Normal('beta', mu=0, sigma=10, shape=n_features)
+        sigma = pm.HalfCauchy('sigma', beta=2)
+
+        # Linear predictor
+        mu = alpha[country_idx] + pm.math.dot(X_train, beta)
+
+        # Likelihood with appropriate distribution
+        likelihood = pm.Normal('y', mu=mu, sigma=sigma, observed=y_train)
+
+        # MCMC sampling (COMPUTATIONALLY INTENSIVE)
+        trace = pm.sample(
+            draws=2000,  # 2000+ samples
+            tune=1000,
+            chains=4,    # 4 chains
+            cores=4,
+            target_accept=0.95,
+            return_inferencedata=True
+        )
+
+    return {'model': hierarchical_model, 'trace': trace}
+```
+
+**Expected Training Time**: 3-5 hours (2000 samples × 4 chains with NUTS sampler)
+
+#### Pattern B: Deep Neural Networks
+
+```python
+import torch
+import torch.nn as nn
+from torch.utils.data import DataLoader, TensorDataset
+
+class DeepModel(nn.Module):
+    """Deep neural network for medal prediction."""
+    def __init__(self, input_dim):
+        super().__init__()
+        self.network = nn.Sequential(
+            nn.Linear(input_dim, 256),
+            nn.BatchNorm1d(256),
+            nn.ReLU(),
+            nn.Dropout(0.3),
+            nn.Linear(256, 128),
+            nn.BatchNorm1d(128),
+            nn.ReLU(),
+            nn.Dropout(0.3),
+            nn.Linear(128, 64),
+            nn.BatchNorm1d(64),
+            nn.ReLU(),
+            nn.Dropout(0.2),
+            nn.Linear(64, 1)
+        )
+
+    def forward(self, x):
+        return self.network(x)
+
+def train_model(X_train, y_train, **kwargs):
+    """
+    Train deep neural network with extensive epochs.
+    Expected training time: 2-4 hours
+    """
+    # Convert to tensors
+    X_tensor = torch.FloatTensor(X_train.values)
+    y_tensor = torch.FloatTensor(y_train.values)
+
+    # Create dataset and dataloader
+    dataset = TensorDataset(X_tensor, y_tensor)
+    dataloader = DataLoader(dataset, batch_size=32, shuffle=True)
+
+    # Initialize model
+    model = DeepModel(input_dim=X_train.shape[1])
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+    criterion = nn.MSELoss()
+
+    # Training loop (COMPUTATIONALLY INTENSIVE)
+    n_epochs = 5000  # 5000+ epochs
+    for epoch in range(n_epochs):
+        model.train()
+        epoch_loss = 0
+        for X_batch, y_batch in dataloader:
+            optimizer.zero_grad()
+            predictions = model(X_batch).squeeze()
+            loss = criterion(predictions, y_batch)
+            loss.backward()
+            optimizer.step()
+            epoch_loss += loss.item()
+
+        if epoch % 500 == 0:
+            print(f"Epoch {epoch}, Loss: {epoch_loss/len(dataloader):.4f}")
+
+    return {'model': model, 'optimizer': optimizer}
+```
+
+**Expected Training Time**: 2-4 hours (5000+ epochs with backpropagation)
+
+#### Pattern C: Large-Scale Ensemble Methods
+
+```python
+from sklearn.ensemble import GradientBoostingRegressor, RandomForestRegressor
+from sklearn.model_selection import GridSearchCV
+import numpy as np
+
+def train_model(X_train, y_train, **kwargs):
+    """
+    Train large-scale ensemble with extensive hyperparameter search.
+    Expected training time: 2-3 hours
+    """
+    # Extensive hyperparameter grid
+    param_grid = {
+        'n_estimators': [500, 1000, 2000],  # Large number of trees
+        'max_depth': [10, 20, 30, None],
+        'min_samples_split': [2, 5, 10],
+        'min_samples_leaf': [1, 2, 4],
+        'learning_rate': [0.01, 0.05, 0.1]  # For gradient boosting
+    }
+
+    # Grid search with cross-validation (COMPUTATIONALLY INTENSIVE)
+    model = GradientBoostingRegressor(
+        random_state=42,
+        warm_start=True
+    )
+
+    grid_search = GridSearchCV(
+        estimator=model,
+        param_grid=param_grid,
+        cv=5,  # 5-fold cross-validation
+        scoring='neg_mean_squared_error',
+        n_jobs=-1,  # Use all cores
+        verbose=2
+    )
+
+    grid_search.fit(X_train, y_train)
+
+    # Bootstrap ensemble for uncertainty quantification
+    n_bootstrap = 1000  # 1000+ bootstrap samples
+    bootstrap_models = []
+    for i in range(n_bootstrap):
+        X_boot, y_boot = resample(X_train, y_train, random_state=i)
+        model = GradientBoostingRegressor(**grid_search.best_params_)
+        model.fit(X_boot, y_boot)
+        bootstrap_models.append(model)
+
+    return {
+        'best_model': grid_search.best_estimator_,
+        'bootstrap_models': bootstrap_models,
+        'best_params': grid_search.best_params_
+    }
+```
+
+**Expected Training Time**: 2-3 hours (grid search + 1000 bootstrap models)
+
+### ❌ FORBIDDEN Implementation Patterns
+
+**DO NOT implement these lightweight methods**:
+
+```python
+# ❌ FORBIDDEN: Ridge/Lasso regression (trains in seconds)
+from sklearn.linear_model import Ridge
+model = Ridge(alpha=1.0)
+model.fit(X_train, y_train)  # Completes in < 1 minute
+
+# ❌ FORBIDDEN: Basic sklearn defaults without tuning
+from sklearn.ensemble import RandomForestRegressor
+model = RandomForestRegressor()  # Default parameters
+model.fit(X_train, y_train)  # Completes in < 5 minutes
+
+# ❌ FORBIDDEN: Simple analytical solutions
+from sklearn.linear_model import LinearRegression
+model = LinearRegression()
+model.fit(X_train, y_train)  # Analytical solution, < 10 seconds
+```
+
+### Implementation Verification
+
+Before reporting completion, verify:
+
+```python
+# Add training time estimation to your implementation
+import time
+
+def train_model(X_train, y_train, **kwargs):
+    start_time = time.time()
+
+    # ... implementation ...
+
+    elapsed_time = time.time() - start_time
+    print(f"Training completed in {elapsed_time/3600:.2f} hours")
+
+    # Verify this meets the 2-6 hour requirement
+    if elapsed_time < 3600:  # Less than 1 hour
+        raise ValueError(
+            f"Training time ({elapsed_time/60:.1f} minutes) is below "
+            f"the 2-6 hour minimum required for v2.5.4. "
+            f"Please use a more computationally intensive method."
+        )
+
+    return model
+```
+
+### Report Format
+
+When reporting implementation completion, include:
+
+```markdown
+## Computational Requirements Met
+
+**Method Implemented**: [Bayesian MCMC / Deep Learning / Ensemble]
+**Expected Training Time**: [2-6 hours]
+**Computational Intensity**: High
+**Forbidden Methods**: None used
+```
+
+**If model design specifies lightweight method (< 1 hour)**:
+
+```
+Director, NEEDS_REVISION.
+
+The model design specifies [Ridge regression / basic sklearn / simple linear model],
+which trains in [X minutes/seconds]. This is below the 2-6 hour minimum required
+for v2.5.4.
+
+Please ask @modeler to redesign using one of these methods:
+1. Bayesian Hierarchical Models (PyMC with MCMC, 3-5h)
+2. Deep Neural Networks (PyTorch/TensorFlow, 2-4h)
+3. Large-Scale Ensemble (grid search + 1000 bootstrap, 2-3h)
+
+I cannot proceed with implementation until the model design meets computational requirements.
+```
+
+---
+
 ## 🚨 MANDATORY: Report Problems Immediately
 
 | Problem | Action |

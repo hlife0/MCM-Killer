@@ -219,6 +219,132 @@ Think from YOUR perspective: **Technical feasibility, computational cost, time c
 
 ---
 
+## 🆔 [v2.5.4 CRITICAL NEW] Computational Requirements Check (MANDATORY)
+
+> [!CRITICAL]
+> **[v2.5.4 MANDATORY] You MUST verify that model designs require 2-6 hours of training time.**
+>
+> Lightweight models (< 1 hour) are FORBIDDEN and must be REJECTED.
+
+### Training Time Verification
+
+When assessing `model_design.md`, you MUST check the **Computational Requirements** section:
+
+**Minimum Training Time**: 2-6 hours per model
+**Expected Computational Cost**: High (computationally intensive methods required)
+
+### Required Method Complexity
+
+Acceptable model designs MUST specify one of these computationally intensive approaches:
+
+#### ✅ Option A: Bayesian Hierarchical Models (RECOMMENDED)
+- **Method**: PyMC/NumPyro with MCMC sampling
+- **Expected Training Time**: 3-5 hours
+- **Key Components**:
+  - Hierarchical priors for country-level effects
+  - NUTS/HMC sampling (2000+ samples × 4 chains)
+  - Posterior predictive checks
+  - Model comparison (WAIC/LOO-CV)
+
+#### ✅ Option B: Deep Neural Networks
+- **Method**: PyTorch/TensorFlow with deep architectures
+- **Expected Training Time**: 2-4 hours
+- **Key Components**:
+  - Multi-layer perceptrons (256-128-64 hidden units)
+  - 5000+ training epochs
+  - Batch normalization, dropout
+  - Hyperparameter tuning
+
+#### ✅ Option C: Large-Scale Ensemble Methods
+- **Method**: Bootstrap + extensive hyperparameter search
+- **Expected Training Time**: 2-3 hours
+- **Key Components**:
+  - 1000+ bootstrap samples
+  - Grid/randomized search over hyperparameters
+  - Ensemble of 100+ base models
+  - Out-of-bag validation
+
+### ❌ FORBIDDEN Methods (Auto-REJECT)
+
+If the model design proposes ANY of these, you MUST return **NEEDS_REVISION**:
+
+- ❌ Simple Ridge/Lasso regression (trains in seconds/minutes)
+- ❌ Basic sklearn defaults without tuning
+- ❌ Single model without uncertainty quantification
+- ❌ Analytical solutions only (no iterative computation)
+- ❌ Training time < 1 hour
+
+### Verdict Format for Computational Requirements
+
+**If APPROVED** (computational requirements met):
+```
+FEASIBLE. Model design specifies [Bayesian MCMC / Deep Learning / Ensemble].
+Expected training time: [2-6 hours] within acceptable range.
+Computational resources: [sufficient].
+```
+
+**If NEEDS_REVISION** (training time too short):
+```
+NEEDS_REVISION.
+
+**Computational Requirements Violation**:
+The proposed method [method name] has estimated training time of [X minutes/hours],
+which is below the 2-6 hour minimum required for v2.5.4.
+
+**Issue**: Lightweight models are forbidden for MCM competition.
+
+**Required Fix**: Replace with one of these computationally intensive methods:
+1. Bayesian Hierarchical Models (PyMC/NumPyro with MCMC, 3-5h)
+2. Deep Neural Networks (PyTorch/TensorFlow, 2-4h)
+3. Large-Scale Ensemble Methods (1000+ bootstrap samples, 2-3h)
+
+**Current Status**:
+- Method: [name]
+- Estimated Training Time: [time]
+- Problem: [why it's too fast]
+
+**What "APPROVED" Looks Like**:
+- Method: Bayesian Hierarchical Negative Binomial Model
+- Training: PyMC with NUTS sampler, 2000 draws × 4 chains
+- Expected Time: 3.5 hours
+- Computational Cost: High (MCMC sampling required)
+```
+
+### Validation Checklist
+
+Before APPROVING any model design, verify:
+- [ ] Training time explicitly stated as 2-6 hours
+- [ ] Method is computationally intensive (Bayesian/Deep Learning/Ensemble)
+- [ ] NOT using forbidden lightweight methods
+- [ ] Computational complexity is justified (not unnecessarily slow)
+- [ ] Training time scales appropriately with data size
+
+### Example Computational Requirements Check
+
+**❌ REJECT - Too Lightweight**:
+```markdown
+Model: Ridge Regression for Medal Prediction
+Training Time: 30 seconds
+Method: sklearn.linear_model.Ridge()
+
+Verdict: NEEDS_REVISION
+Reason: Ridge regression trains in seconds, far below 2-6 hour requirement.
+Fix: Use Bayesian Hierarchical Models with MCMC sampling (3-5h) instead.
+```
+
+**✅ APPROVE - Computationally Intensive**:
+```markdown
+Model: Bayesian Hierarchical Zero-Inflated Negative Binomial
+Training Time: 4.5 hours
+Method: PyMC with NUTS, 3000 samples × 4 chains, hierarchical priors
+
+Verdict: APPROVED
+Reason: MCMC sampling with 12,000 total draws is computationally intensive
+       and within the 2-6 hour requirement.
+```
+
+---
+
 ## Step-by-Step Instructions
 
 ### Step 1: Read model design

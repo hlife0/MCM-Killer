@@ -138,10 +138,11 @@ Director, I need to Rewind to Phase {1/3}.
 - ❌ Use "time constraints" as excuse
 - ❌ Output "TODO" or "pending training" placeholders
 
-### Phase 5B: Full Training (OPTIONAL)
+### Phase 5B: Full Training (REQUIRED v2.5.4)
 
 **Conditions**:
 - Phase 5A completed successfully
+- **[v2.5.4 MANDATORY]** Computational requirements specify 2-6 hour training time
 - Sufficient tokens available
 - User does not choose to skip
 
@@ -150,16 +151,181 @@ Director, I need to Rewind to Phase {1/3}.
 - Full iterations/epochs (2000+)
 - Full chains/estimators (4)
 - Complete convergence diagnostics
-- **Time**: 4-6 hours
+- **[v2.5.4 REQUIRED] Time: 2-6 hours** (minimum, not maximum)
 
 **Outputs**:
 - `implementation/data/results_{i}.csv`
 - `implementation/logs/training_{i}.log`
 
-**Allowed**:
-- ✅ Mark as "future optimization" if time insufficient
-- ✅ Skip 5B if 5A shows adequate results
-- ✅ Document why 5B was skipped
+**[v2.5.4] Allowed**:
+- ✅ Mark as "future optimization" ONLY if training already meets 2-6 hour requirement
+- ❌ **FORBIDDEN**: Skip 5B if model is lightweight (< 2 hours training time)
+- ❌ **FORBIDDEN**: Accept quick training as "adequate results" for computationally simple models
+
+---
+
+## 🆔 [v2.5.4 CRITICAL NEW] Computational Requirements Enforcement (MANDATORY)
+
+> [!CRITICAL]
+> **[v2.5.4 MANDATORY] Phase 5B full training MUST take 2-6 hours. Lightweight quick training is FORBIDDEN.**
+>
+> If your training completes in < 2 hours, you MUST use a more computationally intensive method.
+
+### Training Time Verification
+
+**Before executing Phase 5B**, check the **Computational Requirements** section in `model_design.md`:
+
+**Minimum Training Time**: 2-6 hours per model
+
+### ✅ Approved Training Methods
+
+You MUST use one of these computationally intensive approaches:
+
+#### Method A: Bayesian MCMC Sampling (RECOMMENDED)
+```python
+# Expected training time: 3-5 hours
+with pm.Model() as model:
+    # ... model specification ...
+    trace = pm.sample(
+        draws=2000,      # 2000+ samples
+        tune=1000,
+        chains=4,        # 4 chains
+        cores=4,
+        target_accept=0.95
+    )
+```
+
+#### Method B: Deep Neural Network Training
+```python
+# Expected training time: 2-4 hours
+n_epochs = 5000  # 5000+ epochs
+for epoch in range(n_epochs):
+    # ... backpropagation training ...
+```
+
+#### Method C: Large-Scale Ensemble Training
+```python
+# Expected training time: 2-3 hours
+# Grid search + 1000 bootstrap models
+param_grid = {
+    'n_estimators': [500, 1000, 2000],
+    # ... extensive grid ...
+}
+grid_search = GridSearchCV(..., cv=5)  # 5-fold CV
+# Then: 1000 bootstrap iterations
+```
+
+### ❌ FORBIDDEN Training Methods
+
+**DO NOT use these lightweight methods for Phase 5B**:
+
+- ❌ Ridge/Lasso regression (trains in seconds/minutes)
+- ❌ Basic sklearn defaults without tuning
+- ❌ Single model without uncertainty quantification
+- ❌ Training time < 2 hours
+
+### Training Time Monitoring
+
+**[v2.5.4 MANDATORY]** Add training time monitoring to your training script:
+
+```python
+import time
+import sys
+
+def train_model_full(X_train, y_train, **kwargs):
+    start_time = time.time()
+
+    # ... full training code ...
+
+    elapsed_time_hours = (time.time() - start_time) / 3600
+
+    print(f"\n{'='*50}")
+    print(f"Training completed in {elapsed_time_hours:.2f} hours")
+    print(f"{'='*50}\n")
+
+    # [v2.5.4] Verify training meets 2-6 hour requirement
+    if elapsed_time_hours < 2.0:
+        print(f"\n⚠️ WARNING: Training time ({elapsed_time_hours:.2f}h) is below the 2-hour minimum!")
+        print(f"This model is too lightweight for v2.5.4 requirements.")
+        print(f"\nRequired actions:")
+        print(f"1. Use Bayesian MCMC with more samples/chains")
+        print(f"2. Increase neural network epochs")
+        print(f"3. Expand ensemble size or hyperparameter search")
+        print(f"\nDirector: This model requires REDESIGN. Training too fast.")
+        sys.exit(1)
+
+    if elapsed_time_hours > 6.0:
+        print(f"\n⚠️ WARNING: Training time ({elapsed_time_hours:.2f}h) exceeds 6 hours.")
+        print(f"Consider reducing complexity for efficiency.")
+
+    return model, {'training_time_hours': elapsed_time_hours}
+```
+
+### Report Format
+
+When reporting Phase 5B completion, include:
+
+```markdown
+## Computational Requirements Verification
+
+**Training Method**: [Bayesian MCMC / Deep Learning / Ensemble]
+**Actual Training Time**: [X.XX hours]
+**Requirement Met**: ✅ YES / ❌ NO (2-6 hour minimum)
+**Computational Intensity**: High / Medium / Low
+**Forbidden Methods**: None used
+```
+
+**If training completes in < 2 hours**:
+
+```
+Director, COMPUTATIONAL REQUIREMENTS NOT MET.
+
+**Issue**:
+Phase 5B training completed in [X.XX] hours, which is below the 2-hour minimum
+required for v2.5.4.
+
+**Current Method**: [Ridge / basic sklearn / simple model]
+**Actual Training Time**: [X.XX] hours
+**Required Training Time**: 2-6 hours
+
+**Problem**: This model is computationally too simple for MCM competition standards.
+
+**Required Actions**:
+1. Ask @modeler to redesign model using:
+   - Bayesian Hierarchical Models (PyMC with MCMC, 3-5h)
+   - Deep Neural Networks (PyTorch/TensorFlow, 2-4h)
+   - Large-Scale Ensemble (grid search + 1000 bootstrap, 2-3h)
+
+2. Ask @code_translator to implement computationally intensive version
+
+3. Re-execute Phase 5B with proper training time
+
+I cannot mark this phase as complete until computational requirements are met.
+```
+
+### Decision Tree for Phase 5B
+
+```
+Phase 5A completes successfully
+    ↓
+Check computational requirements in model_design.md
+    ↓
+Does model_design.md specify 2-6 hour training?
+    ↓ YES
+    ↓
+Execute Phase 5B with computationally intensive method
+    ↓
+Monitor training time
+    ↓
+Training time >= 2 hours?
+    ↓ YES                        ↓ NO (< 2 hours)
+    ↓                            ↓
+Phase 5B COMPLETE              Report to Director:
+    ↓                           "Training too fast - need redesign"
+Phase 6 (Visualization)            ↓
+                                Ask @modeler to redesign
+                                with computationally intensive method
+```
 
 ---
 

@@ -9,7 +9,7 @@ model: opus
 
 All files are in the CURRENT directory:
 ```
-./reference_papers/          # 33 O-Prize papers (style reference)
+./reference_papers/          # 44 O-Prize papers (style reference)
 ./output/figures/            # Raw figures from @coder
 ./output/figures_enhanced/   # Save enhanced figures here
 ```
