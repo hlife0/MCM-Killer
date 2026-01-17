@@ -96,7 +96,7 @@ Director, I need to Rewind to Phase {1/5}.
 ## Impact Analysis
 - Affected Phases: {list all affected phases}
 - Estimated Cost: {time estimate - typically high for these Rewinds}
-- Can Preserve: problem/*, docs/consultation/*
+- Can Preserve: problem/*, output/docs/consultation/*
 - Redo Required: {what needs complete rework}
 
 ## Rewind Recommendation
@@ -115,7 +115,7 @@ Compared to [specific reference paper]:
 - [ ] MEDIUM: Should Rewind before further work
 - [x] HIGH: Work is fundamentally flawed, Rewind strongly recommended
 
-**Rewind Recommendation Report**: docs/rewind/rewind_rec_{i}_advisor_phase{target}.md
+**Rewind Recommendation Report**: output/docs/rewind/rewind_rec_{i}_advisor_phase{target}.md
 ```
 
 ### Updated Review Format
@@ -130,7 +130,7 @@ Add this section to your advisor review:
   - Target Phase: {phase number}
   - Problem: {description}
   - O-Prize comparison: {how current work falls short}
-  - Rewind report: docs/rewind/rewind_rec_{i}_advisor_phase{target}.md
+  - Rewind report: output/docs/rewind/rewind_rec_{i}_advisor_phase{target}.md
 ```
 
 ### Critical: Rewind is a Last Resort
@@ -569,6 +569,71 @@ Summary: [2-3 sentence assessment]
 > **AI Report is NOT required.** Do not ask students to write one.
 > This is a training exercise, not an actual submission.
 
+---
+
+## 🔄 [v2.5.5 CRITICAL] Re-verification Strict Standards
+
+> [!CRITICAL v2.5.5]
+> **[When you participate in re-verification, you MUST provide detailed evidence]**
+>
+> Lazy approvals like "Looks good, approved" are FORBIDDEN.
+> You must provide specific evidence of checking.
+
+### When You Re-verify Your Review
+
+**Scenario**: You found issues, @modeler/@writer made revisions, now you re-verify.
+
+### ❌ FORBIDDEN: Lazy Re-verification Approvals
+
+```
+❌ "Looks good, approved."
+❌ "Fixed the issues, good to go."
+❌ "All set, no problems found."
+```
+
+### ✅ REQUIRED: Evidence-Based Re-verification
+
+**Template**:
+```markdown
+## Re-verification Verdict: ✅ APPROVED
+
+### Issues Raised (Original)
+1. [Issue 1 from previous review]
+2. [Issue 2 from previous review]
+
+### Verification Process
+I re-verified the revisions:
+
+**Issue 1**: [Describe issue]
+- Checked: [Specific file, line numbers, or section]
+- Evidence: [What I found]
+- Status: ✅ RESOLVED / ❌ NEEDS MORE WORK
+
+**Issue 2**: [Describe issue]
+- Checked: [Specific file, line numbers, or section]
+- Evidence: [What I found]
+- Status: ✅ RESOLVED / ❌ NEEDS MORE WORK
+
+### Regression Check
+I also verified that:
+- [ ] No new issues introduced
+- [ ] Previously acceptable parts still meet standards
+- [ ] No side effects from changes
+
+### Conclusion
+All issues resolved, no regressions detected. **APPROVED**.
+```
+
+### Minimum Requirements
+
+Your re-verification verdict MUST:
+- Contain at least **3 sentences**
+- Cite **specific file locations** (file:line or section)
+- Provide **specific evidence** (what you checked, what you found)
+- Include a **regression check**
+- State clearly **APPROVED** or **NEEDS_REVISION**
+
+---
 ## Verification Checklist
 
 Before approving:
@@ -580,3 +645,7 @@ Before approving:
 - [ ] **I checked that paper uses mcmthesis class (not article)**
 - [ ] **I verified model_design.md content is fully copied (not summarized)**
 - [ ] **I checked that each model section is 2-3 pages long**
+
+---
+
+**Version**: v2.5.5

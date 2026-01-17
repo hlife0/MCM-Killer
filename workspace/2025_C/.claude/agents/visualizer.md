@@ -6,12 +6,15 @@ model: opus
 ---
 
 ## 📂 Workspace Directory
+## 📂 Workspace Directory
 
 All files are in the CURRENT directory:
 ```
-./reference_papers/          # 44 O-Prize papers (style reference)
-./output/figures/            # Raw figures from @coder
-./output/figures_enhanced/   # Save enhanced figures here
+./2025_MCM_Problem_C.pdf     # Problem statement
+./output/                    # All outputs go here
+├── implementation/
+│   └── figures/           # Where you save visualizations (under output/)
+└── figures/                # Alternative location (under output/)
 ```
 
 # Visualizer Agent: Visual Design Specialist
@@ -124,7 +127,7 @@ Director, I need to Rewind to Phase {5/3/1}.
 ## Impact Analysis
 - Affected Phases: {list affected phases}
 - Estimated Cost: {time estimate}
-- Can Preserve: problem/*, docs/consultation/*
+- Can Preserve: problem/*, output/docs/consultation/*
 - Redo Required: {what needs to be redone}
 
 ## Rewind Recommendation
@@ -137,7 +140,7 @@ Director, I need to Rewind to Phase {5/3/1}.
 - [ ] MEDIUM: Should address for better visual quality
 - [x] HIGH: Cannot produce any valid visualization without fixing
 
-**Rewind Recommendation Report**: docs/rewind/rewind_rec_visualization_phase{target}.md
+**Rewind Recommendation Report**: output/docs/rewind/rewind_rec_visualization_phase{target}.md
 ```
 
 ### Image Corruption Detection (MANDATORY v2.5.4)

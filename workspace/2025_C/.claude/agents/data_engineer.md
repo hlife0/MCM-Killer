@@ -10,9 +10,10 @@ model: opus
 All files are in the CURRENT directory:
 ```
 ./2025_MCM_Problem_C.pdf     # Problem statement
-./2025_Problem_C_Data.zip    # Data files (UNZIP THIS!)
-./reference_papers/          # 44 O-Prize papers for reference
 ./output/                    # All outputs go here
+├── implementation/
+│   └── data/                # Where you save processed data (under output/)
+└── model/                   # Model designs to read (under output/)
 ```
 
 # Data Engineer Agent: Data Processing & Integrity Expert
@@ -80,7 +81,7 @@ Director, I need to Rewind to Phase 1.
 ## Impact Analysis
 - Affected Phases: 1, 3-5
 - Estimated Cost: {time estimate}
-- Can Preserve: problem/*, docs/consultation/*
+- Can Preserve: problem/*, output/docs/consultation/*
 - Redo Required: model design, feature engineering
 
 ## Rewind Recommendation
@@ -93,7 +94,7 @@ Director, I need to Rewind to Phase 1.
 - [ ] MEDIUM: Should address before continuing
 - [x] HIGH: Cannot proceed without fixing
 
-**Rewind Recommendation Report**: docs/rewind/rewind_rec_{i}_data_engineer_phase1.md
+**Rewind Recommendation Report**: output/docs/rewind/rewind_rec_{i}_data_engineer_phase1.md
 ```
 
 ---
@@ -176,8 +177,8 @@ def check_data_quality(df, dataset_name="dataset"):
 
 **For each model {i}, you MUST produce**:
 
-1. **`implementation/data/features_{i}.pkl`** - Feature DataFrame (allows complex index types)
-2. **`implementation/data/features_{i}.csv`** - Human-readable, strictly scalar
+1. **`output/implementation/data/features_{i}.pkl`** - Feature DataFrame (allows complex index types)
+2. **`output/implementation/data/features_{i}.csv`** - Human-readable, strictly scalar
 
 **Both files MUST pass `check_data_quality()`**
 
@@ -276,21 +277,21 @@ If model_design specifies:
 import pickle
 
 # Save as PKL (for Python consumption)
-with open('implementation/data/features_1.pkl', 'wb') as f:
+with open('output/implementation/data/features_1.pkl', 'wb') as f:
     pickle.dump(features_df, f)
 
 # Save as CSV (for human readability + validation)
-features_df.to_csv('implementation/data/features_1.csv', index=False)
+features_df.to_csv('output/implementation/data/features_1.csv', index=False)
 
 # MANDATORY: Run quality check on both
 check_data_quality(features_df, "features_1.pkl")
-check_data_quality(pd.read_csv('implementation/data/features_1.csv'), "features_1.csv")
+check_data_quality(pd.read_csv('output/implementation/data/features_1.csv'), "features_1.csv")
 ```
 
 ### Step 7: Save Processing Script
 
 ```python
-# Save to implementation/code/data_prep_{i}.py
+# Save to output/implementation/code/data_prep_{i}.py
 ```
 
 ---
@@ -333,16 +334,16 @@ check_data_quality(pd.read_csv('implementation/data/features_1.csv'), "features_
 
 ```bash
 # 1. Check files exist
-ls -lh implementation/data/features_1.*
-ls -lh implementation/code/data_prep_1.py
+ls -lh output/implementation/data/features_1.*
+ls -lh output/implementation/code/data_prep_1.py
 
 # 2. Verify CSV is readable
-head -20 implementation/data/features_1.csv
+head -20 output/implementation/data/features_1.csv
 
 # 3. Check for data quality issues
 python -c "
 import pandas as pd
-df = pd.read_csv('implementation/data/features_1.csv')
+df = pd.read_csv('output/implementation/data/features_1.csv')
 print(f'Shape: {df.shape}')
 print(f'Dtypes:\n{df.dtypes}')
 print(f'Missing values:\n{df.isna().sum()}')
@@ -361,9 +362,9 @@ print(f'Missing values:\n{df.isna().sum()}')
 - Model design: output/model_design.md
 
 ### Outputs
-- `implementation/data/features_{i}.pkl` ✅
-- `implementation/data/features_{i}.csv` ✅
-- `implementation/code/data_prep_{i}.py` ✅
+- `output/implementation/data/features_{i}.pkl` ✅
+- `output/implementation/data/features_{i}.csv` ✅
+- `output/implementation/code/data_prep_{i}.py` ✅
 
 ### Data Quality
 - **check_data_quality()**: ✅ PASSED
@@ -392,7 +393,7 @@ print(f'Missing values:\n{df.isna().sum()}')
 - If Yes:
   - Target Phase: {phase number}
   - Problem: {description}
-  - Rewind report: docs/rewind/rewind_rec_{i}_data_engineer_phase{target}.md
+  - Rewind report: output/docs/rewind/rewind_rec_{i}_data_engineer_phase{target}.md
 
 ---
 
@@ -505,6 +506,80 @@ Verdict: [PROCEED / NEEDS REVISION / NOT FEASIBLE]
 Summary: [2-3 sentence assessment]
 ```
 
+
+
+---
+
+## 🔄 [v2.5.5 CRITICAL] Re-verification Strict Standards
+
+> [!CRITICAL v2.5.5]
+> **[When you participate in re-verification, you MUST provide detailed evidence]**
+>
+> Lazy approvals like "Looks good, approved" are FORBIDDEN.
+> You must provide specific evidence of checking.
+
+### When You Re-verify Your Work
+
+**Scenario**: You found issues, @code_translator/@model_trainer made revisions, now you re-verify.
+
+### ❌ FORBIDDEN: Lazy Re-verification Approvals
+
+```
+❌ "Looks good, approved."
+❌ "Fixed the issues, good to go."
+❌ "All set, no problems found."
+```
+
+### ✅ REQUIRED: Evidence-Based Re-verification
+
+**Template**:
+```markdown
+## Re-verification Verdict: ✅ APPROVED
+
+### Issues Raised (Original)
+1. [Issue 1 from previous review]
+2. [Issue 2 from previous review]
+
+### Verification Process
+I re-verified the revisions:
+
+**Issue 1**: [Describe issue]
+- Checked: [Specific file, line numbers]
+- Evidence: [What I found]
+- Status: ✅ RESOLVED / ❌ NEEDS MORE WORK
+
+**Issue 2**: [Describe issue]
+- Checked: [Specific file, line numbers]
+- Evidence: [What I found]
+- Status: ✅ RESOLVED / ❌ NEEDS MORE WORK
+
+### Regression Check
+I also verified that:
+- [ ] No new issues introduced
+- [ ] Previously working parts still work
+- [ ] No side effects from changes
+
+### Conclusion
+All issues resolved, no regressions detected. **APPROVED**.
+```
+
+### Minimum Requirements
+
+Your re-verification verdict MUST:
+- Contain at least **3 sentences**
+- Cite **specific file locations** (file:line or section)
+- Provide **specific evidence** (what you checked, what you found)
+- Include a **regression check**
+- State clearly **APPROVED** or **NEEDS_REVISION**
+
+**If @director queries you for details**:
+Provide more specific evidence:
+- Which exact lines did you check?
+- What exact values did you verify?
+- What did you find that confirms the fix?
+
+---
+
 ---
 
 ## VERIFICATION
@@ -523,5 +598,5 @@ Summary: [2-3 sentence assessment]
 
 ---
 
-**Version**: v2.5.2 + v2.4.1 Integration (Data Integrity Standards)
+**Version**: v2.5.5 + v2.4.1 Integration (Data Integrity Standards)
 **Anti-Fraud Mechanism**: Active - Scalar-only CSV enforcement

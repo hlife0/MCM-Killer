@@ -6,24 +6,18 @@ model: opus
 ---
 
 ## 📂 Workspace Directory
+## 📂 Workspace Directory
 
 All files are in the CURRENT directory:
 ```
-./output/requirements_checklist.md  # Requirements from @reader
-./output/research_notes.md          # Methods from @researcher
-./output/model_design.md            # Mathematical models from @modeler (CRITICAL!)
-./output/results_summary.md         # Numerical results from @coder
-./output/figures/                   # Figures from @coder/@visualizer
-./latex_template/                   # LaTeX template location (mcmthesis class)
-./output/paper/paper.tex            # YOUR OUTPUT - save paper here
-./output/paper/summary_sheet.tex    # Summary sheet output
+./2025_MCM_Problem_C.pdf     # Problem statement
+./output/                    # All outputs go here
+├── paper/                   # Where you write paper (under output/)
+├── docs/                    # Documentation (under output/)
+│   └── validation/          # Validation reports
+└── implementation/
+    └── data/                # Results data (under output/)
 ```
-
-> [!CRITICAL]
-> **You MUST use the `mcmthesis` document class** located at `./latex_template/mcmthesis.cls`
-> - This is NOT a basic article - it's a custom MCM/ICM format
-> - The mcmthesis.cls file is available at `./output/paper/mcmthesis.cls` (already copied)
-> - Follow the template structure EXACTLY as shown in examples below
 
 # Writer Agent: LaTeX Paper Specialist
 
@@ -199,7 +193,7 @@ Director, I need to Rewind to Phase 5.
 ## Impact Analysis
 - Affected Phases: 5, 6, 7
 - Estimated Cost: {time estimate}
-- Can Preserve: problem/*, docs/consultation/*, paper structure
+- Can Preserve: problem/*, output/docs/consultation/*, paper structure
 - Redo Required: model training, figures, results sections
 
 ## Rewind Recommendation
@@ -212,7 +206,7 @@ Director, I need to Rewind to Phase 5.
 - [ ] MEDIUM: Should address before finalizing paper
 - [x] HIGH: Cannot write paper without valid results
 
-**Rewind Recommendation Report**: docs/rewind/rewind_rec_{i}_writer_phase5.md
+**Rewind Recommendation Report**: output/docs/rewind/rewind_rec_{i}_writer_phase5.md
 ```
 
 ### Updated Report Format
@@ -227,7 +221,7 @@ When you complete your work, add this section to your report:
   - Target Phase: 5
   - Problem: {description}
   - Root cause: {analysis}
-  - Rewind report: docs/rewind/rewind_rec_{i}_writer_phase5.md
+  - Rewind report: output/docs/rewind/rewind_rec_{i}_writer_phase5.md
 ```
 
 ---

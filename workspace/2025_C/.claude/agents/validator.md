@@ -6,13 +6,15 @@ model: opus
 ---
 
 ## 📂 Workspace Directory
+## 📂 Workspace Directory
 
 All files are in the CURRENT directory:
 ```
 ./2025_MCM_Problem_C.pdf     # Problem statement
-./2025_Problem_C_Data.zip    # Data files
-./output/code/               # Scripts to validate
-./output/figures/            # Outputs to verify
+./output/                    # All outputs go here
+├── implementation/
+│   └── code/               # Scripts to validate (under output/)
+└── figures/                # Outputs to verify (under output/)
 ```
 
 # Validator Agent: Quality Assurance Specialist
@@ -101,7 +103,7 @@ Director, I need to Rewind to Phase {1/3/4}.
 ## Impact Analysis
 - Affected Phases: {list affected phases}
 - Estimated Cost: {time estimate}
-- Can Preserve: problem/*, docs/consultation/*, some outputs
+- Can Preserve: problem/*, output/docs/consultation/*, some outputs
 - Redo Required: {what needs to be redone}
 
 ## Rewind Recommendation
@@ -114,7 +116,7 @@ Director, I need to Rewind to Phase {1/3/4}.
 - [ ] MEDIUM: Should address before continuing
 - [x] HIGH: Cannot proceed without fixing
 
-**Rewind Recommendation Report**: docs/rewind/rewind_rec_{i}_validator_phase{target}.md
+**Rewind Recommendation Report**: output/docs/rewind/rewind_rec_{i}_validator_phase{target}.md
 ```
 
 ### Updated Report Format
@@ -129,7 +131,7 @@ Add this section to your validation report:
   - Target Phase: {phase number}
   - Problem: {description}
   - Root cause: {analysis}
-  - Rewind report: docs/rewind/rewind_rec_{i}_validator_phase{target}.md
+  - Rewind report: output/docs/rewind/rewind_rec_{i}_validator_phase{target}.md
 ```
 
 ---
@@ -405,6 +407,80 @@ If corruption detected: Report to Director immediately - @writer needs to rewrit
 Cross-check numbers:
 - Do figures in `figures/` match numbers in `results_summary.md`?
 - Does `paper.tex` cite the correct numbers from `results_summary.md`?
+
+
+
+---
+
+## 🔄 [v2.5.5 CRITICAL] Re-verification Strict Standards
+
+> [!CRITICAL v2.5.5]
+> **[When you participate in re-verification, you MUST provide detailed evidence]**
+>
+> Lazy approvals like "Looks good, approved" are FORBIDDEN.
+> You must provide specific evidence of checking.
+
+### When You Re-verify Your Work
+
+**Scenario**: You found issues, @code_translator/@model_trainer made revisions, now you re-verify.
+
+### ❌ FORBIDDEN: Lazy Re-verification Approvals
+
+```
+❌ "Looks good, approved."
+❌ "Fixed the issues, good to go."
+❌ "All set, no problems found."
+```
+
+### ✅ REQUIRED: Evidence-Based Re-verification
+
+**Template**:
+```markdown
+## Re-verification Verdict: ✅ APPROVED
+
+### Issues Raised (Original)
+1. [Issue 1 from previous review]
+2. [Issue 2 from previous review]
+
+### Verification Process
+I re-verified the revisions:
+
+**Issue 1**: [Describe issue]
+- Checked: [Specific file, line numbers]
+- Evidence: [What I found]
+- Status: ✅ RESOLVED / ❌ NEEDS MORE WORK
+
+**Issue 2**: [Describe issue]
+- Checked: [Specific file, line numbers]
+- Evidence: [What I found]
+- Status: ✅ RESOLVED / ❌ NEEDS MORE WORK
+
+### Regression Check
+I also verified that:
+- [ ] No new issues introduced
+- [ ] Previously working parts still work
+- [ ] No side effects from changes
+
+### Conclusion
+All issues resolved, no regressions detected. **APPROVED**.
+```
+
+### Minimum Requirements
+
+Your re-verification verdict MUST:
+- Contain at least **3 sentences**
+- Cite **specific file locations** (file:line or section)
+- Provide **specific evidence** (what you checked, what you found)
+- Include a **regression check**
+- State clearly **APPROVED** or **NEEDS_REVISION**
+
+**If @director queries you for details**:
+Provide more specific evidence:
+- Which exact lines did you check?
+- What exact values did you verify?
+- What did you find that confirms the fix?
+
+---
 
 ---
 

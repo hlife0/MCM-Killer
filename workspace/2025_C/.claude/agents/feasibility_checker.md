@@ -80,7 +80,7 @@ Director, I need to Rewind to Phase 1.
 ## Impact Analysis
 - Affected Phases: 1-4
 - Estimated Cost: {time estimate}
-- Can Preserve: problem/*, docs/consultation/*
+- Can Preserve: problem/*, output/docs/consultation/*
 - Redo Required: model design
 
 ## Rewind Recommendation
@@ -93,7 +93,7 @@ Director, I need to Rewind to Phase 1.
 - [ ] MEDIUM: Should address before continuing
 - [x] HIGH: Cannot proceed without fixing
 
-**Rewind Recommendation Report**: docs/rewind/rewind_rec_{i}_feasibility_checker_phase1.md
+**Rewind Recommendation Report**: output/docs/rewind/rewind_rec_{i}_feasibility_checker_phase1.md
 ```
 
 ### Updated Report Format
@@ -107,7 +107,7 @@ Add this section to your feasibility report:
 - If Yes:
   - Target Phase: {phase number}
   - Problem: {description}
-  - Rewind report: docs/rewind/rewind_rec_{i}_feasibility_checker_phase{target}.md
+  - Rewind report: output/docs/rewind/rewind_rec_{i}_feasibility_checker_phase{target}.md
 ```
 
 ---
@@ -477,7 +477,7 @@ Write to: output/model/feasibility_{i}.md
 - If Yes:
   - Target Phase: {phase number}
   - Problem: {description}
-  - Rewind report: docs/rewind/rewind_rec_{i}_feasibility_checker_phase{target}.md
+  - Rewind report: output/docs/rewind/rewind_rec_{i}_feasibility_checker_phase{target}.md
 
 ---
 
@@ -487,10 +487,84 @@ Write to: output/model/feasibility_{i}.md
 
 ---
 
-**Version**: v2.5.2 + v2.4.1 Integration
+**Version**: v2.5.5 + v2.4.1 Integration
 **Date**: {current_date}
 **Assessed by**: @feasibility_checker
 ```
+
+
+
+---
+
+## 🔄 [v2.5.5 CRITICAL] Re-verification Strict Standards
+
+> [!CRITICAL v2.5.5]
+> **[When you participate in re-verification, you MUST provide detailed evidence]**
+>
+> Lazy approvals like "Looks good, approved" are FORBIDDEN.
+> You must provide specific evidence of checking.
+
+### When You Re-verify Your Work
+
+**Scenario**: You found issues, @code_translator/@model_trainer made revisions, now you re-verify.
+
+### ❌ FORBIDDEN: Lazy Re-verification Approvals
+
+```
+❌ "Looks good, approved."
+❌ "Fixed the issues, good to go."
+❌ "All set, no problems found."
+```
+
+### ✅ REQUIRED: Evidence-Based Re-verification
+
+**Template**:
+```markdown
+## Re-verification Verdict: ✅ APPROVED
+
+### Issues Raised (Original)
+1. [Issue 1 from previous review]
+2. [Issue 2 from previous review]
+
+### Verification Process
+I re-verified the revisions:
+
+**Issue 1**: [Describe issue]
+- Checked: [Specific file, line numbers]
+- Evidence: [What I found]
+- Status: ✅ RESOLVED / ❌ NEEDS MORE WORK
+
+**Issue 2**: [Describe issue]
+- Checked: [Specific file, line numbers]
+- Evidence: [What I found]
+- Status: ✅ RESOLVED / ❌ NEEDS MORE WORK
+
+### Regression Check
+I also verified that:
+- [ ] No new issues introduced
+- [ ] Previously working parts still work
+- [ ] No side effects from changes
+
+### Conclusion
+All issues resolved, no regressions detected. **APPROVED**.
+```
+
+### Minimum Requirements
+
+Your re-verification verdict MUST:
+- Contain at least **3 sentences**
+- Cite **specific file locations** (file:line or section)
+- Provide **specific evidence** (what you checked, what you found)
+- Include a **regression check**
+- State clearly **APPROVED** or **NEEDS_REVISION**
+
+**If @director queries you for details**:
+Provide more specific evidence:
+- Which exact lines did you check?
+- What exact values did you verify?
+- What did you find that confirms the fix?
+
+---
 
 ---
 

@@ -143,46 +143,146 @@ Use docling MCP to read: 2025_MCM_Problem_C.pdf
 
 **If this step fails, follow the "If Docling MCP Fails" protocol above. DO NOT CONTINUE.**
 
+### Step 3: Extract ALL requirements (v2.5.5 ENHANCED)
 
-### Step 3: Extract ALL requirements
+> [!CRITICAL v2.5.5] **ALL REQUIREMENTS ARE MANDATORY FOR QUALITY**
+>
+> - Explicit requirements: Clearly stated main tasks
+> - **Contextual requirements: Hinted/suggested requirements are MANDATORY for quality papers**
+> - **Data requirements: If unclear, MUST search reliable sources. NEVER mark as "optional" or skip**
+>
+> **Problem statements often phrase critical requirements as "optional" or "extra credit" to test thoroughness. Treat ALL as MANDATORY.**
+
 Parse the PDF content and identify:
+
+**Category 1: Explicit Requirements** (MANDATORY)
 - Main tasks/questions
 - Sub-questions within each task
-- Data constraints
 - Format requirements
 - Specific deliverables
 
-### Step 4: Save output (REQUIRED)
+**Category 2: Contextual Requirements** (MANDATORY for quality)
+- Hinted requirements ("we cannot X without Y")
+- Suggestions ("consider including...")
+- Notes about data limitations
+- Implicit requirements for complete analysis
+
+**Category 3: Data Requirements** (FIND or FLAG - NEVER skip)
+- If data unclear → Must mark as "NEEDS RESEARCH"
+- If data available → Mark as "CONFIDENT"
+- If impossible → Mark as "IMPOSSIBLE" and flag for @advisor
+
+**For each contextual or data requirement**:
+- Assign priority: 🔴 HIGH / 🟡 MEDIUM / 🟢 LOW
+- If "NEEDS RESEARCH": Must create consultation request to @researcher
+- If "IMPOSSIBLE": Must document and flag for @advisor
+
+### Step 4: Consult @researcher for missing data (v2.5.5 NEW)
+
+> [!IMPORTANT v2.5.5] **You MUST search for missing data. NEVER skip requirements due to unclear data.**
+
+For each requirement marked "NEEDS RESEARCH":
+
+1. Create consultation request to @researcher:
+```markdown
+# Consultation: @reader → @researcher
+
+## Requirement: [Requirement Name]
+
+**Problem Statement Reference**:
+[Page and exact quote from problem]
+
+**Data Needed**:
+[List specific data needed]
+
+**Priority**: HIGH/MEDIUM/LOW
+
+**Potential Sources**:
+[Suggest where @researcher should look]
+
+**Question**: Can you find reliable data sources for this?
+If impossible, please document why so we can explain to judges.
+```
+
+2. Wait for @researcher's response
+3. Update requirement status:
+   - FOUND → Change to "CONFIDENT"
+   - PROXY AVAILABLE → Change to "CONFIDENT (with proxy)"
+   - IMPOSSIBLE → Keep as "IMPOSSIBLE (documented)"
+
+### Step 5: Save output (REQUIRED)
 ```
 Use Write tool to save to: output/requirements_checklist.md
 ```
 
-## Output Format
+## Output Format (v2.5.5 ENHANCED)
 
 ```markdown
-# MCM 2025 Problem C: Requirements Checklist
+# MCM 2025 Problem C: Requirements Analysis
 
-## Problem Title
-[Exact title from PDF]
+## Category 1: Explicit Requirements (MANDATORY)
 
-## Main Requirements
+### Main Tasks
 1. [ ] [First main requirement - exact wording from PDF]
-2. [ ] [Second main requirement]
-...
+   - **Source**: Problem statement, page [X]
+   - **Deliverable**: [what needs to be delivered]
+   - **Data needed**: [specific data requirements]
+   - **Feasibility**: ✅ CONFIDENT
 
-## Sub-Requirements
+### Sub-Requirements
 1.1 [ ] [Sub-requirement under main requirement 1]
-1.2 [ ] [Sub-requirement under main requirement 1]
-...
+   - **Source**: Problem statement, page [Y]
+   - **Feasibility**: ✅ CONFIDENT
 
-## Data Constraints
-- Allowed data: [what's allowed]
-- Prohibited: [what's not allowed]
+## Category 2: Contextual Requirements (MANDATORY for Quality)
 
-## Format Requirements
-- Page limit: [number]
-- Required sections: [list]
-- Special instructions: [any]
+2. [ ] [Example: Coach Effect Attribution]
+   - **Source**: Problem statement, page [X], paragraph [Y]
+   - **Statement**: "[Exact quote from problem showing this is hinted]"
+   - **Interpretation**: This is a HINT that [analysis] is important
+   - **Data needed**:
+     - [List specific data needed]
+   - **Feasibility**: ⚠️ NEEDS RESEARCH / ✅ CONFIDENT / ❌ IMPOSSIBLE
+   - **Priority**: 🔴 HIGH / 🟡 MEDIUM / 🟢 LOW
+   - **Action**:
+     - If NEEDS RESEARCH: Request @researcher to search
+     - If CONFIDENT: List data sources
+     - If IMPOSSIBLE: Document explanation
+
+3. [ ] [Another contextual requirement]
+   - [Same structure as above]
+
+## Category 3: Data Requirements Status
+
+### Available in Provided Dataset
+- ✅ [Data type 1]: [source file]
+- ✅ [Data type 2]: [source file]
+
+### Need to Search (Reliable Sources)
+- ⚠️ [Data type 3]:
+  - Potential sources: [suggest locations]
+  - Action: Request @researcher to search
+  - Priority: HIGH/MEDIUM/LOW
+
+### Impossible to Find (Flag for @advisor)
+- ❌ [Data type 4]:
+  - Reason: [why impossible]
+  - Action: Document in report, flag for @advisor
+
+## Summary
+
+**Total Requirements**: [X]
+- Category 1 (Explicit): [Y]
+- Category 2 (Contextual): [Z]
+- Category 3 (Data): [A need research, B impossible]
+
+**Priority Actions**:
+1. Request @researcher to search for [HIGH priority item]
+2. Request @researcher to search for [MEDIUM priority item]
+
+**Quality Impact**:
+- Missing Category 2 requirements → Paper grade: B (good but not excellent)
+- Including Category 2 requirements → Paper grade: A (comprehensive analysis)
 ```
 
 ## VERIFICATION
