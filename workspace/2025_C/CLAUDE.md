@@ -280,6 +280,80 @@ Add these new fields to track Phase Jumps:
 
 ---
 
+## 📋 Workspace Initialization (v2.5.5 MANDATORY)
+
+> [!CRITICAL v2.5.5] **At the START of EVERY competition, you MUST create all required directories.**
+>
+> **This prevents file creation failures and ensures clean workspace structure.**
+
+### Step 0: Initialize Workspace (MANDATORY)
+
+**Execute BEFORE calling any agent**:
+
+```bash
+# Create all required directories
+mkdir -p output/docs/consultations
+mkdir -p output/docs/rewind
+mkdir -p output/docs/validation
+mkdir -p output/implementation/code
+mkdir -p output/implementation/data
+mkdir -p output/implementation/logs
+mkdir -p output/implementation/models
+mkdir -p output/model
+mkdir -p output/model_proposals
+mkdir -p output/figures
+mkdir -p output/paper
+mkdir -p output/results
+```
+
+**Verify all directories created**:
+```bash
+# Check all directories exist
+ls -la output/docs/
+ls -la output/implementation/
+ls -la output/model/
+ls -la output/paper/
+```
+
+**Required directory structure**:
+```
+output/
+├── docs/                    # Documentation and reports
+│   ├── consultations/       # Agent consultation records
+│   ├── rewind/             # Rewind recommendation reports
+│   └── validation/         # Validation reports
+├── implementation/          # Code implementations and training outputs
+│   ├── code/              # Python scripts
+│   ├── data/              # Processed data files and results
+│   ├── logs/              # Execution logs
+│   └── models/            # Trained models
+├── model/                  # Model design documents
+├── model_proposals/        # Draft proposals
+├── figures/               # Generated figures
+├── paper/                 # Paper and LaTeX files
+└── results/               # Training results
+```
+
+**Verification checklist**:
+- [ ] output/docs/consultations/ exists
+- [ ] output/docs/rewind/ exists
+- [ ] output/docs/validation/ exists
+- [ ] output/implementation/code/ exists
+- [ ] output/implementation/data/ exists
+- [ ] output/implementation/logs/ exists
+- [ ] output/implementation/models/ exists
+- [ ] output/model/ exists
+- [ ] output/model_proposals/ exists
+- [ ] output/figures/ exists
+- [ ] output/paper/ exists
+- [ ] output/results/ exists
+
+**If ANY directory missing**: Recreate using mkdir command above.
+
+**NEVER proceed to Phase 0 until all directories exist.**
+
+---
+
 ## 📋 Director Master Checklist (v2.5.5)
 
 > [!CRITICAL v2.5.5] **Use this checklist at start of EVERY phase.**
@@ -497,49 +571,258 @@ Specialized validation agent working alongside standard validators to prevent:
 
 ### New Validation Gates (v2.5.5)
 
-#### Phase 1.5: Time Estimate Validation
+## 🆕 Phase 1.5: Time Estimate Validation Gate (NEW v2.5.5)
 
-**After MODEL validation gate completes**:
+> [!CAUTION]
+> **[v2.5.5 MANDATORY] After MODEL validation gate completes, you MUST validate @modeler's time estimates.**
+>
+> This prevents time estimation fraud and ensures realistic planning.
 
-1. 5 agents (@researcher, @feasibility_checker, @data_engineer, @code_translator, @advisor) complete validation
-2. Collect all verdicts
-3. **Call @time_validator** to validate time estimates
-4. Review @time_validator's report
-5. If discrepancies > 2x → Query @modeler
-6. Make decision:
-   - If 4-5 agents approve AND time reasonable → Proceed to Phase 2
-   - If 2-3 agents reject → Parallel rework → ALL 5 re-verify
+### Entry Criteria
+- 5 agents (@researcher, @feasibility_checker, @data_engineer, @code_translator, @advisor) completed MODEL validation
+- All verdicts collected
+- output/model/feasibility_{i}.md exists
+- output/model/model_design_{i}.md exists
 
-#### Phase 4.5: Implementation Fidelity Check
+### @director's Tasks (MANDATORY)
 
-**After CODE validation gate completes**:
+1. **Review MODEL validation verdicts**:
+   - Count APPROVED vs NEEDS_REVISION
+   - If 2+ agents reject → Follow rework protocol first, then return to Phase 1.5
+   - If 4-5 agents approve → Proceed to time validation
 
-1. 2 agents (@modeler, @validator) complete validation
-2. Collect verdicts
-3. **Call @time_validator** to check implementation fidelity
-4. Review @time_validator's report:
-   - Algorithm changed? (e.g., PyMC → sklearn)
-   - Iterations reduced? (e.g., 10000 → 1000)
-   - Features missing?
-5. If major deviations → Request @code_translator rework
-6. Make decision:
-   - Both approve AND no lazy implementation → Proceed to Phase 5
+2. **Call @time_validator**:
+   ```
+   @time_validator: Please validate time estimates in output/model/feasibility_{i}.md
+   and output/model/model_design_{i}.md
 
-#### Phase 5.5: Data Authenticity Verification
+   For each model:
+   - Compare @modeler's estimate to your algorithmic analysis
+   - Flag discrepancies > 2x
+   - Assess if estimates are realistic
+   ```
 
-**After TRAINING completes**:
+3. **Review @time_validator's report**:
+   - Check output/docs/validation/time_validator_{i}.md
+   - Identify models with flagged discrepancies
+   - Note @time_validator's concerns
 
-1. 2 agents (@modeler, @validator) complete validation
-2. Collect verdicts
-3. **Call @time_validator** to verify data authenticity
-4. Review @time_validator's report:
-   - Timestamps correct?
-   - File size reasonable?
-   - Statistical properties valid?
-   - Any suspicious patterns?
-5. If suspicious or fabricated → Request re-run with verification
-6. Make decision:
-   - Both approve AND data authentic → Proceed to Phase 6
+4. **Make decision based on [Decision Matrix]**
+
+### Decision Matrix
+
+| Condition | Action | Rationale |
+|-----------|--------|-----------|
+| 4-5 agents approve AND @time_validator finds no major issues | ✅ PROCEED to Phase 2 | Validation passed, time estimates reasonable |
+| 4-5 agents approve BUT @time_validator flags 1-2 models > 2x discrepancy | ⚠️ QUERY @modeler | Request explanation for specific models |
+| 4-5 agents approve BUT @time_validator flags 3+ models > 3x discrepancy | ⏸️ CONSULT @advisor | Time estimates systematically unrealistic |
+| 2-3 agents reject (MODEL validation) | ⚠️ RETURN to @modeler | Standard rework protocol, ALL 5 re-verify after |
+| 0-1 agents approve | ⏪ REWIND to Phase 1 | Fundamental design issues |
+
+### Exit Conditions
+
+MUST satisfy ALL of:
+- [ ] 4-5 MODEL validation agents approved (OR 2-3 agents revised and ALL 5 re-verified)
+- [ ] @time_validator report reviewed
+- [ ] No major discrepancies (>3x) OR @modeler provided satisfactory explanation
+- [ ] output/docs/validation/time_validator_{i}.md exists
+
+Only when ALL exit conditions satisfied → Proceed to Phase 2
+
+### Query @modeler Template (if needed)
+
+```markdown
+@modeler: @time_validator flagged time estimate discrepancies:
+
+Model 2 (ZINB): Your estimate 4-8h, @time_validator analysis 1-2h (3x under)
+Model 3 (Ensemble): Your estimate 6-10h, @time_validator analysis 18-24h (3x over)
+
+Please provide:
+1. Justification for your estimates
+2. Algorithmic assumptions you made
+3. Whether you want to revise estimates
+
+Awaiting your response before proceeding.
+```
+
+---
+
+## 🆕 Phase 4.5: Implementation Fidelity Check Gate (NEW v2.5.5)
+
+> [!CAUTION]
+> **[v2.5.5 MANDATORY] After CODE validation gate completes, you MUST check for lazy @code_translator implementation.**
+>
+> This detects unauthorized simplifications and ensures design-code consistency.
+
+### Entry Criteria
+- 2 agents (@modeler, @validator) completed CODE validation
+- Both verdicts collected
+- output/model/model_design_{i}.md exists
+- output/implementation/code/model_{i}.py exists
+
+### @director's Tasks (MANDATORY)
+
+1. **Review CODE validation verdicts**:
+   - If either rejects → Follow rework protocol first, then return to Phase 4.5
+   - If both approve → Proceed to fidelity check
+
+2. **Call @time_validator**:
+   ```
+   @time_validator: Please check implementation fidelity.
+
+   Design: output/model/model_design_{i}.md
+   Code: output/implementation/code/model_{i}.py
+
+   Check for:
+   - Algorithm changes (e.g., PyMC → sklearn)
+   - Iteration reductions (e.g., 10000 → 1000)
+   - Missing features
+   - Unauthorized simplifications
+   ```
+
+3. **Review @time_validator's report**:
+   - Check output/docs/validation/time_validator_code_{i}.md
+   - Identify lazy implementation issues
+   - Note severity (HIGH/MED/LOW)
+
+4. **Make decision based on [Decision Matrix]**
+
+### Decision Matrix
+
+| Condition | Action | Rationale |
+|-----------|--------|-----------|
+| Both approve AND @time_validator finds no deviations | ✅ PROCEED to Phase 5 | Code matches design, ready for training |
+| Both approve BUT @time_validator flags 1-2 minor issues (LOW severity) | ⚠️ NOTE and proceed | Minor deviations, document but continue |
+| Both approve BUT @time_validator flags major simplification (HIGH severity) | ❌ RETURN to @code_translator | Lazy implementation detected, require rework |
+| Either agent rejects (CODE validation) | ⚠️ RETURN to @code_translator | Standard rework protocol |
+| @time_validator flags algorithm change without approval | ❌ REJECT and consult | Major deviation, may need @director approval |
+
+### Exit Conditions
+
+MUST satisfy ALL of:
+- [ ] Both @modeler and @validator approved (OR revised and re-verified)
+- [ ] @time_validator report reviewed
+- [ ] NO HIGH severity deviations OR rework completed
+- [ ] output/docs/validation/time_validator_code_{i}.md exists
+- [ ] Any LOW severity deviations documented in feasibility report
+
+Only when ALL exit conditions satisfied → Proceed to Phase 5
+
+### Lazy Implementation Examples
+
+**Forbidden simplifications**:
+- ❌ Design: "PyMC with HMC sampling" → Code: `sklearn.LinearRegression`
+- ❌ Design: "10,000 MCMC samples" → Code: `pm.sample(1000)`
+- ❌ Design: "Ensemble of 5 models" → Code: Only 2 models
+- ❌ Design: "Bootstrap CI" → Code: No CI implementation
+
+**Allowed with approval**:
+- ✅ Design: "Tier 1 model" → Code: Tier 2 (IF @director approved in Phase 1)
+- ✅ Design: "Full feature set" → Code: Reduced features (IF documented in feasibility)
+
+---
+
+## 🆕 Phase 5.5: Data Authenticity Verification Gate (NEW v2.5.5)
+
+> [!CAUTION]
+> **[v2.5.5 MANDATORY] After TRAINING completes, you MUST verify data authenticity.**
+>
+> This prevents data fabrication and ensures results are genuine outputs from code.
+
+### Entry Criteria
+- 2 agents (@modeler, @validator) completed TRAINING validation
+- Both verdicts collected
+- output/implementation/code/model_{i}.py exists
+- output/implementation/data/results_{i}.csv exists
+- output/implementation/logs/training_{i}.log exists
+
+### @director's Tasks (MANDATORY)
+
+1. **Review TRAINING validation verdicts**:
+   - If either rejects → Follow rework protocol first, then return to Phase 5.5
+   - If both approve → Proceed to authenticity verification
+
+2. **Call @time_validator**:
+   ```
+   @time_validator: Please verify data authenticity.
+
+   Code: output/implementation/code/model_{i}.py
+   Output: output/implementation/data/results_{i}.csv
+   Log: output/implementation/logs/training_{i}.log
+
+   Check:
+   - Timestamps (CSV created after training started?)
+   - File size (reasonable for data volume?)
+   - Statistical properties (value ranges, distributions)
+   - Suspicious patterns (too perfect, repeating values)
+   ```
+
+3. **Review @time_validator's report**:
+   - Check output/docs/validation/time_validator_data_{i}.md
+   - Identify authenticity concerns
+   - Note severity (SUSPICIOUS / FABRICATED / AUTHENTIC)
+
+4. **Make decision based on [Decision Matrix]**
+
+### Decision Matrix
+
+| Condition | Action | Rationale |
+|-----------|--------|-----------|
+| Both approve AND @time_validator confirms AUTHENTIC | ✅ PROCEED to Phase 6 | Data verified authentic, results trustworthy |
+| Both approve BUT @time_validator flags SUSPICIOUS | ⏸️ INVESTIGATE | Requires explanation or additional verification |
+| @time_validator flags LIKELY FABRICATED | ❌ RE-RUN required | Data fabrication suspected, must re-train with verification |
+| Timestamps invalid (CSV before log) | ❌ RE-RUN required | Timeline impossible, data may be fabricated |
+| File size < 50% of expected | ⏸️ INVESTIGATE | Data may be incomplete or fabricated |
+
+### Exit Conditions
+
+MUST satisfy ALL of:
+- [ ] Both @modeler and @validator approved (OR revised and re-verified)
+- [ ] @time_validator report reviewed
+- [ ] Data verified AUTHENTIC (or SUSPICIOUS satisfactorily explained)
+- [ ] output/docs/validation/time_validator_data_{i}.md exists
+- [ ] Timestamps valid (CSV created after training started)
+- [ ] File size reasonable (≥ 50% of expected size)
+
+Only when ALL exit conditions satisfied → Proceed to Phase 6
+
+### Data Fabrication Indicators
+
+**Red flags**:
+- ❌ CSV timestamp is BEFORE training log timestamp
+- ❌ File size too small (e.g., 5 KB for 200×15 data)
+- ❌ All values are perfect integers (e.g., many "50.0", "25.0")
+- ❌ Repeating patterns in data
+- ❌ Value ranges impossible (e.g., medals 0-1000 when max is ~150)
+
+**Valid indicators**:
+- ✅ CSV timestamp matches training completion time
+- ✅ File size reasonable for data volume
+- ✅ Values in expected ranges with realistic distribution
+- ✅ Statistical properties reasonable (mean, std dev)
+
+### Re-run with Verification Protocol
+
+If @time_validator flags fabrication:
+
+1. **Request @model_trainer to re-run**:
+   ```markdown
+   @model_trainer: @time_validator flagged data authenticity issues:
+   - [Specific issues found]
+
+   Please re-run training with:
+   1. Script execution timestamp logging
+   2. Output file size verification
+   3. Progress logging during training
+
+   Use: python -u model_{i}.py > training_{i}.log 2>&1
+   ```
+
+2. **Verify re-run**:
+   - Check training log shows real execution
+   - Verify CSV created after training
+   - Confirm file size matches expected
+   - Request @time_validator re-verification
 
 ---
 
