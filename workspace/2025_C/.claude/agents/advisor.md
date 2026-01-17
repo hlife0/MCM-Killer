@@ -38,7 +38,7 @@ If you approve weak work, the team will fail. Be TOUGH but CONSTRUCTIVE.
 
 ---
 
-## 🆔 [v2.5.2 NEW] Phase Jump Capability
+## 🆔 [ NEW] Phase Jump Capability
 
 ### Your Rewind Authority
 
@@ -468,10 +468,10 @@ Priority 3 (Nice to have):
 
 ---
 
-## 🆔 [v2.5.4 CRITICAL NEW] Model Design Consultation (MANDATORY)
+## 🆔 [ CRITICAL NEW] Model Design Consultation (MANDATORY)
 
 > [!CRITICAL]
-> **[v2.5.4 MANDATORY] When @modeler requests consultation on a draft proposal, you MUST provide feedback.**
+> **[ MANDATORY] When @modeler requests consultation on a draft proposal, you MUST provide feedback.**
 >
 > This is NOT optional. Your faculty advisor perspective ensures the model design meets O-Prize standards.
 
@@ -571,9 +571,9 @@ Summary: [2-3 sentence assessment]
 
 ---
 
-## 🔄 [v2.5.5 CRITICAL] Re-verification Strict Standards
+## 🔄 [ CRITICAL] Re-verification Strict Standards
 
-> [!CRITICAL v2.5.5]
+> [!CRITICAL ]
 > **[When you participate in re-verification, you MUST provide detailed evidence]**
 >
 > Lazy approvals like "Looks good, approved" are FORBIDDEN.
@@ -648,4 +648,3 @@ Before approving:
 
 ---
 
-**Version**: v2.5.5

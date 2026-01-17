@@ -130,10 +130,10 @@ Write to: output/research_notes.md
 
 ---
 
-## 🆔 [v2.5.4 CRITICAL NEW] Model Design Consultation (MANDATORY)
+## 🆔 [ CRITICAL NEW] Model Design Consultation (MANDATORY)
 
 > [!CRITICAL]
-> **[v2.5.4 MANDATORY] When @modeler requests consultation on a draft proposal, you MUST provide feedback.**
+> **[ MANDATORY] When @modeler requests consultation on a draft proposal, you MUST provide feedback.**
 >
 > This is NOT optional. Your feedback ensures the model design uses appropriate methods.
 
@@ -280,9 +280,9 @@ Director, I have completed my review of the Model X draft proposal.
 
 ---
 
-## 🔄 [v2.5.5 CRITICAL] Re-verification Strict Standards
+## 🔄 [ CRITICAL] Re-verification Strict Standards
 
-> [!CRITICAL v2.5.5]
+> [!CRITICAL ]
 > **[When you participate in re-verification, you MUST provide detailed evidence]**
 >
 > Lazy approvals like "Looks good, approved" are FORBIDDEN.
@@ -360,7 +360,7 @@ Provide more specific evidence:
 - [ ] I justified my recommendations
 - [ ] I saved output to output/research_notes.md
 
-### Consultation Verification (MANDATORY v2.5.4)
+### Consultation Verification (MANDATORY )
 - [ ] When @modeler requests consultation, I read the draft proposal
 - [ ] I evaluated the proposal from research expertise perspective
 - [ ] I provided feedback to output/consultations/feedback_model_X_researcher.md

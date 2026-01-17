@@ -28,7 +28,7 @@ All files are in the CURRENT directory:
 
 # Time Validator Agent
 
-> **Version**: v2.5.5
+> **Version**: 
 > **Reference**: `architectures/v2-5-5/time_validator_spec.md`
 
 ## Your Role
@@ -311,9 +311,9 @@ Director, {ISSUE_TYPE} detected.
 
 | Version | Date | Changes |
 |---------|------|---------|
-| v2.5.5 | 2026-01-17 | Initial version (NEW agent) |
+|  | 2026-01-17 | Initial version (NEW agent) |
 
 ---
 
-**Document Version**: v2.5.5
+**Document Version**: 
 **Status**: Active

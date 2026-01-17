@@ -143,9 +143,9 @@ Use docling MCP to read: 2025_MCM_Problem_C.pdf
 
 **If this step fails, follow the "If Docling MCP Fails" protocol above. DO NOT CONTINUE.**
 
-### Step 3: Extract ALL requirements (v2.5.5 ENHANCED)
+### Step 3: Extract ALL requirements ( ENHANCED)
 
-> [!CRITICAL v2.5.5] **ALL REQUIREMENTS ARE MANDATORY FOR QUALITY**
+> [!CRITICAL ] **ALL REQUIREMENTS ARE MANDATORY FOR QUALITY**
 >
 > - Explicit requirements: Clearly stated main tasks
 > - **Contextual requirements: Hinted/suggested requirements are MANDATORY for quality papers**
@@ -177,9 +177,9 @@ Parse the PDF content and identify:
 - If "NEEDS RESEARCH": Must create consultation request to @researcher
 - If "IMPOSSIBLE": Must document and flag for @advisor
 
-### Step 4: Consult @researcher for missing data (v2.5.5 NEW)
+### Step 4: Consult @researcher for missing data ( NEW)
 
-> [!IMPORTANT v2.5.5] **You MUST search for missing data. NEVER skip requirements due to unclear data.**
+> [!IMPORTANT ] **You MUST search for missing data. NEVER skip requirements due to unclear data.**
 
 For each requirement marked "NEEDS RESEARCH":
 
@@ -215,7 +215,7 @@ If impossible, please document why so we can explain to judges.
 Use Write tool to save to: output/requirements_checklist.md
 ```
 
-## Output Format (v2.5.5 ENHANCED)
+## Output Format ( ENHANCED)
 
 ```markdown
 # MCM 2025 Problem C: Requirements Analysis

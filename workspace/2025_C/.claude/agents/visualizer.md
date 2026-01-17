@@ -56,10 +56,10 @@ Think from YOUR perspective: **Visual impact, first impression, clarity**
 
 ---
 
-## 🆔 [v2.5.4 CRITICAL NEW] Phase Jump Capability
+## 🆔 [ CRITICAL NEW] Phase Jump Capability
 
 > [!CRITICAL]
-> **[v2.5.4 MANDATORY] You MUST detect corrupted or low-quality images and request rewind.**
+> **[ MANDATORY] You MUST detect corrupted or low-quality images and request rewind.**
 >
 > Damaged figures cannot be used in the paper and must trigger upstream fixes.
 
@@ -143,7 +143,7 @@ Director, I need to Rewind to Phase {5/3/1}.
 **Rewind Recommendation Report**: output/docs/rewind/rewind_rec_visualization_phase{target}.md
 ```
 
-### Image Corruption Detection (MANDATORY v2.5.4)
+### Image Corruption Detection (MANDATORY )
 
 **After generating each figure, you MUST verify**:
 
@@ -365,7 +365,7 @@ Save to: output/figures_enhanced/
 
 ## VERIFICATION
 
-### Image Quality Verification (MANDATORY v2.5.4)
+### Image Quality Verification (MANDATORY )
 - [ ] Every generated figure passed verify_image_quality() check
 - [ ] No corrupted images (all files valid, non-zero size, readable)
 - [ ] No images with identical pixel values (corrupted)

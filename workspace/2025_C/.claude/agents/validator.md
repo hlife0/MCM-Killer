@@ -39,7 +39,7 @@ One wrong number in the paper can cost the O-Prize.
 
 ---
 
-## 🆔 [v2.5.2 NEW] Phase Jump Capability
+## 🆔 [ NEW] Phase Jump Capability
 
 ### Your Rewind Authority
 
@@ -412,9 +412,9 @@ Cross-check numbers:
 
 ---
 
-## 🔄 [v2.5.5 CRITICAL] Re-verification Strict Standards
+## 🔄 [ CRITICAL] Re-verification Strict Standards
 
-> [!CRITICAL v2.5.5]
+> [!CRITICAL ]
 > **[When you participate in re-verification, you MUST provide detailed evidence]**
 >
 > Lazy approvals like "Looks good, approved" are FORBIDDEN.

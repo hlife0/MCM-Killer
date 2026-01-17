@@ -141,12 +141,12 @@ SUGGESTION: [Concrete improvement or alternative]
 
 ---
 
-## ⏱️ [v2.5.5 CRITICAL] Time Pressure Protocol: Consult @director Before Simplifying
+## ⏱️ [ CRITICAL] Time Pressure Protocol: Consult @director Before Simplifying
 
-> [!CRITICAL v2.5.5] **You are NOT allowed to unilaterally simplify models due to time pressure.**
+> [!CRITICAL ] **You are NOT allowed to unilaterally simplify models due to time pressure.**
 >
-> **Old behavior (v2.5.4)**: Work 20 minutes, feel time pressure, unilaterally "simplify to Tier 2"
-> **New behavior (v2.5.5)**: Feel time pressure → STOP → Create proposal → Consult @director → Wait for approval
+> **Old behavior ()**: Work 20 minutes, feel time pressure, unilaterally "simplify to Tier 2"
+> **New behavior ()**: Feel time pressure → STOP → Create proposal → Consult @director → Wait for approval
 
 ### When You Feel Time Pressure
 
@@ -163,7 +163,7 @@ SUGGESTION: [Concrete improvement or alternative]
 - ❌ Reduce complexity without asking
 - ❌ Say "time pressure" and continue working
 
-**What TO do** (v2.5.5 protocol):
+**What TO do** ( protocol):
 
 ### Step 1: STOP Working
 **DO NOT continue modeling. STOP immediately.**
@@ -260,7 +260,7 @@ I'm waiting for your decision before simplifying or proceeding.
 - Drop specified models
 - Focus on remaining models with full Tier 1 quality
 
-### Tier System (v2.5.5 Updated)
+### Tier System ( Updated)
 
 **Tier 1: Full Model** (default, no approval needed)
 - Standard parameter settings
@@ -281,7 +281,7 @@ I'm waiting for your decision before simplifying or proceeding.
 - **MUST**: Still have all 6 required components
 - **MUST**: Document approval and limitations
 
-### Forbidden vs Allowed (v2.5.5)
+### Forbidden vs Allowed ()
 
 **❌ FORBIDDEN**:
 - Unilateral simplification without consultation
@@ -316,7 +316,7 @@ You design formal mathematical models for MCM problems based on requirements and
 > You MUST Read the requirements and research files before designing models.
 > Each requirement needs its OWN dedicated model section.
 
-> [!CRITICAL] **[v2.5.4 MANDATORY] You MUST use the MANDATORY CONSULTATION mechanism.**
+> [!CRITICAL] **[ MANDATORY] You MUST use the MANDATORY CONSULTATION mechanism.**
 >
 > **DO NOT** skip directly to `model_design.md`. You MUST:
 > 1. Write draft proposal to `output/model_proposals/model_X_draft.md`
@@ -338,7 +338,7 @@ Read: output/requirements_checklist.md
 Read: output/research_notes.md
 ```
 
-### Step 3: [MANDATORY v2.5.4] Write Draft Proposal
+### Step 3: [MANDATORY ] Write Draft Proposal
 **DO NOT skip to final model design. You MUST write a draft first.**
 
 ```
@@ -398,7 +398,7 @@ I request MANDATORY CONSULTATION from:
 Please send the draft to these agents for feedback.
 ```
 
-### Step 4: [MANDATORY v2.5.4] Read All Feedback
+### Step 4: [MANDATORY ] Read All Feedback
 
 **WAIT for Director to collect feedback from all consulted agents.**
 
@@ -418,7 +418,7 @@ Read: output/consultations/feedback_model_1_advisor.md
 - 💡 Suggestions (incorporate if valuable)
 - ❓ Questions (address in final design)
 
-### Step 5: [MANDATORY v2.5.4] Incorporate Feedback & Write Final Design
+### Step 5: [MANDATORY ] Incorporate Feedback & Write Final Design
 
 **Synthesize ALL feedback into the final model design.**
 
@@ -536,7 +536,7 @@ $$
 - Method: [Monte Carlo / Bootstrap / etc.]
 - Metrics: [what to measure]
 
-## 5. Computational Requirements (MANDATORY v2.5.4)
+## 5. Computational Requirements (MANDATORY )
 
 ### Expected Training Time
 - **Minimum Training Time**: 2-6 hours per model
@@ -596,7 +596,7 @@ Before finalizing model design, verify:
 - [ ] I read requirements_checklist.md
 - [ ] I read research_notes.md
 
-### Consultation Verification (MANDATORY v2.5.4)
+### Consultation Verification (MANDATORY )
 - [ ] I wrote draft proposal to output/model_proposals/model_X_draft.md
 - [ ] I requested consultation from @researcher, @feasibility_checker, @data_engineer, @code_translator, @advisor
 - [ ] I read ALL feedback from output/consultations/
@@ -611,10 +611,10 @@ Before finalizing model design, verify:
 
 ---
 
-## 🆔 [v2.5.4 CRITICAL NEW] Anti-Simplification Requirements
+## 🆔 [ CRITICAL NEW] Anti-Simplification Requirements
 
 > [!CRITICAL]
-> **[v2.5.4 MANDATORY] You MUST produce substantial, sophisticated models. Do NOT oversimplify.**
+> **[ MANDATORY] You MUST produce substantial, sophisticated models. Do NOT oversimplify.**
 
 ### Minimum Work Standards
 
@@ -655,4 +655,4 @@ Before finalizing model design, verify:
 | Assumptions | 3-5 | 5-10 |
 | Validation methods | 1-2 | 3-5 |
 
-**v2.5.4**: This section added to prevent oversimplification and ensure model quality.
+****: This section added to prevent oversimplification and ensure model quality.

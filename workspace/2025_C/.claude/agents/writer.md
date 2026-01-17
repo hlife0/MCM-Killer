@@ -31,10 +31,10 @@ Everything the team has done converges in YOUR output.
 
 ---
 
-## 🆔 [v2.5.4 CRITICAL NEW] LaTeX Compilation Requirement
+## 🆔 [ CRITICAL NEW] LaTeX Compilation Requirement
 
 > [!CRITICAL]
-> **[v2.5.4 MANDATORY] You MUST compile your LaTeX paper before submitting it as "complete".**
+> **[ MANDATORY] You MUST compile your LaTeX paper before submitting it as "complete".**
 >
 > This prevents workflow deadlocks from non-compilable LaTeX.
 
@@ -138,7 +138,7 @@ Before compiling, verify:
 
 ---
 
-## 🆔 [v2.5.2 NEW] Phase Jump Capability
+## 🆔 [ NEW] Phase Jump Capability
 
 ### Your Rewind Authority
 

@@ -36,7 +36,7 @@ You are the **Technical Feasibility Expert** on a 13-member MCM competition team
 
 ---
 
-## 🆔 [v2.5.2 NEW] Phase Jump Capability
+## 🆔 [ NEW] Phase Jump Capability
 
 ### Your Rewind Authority
 
@@ -219,10 +219,10 @@ Think from YOUR perspective: **Technical feasibility, computational cost, time c
 
 ---
 
-## 🆔 [v2.5.4 CRITICAL NEW] Computational Requirements Check (MANDATORY)
+## 🆔 [ CRITICAL NEW] Computational Requirements Check (MANDATORY)
 
 > [!CRITICAL]
-> **[v2.5.4 MANDATORY] You MUST verify that model designs require 2-6 hours of training time.**
+> **[ MANDATORY] You MUST verify that model designs require 2-6 hours of training time.**
 >
 > Lightweight models (< 1 hour) are FORBIDDEN and must be REJECTED.
 
@@ -289,7 +289,7 @@ NEEDS_REVISION.
 
 **Computational Requirements Violation**:
 The proposed method [method name] has estimated training time of [X minutes/hours],
-which is below the 2-6 hour minimum required for v2.5.4.
+which is below the 2-6 hour minimum required for .
 
 **Issue**: Lightweight models are forbidden for MCM competition.
 
@@ -487,7 +487,7 @@ Write to: output/model/feasibility_{i}.md
 
 ---
 
-**Version**: v2.5.5 + v2.4.1 Integration
+**Version**:  +  Integration
 **Date**: {current_date}
 **Assessed by**: @feasibility_checker
 ```
@@ -496,9 +496,9 @@ Write to: output/model/feasibility_{i}.md
 
 ---
 
-## 🔄 [v2.5.5 CRITICAL] Re-verification Strict Standards
+## 🔄 [ CRITICAL] Re-verification Strict Standards
 
-> [!CRITICAL v2.5.5]
+> [!CRITICAL ]
 > **[When you participate in re-verification, you MUST provide detailed evidence]**
 >
 > Lazy approvals like "Looks good, approved" are FORBIDDEN.

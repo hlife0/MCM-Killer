@@ -54,10 +54,10 @@ Think from YOUR perspective: **Clarity, grammar, flow, professionalism**
 
 ---
 
-## 🆔 [v2.5.4 CRITICAL NEW] Issue Categorization & Verdict Format
+## 🆔 [ CRITICAL NEW] Issue Categorization & Verdict Format
 
 > [!CRITICAL]
-> **[v2.5.4 MANDATORY] You MUST categorize issues by responsible agent and provide structured verdict.**
+> **[ MANDATORY] You MUST categorize issues by responsible agent and provide structured verdict.**
 >
 > This enables multi-agent parallel rework to fix all issues efficiently.
 
@@ -162,7 +162,7 @@ Files:
 
 ### Re-verification Expectation
 
-**[v2.5.4 CRITICAL]**: After agents complete revisions, Director will send the revised paper back to you for re-verification.
+**[ CRITICAL]**: After agents complete revisions, Director will send the revised paper back to you for re-verification.
 
 You should:
 1. Review the revised paper
