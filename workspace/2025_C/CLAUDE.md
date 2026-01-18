@@ -33,11 +33,12 @@ All files in CURRENT directory:
 
 ---
 
-## 🔄 17-Phase Workflow
+## 🔄 18-Phase Workflow (v2.5.6)
 
 | Phase | Name | Main Agent | Validation Gate | Est. Time |
 |-------|------|-----------|-----------------|----------|
 | 0 | Problem Understanding | reader, researcher | - | 30 min |
+| **0.5** | **Model Methodology Quality Gate** | **@advisor + @validator** | **✅ METHODOLOGY** | **15-20 min** |
 | 1 | Model Design | modeler | - | 2-6 hours |
 | **1.5** | **Time Estimate Validation** | **@time_validator** | **✅ TIME_CHECK** | **5-10 min** |
 | 2 | Feasibility Check | feasibility_checker | ✅ MODEL | 30 min |
@@ -56,8 +57,8 @@ All files in CURRENT directory:
 | **9.5** | **Editor Feedback** | **Director, agents** | **✅ EDITOR** | **Variable** |
 | 10 | Final Review | advisor | - | 30 min |
 
-**New**: Phases 1.5, 4.5, 5.5 (time_validator) | Phases 6.5, 7.5, 9.5 mandatory
-**Notes**: Phase 5A MANDATORY, 5B optional | Never skip Phases 2 or 5A (anti-fraud)
+**New v2.5.6**: Phase 0.5 (methodology quality) | Phases 1.5, 4.5, 5.5 (time_validator) | Phases 6.5, 7.5, 9.5 mandatory
+**Notes**: Phase 5A MANDATORY, 5B optional | Never skip Phases 0.5, 2 or 5A (quality gates)
 
 ---
 
@@ -274,6 +275,45 @@ Prevents time estimation fraud, lazy implementation, data fabrication.
 
 ---
 
+## 🆕 Phase 0.5: Model Methodology Quality Gate (v2.5.6)
+
+> [!CAUTION] **[MANDATORY] After @researcher, BEFORE @modeler, evaluate methodology quality.**
+
+### Purpose
+Catch weak model methods BEFORE 20+ hours of implementation work.
+
+### Entry Criteria
+- @researcher completed `research_notes.md` | Methods proposed for all requirements
+
+### @director's Tasks (MANDATORY)
+
+1. **Call @advisor + @validator in PARALLEL**:
+   - "@advisor: Evaluate methodology sophistication (1-10 grade)"
+   - "@validator: Evaluate technical rigor (1-10 grade)"
+2. **Wait for both evaluations**: Check `output/docs/validation/methodology_evaluation_{i}_*.md`
+3. **Calculate average grade**: (advisor_avg + validator_avg) / 2
+4. **Decision**:
+
+| Average Grade | Verdict | Action |
+|---------------|---------|--------|
+| **>= 9/10** | ✅ EXCELLENT | Proceed to Phase 1 (high-quality methods assured) |
+| **7-8/10** | ⚠️ ACCEPTABLE | Advise enhancements, proceed (optional) |
+| **< 7/10** | ❌ WEAK | **Rewind to Phase 0.5** → @researcher provides better methods |
+
+### Exit Conditions
+- [ ] Both @advisor + @validator evaluations complete
+- [ ] Average grade >= 9/10 OR @director decides to proceed with caution
+- [ ] methodology_evaluation_{i}_advisor.md and methodology_evaluation_{i}_validator.md exist
+- [ ] If rewound: @researcher revised methods within 2-3 attempts
+
+### Rewind Protocol (Phase 0.5 Loop)
+- Trigger: @advisor OR @validator gives grade < 7/10
+- Action: @researcher revises `research_notes.md` with more sophisticated methods
+- Re-evaluate until grade >= 9/10 OR 2-3 attempts exhausted
+- If 3 attempts exhausted: @director decides (proceed with caution vs continue brainstorming)
+
+---
+
 ## 🆕 Phase 1.5: Time Estimate Validation Gate
 
 > [!CAUTION] **[MANDATORY] After MODEL gate, validate @modeler's time estimates.**
@@ -336,36 +376,45 @@ Prevents time estimation fraud, lazy implementation, data fabrication.
 
 ---
 
-## 🆕 Phase 5.5: Data Authenticity Verification Gate
+## 🆕 Phase 5.5: Enhanced Data Authenticity Verification Gate (v2.5.6)
 
-> [!CAUTION] **[MANDATORY] After TRAINING, verify data authenticity.**
+> [!CAUTION] **[MANDATORY] After TRAINING, comprehensive anti-fraud verification.**
 
 ### Entry Criteria
 - 2 agents (@modeler, @validator) completed TRAINING | model_{i}.py + results_{i}.csv + training_{i}.log exist
 
-### @director's Tasks
+### @director's Tasks (MANDATORY)
 
 1. **Review TRAINING verdicts**: If either rejects → rework first
-2. **Call @time_validator**: "Verify authenticity: timestamps (CSV after training?), file size, statistical properties"
+2. **Call @time_validator**: "Enhanced anti-fraud check: training skip detection, duration verification, result authenticity, code-result consistency"
 3. **Review report**: Check output/docs/validation/time_validator_data_{i}.md
 4. **Decision**:
 
-| Condition | Action |
-|-----------|--------|
-| Both approve + AUTHENTIC | ✅ PROCEED Phase 6 |
-| Both approve + SUSPICIOUS | ⏸️ INVESTIGATE |
-| LIKELY FABRICATED | ❌ RE-RUN required |
-| Timestamps invalid (CSV before log) | ❌ RE-RUN required |
-| File size < 50% expected | ⏸️ INVESTIGATE |
+| Score Range | Verdict | Action |
+|-------------|---------|--------|
+| **900-1000** | ✅ AUTHENTIC | Proceed to Phase 6 |
+| **700-899** | ⚠️ SUSPICIOUS | Investigate specific issues |
+| **500-699** | ⚠️ CONCERNING | Request explanation from @model_trainer |
+| **0-499** | ❌ FABRICATED | **Re-run training with verification** |
 
 ### Exit Conditions
 - [ ] Both agents approved (or revised + re-verified)
 - [ ] @time_validator report reviewed
-- [ ] Data AUTHENTIC (or SUSPICIOUS explained)
+- [ ] Score >= 900 (or 700-899 with satisfactory explanation)
 - [ ] time_validator_data_{i}.md exists
-- [ ] Timestamps valid | File size reasonable
+- [ ] All enhanced checks pass or issues resolved
 
-**Red Flags**: CSV before log | File too small | Perfect integers | Repeating patterns | Impossible ranges
+**v2.5.6 Enhanced Checks**:
+- **Training Skip Detection**: Iterations actually executed? Convergence achieved?
+- **Duration Verification**: Actual >= 70% of expected time? (Detect fast completion)
+- **Result Authenticity**: Results match model type? (Bayesian has uncertainty, etc.)
+- **Code-Result Consistency**: Spot-check passes? (Results match code output)
+
+**Red Flags**: No iteration markers | Training < 30% of expected | Point estimates from Bayesian | Results don't match code
+
+---
+
+## 🎯 Phase 5 Special Handling
 
 ---
 
@@ -396,11 +445,32 @@ Prevents time estimation fraud, lazy implementation, data fabrication.
 ### Implementation
 
 1. **Request verification**: "@visualizer: Run image quality verification on all figures. Report file size, dimensions, corruption."
-2. **Verify**:
+2. **Verify** (v2.5.6 - FIXED wildcards):
 ```bash
-ls -lh output/figures_enhanced/*.png
-python -c "from PIL import Image; import os;
-[Image.open(os.path.join('output/figures_enhanced', f)).verify() for f in os.listdir('output/figures_enhanced') if f.endswith('.png')]"
+# Count all PNG files
+ls -1 output/figures/*.png | wc -l
+
+# Verify image quality (CORRECTED wildcard pattern)
+python3 -c "
+from PIL import Image
+import os
+
+corrupted = []
+for f in sorted(os.listdir('output/figures')):
+    if f.endswith('.png'):
+        try:
+            img = Image.open(os.path.join('output/figures', f))
+            img.verify()
+            img = Image.open(os.path.join('output/figures', f))
+            print(f'{f}: {img.size[0]}x{img.size[1]} - OK')
+        except Exception as e:
+            print(f'{f}: CORRUPTED - {e}')
+            corrupted.append(f)
+
+if corrupted:
+    print(f'\\nCORRUPTED IMAGES: {len(corrupted)}')
+    exit(1)
+"
 ```
 3. **If corruption**: @visualizer regenerates (max 2) | If 2 failures → request rewind
 4. **Rewind targets**: Phase 5 (invalid results) | Phase 3 (data corrupted) | Phase 1 (unvisualizable)
@@ -528,16 +598,25 @@ Validation Gate → Collect verdicts
 
 > [!IMPORTANT] **Model design and major decisions REQUIRE multi-agent consultation.**
 
-### Consultation Protocol
+### Consultation Protocol (v2.5.6)
 
 **BEFORE finalizing model design, you MUST**:
 
 1. @modeler proposes → `output/model_proposals/model_X_draft.md`
-2. @researcher reviews (O-Prize alignment)
-3. @feasibility_checker evaluates (tech feasibility)
-4. @data_engineer reviews (data availability)
-5. @code_translator assesses (implementability)
-6. @advisor critiques (weaknesses/improvements)
+2. **@director sends draft to 5 agents in PARALLEL**:
+   - @researcher reviews (O-Prize alignment) → writes to `output/docs/consultations/feedback_model_X_researcher.md`
+   - @feasibility_checker evaluates (tech feasibility) → writes to `output/docs/consultations/feedback_model_X_feasibility_checker.md`
+   - @data_engineer reviews (data availability) → writes to `output/docs/consultations/feedback_model_X_data_engineer.md`
+   - @code_translator assesses (implementability) → writes to `output/docs/consultations/feedback_model_X_code_translator.md`
+   - @advisor critiques (weaknesses/improvements) → writes to `output/docs/consultations/feedback_model_X_advisor.md`
+3. **@director verifies all 5 feedback files exist**:
+   ```bash
+   ls -1 output/docs/consultations/feedback_model_X_*.md | wc -l
+   # Expected: 5
+   ```
+4. **If count < 5**: Re-call missing agents with reminder
+5. **@director confirms to @modeler**: "All 5 feedback files received, please read them"
+6. @modeler reads all feedback from `output/docs/consultations/feedback_model_X_*.md`
 7. @modeler revises → final `model_design.md`
 
 ### Consultation Triggers
@@ -552,17 +631,31 @@ Validation Gate → Collect verdicts
 | Implementation | @code_translator + @modeler | Math-to-code feasible |
 | Visualization | @visualizer + @writer | Accurate + appealing |
 
-### Example Consultation
+### Example Consultation (v2.5.6)
 
 ```
-STEP 1: @modeler proposes → output/consultations/proposal_model1.md
-STEP 2: Gather feedback:
-  @researcher: "Add time-series lag features"
-  @feasibility_checker: "All libraries available, 2-4h training"
-  @data_engineer: "35 years data, lag features feasible"
-  @code_translator: "Translatable, will use sklearn + bootstrap CI"
-  @advisor: "Base acceptable, recommend hybrid ensemble"
-STEP 3: @modeler revises → output/model_design.md with "Consultation Summary"
+STEP 1: @modeler proposes → output/model_proposals/model_1_draft.md
+
+STEP 2: @director sends to 5 agents in PARALLEL
+  "@researcher: Review output/model_proposals/model_1_draft.md, write feedback to output/docs/consultations/feedback_model_1_researcher.md"
+  "@feasibility_checker: Review output/model_proposals/model_1_draft.md, write feedback to output/docs/consultations/feedback_model_1_feasibility_checker.md"
+  (same for @data_engineer, @code_translator, @advisor)
+
+STEP 3: @director verifies all 5 feedback files exist
+  ls -1 output/docs/consultations/feedback_model_1_*.md | wc -l
+  Expected output: 5
+
+STEP 4: @director confirms to @modeler
+  "@modeler: All 5 feedback files received. Please read:
+   - output/docs/consultations/feedback_model_1_researcher.md
+   - output/docs/consultations/feedback_model_1_feasibility_checker.md
+   - output/docs/consultations/feedback_model_1_data_engineer.md
+   - output/docs/consultations/feedback_model_1_code_translator.md
+   - output/docs/consultations/feedback_model_1_advisor.md"
+
+STEP 5: @modeler reads all 5 feedback files, incorporates feedback
+
+STEP 6: @modeler revises → output/model/model_design.md with "Consultation Summary"
 ```
 
 ---

@@ -194,7 +194,7 @@ def verify_image_quality(image_path):
         return False, f"Image corruption detected: {str(e)}"
 
 # Usage for each generated figure
-figures = ['figure_1.png', 'figure_2.png', 'model_diagram.png']
+figures = ['model_1_scatter_predictions_vs_actual.png', 'model_1_histogram_residuals.png', 'model_1_diagram_architecture.png']
 for fig in figures:
     is_valid, issue = verify_image_quality(f'output/figures_enhanced/{fig}')
     if not is_valid:
@@ -215,9 +215,9 @@ Add this section to your visualization report:
 ### Figure Integrity Checks
 | Figure | Status | File Size | Dimensions | Issues |
 |--------|--------|-----------|------------|--------|
-| figure_1.png | ✅ Valid | 245 KB | 3000x2400 | None |
-| figure_2.png | ❌ Corrupted | 0 KB | N/A | Empty file |
-| model_diagram.png | ✅ Valid | 180 KB | 2800x2200 | None |
+| model_1_scatter_predictions_vs_actual.png | ✅ Valid | 245 KB | 3000x2400 | None |
+| model_1_histogram_residuals.png | ❌ Corrupted | 0 KB | N/A | Empty file |
+| model_1_diagram_architecture.png | ✅ Valid | 180 KB | 2800x2200 | None |
 
 ### Corruption Detected
 - Corruption found: Yes/No
@@ -289,6 +289,58 @@ Read: output/results_summary.md
 
 ### Step 3: Create enhanced visualizations
 
+> [!CRITICAL] **[v2.5.6] MANDATORY: Use standardized image naming convention**
+
+**Image Naming Format (MANDATORY)**:
+```
+{model_number}_{figure_type}_{description}.png
+```
+
+**Components**:
+- `{model_number}`: Model that created the figure (1, 2, 3, etc.)
+- `{figure_type}`: Type of visualization (scatter, line, bar, histogram, heatmap, boxplot, violin, diagram, map, table)
+- `{description}`: Brief description of what the figure shows (use underscores, lowercase)
+- `.png`: PNG extension
+
+**Rules**:
+- Use lowercase letters only
+- Use underscores to separate words in description
+- Keep description under 50 characters
+- No spaces or special characters
+- Always use `.png` extension
+
+**Examples**:
+```
+✅ CORRECT:
+model_1_scatter_predictions_vs_actual.png
+model_1_histogram_residuals.png
+model_2_line_convergence_history.png
+model_2_bar_feature_importance.png
+model_3_heatmap_correlation_matrix.png
+model_1_diagram_model_architecture.png
+
+❌ FORBIDDEN:
+figure1.png (not descriptive)
+Model1_Scatter.png (capital letters)
+model 1 scatter.png (spaces)
+model_1_scatter_predictions_vs_actual_final_v2.png (suffixes)
+scatter.png (missing model number)
+```
+
+**Figure Types (Standardized)**:
+- `scatter` - Scatter plots
+- `line` - Line plots
+- `bar` - Bar charts
+- `histogram` - Histograms
+- `heatmap` - Heatmaps
+- `boxplot` - Box plots
+- `violin` - Violin plots
+- `diagram` - Flowcharts/diagrams
+- `map` - Maps/geographic visualizations
+- `table` - Tables
+
+---
+
 > [!IMPORTANT]
 > **Always activate the venv before running Python - use OS detection:**
 
@@ -355,11 +407,18 @@ Save to: output/figures_enhanced/
 
 ---
 
-## Output Files
+## Output Files (v2.5.6 Standardized Naming)
 
-- `output/figures_enhanced/*.png` - Professional quality (300 DPI)
-- `output/figures_enhanced/model_diagram.png` - Solution flowchart
-- `output/figures_enhanced/key_findings_infographic.png` - Summary visual
+- `output/figures/*.png` - All figures use standardized naming
+  - Format: `{model_number}_{figure_type}_{description}.png`
+  - Examples:
+    - `model_1_scatter_predictions_vs_actual.png`
+    - `model_1_histogram_residuals.png`
+    - `model_1_line_predicted_medals_by_country.png`
+    - `model_1_bar_feature_importance.png`
+    - `model_1_diagram_architecture.png`
+    - `model_2_line_convergence_history.png`
+    - `model_3_heatmap_correlation_matrix.png`
 
 ---
 

@@ -449,7 +449,7 @@ Read: output/model_proposals/model_X_draft.md
 
 **Write feedback**:
 ```
-Write to: output/consultations/feedback_model_X_data_engineer.md
+Write to: output/docs/consultations/feedback_model_X_data_engineer.md
 ```
 
 **Feedback Format**:
@@ -500,7 +500,7 @@ Model design requires data/features that are not available. Suggested revisions:
 ```
 Director, I have completed my data engineering review of Model X draft.
 
-Feedback: output/consultations/feedback_model_X_data_engineer.md
+Feedback: output/docs/consultations/feedback_model_X_data_engineer.md
 Verdict: [PROCEED / NEEDS REVISION / NOT FEASIBLE]
 
 Summary: [2-3 sentence assessment]

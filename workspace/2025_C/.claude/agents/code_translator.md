@@ -464,7 +464,7 @@ Read: output/model_proposals/model_X_draft.md
 
 **Write feedback**:
 ```
-Write to: output/consultations/feedback_model_X_code_translator.md
+Write to: output/docs/consultations/feedback_model_X_code_translator.md
 ```
 
 **Feedback Format**:
@@ -516,7 +516,7 @@ Model design has implementation issues. Suggested revisions:
 ```
 Director, I have completed my implementation review of Model X draft.
 
-Feedback: output/consultations/feedback_model_X_code_translator.md
+Feedback: output/docs/consultations/feedback_model_X_code_translator.md
 Verdict: [PROCEED / NEEDS REVISION / NOT IMPLEMENTABLE]
 
 Summary: [2-3 sentence assessment]

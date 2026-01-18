@@ -175,7 +175,7 @@ Read: output/model_proposals/model_X_draft.md
 
 ### Step 3: Write feedback
 ```
-Write to: output/consultations/feedback_model_X_researcher.md
+Write to: output/docs/consultations/feedback_model_X_researcher.md
 ```
 
 **Feedback Format**:
@@ -257,7 +257,7 @@ The approach is sound. Consider these optional enhancements:
 ```
 Director, I have completed my review of the Model X draft proposal.
 
-**Feedback**: output/consultations/feedback_model_X_researcher.md
+**Feedback**: output/docs/consultations/feedback_model_X_researcher.md
 
 **Verdict**: [NEEDS REVISION / ACCEPTABLE]
 
@@ -363,5 +363,5 @@ Provide more specific evidence:
 ### Consultation Verification (MANDATORY )
 - [ ] When @modeler requests consultation, I read the draft proposal
 - [ ] I evaluated the proposal from research expertise perspective
-- [ ] I provided feedback to output/consultations/feedback_model_X_researcher.md
+- [ ] I provided feedback to output/docs/consultations/feedback_model_X_researcher.md
 - [ ] I reported verdict to Director (NEEDS REVISION / ACCEPTABLE)

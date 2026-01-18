@@ -405,11 +405,11 @@ Please send the draft to these agents for feedback.
 **DO NOT proceed to final design until ALL feedback is received.**
 
 ```
-Read: output/consultations/feedback_model_1_researcher.md
-Read: output/consultations/feedback_model_1_feasibility_checker.md
-Read: output/consultations/feedback_model_1_data_engineer.md
-Read: output/consultations/feedback_model_1_code_translator.md
-Read: output/consultations/feedback_model_1_advisor.md
+Read: output/docs/consultations/feedback_model_1_researcher.md
+Read: output/docs/consultations/feedback_model_1_feasibility_checker.md
+Read: output/docs/consultations/feedback_model_1_data_engineer.md
+Read: output/docs/consultations/feedback_model_1_code_translator.md
+Read: output/docs/consultations/feedback_model_1_advisor.md
 ```
 
 **For each feedback file, extract**:

@@ -497,7 +497,7 @@ Read: output/model_proposals/model_X_draft.md
 
 **Write feedback**:
 ```
-Write to: output/consultations/feedback_model_X_advisor.md
+Write to: output/docs/consultations/feedback_model_X_advisor.md
 ```
 
 **Feedback Format**:
@@ -555,7 +555,7 @@ Solid approach. Optional enhancements:
 ```
 Director, I have completed my faculty advisor review of Model X draft.
 
-Feedback: output/consultations/feedback_model_X_advisor.md
+Feedback: output/docs/consultations/feedback_model_X_advisor.md
 Verdict: [NEEDS REVISION / ACCEPTABLE / STRONG]
 
 Summary: [2-3 sentence assessment]

@@ -481,6 +481,95 @@ Write to: output/model/feasibility_{i}.md
 
 ---
 
+## 🆔 [CRITICAL NEW] Model Design Consultation (MANDATORY)
+
+> [!CRITICAL]
+> **[MANDATORY] When @modeler requests consultation on a draft proposal, you MUST provide feedback.**
+>
+> This is NOT optional. Your feasibility expertise ensures the model design is technically feasible.
+
+### When Consultation is Requested
+
+**Director will send you**: `output/model_proposals/model_X_draft.md`
+
+**Your task**: Review the draft and provide feedback from your technical feasibility perspective.
+
+### Consultation Response
+
+**Read the draft**:
+```
+Read: output/model_proposals/model_X_draft.md
+```
+
+**Evaluate from feasibility perspective**:
+- **Library Availability**: Are all required libraries available?
+- **Computational Feasibility**: Can this be implemented within MCM time constraints?
+- **Algorithm Complexity**: Is the complexity realistic (2-6 hours)?
+- **Resource Requirements**: Are CPU/memory/GPU requirements feasible?
+- **Implementation Risks**: What could go wrong during implementation?
+
+**Write feedback**:
+```
+Write to: output/docs/consultations/feedback_model_X_feasibility_checker.md
+```
+
+**Feedback Format**:
+```markdown
+# Feedback on Model X Draft - @feasibility_checker
+
+## Feasibility Assessment
+- **Technical Feasibility**: [Fully feasible / Needs modification / Not feasible]
+- **Library Availability**: [All available / Some need installation / Not available]
+- **Computational Intensity**: [Realistic / Too complex / Too simple]
+- **Verdict**: [PROCEED / NEEDS REVISION / NOT FEASIBLE]
+
+## ✅ Feasibility Strengths
+1. [Strength 1]
+2. [Strength 2]
+
+## ❌ Feasibility Concerns
+1. [Concern 1] - [Why it's a problem]
+2. [Concern 2] - [Why it's a problem]
+
+## 💡 Recommendations
+
+### Technical Implementation
+- [Library requirements and availability]
+- [Implementation complexity considerations]
+- [Alternative approaches if needed]
+
+### Computational Requirements
+- [Expected time: X hours] - [Meets / Does not meet] 2-6h requirement
+- [If too complex: Suggest simplifications]
+- [If too simple: Suggest more intensive methods]
+
+### Risk Mitigation
+- [Potential implementation risks]
+- [Strategies to mitigate risks]
+- [Fallback options]
+
+## Summary
+**If PROCEED**:
+Model design is technically feasible. Ready to proceed.
+
+**If NEEDS REVISION**:
+Model design has feasibility issues. Suggested revisions:
+1. [Revision 1]
+2. [Revision 2]
+```
+
+**Report to Director**:
+```
+Director, I have completed my feasibility review of Model X draft.
+
+Feedback: output/docs/consultations/feedback_model_X_feasibility_checker.md
+Verdict: [PROCEED / NEEDS REVISION / NOT FEASIBLE]
+
+Summary: [2-3 sentence assessment]
+```
+
+---
+
 ## Consultation Summary
 
 [Document any consultations with @data_engineer, @code_translator, or @modeler]
