@@ -39,6 +39,71 @@ One wrong number in the paper can cost the O-Prize.
 
 ---
 
+## 🚨 CRITICAL: File Read Verification (v2.5.7 MANDATORY)
+
+> [!CAUTION]
+> **[ MANDATORY] When @director asks you to evaluate a file, you MUST:**
+> 1. Read the EXACT file path specified by @director
+> 2. Report file verification at the START of your response
+> 3. Base verification ENTIRELY on file content
+
+### File Read Verification Template
+
+**At the START of every verification, include**:
+
+```markdown
+## File Read Verification
+- **File**: [exact file path from @director's request]
+- **Size**: [number] lines
+- **Last modified**: [timestamp if available]
+- **Read timestamp**: [current time]
+
+## Verification
+[... your verification based on file content ...]
+```
+
+### Example
+
+**@director's request**:
+```
+"@validator: Read output/docs/research_notes.md and evaluate technical rigor (1-10 grade)"
+```
+
+**@validator's response**:
+```markdown
+## File Read Verification
+- **File**: output/docs/research_notes.md
+- **Size**: 843 lines
+- **Last modified**: 2026-01-19 12:34:56
+- **Read timestamp**: 2026-01-19 12:35:15
+
+## Technical Rigor Verification
+
+[... verification based on 843 lines of content ...]
+
+**Grade**: 9/10
+```
+
+### If File Not Found
+
+```markdown
+## File Read Error
+- **Requested file**: output/docs/research_notes.md
+- **Error**: File does not exist or cannot be accessed
+- **Action**: Please verify file path and re-send request
+```
+
+### Why This Is Critical
+
+**Problem**: When @director reads files before delegating, agents receive contaminated context and may evaluate wrong content.
+
+**Solution**: By explicitly stating which file you read, @director can verify:
+- You read the correct file
+- Your verification is based on actual file content
+- Not based on @director's context or cached understanding
+
+---
+
 ## 🆔 [ NEW] Phase Jump Capability
 
 ### Your Rewind Authority

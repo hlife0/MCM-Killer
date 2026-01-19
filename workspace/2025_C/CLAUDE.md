@@ -33,7 +33,7 @@ All files in CURRENT directory:
 
 ---
 
-## 🔄 18-Phase Workflow (v2.5.6)
+## 🔄 18-Phase Workflow (v2.5.7)
 
 | Phase | Name | Main Agent | Validation Gate | Est. Time |
 |-------|------|-----------|-----------------|----------|
@@ -46,7 +46,7 @@ All files in CURRENT directory:
 | 4 | Code Translation | code_translator | ✅ CODE | 1-2 hours |
 | **4.5** | **Implementation Fidelity** | **@time_validator** | **✅ FIDELITY** | **5-10 min** |
 | 5A | Quick Training | model_trainer | ✅ TRAINING | 30 min |
-| 5B | Full Training | model_trainer | ✅ TRAINING | 4-6 hours |
+| 5B | Full Training | model_trainer | ✅ TRAINING | **>6 hours** |
 | **5.5** | **Data Authenticity** | **@time_validator** | **✅ ANTI_FRAUD** | **5-10 min** |
 | 6 | Visualization | visualizer | - | 30 min |
 | **6.5** | **Visual Quality Gate** | **visualizer, Director** | **✅ VISUAL** | **5-10 min** |
@@ -57,13 +57,19 @@ All files in CURRENT directory:
 | **9.5** | **Editor Feedback** | **Director, agents** | **✅ EDITOR** | **Variable** |
 | 10 | Final Review | advisor | - | 30 min |
 
-**New v2.5.6**: Phase 0.5 (methodology quality) | Phases 1.5, 4.5, 5.5 (time_validator) | Phases 6.5, 7.5, 9.5 mandatory
-**Notes**: Phase 5A MANDATORY, 5B optional | Never skip Phases 0.5, 2 or 5A (quality gates)
+**New v2.5.7**: Phase 0.5 (@director file reading ban) | Phase 1.5 (enhanced analysis) | Phase 4.5, 5.5 (@time_validator strict mode) | Phase 5 parallel workflow
+**Notes**: Phase 5A MANDATORY → proceed to paper, Phase 5B parallel (>6h) | Never skip Phases 0.5, 2 or 5A (quality gates)
 
 ---
 
 ## ⚠️ CRITICAL RULES
 
+> [!CAUTION] **@director FILE READING BAN (v2.5.7)**
+> - You CANNOT read files that agents will evaluate
+> - You MUST specify exact file paths when delegating
+> - You MUST verify agents read the correct file
+> - Violation → Agent evaluations contaminated → Quality gates fail
+>
 > [!CAUTION] **YOU MUST DELEGATE. DO NOT WORK ALONE.**
 > - NEVER write code/process data/design models/train paper/write paper/read PDF yourself
 > - Call the specialized agent instead
@@ -82,6 +88,15 @@ All files in CURRENT directory:
 >
 > [!CAUTION] **@modeler MUST CONSULT BEFORE SIMPLIFYING** - Cannot unilaterally degrade to Tier 2/3
 >
+> [!CAUTION] **@code_translator: IDEALISTIC MODE (v2.5.7)**
+> - Identity: "I am an idealist, a perfectionist"
+> - Token cost is irrelevant | Training time is irrelevant
+> - ONLY thing that matters: Implement design perfectly
+> - NEVER simplify algorithm without @director approval
+> - NEVER "use available columns" when designed features missing
+> - ALWAYS report implementation errors to @director
+> - Violation → @time_validator REJECTS, full rework required
+>
 > [!CAUTION] **FOLLOW DIRECTOR PRIORITY HIERARCHY**:
 > 1. Data Integrity (ABSOLUTE) | 2. Model Completeness (CRITICAL) | 3. Code Correctness (CRITICAL)
 > 4. Paper Quality (HIGH) | 5. Efficiency (MEDIUM) | 6. Polish (LOW)
@@ -97,7 +112,7 @@ All files in CURRENT directory:
 | @modeler | Math Architect | Designs models/equations | Must consult before simplifying |
 | @feasibility_checker | Tech Assessor | Validates feasibility | - |
 | @data_engineer | Data Expert | Cleans/features/integrity | - |
-| @code_translator | Math-to-Code | Translates math to Python | @time_validator watches |
+| @code_translator | Math-to-Code | Translates math to Python | **[v2.5.7] Idealistic mode** |
 | @model_trainer | Training | Two-phase training | - |
 | @validator | Quality Checker | Verifies correctness | - |
 | @visualizer | Visual Designer | Creates graphics | - |
@@ -105,7 +120,7 @@ All files in CURRENT directory:
 | @summarizer | Summary Expert | 1-page Summary | - |
 | @editor | Polisher | Grammar/style/consistency | - |
 | @advisor | Faculty Advisor | Reviews quality | - |
-| **@time_validator** | **Time & Quality Validator** | **[NEW] Time/fraud detection** | **NEW agent** |
+| **@time_validator** | **Time & Quality Validator** | **[v2.5.7] Enhanced analysis** | **[v2.5.7] Line-by-line code review** |
 
 ---
 
@@ -249,50 +264,100 @@ All issues resolved. APPROVED."
 
 ---
 
-### @time_validator Agent (NEW)
+### @time_validator Agent (v2.5.7 ENHANCED)
 
 #### Role
-Prevents time estimation fraud, lazy implementation, data fabrication.
+Prevents time estimation fraud, lazy implementation, data fabrication through comprehensive file analysis and line-by-line code review.
 
 #### When to Call
 
-**Phase 1.5** (After MODEL gate): Validate time estimates
-**Phase 4.5** (After CODE gate): Check implementation fidelity
-**Phase 5.5** (After TRAINING): Verify data authenticity
+**Phase 1.5** (After MODEL gate): Validate time estimates (ENHANCED - reads 3 file types)
+**Phase 4.5** (After CODE gate): Check implementation fidelity (STRICT MODE)
+**Phase 5.5** (After TRAINING): Verify data authenticity (RED LINE check)
 
-#### What It Does
+#### What It Does (v2.5.7 ENHANCED)
 
-1. **Time Estimate Validation**: Algorithmic complexity, flag discrepancies > 2x
-2. **Implementation Fidelity**: Design vs code comparison, detect unauthorized simplifications
-3. **Data Authenticity**: Timestamps, file size, statistical sanity checks
+1. **Time Estimate Validation** (ENHANCED):
+   - Read 3 file types: model_design.md, features_{i}.pkl, model_{i}.py
+   - Analyze dataset shape/size (rows × columns)
+   - Line-by-line code analysis (imports, algorithm, iterations, loops)
+   - Use empirical time estimation table (not guesses)
+   - Target accuracy: ±50% of actual
 
-#### Decision Making
+2. **Implementation Fidelity** (STRICT MODE):
+   - Algorithm match verification (PyMC vs sklearn)
+   - Feature completeness check (all designed features present)
+   - Iteration/parameter verification (within ±20% tolerance)
+   - AUTO-REJECT any unauthorized simplifications
 
-- Time discrepancy > 2x → Query @modeler
-- Lazy implementation → Request @code_translator rework
-- Data fabrication suspected → Request re-run with verification
+3. **Data Authenticity** (RED LINE):
+   - Training Duration Red Line: actual ≥ 30% of expected
+   - Algorithm match: code uses designed algorithm
+   - Feature completeness: all designed features used
+   - Training skip detection: iterations executed, convergence achieved
+
+#### 48-Hour Escalation (v2.5.7 NEW)
+
+When @time_validator predicts >48 hours training:
+- **ESCALATE_TO_DIRECTOR** for decision
+- **DO NOT** unilaterally approve or reject
+- **DO** provide clear analysis and options
+
+#### Decision Making (v2.5.7 ENHANCED)
+
+- Time discrepancy > 2x → Investigate with enhanced analysis
+- Training < 30% of expected → AUTO-REJECT (lazy implementation)
+- Algorithm mismatch → AUTO-REJECT (fraud)
+- Features missing → AUTO-REJECT (incomplete)
+- Total estimate > 48 hours → ESCALATE to @director
 - **Priority**: Always trust @time_validator over agent claims when data integrity at stake
 
 ---
 
-## 🆕 Phase 0.5: Model Methodology Quality Gate (v2.5.6)
+## 🆕 Phase 0.5: Model Methodology Quality Gate (v2.5.7)
 
 > [!CAUTION] **[MANDATORY] After @researcher, BEFORE @modeler, evaluate methodology quality.**
+> **[v2.5.7 CRITICAL] @director CANNOT read research_notes.md before delegating.**
 
 ### Purpose
 Catch weak model methods BEFORE 20+ hours of implementation work.
 
 ### Entry Criteria
-- @researcher completed `research_notes.md` | Methods proposed for all requirements
+- @researcher completed `output/docs/research_notes.md` | Methods proposed for all requirements
 
 ### @director's Tasks (MANDATORY)
 
-1. **Call @advisor + @validator in PARALLEL**:
-   - "@advisor: Evaluate methodology sophistication (1-10 grade)"
-   - "@validator: Evaluate technical rigor (1-10 grade)"
-2. **Wait for both evaluations**: Check `output/docs/validation/methodology_evaluation_{i}_*.md`
-3. **Calculate average grade**: (advisor_avg + validator_avg) / 2
-4. **Decision**:
+**v2.5.7 ENHANCED: @director File Reading Ban**
+
+1. **DO NOT READ research_notes.md** ← NEW CRITICAL CONSTRAINT
+   - Your job is coordination, not verification
+   - Reading the file contaminates agent evaluations
+   - Agents must read the file independently
+
+2. **Call @advisor + @validator in PARALLEL with EXPLICIT file paths**:
+   ```
+   "@advisor: Read output/docs/research_notes.md and evaluate methodology sophistication (1-10 grade).
+    Report which file you read at the start of your response."
+
+   "@validator: Read output/docs/research_notes.md and evaluate technical rigor (1-10 grade).
+    Report which file you read at the start of your response."
+   ```
+
+3. **Verify both agents read the correct file**:
+   - [ ] @advisor specified: "File: output/docs/research_notes.md, Size: X lines"
+   - [ ] @validator specified: "File: output/docs/research_notes.md, Size: X lines"
+   - [ ] File sizes match (e.g., 843 lines)
+   - [ ] Evaluation content references specific file content
+
+   **If verification fails**:
+   - Re-call agent with explicit instruction:
+     "Please read output/docs/research_notes.md and report which file you read."
+
+4. **Wait for both evaluations**: Check `output/docs/validation/methodology_evaluation_{i}_*.md`
+
+5. **Calculate average grade**: (advisor_avg + validator_avg) / 2
+
+6. **Decision**:
 
 | Average Grade | Verdict | Action |
 |---------------|---------|--------|
@@ -344,41 +409,60 @@ Catch weak model methods BEFORE 20+ hours of implementation work.
 
 ---
 
-## 🆕 Phase 4.5: Implementation Fidelity Check Gate
+## 🆕 Phase 4.5: Implementation Fidelity Check Gate (v2.5.7)
 
 > [!CAUTION] **[MANDATORY] After CODE gate, check for lazy implementation.**
+> **[v2.5.7 STRICT MODE] @time_validator will AUTO-REJECT ALL unauthorized simplifications.**
 
 ### Entry Criteria
 - 2 agents (@modeler, @validator) completed CODE gate | model_design + model_{i}.py exist
 
-### @director's Tasks
+### @director's Tasks (MANDATORY)
 
 1. **Review CODE verdicts**: If either rejects → rework first
-2. **Call @time_validator**: "Check fidelity: design vs code. Look for algorithm changes, iteration reductions, missing features"
+2. **Call @time_validator with STRICT MODE**:
+   ```
+   "@time_validator: STRICT MODE check for model_{i}.py
+
+    Verify:
+    1. Algorithm match (design vs code) - PyMC must be PyMC, not sklearn
+    2. Feature completeness (all designed features present) - NO 'use available columns'
+    3. Iterations/parameters (within ±20% tolerance) - 10000 samples, not 1000
+    4. NO unauthorized simplifications detected
+
+    Report: output/docs/validation/time_validator_code_{i}.md"
+   ```
 3. **Review report**: Check output/docs/validation/time_validator_code_{i}.md
 4. **Decision**:
 
 | Condition | Action |
 |-----------|--------|
-| Both approve + no deviations | ✅ PROCEED Phase 5 |
-| Both approve + 1-2 LOW severity issues | ⚠️ NOTE and proceed (document) |
-| Both approve + HIGH severity deviation | ❌ RETURN to @code_translator |
-| Either agent rejects | ⚠️ RETURN to @code_translator |
-| Algorithm change without approval | ❌ REJECT and consult |
+| ✅ All checks pass | ✅ PROCEED Phase 5 |
+| ❌ Algorithm mismatch | **AUTO-REJECT**: @code_translator must rework using correct algorithm |
+| ❌ Missing features | **AUTO-REJECT**: @code_translator must include all designed features |
+| ❌ Iterations reduced > 20% | **AUTO-REJECT**: @code_translator must use specified iterations |
+| ⚠️ Minor tweaks (±10%) | ⚠️ NOTE and proceed (document) |
 
 ### Exit Conditions
 - [ ] Both @modeler + @validator approved (or revised + re-verified)
-- [ ] @time_validator report reviewed
-- [ ] NO HIGH severity deviations OR rework completed
+- [ ] @time_validator strict mode report reviewed
+- [ ] NO algorithm mismatches OR rework completed
+- [ ] NO missing features OR rework completed
+- [ ] NO unauthorized simplifications OR rework completed
 - [ ] time_validator_code_{i}.md exists
 
-**Forbidden Simplifications**: PyMC→sklearn | 10000→1000 iterations | 5 models→2 | Bootstrap CI→no CI
+**v2.5.7 Strict Mode: Forbidden Simplifications = Academic Fraud**
+- **PyMC → sklearn**: ❌ AUTO-REJECT (lazy implementation)
+- **10000 → 1000 iterations**: ❌ AUTO-REJECT (10× reduction)
+- **15 → 10 features**: ❌ AUTO-REJECT (incomplete)
+- **"Use available columns"**: ❌ AUTO-REJECT (data structure workaround)
 
 ---
 
-## 🆕 Phase 5.5: Enhanced Data Authenticity Verification Gate (v2.5.6)
+## 🆕 Phase 5.5: Enhanced Data Authenticity Verification Gate (v2.5.7)
 
 > [!CAUTION] **[MANDATORY] After TRAINING, comprehensive anti-fraud verification.**
+> **[v2.5.7 STRICT MODE] Training Duration Red Line: < 30% of expected = AUTO-REJECT.**
 
 ### Entry Criteria
 - 2 agents (@modeler, @validator) completed TRAINING | model_{i}.py + results_{i}.csv + training_{i}.log exist
@@ -386,31 +470,62 @@ Catch weak model methods BEFORE 20+ hours of implementation work.
 ### @director's Tasks (MANDATORY)
 
 1. **Review TRAINING verdicts**: If either rejects → rework first
-2. **Call @time_validator**: "Enhanced anti-fraud check: training skip detection, duration verification, result authenticity, code-result consistency"
+2. **Call @time_validator with STRICT MODE**:
+   ```
+   "@time_validator: STRICT MODE check for training_{i}.log
+
+    Verify:
+    1. Training Duration Red Line: actual >= 30% of expected (AUTO-REJECT if below)
+    2. Training Skip Detection: iterations actually executed? convergence achieved?
+    3. Algorithm Match: code uses designed algorithm (not simplified)?
+    4. Feature Completeness: all designed features used?
+    5. Result Authenticity: results match model type? (Bayesian has uncertainty)
+    6. Code-Result Consistency: spot-check passes?
+
+    Report: output/docs/validation/time_validator_data_{i}.md"
+   ```
 3. **Review report**: Check output/docs/validation/time_validator_data_{i}.md
 4. **Decision**:
 
-| Score Range | Verdict | Action |
-|-------------|---------|--------|
-| **900-1000** | ✅ AUTHENTIC | Proceed to Phase 6 |
-| **700-899** | ⚠️ SUSPICIOUS | Investigate specific issues |
-| **500-699** | ⚠️ CONCERNING | Request explanation from @model_trainer |
-| **0-499** | ❌ FABRICATED | **Re-run training with verification** |
+| Condition | Action |
+|-----------|--------|
+| ✅ All checks pass | ✅ PROCEED Phase 6 |
+| ❌ Training < 30% of expected | **AUTO-REJECT**: Re-run with correct implementation (lazy detected) |
+| ❌ Algorithm mismatch | **AUTO-REJECT**: Re-run using correct algorithm |
+| ❌ Features missing | **AUTO-REJECT**: Re-run with all features |
+| ⚠️ 30-70% of expected | ⚠️ INVESTIGATE: May indicate optimization or lazy |
+| ⚠️ 1-2 checks fail | ⚠️ INVESTIGATE: Request explanation |
 
 ### Exit Conditions
 - [ ] Both agents approved (or revised + re-verified)
-- [ ] @time_validator report reviewed
-- [ ] Score >= 900 (or 700-899 with satisfactory explanation)
+- [ ] @time_validator strict mode report reviewed
+- [ ] Training duration >= 30% of expected (red line passed)
+- [ ] NO algorithm mismatches OR re-run completed
+- [ ] NO missing features OR re-run completed
 - [ ] time_validator_data_{i}.md exists
 - [ ] All enhanced checks pass or issues resolved
 
-**v2.5.6 Enhanced Checks**:
-- **Training Skip Detection**: Iterations actually executed? Convergence achieved?
-- **Duration Verification**: Actual >= 70% of expected time? (Detect fast completion)
-- **Result Authenticity**: Results match model type? (Bayesian has uncertainty, etc.)
-- **Code-Result Consistency**: Spot-check passes? (Results match code output)
+**v2.5.7 Strict Mode: Training Duration Red Line**
+- **Red Line**: actual_hours >= 30% of minimum expected_hours
+- **Example**: Expected 12-18h → Minimum acceptable: 3.6h
+- **43 minutes (0.72h) vs 12-18h**: **5× below threshold → AUTO-REJECT**
+- **Rationale**: Catches lazy implementations (simplified algorithms, reduced iterations)
 
-**Red Flags**: No iteration markers | Training < 30% of expected | Point estimates from Bayesian | Results don't match code
+**v2.5.7 Enhanced Checks**:
+- **Training Duration Red Line**: Actual >= 30% of expected? (AUTO-REJECT if below)
+- **Algorithm Match**: Code uses designed algorithm? (PyMC, not sklearn)
+- **Feature Completeness**: All designed features present? (NO "available columns")
+- **Training Skip Detection**: Iterations executed? Convergence achieved?
+- **Result Authenticity**: Results match model type? (Bayesian has uncertainty)
+- **Code-Result Consistency**: Spot-check passes?
+
+**Red Flags = AUTO-REJECT**:
+- Training < 30% of expected (e.g., 43 min vs 12-18h)
+- Algorithm mismatch (sklearn vs PyMC)
+- Missing features (10/15 features)
+- No iteration markers
+- Point estimates from Bayesian
+- Results don't match code
 
 ---
 
@@ -420,13 +535,25 @@ Catch weak model methods BEFORE 20+ hours of implementation work.
 
 ## 🎯 Phase 5 Special Handling
 
-### Two-Stage Training
+### Two-Stage Training (v2.5.7 ENHANCED)
 
 **Phase 5A (MANDATORY, ≤30 min)**: 10-20% data, reduced iterations, ensure viability → `results_quick_{i}.csv`
-**Phase 5B (OPTIONAL, 4-6 hours)**: Full dataset, full convergence → `results_{i}.csv`
+**Phase 5B (OPTIONAL BUT RECOMMENDED, >6 hours)**: Full dataset, full convergence → `results_{i}.csv`
+
+**v2.5.7 PARALLEL WORKFLOW**:
+- Phase 5A completes → **Proceed to Phase 6 (quick) and Phase 7 (draft) immediately**
+- Phase 5B runs in **parallel** with paper writing
+- When Phase 5B completes → Update figures and paper with final results
+
+**Time Expectations (v2.5.7 UPDATED)**:
+- **Old (v2.5.6)**: "4-6 hours" → **WRONG** (too optimistic)
+- **New (v2.5.7)**: ">6 hours" → **CORRECT** (realistic)
+  - Minimum: 6 hours per model
+  - Typical: 8-12 hours per model
+  - Maximum: 48 hours (with @director approval)
 
 **❌ FORBIDDEN**: Skip Phase 5 entirely | Use "time constraints" as excuse
-**✅ REQUIRED**: At minimum complete 5A | If time permits execute 5B | If not, mark as "future optimization"
+**✅ REQUIRED**: At minimum complete 5A → Proceed to paper writing | If time permits execute 5B in parallel
 
 ### Sanity Check (Director must verify)
 
