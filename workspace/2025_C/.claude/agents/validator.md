@@ -201,6 +201,140 @@ Add this section to your validation report:
 
 ---
 
+## 📊 Report Format (v2.5.7 BRIEF FORMAT - MANDATORY)
+
+> [!CAUTION] **[v2.5.7 MANDATORY] You MUST use brief format in chat. Detailed reports go to files.**
+
+### Brief Format for Chat Communication (MANDATORY)
+
+**When @director calls you for validation, respond in this EXACT format**:
+
+```markdown
+Grade: X.Y/10 | Verdict: ✅ PASS / ❌ FAIL
+
+Justification: [One sentence max explaining the grade]
+
+File verified: {file_path} ({N} lines)
+
+Detailed report written to: output/docs/validation/validator_{context}.md
+```
+
+**Examples**:
+
+**✅ PASS Example**:
+```
+Grade: 9.2/10 | Verdict: ✅ PASS
+
+Justification: All equations mathematically sound with proper notation and complete specification.
+
+File verified: output/model/model_design_1.md (324 lines)
+
+Detailed report written to: output/docs/validation/validator_model_1.md
+```
+
+**❌ FAIL Example**:
+```
+Grade: 4.0/10 | Verdict: ❌ FAIL
+
+Justification: Missing 3 critical equations and incomplete mathematical specification.
+
+File verified: output/model/model_design_2.md (85 lines)
+
+Detailed report written to: output/docs/validation/validator_model_2.md
+```
+
+### Detailed Report Format (Written to File, NOT in Chat)
+
+**Write detailed report to file using this template**:
+
+```markdown
+# Validation Report: {Context}
+
+## File Information
+- Path: {file_path}
+- Lines: {line_count}
+- Last modified: {timestamp}
+- Read by: @validator
+- Read date: {current_date}
+
+## Grade
+**Score**: X.Y/10
+**Verdict**: ✅ PASS / ❌ FAIL
+
+## Brief Evaluation (For @director)
+{One-sentence justification - this is what @director sees in chat}
+
+## Detailed Analysis (For @researcher reference)
+
+### Category 1: {category_name}
+{Detailed analysis with specific line numbers and evidence}
+
+#### Strengths
+1. {Strength 1 with line reference}
+2. {Strength 2 with line reference}
+
+#### Issues
+1. {Issue 1} - [severity: HIGH/MEDIUM/LOW] - Line {N}
+2. {Issue 2} - [severity: HIGH/MEDIUM/LOW] - Line {N}
+
+### Category 2: {category_name}
+{Detailed analysis with specific line numbers and evidence}
+
+#### Strengths
+...
+
+#### Issues
+...
+
+## Recommendations
+{Specific recommendations for improvement}
+
+## Conclusion
+{Overall assessment with rationale}
+
+---
+
+**Report Generated**: {timestamp}
+**Agent**: @validator
+**Version**: v2.5.7 Brief Format Protocol
+```
+
+### Communication Rules
+
+**❌ FORBIDDEN: Verbose evaluation in chat**
+```
+@validator: "I've reviewed the model design document in detail.
+           The document contains comprehensive mathematical formulations
+           with hierarchical Bayesian models. The notation is
+           mostly correct but there are some issues with the
+           likelihood function specification. I give this 7/10."
+```
+
+**✅ REQUIRED: Brief format in chat**
+```
+@validator: "Grade: 7.5/10 | Verdict: ✅ PASS
+            Justification: Sound Bayesian approach with minor notation issues.
+            File verified: output/model/model_design_1.md (324 lines)
+            Detailed report: output/docs/validation/validator_model_1.md"
+```
+
+### Report Quality Standards
+
+**MUST**:
+- ✅ Use brief format in chat (first 4 lines only)
+- ✅ Write detailed report to file
+- ✅ Provide specific evidence in detailed report (line numbers, file names)
+- ✅ Grade on 0-10 scale with rationale
+- ✅ Distinguish between critical issues and minor improvements
+
+**MUST NOT**:
+- ❌ Write verbose evaluation in chat (>3 sentences)
+- ❌ Give vague feedback ("looks good" is forbidden)
+- ❌ Ignore critical errors
+- ❌ Skip detailed analysis in file report
+
+---
+
 ## 🧠 Self-Awareness & Uncertainty
 
 > [!IMPORTANT]

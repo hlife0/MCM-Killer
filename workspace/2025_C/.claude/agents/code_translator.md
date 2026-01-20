@@ -161,9 +161,463 @@ Director, Environment exploration complete:
 
 ---
 
+## 🎯 Design Expectations Compliance (v2.5.7 MANDATORY)
+
+> [!CRITICAL] **[v2.5.7 MANDATORY] You MUST read and comply with the Design Expectations Table from model_design.md**
+>
+> **@time_validator will create a comparison table (Design vs Actual vs Tolerance vs Verdict) to validate your implementation.**
+> **@director will enforce "one fail = all fail" rule - ANY CRITICAL parameter failure = AUTO-REJECT**
+
+### Step 0: Read Design Expectations Table (MANDATORY - Before ANY coding)
+
+**Before writing ANY code, you MUST:**
+
+```bash
+Read: output/model_design.md
+```
+
+**Extract the Design Expectations Table**:
+
+```markdown
+## Model {i} Design Expectations
+
+### Category 1: Sampling Algorithm
+| Parameter | Design Specification | Min | Max | Unit | Must Not Simplify |
+|-----------|---------------------|-----|-----|------|-------------------|
+| Sampler | NUTS | NUTS | NUTS | - | YES |
+| Tree Depth | 5-10 | 5 | 10 | layers | YES |
+
+### Category 2: MCMC Parameters (CRITICAL - Samples MUST NOT be simplified)
+| Parameter | Design Specification | Min | Max | Unit | Must Not Simplify |
+|-----------|---------------------|-----|-----|------|-------------------|
+| Chains | 4 | 4 | 4 | chains | YES |
+| Tune | 2000 | 2000 | 2000 | samples | YES |
+| Draws | 20000 | 16000 | 24000 | samples | YES |
+| Total | 88000 | 70400 | 105600 | samples | YES |
+
+### Category 3: Features (CRITICAL - ALL features MUST be present)
+| Parameter | Design Specification | Min | Max | Unit | Must Not Simplify |
+|-----------|---------------------|-----|-----|------|-------------------|
+| Total features | 15 | 15 | 15 | features | YES |
+| Specific features | [list of 15 features] | ALL | ALL | - | YES |
+```
+
+### Critical Rules for Samples (v2.5.7 ABSOLUTE)
+
+**🚨 SAMPLES PROTECTION - ABSOLUTE RED LINE**:
+
+```
+❌ FORBIDDEN (Academic Fraud):
+  Draws: 20000 → 1000 (20× reduction)
+  Tune: 2000 → 100 (20× reduction)
+  Chains: 4 → 2 (50% reduction)
+  Total: 88000 → 3000 (29× reduction)
+
+✅ REQUIRED (Exact Implementation):
+  Draws: 20000 (within ±20%: 16000-24000)
+  Tune: 2000 (exact, no tolerance)
+  Chains: 4 (exact, no tolerance)
+  Total: 88000 (within ±20%: 70400-105600)
+```
+
+**Why Samples Cannot Be Simplified**:
+
+1. **Posterior Convergence**: 20000 samples required for MCMC convergence
+   - Fewer samples → unreliable posterior estimates
+   - R-hat diagnostics unreliable
+   - Effective sample size too low
+
+2. **Uncertainty Quantification**: Bayesian models require sufficient samples
+   - 95% CI requires adequate posterior sampling
+   - <16000 samples → CI too wide/narrow (invalid inference)
+
+3. **Reproducibility**: 4 chains required for convergence verification
+   - <4 chains → Cannot verify convergence
+   - Results may be non-reproducible
+
+### Code Implementation Requirements
+
+**When implementing model_{i}.py, you MUST**:
+
+```python
+# CORRECT: Exact implementation of design specifications
+import pymc as pm
+
+with pm.Model() as model:
+    # ... define model ...
+
+    # CRITICAL: Use EXACT parameters from design
+    trace = pm.sample(
+        draws=20000,        # ← From design: 20000 (min 16000, max 24000)
+        tune=2000,          # ← From design: 2000 (exact)
+        chains=4,           # ← From design: 4 (exact)
+        cores=4,
+        target_accept=0.95  # ← From design if specified
+    )
+
+    # Total samples: 20000 × 4 = 80000 + 2000×4 = 8000 = 88000
+```
+
+**❌ FORBIDDEN**:
+
+```python
+# WRONG: Unauthorized simplification
+trace = pm.sample(
+    draws=1000,      # ← 20× below minimum (16000) - AUTO-REJECT
+    tune=100,        # ← 20× below design (2000) - AUTO-REJECT
+    chains=2,        # ← 50% below design (4) - AUTO-REJECT
+)
+
+# WRONG: "Use available columns" workaround
+features = df.columns  # ← Only uses available columns, missing features
+# Instead, raise error if designed features missing
+```
+
+**✅ CORRECT**:
+
+```python
+# Verify ALL designed features are present
+designed_features = ['GDP', 'host_advantage', 'years_participated', ...]
+actual_features = features.columns.tolist()
+
+missing = set(designed_features) - set(actual_features)
+if missing:
+    raise ValueError(
+        f"Missing {len(missing)} required features: {missing}\n"
+        f"DO NOT use 'available columns' workaround.\n"
+        f"Report to @director to fix data structure."
+    )
+
+# Use EXACT parameters from design
+trace = pm.sample(
+    draws=20000,
+    tune=2000,
+    chains=4,
+    cores=4
+)
+```
+
+### Validation Protocol
+
+**@time_validator will check**:
+
+```markdown
+## Design vs Actual Comparison
+
+### Category 2: MCMC Parameters (CRITICAL)
+| Parameter | Design | Actual | Diff | Tolerance | Verdict |
+|-----------|--------|--------|------|-----------|---------|
+| Chains | 4 | 2 | -50% | Exact | ❌ FAIL |
+| Tune | 2000 | 1000 | -50% | Exact | ❌ FAIL |
+| Draws | 20000 | 10000 | -50% | ±20% | ❌ FAIL |
+| Total | 88000 | 22000 | -75% | ±20% | ❌ FAIL |
+
+**Overall Score**: 0/4 (0%)
+**Final Verdict**: ❌ AUTO-REJECT (All parameters simplified beyond tolerance)
+
+Action Required: @code_translator must rework implementation to match design exactly.
+```
+
+### One Fail = All Fail Rule
+
+**@director enforcement**:
+
+```python
+if ANY critical_param_FAIL:
+    return "❌ REJECT"
+elif overall_score < 0.8:  # 80%
+    return "❌ REJECT"
+else:
+    return "✅ APPROVE"
+```
+
+**Examples**:
+
+**Example 1: One Critical Fail = REJECT**
+```
+Chains: 4 ✅ PASS
+Tune: 2000 ✅ PASS
+Draws: 10000 ❌ FAIL (50% below design)
+Features: 15 ✅ PASS
+
+@director: ❌ REJECT (Draws failed - one fail rule engaged)
+```
+
+**Example 2: All Pass = APPROVE**
+```
+Chains: 4 ✅ PASS
+Tune: 2000 ✅ PASS
+Draws: 19000 ✅ PASS (within ±20%)
+Features: 15 ✅ PASS
+
+@director: ✅ APPROVE (All critical passed)
+```
+
+### Summary Table
+
+| Parameter | Design | Min Acceptable | Max Acceptable | Your Code | Verdict |
+|-----------|--------|----------------|----------------|-----------|---------|
+| Sampler | NUTS | NUTS | NUTS | [your code] | ⬜ PASS / ❌ FAIL |
+| Chains | 4 | 4 | 4 | [your code] | ⬜ PASS / ❌ FAIL |
+| Tune | 2000 | 2000 | 2000 | [your code] | ⬜ PASS / ❌ FAIL |
+| Draws | 20000 | 16000 | 24000 | [your code] | ⬜ PASS / ❌ FAIL |
+| Features | 15 | 15 | 15 | [your code] | ⬜ PASS / ❌ FAIL |
+
+**CRITICAL**: Fill out this table in your implementation report before claiming completion.
+
+---
+
+## 🚨 Emergency Protocol Compliance (v2.5.8)
+
+> [!IMPORTANT] **[v2.5.8] You have a special role in emergency delegation protocol.**
+>
+> **When @modeler delegates emergency fix, you must implement immediately WITHOUT questioning.**
+
+### When You Receive Emergency Delegation
+
+**From @modeler**:
+```
+@code_translator: 🚨 EMERGENCY FIX AUTHORIZED (v2.5.8)
+
+Model: {i}
+Issue: {diagnosis}
+Root Cause: {analysis}
+
+Fix Required:
+{specific parameter changes}
+
+Implementation:
+- File: model_{i}.py
+- Line: {line_number}
+- Change: {before} → {after}
+
+Implement IMMEDIATELY.
+Copy @director on completion.
+```
+
+### Your Response Requirements
+
+**DO**:
+1. ✅ Implement fix **immediately** (within 10 minutes)
+2. ✅ Copy @director on completion
+3. ✅ Provide clear summary of changes
+4. ✅ Include file paths and line numbers
+5. ✅ Do NOT question @modeler's emergency authorization
+
+**DO NOT**:
+1. ❌ Question the fix (implement first, review later)
+2. ❌ Ask for @director approval before implementing
+3. ❌ Delay implementation for verification
+4. ❌ Suggest alternative approaches (implement what @modeler specified)
+
+### Example Response
+
+```
+@code_translator: "🚨 Emergency fix implemented (v2.5.8)
+
+Model: 1
+Changes Applied:
+- tune: 2000 → 4000 (line 45)
+- target_accept: 0.95 → 0.99 (line 46)
+
+Files Modified:
+- output/implementation/code/model_1.py (lines 45-46)
+
+Authorization: @modeler ({timestamp})
+@dicator: Retroactive approval requested.
+Training resumed: {timestamp}"
+```
+
+### After Implementation
+
+**@director reviews retroactively**:
+- If ✅ **APPROVED**: Training continues, fix stands
+- If ❌ **REJECTED**: Changes reverted, training restarted
+
+**Your role**:
+- Implement what @modeler specifies
+- Document changes clearly
+- Trust retroactive approval process
+
+### Emergency vs Standard Protocol
+
+**Emergency Protocol** (v2.5.8):
+- Trigger: R-hat > 1.3 OR 12+ hours elapsed
+- Delegation: @modeler → @code_translator (direct)
+- Response time: <10 minutes
+- Approval: Retroactive (@director reviews after)
+
+**Standard Protocol** (v2.5.7):
+- Trigger: All other errors
+- Delegation: @director → @code_translator
+- Response time: 30-60 minutes
+- Approval: Real-time (@director approves before)
+
+### Key Principle
+
+**v2.5.8 Philosophy**: Trust @modeler's emergency authorization for critical convergence failures. @modeler is the domain expert. If @modeler says "fix this now," you fix it now. Questions and verification happen retroactively through @director's review.
+
+**Why this works**:
+- Critical errors (R-hat > 1.3) waste hours if not fixed immediately
+- @modeler understands the model geometry better than anyone
+- @director oversight maintained through retroactive approval
+- Single-use limit prevents abuse
+
+**See**: model_trainer.md lines 264-476 for complete emergency protocol
+
+---
+
+## 📋 Mandatory Changes Summary (v2.5.9)
+
+> [!CRITICAL] **[v2.5.9] ALL fixes (emergency AND standard) MUST include comprehensive changes summary.**
+
+### When You Fix Code During Training
+
+**Triggers**:
+- Standard protocol: @director delegates fix
+- Emergency protocol: @modeler delegates fix
+
+**Your Response MUST Include**:
+
+```markdown
+@code_translator: "Investigation complete:
+
+Error cause: {root cause}
+Line {line_number}: {what's wrong}
+
+Fix: {specific fix}
+Updated code: {patch}
+
+📋 CHANGES SUMMARY (MANDATORY):
+- Files modified: model_{i}.py (lines {X}-{Y})
+- Parameters changed: {list all changed parameters}
+  - Before: {value} → After: {value}
+- Algorithm changed: YES/NO
+- Features added/removed: YES/NO
+- Design expectations compliance: {assessment}
+
+Recommendation: Resume training from checkpoint (if available) or restart"
+```
+
+### Why This Matters
+
+**For @director's decision**:
+- Forces you to declare all changes explicitly
+- Enables @director to decide if Phase 4.5 re-validation needed
+- Creates audit trail for parameter modifications
+
+**For @time_validator's re-validation** (v2.5.9):
+- If you change design parameters (tune, chains, draws, algorithm, features)
+- @director will trigger Phase 4.5 re-validation
+- @time_validator checks your changes against Design Expectations Table
+- If ✅ APPROVE → Training resumes
+- If ❌ REJECT → Full rework required
+
+### Parameter Change Examples
+
+**Example 1: Simple Bug Fix (NO re-validation needed)**:
+```python
+# Before (error)
+logp = pm.logp(var)
+# After (fixed)
+logp = pm.logp(var, data)
+
+CHANGES SUMMARY:
+- Files modified: model_1.py (line 89)
+- Parameters changed: NONE (API fix only)
+- Algorithm changed: NO
+- Features added/removed: NO
+- Design expectations compliance: N/A (bug fix, no parameter changes)
+```
+
+**Example 2: Parameter Change (RE-VALIDATION needed)**:
+```python
+# Before
+trace = pm.sample(draws=20000, tune=2000, chains=4)
+# After
+trace = pm.sample(draws=21000, tune=2100, chains=4)
+
+CHANGES SUMMARY:
+- Files modified: model_1.py (line 145)
+- Parameters changed:
+  - draws: 20000 → 21000 (+5%)
+  - tune: 2000 → 2100 (+5%)
+- Algorithm changed: NO
+- Features added/removed: NO
+- Design expectations compliance: Within ±20% tolerance
+```
+
+**Example 3: UNAUTHORIZED Simplification (REJECT)**:
+```python
+# Before
+trace = pm.sample(draws=20000, tune=2000, chains=4)
+# After
+trace = pm.sample(draws=1000, tune=1000, chains=2)
+
+CHANGES SUMMARY:
+- Files modified: model_1.py (line 145)
+- Parameters changed:
+  - draws: 20000 → 1000 (-95%)
+  - tune: 2000 → 1000 (-50%)
+  - chains: 4 → 2 (-50%)
+- Algorithm changed: NO
+- Features added/removed: NO
+- Design expectations compliance: ❌ VIOLATES design (exceeds ±20% tolerance)
+
+# @time_validator will REJECT this
+# Full rework required to match design exactly
+```
+
+### Emergency Protocol Changes Summary
+
+When @modeler delegates emergency fix, include the same MANDATORY summary:
+
+```markdown
+@code_translator: "🚨 Emergency fix implemented (v2.5.8)
+
+Model: 1
+Changes Applied:
+- tune: 2000 → 4000 (line 45)
+- target_accept: 0.95 → 0.99 (line 46)
+
+📋 CHANGES SUMMARY (MANDATORY):
+- Files modified: model_1.py (lines 45-46)
+- Parameters changed:
+  - tune: 2000 → 4000 (+100%, emergency authorization)
+  - target_accept: 0.95 → 0.99 (parameter added)
+- Algorithm changed: NO
+- Features added/removed: NO
+- Design expectations compliance: Emergency fix, exceeds tolerance but authorized by @modeler
+
+Authorization: @modeler ({timestamp})
+@dicator: Retroactive approval requested.
+Training resumed: {timestamp}"
+```
+
+### Compliance Scope
+
+**What CAN Be Modified During Fix**:
+1. **Bug fixes only**: Syntax errors, API incompatibilities (no re-validation)
+2. **Within tolerance adjustments** (requires re-validation):
+   - tune: ±20% (e.g., 2000 → 2100)
+   - draws: ±20% (e.g., 20000 → 19000)
+
+**What CANNOT Be Modified** (requires Phase 1 rewind):
+1. **Algorithm changes**: NUTS → Slice (requires design update)
+2. **Feature removal**: Dropping features from design (violates completeness)
+3. **Sample reduction**: 20000 → 1000 (violates "Must Not Simplify")
+
+**Emergency protocol exceptions**:
+- Can exceed tolerance IF:
+  - Emergency criteria met (R-hat > 1.3 OR 12h+ elapsed)
+  - @modeler authorizes
+  - @director retroactively approves
+
+---
+
 ## 📝 Code Translation Workflow
 
-### Step 1: Read Model Design
+### Step 1: Read Model Design (AND Design Expectations Table)
 
 ```
 Read: output/model_design.md

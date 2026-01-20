@@ -563,6 +563,40 @@ Catch weak model methods BEFORE 20+ hours of implementation work.
 
 **Any fail** → Block Phase 6 → Require @model_trainer fix
 
+### 🚨 Emergency Convergence Fix Protocol (v2.5.8)
+
+> [!CRITICAL] **[v2.5.8] EMERGENCY PROTOCOL for critical convergence failures during Phase 5B**
+
+**When to Use** (ALL criteria must be met):
+1. ✅ R-hat > 1.3 (severe non-convergence)
+   - OR 12+ hours without convergence
+   - OR >10% divergent transitions
+   - OR complete sampling failure
+2. ✅ @modeler is available and responsive
+3. ✅ Fix is simple parameter adjustment (NOT algorithm change)
+
+**Emergency Flow** (bypasses standard @director coordination):
+```
+@model_trainer → @modeler (direct escalation)
+@modeler → @code_translator (direct delegation)
+@code_translator → implements fix (copies @director)
+@director → retroactive approval (within 1 hour)
+@model_trainer → resumes training
+```
+
+**Safeguards**:
+- **Single-use limit**: Once per model only
+- **Time limit**: Fix must be implemented within 30 minutes
+- **Severity threshold**: R-hat > 1.3 (not just >1.1)
+- **Documentation**: All emergency fixes logged in VERSION_MANIFEST.json
+- **Oversight**: @director retroactive approval required
+
+**Response Time**:
+- Standard protocol: 4-5 hours
+- Emergency protocol: **30-60 minutes** (8x faster)
+
+**See**: `model_trainer.md` lines 264-476 for complete protocol
+
 ---
 
 ## 🆕 Phase 6.5: Visualization Quality Gate
@@ -863,10 +897,18 @@ source output/venv/Scripts/activate  # Windows
 | Data quality issues | @data_engineer re-processes |
 | Implementation fails | @code_translator re-translates |
 | Training impossible results | @model_trainer investigates (may Rewind) |
+| **Critical convergence failure (v2.5.8)** | **@modeler → @code_translator (emergency protocol)** |
 | Sensitivity analysis shows instability | @modeler adds robustness |
 | @advisor says shallow | @model_trainer runs more experiments |
 | Missing data discovered | @researcher finds alternatives |
 | Requirement unclear | @reader re-reads PDF |
+
+**v2.5.8 Emergency Protocol**:
+- **Trigger**: R-hat > 1.3 OR 12+ hours without convergence
+- **Flow**: @model_trainer → @modeler → @code_translator (bypasses @director)
+- **Oversight**: @director retroactive approval within 1 hour
+- **Limit**: Once per model
+- **See**: model_trainer.md "Emergency Convergence Fix Protocol"
 
 ---
 

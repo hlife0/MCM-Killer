@@ -19,10 +19,13 @@
 | **`05_time_validator_enhanced_analysis.md`** | **[v2.5.7 NEW] @time_validator line-by-line code analysis** |
 | **`06_code_translator_idealistic_mode.md`** | **[v2.5.7 NEW] @code_translator idealistic/perfectionist mode** |
 | **`07_director_time_validator_handoff.md`** | **[v2.5.7 NEW] @director/@time_validator handoff protocol** |
+| **`08_model_design_expectations.md`** | **[v2.5.7 NEW] Model design expectations validation protocol** |
+| **`09_validator_advisor_brief_format.md`** | **[v2.5.7 NEW] @validator/@advisor concise evaluation format** |
+| **`10_phase5b_error_monitoring.md`** | **[v2.5.7 NEW] Phase 5B error monitoring and resolution** |
 
-Reading order: **01_SUMMARY.md** → **02-07 (detailed specs)** → **00_ARCHITECTURE.md**
+Reading order: **01_SUMMARY.md** → **02-10 (detailed specs)** → **00_ARCHITECTURE.md**
 
-> **CRITICAL v2.5.7 ENHANCEMENTS**: 7 critical enhancements including (1) @director file reading ban, (2) @time_validator strict mode, (3) Phase 5 parallel workflow, (4) Enhanced time estimation with line-by-line analysis, (5) @code_translator idealistic mode, (6) 48-hour escalation protocol, (7) Director/time_validator handoff logic.
+> **CRITICAL v2.5.7 ENHANCEMENTS**: 10 critical enhancements including (1) @director file reading ban, (2) @time_validator strict mode, (3) Phase 5 parallel workflow, (4) Enhanced time estimation with line-by-line analysis, (5) @code_translator idealistic mode, (6) 48-hour escalation protocol, (7) Director/time_validator handoff logic, (8) Model design expectations validation with scoring tables, (9) @validator/@advisor brief format for efficient decision-making, (10) Phase 5B error monitoring with no-exit guarantee.
 
 ---
 
@@ -32,7 +35,9 @@ Reading order: **01_SUMMARY.md** → **02-07 (detailed specs)** → **00_ARCHITE
 |---------|------|-------------|
 | v2.5.5 | 2026-01-17 | 6 enhancements + @time_validator agent |
 | v2.5.6 | 2026-01-18 | 4 fixes: Feedback files, Phase 5.5, Phase 0.5, Image naming |
-| **v2.5.7** | **2026-01-19** | **7 enhancements: Director file ban + Time validator strict mode + Phase 5 parallel + Enhanced analysis + Idealistic mode + 48h escalation + Handoff protocol** |
+| v2.5.7 | 2026-01-19 | 10 enhancements: Director file ban + Time validator strict mode + Phase 5 parallel + Enhanced analysis + Idealistic mode + 48h escalation + Handoff protocol + Model design expectations + Brief evaluation format + Phase 5B error monitoring |
+| **v2.5.8** | **2026-01-19** | **1 enhancement: Emergency delegation protocol for critical convergence failures (fast response while maintaining @director coordination)** |
+| **v2.5.9** | **2026-01-20** | **1 critical fix: Phase 4.5 re-validation protocol for code fixes during training (closes rework validation gap, prevents academic fraud through unauthorized simplification)** |
 
 ---
 
@@ -370,6 +375,197 @@ if total_estimate > 48 hours:
 
 ---
 
+### Problem 8: No Model Design Expectations Listed → No Systematic Validation
+
+**Symptom**:
+```
+Model design says: "NUTS sampler with 10000 draws"
+Implementation: "Slice sampler with 1000 draws"
+
+Current state:
+- No explicit design expectations documented
+- No parameter tolerance specifications
+- No scoring tables for validation
+- No systematic comparison (Design vs Actual)
+- No "one fail = all fail" enforcement
+```
+
+**Root Cause**:
+- **Model designs lack explicit expectations tables**
+- **No tolerance specifications** (What's acceptable deviation?)
+- **No scoring system** (How to grade compliance?)
+- **No systematic comparison format** (Design vs Actual vs Tolerance vs Verdict)
+
+**Solution**: **Model Design Expectations Framework** (see `08_model_design_expectations.md`)
+
+**Key Framework**:
+1. **Mandatory Design Expectations Table**:
+   ```markdown
+   | Parameter | Design Specification | Min | Max | Unit | Must Not Simplify |
+   |-----------|---------------------|-----|-----|------|-------------------|
+   | Sampler | NUTS | NUTS | NUTS | - | YES |
+   | Chains | 4 | 4 | 4 | chains | YES |
+   | Draws | 20000 | 20000 | 20000 | samples | YES |
+   | Features | 15 | 15 | 15 | features | YES |
+   ```
+
+2. **Systematic Comparison Table** (by @time_validator):
+   ```markdown
+   | Parameter | Design | Actual | Diff | Tolerance | Verdict |
+   |-----------|--------|--------|------|-----------|---------|
+   | Sampler | NUTS | Slice | Changed | Exact | ❌ FAIL |
+   | Chains | 4 | 2 | -50% | ±20% | ❌ FAIL |
+   ```
+
+3. **Scoring System**:
+   - CRITICAL parameters: Auto-reject if fail
+   - HIGH parameters: ±20% tolerance
+   - Overall score: Must be ≥80%
+   - **Rule**: One fail = all fail
+
+4. **@director Enforcement**:
+   ```python
+   if ANY critical_param FAIL:
+       return "REJECT"  # No exceptions
+   elif overall_score < 0.8:
+       return "REJECT"
+   else:
+       return "APPROVE"
+   ```
+
+**Affected Agents**:
+- **@modeler** (MUST create design expectations table)
+- **@time_validator** (MUST create comparison table, calculate score)
+- **@director** (MUST enforce "one fail = all fail" rule)
+
+---
+
+### Problem 9: @validator/@advisor Verbose → @director Thinking Too Long
+
+**Symptom**:
+```
+@validator: "I've reviewed the methodology document in detail.
+           The document contains sophisticated Bayesian hierarchical models
+           with NUTS sampling, 4 chains, 20000 samples. The approach is
+           mathematically sound with proper priors. The convergence
+           diagnostics are appropriate. I find this to be excellent work.
+           Grade: 9/10"
+
+@advisor: "After careful analysis of the methodological framework,
+          I have concerns about the lack of sensitivity analysis.
+          The document would benefit from additional robustness checks.
+          However, the core approach is solid. Grade: 7/10"
+
+@director: [Spends 5 minutes analyzing both verbose reports]
+           "Let me think about this. @validator gave 9/10, @advisor gave 7/10.
+           @validator says sophisticated Bayesian approach, @advisor says
+           lacks sensitivity analysis. Should I approve or request revision?"
+```
+
+**Root Cause**:
+- **@validator and @advisor write verbose reports** (10+ sentences)
+- **@director must read and analyze verbose reports**
+- **No standardized brief format**
+- **@director makes decision based on deliberation** (should be automatic)
+
+**Solution**: **@validator/@advisor Brief Format Protocol** (see `09_validator_advisor_brief_format.md`)
+
+**Key Protocol**:
+1. **Brief Format (First 4 lines only)**:
+   ```
+   Grade: 9.0/10 | Verdict: ✅ PASS
+   Justification: Mathematically sound with proper specification.
+   File verified: output/model/model_design_1.md (324 lines)
+   Detailed report written to: output/docs/validation/validator_model_1.md
+   ```
+
+2. **Detailed Reports (Written to file, NOT shown in chat)**:
+   - Standard template for all reports
+   - Can be referenced by @researcher if revision needed
+   - @director does NOT read these reports
+
+3. **@director Decision Logic (Simplified)**:
+   ```
+   IF @validator PASS AND @advisor PASS:
+       RETURN "APPROVE"
+   ELSE:
+       RETURN "REJECT"
+   ```
+
+4. **Standardized Report Template**:
+   - File Information (path, lines, timestamp)
+   - Grade + Verdict
+   - Brief Evaluation (1 sentence)
+   - Detailed Analysis (for @researcher reference)
+
+**Affected Agents**:
+- **@validator** (MUST use brief format in chat, detailed report to file)
+- **@advisor** (MUST use brief format in chat, detailed report to file)
+- **@director** (MUST read only brief format, apply pass/fail rule)
+- **@researcher** (CAN read detailed reports when revision needed)
+
+---
+
+### Problem 10: Phase 5B Errors → AI Session Exits → Errors Lost
+
+**Symptom**:
+```
+Model 2 Failed: 'TensorVariable' object has no attribute 'logp'
+Error: Custom Zero-Truncated Poisson likelihood implementation error
+
+Current behavior:
+1. @model_trainer starts training
+2. Training runs for hours
+3. Error occurs
+4. AI session has already exited
+5. Error discovered too late (hours or days later)
+6. Must restart from scratch
+```
+
+**Root Cause**:
+- **AI session exits after starting training**
+- **No monitoring during execution**
+- **Errors not caught in real-time**
+- **No error recovery protocol**
+
+**Solution**: **Phase 5B Error Monitoring Protocol** (see `10_phase5b_error_monitoring.md`)
+
+**Key Protocol**:
+1. **AI Session Does NOT Exit**:
+   - Training runs in background
+   - @model_trainer enters "watch mode"
+   - Session stays active, monitoring for errors
+
+2. **Watch Mode Implementation**:
+   ```python
+   while True:
+       check_process_status()
+       check_log_file_for_errors()
+       if error_detected:
+           report_to_director()
+           await_guidance()
+       if training_complete:
+           report_completion()
+   ```
+
+3. **Error Resolution Workflow**:
+   - @model_trainer detects error → Reports to @director
+   - @director delegates fix (@code_translator, @data_engineer, or @modeler)
+   - Fix applied → Resume training (no restart from scratch)
+
+4. **Status Reporting**:
+   - Regular updates every 30 minutes
+   - Immediate error notification
+   - Completion report with summary
+
+**Affected Agents**:
+- **@model_trainer** (MUST enter watch mode, MUST NOT exit session)
+- **@director** (MUST coordinate error resolution)
+- **@code_translator** (MUST fix implementation errors)
+- **@data_engineer** (MUST fix data errors)
+
+---
+
 ## Agent System (v2.5.7)
 
 ### Agent Overview (Updated v2.5.7)
@@ -378,19 +574,19 @@ if total_estimate > 48 hours:
 |-------|---------------|----------------|------------------------|
 | `reader` | Read PDF, extract requirements | (inherited v2.5.6) | MODEL, DATA, PAPER |
 | `researcher` | Method suggestions | (inherited v2.5.6) | MODEL |
-| `modeler` | Design mathematical models | (inherited v2.5.6) | DATA, CODE, TRAINING |
+| `modeler` | Design mathematical models | **[v2.5.7] Must create design expectations table** | DATA, CODE, TRAINING |
 | `feasibility_checker` | Feasibility check | (inherited v2.5.6) | MODEL, CODE |
 | `data_engineer` | Data processing | (inherited v2.5.6) | - |
-| `code_translator` | Code translation | **[v2.5.7] Simplification = Fraud** | CODE, TRAINING |
-| `model_trainer` | Model training | (inherited v2.5.6) | - |
-| `validator` | Result validation | **[v2.5.7] Must report file read** | DATA, TRAINING, FINAL |
+| `code_translator` | Code translation | **[v2.5.7] Simplification = Fraud, idealistic mode** | CODE, TRAINING |
+| `model_trainer` | Model training | **[v2.5.7] Watch mode, no-exit during Phase 5B** | - |
+| `validator` | Result validation | **[v2.5.7] Brief format + detailed report to file** | DATA, TRAINING, FINAL |
 | `visualizer` | Generate figures | (inherited v2.5.6) | - |
 | `writer` | Write papers | (inherited v2.5.6) | PAPER |
 | `summarizer` | Create summary | - | - |
 | `editor` | Polish documents | (inherited v2.5.6) | - |
-| `advisor` | Quality assessment | **[v2.5.7] Must report file read** | MODEL, PAPER, FINAL |
-| `time_validator` | Time validation, anti-lazy | **[v2.5.7] STRICT MODE enabled** | Called after MODEL, CODE, TRAINING |
-| **`director`** | **Team coordination** | **[v2.5.7] File reading BAN** | **N/A** |
+| `advisor` | Quality assessment | **[v2.5.7] Brief format + detailed report to file** | MODEL, PAPER, FINAL |
+| `time_validator` | Time validation, anti-lazy | **[v2.5.7] STRICT MODE + comparison tables** | Called after MODEL, CODE, TRAINING |
+| **`director`** | **Team coordination** | **[v2.5.7] File reading BAN + simplified decision logic** | **N/A** |
 
 > **Total**: 14 agents (same as v2.5.6, with enhanced behavioral constraints)
 
@@ -409,7 +605,7 @@ if total_estimate > 48 hours:
 | 4 | Code Translation | code_translator | ✅ CODE (2 agents) | **[v2.5.7] Idealistic mode** |
 | **4.5** | **Implementation Fidelity** | **@time_validator** | **✅ FIDELITY** | **[v2.5.7] STRICT MODE** |
 | 5A | Quick Training | model_trainer | ✅ TRAINING | **[v2.5.7] → Paper immediately** |
-| 5B | Full Training | model_trainer | ✅ TRAINING | **[v2.5.7] >6h, parallel w/ paper** |
+| 5B | Full Training | model_trainer | ✅ TRAINING | **[v2.5.7] >6h, parallel w/ paper | [v2.5.8] Emergency protocol for critical convergence** |
 | **5.5** | **Data Authenticity** | **@time_validator** | **✅ ANTI_FRAUD** | **[v2.5.7] Red line + analysis** |
 | 6 | Visualization | visualizer | - | **[v2.5.7] Quick → final** |
 | 6.5 | Visual Quality Gate | visualizer, Director | ✅ VISUAL | (inherited v2.5.6) |
@@ -571,10 +767,20 @@ Before deploying v2.5.7, verify:
 - [ ] Training duration red line (30% threshold) specified
 - [ ] Algorithm match verification specified
 - [ ] @code_translator "simplification = fraud" warnings added
+- [ ] **[v2.5.7] Model design expectations table template documented**
+- [ ] **[v2.5.7] @time_validator comparison table format specified**
+- [ ] **[v2.5.7] @modeler design expectations requirements documented**
+- [ ] **[v2.5.7] @validator/@advisor brief format documented**
+- [ ] **[v2.5.7] @director simplified decision logic documented**
+- [ ] **[v2.5.7] Phase 5B watch mode protocol documented**
+- [ ] **[v2.5.7] Error resolution workflow documented**
 - [ ] All agent prompts updated with v2.5.7 changes
 - [ ] Workspace synchronized with architecture
 - [ ] Test cases for file reading ban
 - [ ] Test cases for training duration rejection
+- [ ] **[v2.5.7] Test cases for model design expectations validation**
+- [ ] **[v2.5.7] Test cases for @validator/@advisor brief format**
+- [ ] **[v2.5.7] Test cases for Phase 5B error monitoring**
 
 ---
 
@@ -586,3 +792,10 @@ Before deploying v2.5.7, verify:
 - **01_SUMMARY.md** - Complete v2.5.7 summary
 - **02_director_file_reading_ban.md** - @director file reading prohibition
 - **03_time_validator_strict_mode.md** - @time_validator strict enforcement
+- **04_phase_5_parallel_workflow.md** - Phase 5 parallel workflow
+- **05_time_validator_enhanced_analysis.md** - @time_validator line-by-line analysis
+- **06_code_translator_idealistic_mode.md** - @code_translator idealistic mode
+- **07_director_time_validator_handoff.md** - @director/@time_validator handoff
+- **08_model_design_expectations.md** - Model design expectations validation
+- **09_validator_advisor_brief_format.md** - @validator/@advisor brief format
+- **10_phase5b_error_monitoring.md** - Phase 5B error monitoring
