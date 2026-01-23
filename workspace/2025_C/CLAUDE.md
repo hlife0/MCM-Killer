@@ -607,6 +607,126 @@ Catch weak model methods BEFORE 20+ hours of implementation work.
 
 ---
 
+### 🚨 Phase 4.5 Re-Validation Trigger (v2.5.9)
+
+> [!CRITICAL] **[v2.5.9] When @code_translator modifies code during training, re-validation is REQUIRED.**
+> **Purpose**: Prevent lazy implementation through hidden parameter simplifications during training.
+
+### When Re-Validation Is Triggered
+
+**@code_translator implements fix** (emergency OR standard protocol) → Provides CHANGES SUMMARY
+
+**@director MUST check**:
+1. Review @code_translator's CHANGES SUMMARY
+2. Identify design parameter changes:
+   - **Sampling parameters**: tune, chains, draws, target_accept, treedepth
+   - **Algorithm changes**: NUTS → Metropolis, etc.
+   - **Feature additions/removals**: New features added or designed features removed
+
+### @director's Decision Protocol
+
+**IF parameter changes detected in CHANGES SUMMARY**:
+```
+@time_validator: RE-VALIDATION REQUIRED
+
+@code_translator has modified model_{i}.py:
+Changes: {list of parameter changes}
+
+Please run Phase 4.5 validation on reworked code:
+- Check against Design Expectations Table
+- Create comparison table (Design vs Actual vs Tolerance vs Verdict)
+- Calculate overall score
+- Return APPROVE/REJECT decision
+
+DO NOT allow training to resume until validation complete.
+```
+
+**Training MUST NOT resume** until @time_validator completes re-validation and returns ✅ APPROVE.
+
+**IF no parameter changes** (simple bug fix only):
+- Allow training to resume without re-validation
+- Document: "Simple bug fix, no parameter changes - re-validation not required"
+
+### Examples
+
+**Example 1: Parameter Change - RE-VALIDATION REQUIRED**
+```
+CHANGES SUMMARY:
+- tune: 2000 → 2100 (+5%)
+- draws: 20000 → 21000 (+5%)
+
+@director Action:
+→ CALL @time_validator for Phase 4.5 re-validation
+→ Training PAUSED until @time_validator approves
+```
+
+**Example 2: Simple Bug Fix - NO RE-VALIDATION**
+```
+CHANGES SUMMARY:
+- Fixed: pm.logp(var) → pm.logp(var, data) (API fix only)
+- Parameters changed: NONE
+
+@director Action:
+→ Allow training to resume
+→ Document: "API fix only, no parameter changes"
+```
+
+**Example 3: UNAUTHORIZED Simplification - REJECT**
+```
+CHANGES SUMMARY:
+- tune: 2000 → 1000 (-50%)
+- draws: 20000 → 1000 (-95%)
+- chains: 4 → 2 (-50%)
+
+@director Action:
+→ CALL @time_validator for Phase 4.5 re-validation
+→ @time_validator will REJECT (exceeds ±20% tolerance)
+→ @code_translator must restore original parameters
+```
+
+### Why This Is Critical
+
+**Without re-validation trigger**:
+- @code_translator could simplify parameters during training
+- Changes would be hidden in CHANGES SUMMARY but not validated
+- Protocol 12's anti-fraud safeguard (40% → <5% fraud reduction) is bypassed
+- Training completes with lazy implementation, detected only in Phase 5.5 (too late)
+
+**With re-validation trigger**:
+- ALL parameter changes during training are validated
+- Hidden simplifications are caught BEFORE training resumes
+- 8× fraud reduction (40% → <5%) is realized
+- Implementation fidelity maintained throughout workflow
+
+### Integration with Emergency Protocol (v2.5.8)
+
+**Emergency fixes ALSO require re-validation** if they change parameters:
+
+```
+Emergency flow (v2.5.8):
+@model_trainer → @modeler (direct escalation)
+@modeler → @code_translator (direct delegation)
+@code_translator → implements fix with CHANGES SUMMARY
+
+@if CHANGES SUMMARY shows parameter changes:
+  @director → @time_validator (RE-VALIDATION REQUIRED)
+  @time_validator → validates against Design Expectations Table
+  @time_validator → ✅ APPROVE / ❌ REJECT
+  Training resumes ONLY if @time_validator approves
+
+@if CHANGES SUMMARY shows no parameter changes:
+  @director → allows training to resume
+  (simple bug fix, API fix only, etc.)
+```
+
+### References
+
+- Protocol 12 (v2.5.9) full specification: `12_phase45_revalidation.md`
+- @time_validator re-validation mode: `time_validator.md` lines 814-1128
+- @code_translator CHANGES SUMMARY: `code_translator.md` lines 470-612
+
+---
+
 ## 🆕 Phase 6.5: Visualization Quality Gate
 
 > [!CAUTION] **[MANDATORY] After @visualizer, verify image quality.**
