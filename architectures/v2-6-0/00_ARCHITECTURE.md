@@ -3,7 +3,7 @@
 > **Authoritative Architecture Definition** — All Agent prompts should be derived from this document.
 > **Version**: v2.6.0
 > **Date**: 2026-01-23
-> **Architecture Overview**: Complete multi-agent system with 12 critical protocols for robust MCM competition execution
+> **Architecture Overview**: Complete integration of v2.5.7-v2.5.9 enhancements into unified system architecture with 12 critical protocols
 
 ---
 
@@ -22,8 +22,8 @@
 | **`08_model_design_expectations.md`** | **Model design expectations validation protocol** |
 | **`09_validator_advisor_brief_format.md`** | **@validator/@advisor concise evaluation format** |
 | **`10_phase5b_error_monitoring.md`** | **Phase 5B error monitoring and resolution** |
-| **`11_emergency_convergence_protocol.md`** | **Emergency delegation for critical convergence failures** |
-| **`12_phase4_5_revalidation_protocol.md`** | **Phase 4.5 re-validation for code fixes during training** |
+| **`11_emergency_delegation.md`** | **Emergency delegation for critical convergence failures** |
+| **`12_phase45_revalidation.md`** | **Phase 4.5 re-validation for code fixes during training** |
 
 Reading order: **01_SUMMARY.md** → **02-12 (detailed specs)** → **00_ARCHITECTURE.md**
 
@@ -33,15 +33,20 @@ Reading order: **01_SUMMARY.md** → **02-12 (detailed specs)** → **00_ARCHITE
 
 ## Version History
 
-| Version | Date | Key Changes |
+| Version | Date | Description |
 |---------|------|-------------|
-| **v2.6.0** | **2026-01-23** | **Complete system architecture with 12 critical protocols for robust MCM competition execution** |
+| v2.5.5 | 2026-01-17 | 6 enhancements + @time_validator agent |
+| v2.5.6 | 2026-01-18 | 4 fixes: Feedback files, Phase 5.5, Phase 0.5, Image naming |
+| v2.5.7 | 2026-01-19 | 10 enhancements: Director file ban, Time validator strict mode, Phase 5 parallel, Enhanced analysis, Idealistic mode, 48h escalation, Handoff protocol, Model design expectations, Brief evaluation format, Phase 5B error monitoring |
+| v2.5.8 | 2026-01-19 | 1 enhancement: Emergency delegation protocol for critical convergence failures |
+| v2.5.9 | 2026-01-20 | 1 critical fix: Phase 4.5 re-validation protocol for code fixes during training |
+| **v2.6.0** | **2026-01-23** | **Integration release: Consolidates all v2.5.7-v2.5.9 protocols into unified architecture** |
 
 ---
 
-## System Protocols Overview
+## Inherited Protocols from v2.5.7-v2.5.9
 
-### Protocol 1: @director File Reading Ban
+### Protocol 1: @director File Reading Ban *(v2.5.7)*
 
 **Purpose**: Prevent @director from contaminating agent evaluations by reading files first.
 
@@ -75,7 +80,7 @@ Reading order: **01_SUMMARY.md** → **02-12 (detailed specs)** → **00_ARCHITE
 
 ---
 
-### Protocol 2: @time_validator Strict Mode
+### Protocol 2: @time_validator Strict Mode *(v2.5.7)*
 
 **Purpose**: Ensure @time_validator rejects ALL lazy implementations, especially training duration shortcuts.
 
@@ -118,26 +123,9 @@ Reading order: **01_SUMMARY.md** → **02-12 (detailed specs)** → **00_ARCHITE
 
 ---
 
-### Protocol 3: @time_validator Time Predictions Inaccurate (Orders of Magnitude)
+### Protocol 3: Enhanced @time_validator Analysis *(v2.5.7)*
 
-**Description**:
-```
-@time_validator prediction: 16 hours
-Actual training time: 43 minutes
-Error: 22× underestimate
-
-@time_validator prediction: 12 hours
-Actual training time: 2 hours
-Error: 6× underestimate
-```
-
-**Background**:
-- **@time_validator only reads model_design.md** (not actual code)
-- **@time_validator doesn't check dataset size** (assumes generic)
-- **@time_validator doesn't analyze algorithmic complexity** (uses generic estimates)
-- **@time_validator misses simplifications** (sklearn vs PyMC not detected)
-
-**Solution**: **Enhanced @time_validator Analysis Protocol** (see `05_time_validator_enhanced_analysis.md`)
+**Purpose**: Improve time estimation accuracy by reading multiple file types and analyzing code line-by-line.
 
 **Key Enhancements**:
 1. **@time_validator MUST read 3 file types**:
@@ -161,23 +149,14 @@ Error: 6× underestimate
 - **@time_validator** (MUST read dataset + code, MUST analyze line-by-line)
 - **@director** (MUST provide file paths explicitly)
 
+**Implementation**:
+- See `05_time_validator_enhanced_analysis.md` for full specification
+
 ---
 
-### Protocol 4: Phase 5B Blocks Paper Writing (6-12 hours wait)
+### Protocol 4: Phase 5 Parallel Workflow *(v2.5.7)*
 
-**Description**:
-```
-Phase 5A (30 min) → Phase 5B (6-12 hours) → Phase 6 → Phase 7
-
-@writer idle for 6-12 hours waiting for Phase 5B
-```
-
-**Background**:
-- **Sequential workflow**: Paper must wait for training
-- **No parallelization**: @writer could work with quick results
-- **Time wasted**: 6-12 hours of dead time
-
-**Solution**: **Phase 5 Parallel Workflow** (see `04_phase_5_parallel_workflow.md`)
+**Purpose**: Enable paper writing to proceed while full training runs in background, saving 6-12 hours.
 
 **Key Changes**:
 1. **Phase 5A → Paper writing proceeds immediately**:
@@ -190,12 +169,10 @@ Phase 5A (30 min) → Phase 5B (6-12 hours) → Phase 6 → Phase 7
    - @visualizer regenerates figures with final results
    - @writer updates Results section with final results
 
-**Per-Model Time Expectations (v2.6.0 UPDATED)**:
-- **Old spec (v2.6.0)**: "4-6 hours" → **WRONG** (too optimistic)
-- **New spec (v2.6.0)**: ">6 hours" → **CORRECT** (realistic)
-  - Minimum: 6 hours
-  - Typical: 8-12 hours
-  - Maximum: 48 hours (with @director approval)
+**Per-Model Time Expectations**:
+- Minimum: 6 hours
+- Typical: 8-12 hours
+- Maximum: 48 hours (with @director approval)
 
 **Affected Phases**:
 - **Phase 5A** (proceed to paper immediately)
@@ -203,23 +180,14 @@ Phase 5A (30 min) → Phase 5B (6-12 hours) → Phase 6 → Phase 7
 - **Phase 6** (quick version first, final version later)
 - **Phase 7** (draft with quick results, update with final)
 
+**Implementation**:
+- See `04_phase_5_parallel_workflow.md` for full specification
+
 ---
 
-### Protocol 5: @code_translator "Pragmatic" → Simplifies Implementation
+### Protocol 5: @code_translator Idealistic Mode *(v2.5.7)*
 
-**Description**:
-```
-@code_translator: "KeyError: 'Gold' → I'll use available columns"
-@code_translator: "PyMC doesn't work → I'll use sklearn"
-@code_translator: "Training too slow → I'll reduce iterations"
-```
-
-**Background**:
-- **@code_translator thinks pragmatically** ("make it work")
-- **@code_translator doesn't realize simplification = fraud**
-- **No idealistic mindset** enforced
-
-**Solution**: **@code_translator Idealistic Mode** (see `06_code_translator_idealistic_mode.md`)
+**Purpose**: Enforce perfect implementation by making @code_translator an idealist who never compromises on design.
 
 **Key Changes**:
 1. **@code_translator identity**: "I am an idealist, a perfectionist"
@@ -239,22 +207,14 @@ Phase 5A (30 min) → Phase 5B (6-12 hours) → Phase 6 → Phase 7
 - **@code_translator** (MUST be idealistic, MUST report errors)
 - **@director** (MUST coordinate fixes, NOT approve shortcuts)
 
+**Implementation**:
+- See `06_code_translator_idealistic_mode.md` for full specification
+
 ---
 
-### Protocol 6: 48-Hour Training → Unclear Decision Process
+### Protocol 6: 48-Hour Escalation Protocol *(v2.5.7)*
 
-**Description**:
-```
-@time_validator: "Training estimate: 78 hours (>48 hours threshold)"
-@director: "Should I approve? Should I ask @modeler to simplify? What are the criteria?"
-```
-
-**Background**:
-- **Unclear escalation threshold**
-- **No decision framework**
-- **@director might simplify unilaterally**
-
-**Solution**: **48-Hour Escalation Protocol** (see `07_director_time_validator_handoff.md`)
+**Purpose**: Provide clear decision framework when training estimates exceed 48 hours.
 
 **Key Framework**:
 ```python
@@ -276,45 +236,25 @@ if total_estimate > 48 hours:
 - **@director** (MUST use decision framework)
 - **@modeler** (MUST be consulted for any design changes)
 
+**Implementation**:
+- See `07_director_time_validator_handoff.md` for full specification
+
 ---
 
-### Protocol 7: @director/@time_validator Handoff Unclear
+### Protocol 7: @director/@time_validator Handoff *(v2.5.7)*
 
-**Description**:
-```
-@director calls @time_validator: "Check if this is OK"
-@time_validator: "Looks good"
-@director: "But what did you check? What are the criteria?"
-```
-
-**Background**:
-- **Unclear handoff protocol**
-- **Ambiguous responsibilities**
-- **No standardized communication**
-
-**Solution**: **@director/@time_validator Handoff Protocol** (see `07_director_time_validator_handoff.md`)
+**Purpose**: Standardize communication between @director and @time_validator for consistent decision-making.
 
 **Key Protocol**:
 1. **@director's call to @time_validator** (explicit):
-   ```
-   "@time_validator: Validate time estimates for Phase 5B.
-
-   Read:
-   - output/model/model_design_*.md
-   - output/implementation/data/features_*.pkl
-   - output/implementation/code/model_*.py
-
-   Provide:
-   1. Per-model time estimate
-   2. Total time estimate
-   3. Algorithm fidelity check
-   4. Feature completeness check
-   5. Recommendation: APPROVE/REJECT/ESCALATE"
-   ```
+   - Specify files to read (model_design, features, code)
+   - Request per-model time estimate and total
+   - Request algorithm fidelity check and feature completeness
+   - Request clear recommendation (APPROVE/REJECT/ESCALATE)
 
 2. **@time_validator's response** (standardized):
    - Files read verification
-   - Per-model breakdown (with rationale)
+   - Per-model breakdown with rationale
    - Fidelity checks
    - Clear recommendation with rationale
 
@@ -327,49 +267,29 @@ if total_estimate > 48 hours:
 - **@director** (MUST call with explicit instructions)
 - **@time_validator** (MUST read all files, MUST provide clear recommendation)
 
+**Implementation**:
+- See `07_director_time_validator_handoff.md` for full specification
+
 ---
 
-### Protocol 8: No Model Design Expectations Listed → No Systematic Validation
+### Protocol 8: Model Design Expectations Framework *(v2.5.7)*
 
-**Description**:
-```
-Model design says: "NUTS sampler with 10000 draws"
-Implementation: "Slice sampler with 1000 draws"
-
-Current state:
-- No explicit design expectations documented
-- No parameter tolerance specifications
-- No scoring tables for validation
-- No systematic comparison (Design vs Actual)
-- No "one fail = all fail" enforcement
-```
-
-**Background**:
-- **Model designs lack explicit expectations tables**
-- **No tolerance specifications** (What's acceptable deviation?)
-- **No scoring system** (How to grade compliance?)
-- **No systematic comparison format** (Design vs Actual vs Tolerance vs Verdict)
-
-**Solution**: **Model Design Expectations Framework** (see `08_model_design_expectations.md`)
+**Purpose**: Systematic validation of model designs against implementation with tolerance specifications.
 
 **Key Framework**:
-1. **Mandatory Design Expectations Table**:
-   ```markdown
+1. **Mandatory Design Expectations Table** (by @modeler):
    | Parameter | Design Specification | Min | Max | Unit | Must Not Simplify |
    |-----------|---------------------|-----|-----|------|-------------------|
    | Sampler | NUTS | NUTS | NUTS | - | YES |
    | Chains | 4 | 4 | 4 | chains | YES |
    | Draws | 20000 | 20000 | 20000 | samples | YES |
    | Features | 15 | 15 | 15 | features | YES |
-   ```
 
 2. **Systematic Comparison Table** (by @time_validator):
-   ```markdown
    | Parameter | Design | Actual | Diff | Tolerance | Verdict |
    |-----------|--------|--------|------|-----------|---------|
    | Sampler | NUTS | Slice | Changed | Exact | ❌ FAIL |
    | Chains | 4 | 2 | -50% | ±20% | ❌ FAIL |
-   ```
 
 3. **Scoring System**:
    - CRITICAL parameters: Auto-reject if fail
@@ -377,55 +297,22 @@ Current state:
    - Overall score: Must be ≥80%
    - **Rule**: One fail = all fail
 
-4. **@director Enforcement**:
-   ```python
-   if ANY critical_param FAIL:
-       return "REJECT"  # No exceptions
-   elif overall_score < 0.8:
-       return "REJECT"
-   else:
-       return "APPROVE"
-   ```
-
 **Affected Agents**:
 - **@modeler** (MUST create design expectations table)
 - **@time_validator** (MUST create comparison table, calculate score)
 - **@director** (MUST enforce "one fail = all fail" rule)
 
+**Implementation**:
+- See `08_model_design_expectations.md` for full specification
+
 ---
 
-### Protocol 9: @validator/@advisor Verbose → @director Thinking Too Long
+### Protocol 9: @validator/@advisor Brief Format *(v2.5.7)*
 
-**Description**:
-```
-@validator: "I've reviewed the methodology document in detail.
-           The document contains sophisticated Bayesian hierarchical models
-           with NUTS sampling, 4 chains, 20000 samples. The approach is
-           mathematically sound with proper priors. The convergence
-           diagnostics are appropriate. I find this to be excellent work.
-           Grade: 9/10"
-
-@advisor: "After careful analysis of the methodological framework,
-          I have concerns about the lack of sensitivity analysis.
-          The document would benefit from additional robustness checks.
-          However, the core approach is solid. Grade: 7/10"
-
-@director: [Spends 5 minutes analyzing both verbose reports]
-           "Let me think about this. @validator gave 9/10, @advisor gave 7/10.
-           @validator says sophisticated Bayesian approach, @advisor says
-           lacks sensitivity analysis. Should I approve or request revision?"
-```
-
-**Background**:
-- **@validator and @advisor write verbose reports** (10+ sentences)
-- **@director must read and analyze verbose reports**
-- **No standardized brief format**
-- **@director makes decision based on deliberation** (should be automatic)
-
-**Solution**: **@validator/@advisor Brief Format Protocol** (see `09_validator_advisor_brief_format.md`)
+**Purpose**: Enable fast decision-making by requiring concise evaluations in chat, detailed reports to files.
 
 **Key Protocol**:
-1. **Brief Format (First 4 lines only)**:
+1. **Brief Format (First 4 lines in chat)**:
    ```
    Grade: 9.0/10 | Verdict: ✅ PASS
    Justification: Mathematically sound with proper specification.
@@ -435,54 +322,32 @@ Current state:
 
 2. **Detailed Reports (Written to file, NOT shown in chat)**:
    - Standard template for all reports
-   - Can be referenced by @researcher if revision needed
+   - Can be referenced if revision needed
    - @director does NOT read these reports
 
 3. **@director Decision Logic (Simplified)**:
-   ```
-   IF @validator PASS AND @advisor PASS:
-       RETURN "APPROVE"
-   ELSE:
-       RETURN "REJECT"
-   ```
+   - IF @validator PASS AND @advisor PASS → RETURN "APPROVE"
+   - ELSE → RETURN "REJECT"
 
 4. **Standardized Report Template**:
    - File Information (path, lines, timestamp)
    - Grade + Verdict
    - Brief Evaluation (1 sentence)
-   - Detailed Analysis (for @researcher reference)
+   - Detailed Analysis (for reference)
 
 **Affected Agents**:
 - **@validator** (MUST use brief format in chat, detailed report to file)
 - **@advisor** (MUST use brief format in chat, detailed report to file)
 - **@director** (MUST read only brief format, apply pass/fail rule)
-- **@researcher** (CAN read detailed reports when revision needed)
+
+**Implementation**:
+- See `09_validator_advisor_brief_format.md` for full specification
 
 ---
 
-### Protocol 10: Phase 5B Errors → AI Session Exits → Errors Lost
+### Protocol 10: Phase 5B Error Monitoring *(v2.5.7)*
 
-**Description**:
-```
-Model 2 Failed: 'TensorVariable' object has no attribute 'logp'
-Error: Custom Zero-Truncated Poisson likelihood implementation error
-
-Current behavior:
-1. @model_trainer starts training
-2. Training runs for hours
-3. Error occurs
-4. AI session has already exited
-5. Error discovered too late (hours or days later)
-6. Must restart from scratch
-```
-
-**Background**:
-- **AI session exits after starting training**
-- **No monitoring during execution**
-- **Errors not caught in real-time**
-- **No error recovery protocol**
-
-**Solution**: **Phase 5B Error Monitoring Protocol** (see `10_phase5b_error_monitoring.md`)
+**Purpose**: Prevent errors from being lost by keeping AI session active during training with watch mode.
 
 **Key Protocol**:
 1. **AI Session Does NOT Exit**:
@@ -517,6 +382,98 @@ Current behavior:
 - **@director** (MUST coordinate error resolution)
 - **@code_translator** (MUST fix implementation errors)
 - **@data_engineer** (MUST fix data errors)
+
+**Implementation**:
+- See `10_phase5b_error_monitoring.md` for full specification
+
+---
+
+### Protocol 11: Emergency Convergence Delegation *(v2.5.8)*
+
+**Purpose**: Enable fast response (30-60 min) for critical convergence failures while maintaining @director coordination.
+
+**When to Use** (ALL criteria must be met):
+1. Error Category: **Convergence (Category 4)**
+2. Severity: **CRITICAL**
+   - R-hat > 1.3 (severe non-convergence)
+   - OR no convergence after 12 hours of training
+   - OR >10% divergent transitions
+   - OR complete sampling failure
+3. @modeler is **available and responsive**
+4. Fix is **well-understood** (parameter adjustment, NOT algorithm change)
+
+**Emergency Flow** (bypasses standard @director delegation):
+```
+@model_trainer → @modeler (direct escalation)
+@modeler → @code_translator (direct delegation)
+@code_translator → implements fix (copies @director)
+@director → retroactive approval (within 1 hour)
+@model_trainer → resumes training
+```
+
+**Safeguards**:
+- **Single-use limit**: Once per model only
+- **Time limit**: Fix must be implemented within 30 minutes
+- **Severity threshold**: R-hat > 1.3 (not just >1.1)
+- **Documentation**: All emergency fixes logged in VERSION_MANIFEST.json
+- **Oversight**: @director retroactive approval required
+
+**Response Time**:
+- Standard protocol: 4-5 hours
+- Emergency protocol: **30-60 minutes** (8x faster)
+
+**Affected Agents**:
+- **@model_trainer** (MUST verify criteria before escalating)
+- **@modeler** (MUST authorize, delegate to @code_translator)
+- **@code_translator** (MUST implement fix, copy @director)
+- **@director** (MUST provide retroactive approval within 1 hour)
+
+**Implementation**:
+- See `11_emergency_delegation.md` for full specification
+
+---
+
+### Protocol 12: Phase 4.5 Re-Validation *(v2.5.9)*
+
+**Purpose**: Close rework validation gap to prevent academic fraud through unauthorized simplification during training fixes.
+
+**Problem Fixed**: Reworked code during training was NOT re-validated against Design Expectations Table.
+
+**Key Protocol**:
+1. **@code_translator MUST provide CHANGES SUMMARY** for all fixes:
+   ```markdown
+   ## CHANGES SUMMARY
+   - File: model_{i}.py
+   - Original issue: {description}
+   - Fix applied: {description}
+   - Parameters changed: {list}
+   - Algorithm changed: YES/NO
+   - Features changed: YES/NO
+   ```
+
+2. **@director analyzes CHANGES SUMMARY**:
+   - IF parameter changes detected → Trigger re-validation
+   - IF algorithm changed → Full Phase 1 rewind required
+   - IF simple bug fix → Resume training
+
+3. **Conditional Re-Validation** (triggered by parameter changes):
+   - @director calls @time_validator: "RE-VALIDATION REQUIRED"
+   - @time_validator runs Phase 4.5 on reworked code
+   - IF ✅ APPROVE → Resume training
+   - IF ❌ REJECT → Full rework required
+
+4. **Hidden Modification Detection**:
+   - Compare reworked code against Design Expectations Table
+   - Check for unauthorized simplifications
+   - Verify all parameters within tolerance
+
+**Affected Agents**:
+- **@code_translator** (MUST provide changes summary for all fixes)
+- **@director** (MUST analyze changes, trigger re-validation)
+- **@time_validator** (MUST re-validate when requested)
+
+**Implementation**:
+- See `12_phase45_revalidation.md` for full specification
 
 ---
 
@@ -752,5 +709,5 @@ Before deployment, verify:
 - **08_model_design_expectations.md** - Model design expectations validation
 - **09_validator_advisor_brief_format.md** - @validator/@advisor brief format
 - **10_phase5b_error_monitoring.md** - Phase 5B error monitoring
-- **11_emergency_convergence_protocol.md** - Emergency convergence delegation
-- **12_phase4_5_revalidation_protocol.md** - Phase 4.5 re-validation
+- **11_emergency_delegation.md** - Emergency convergence delegation
+- **12_phase45_revalidation.md** - Phase 4.5 re-validation
