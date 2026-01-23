@@ -1,8 +1,8 @@
-# System Comparison: LLM-MM-Agent vs MCM-Killer
+# System Comparison
 
 > **Version**: v3.0.0
-> **Date**: 2026-01-23
-> **Purpose**: Clear comparison between the two systems for proper usage
+> **Date**: 2026-01-24
+> **Purpose**: Clear comparison between LLM-MM-Agent and MCM-Killer systems
 
 ---
 
@@ -542,4 +542,4 @@ Both systems are complementary:
 
 **Document Version**: v3.0.0
 **Last Updated**: 2026-01-23
-**Next**: See `02_LLM_MM_AGENT_ARCHITECTURE.md` for LLM-MM-Agent details
+**Next**: See `02_llm_mm_agent_architecture.md` for LLM-MM-Agent details

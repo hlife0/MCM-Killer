@@ -1,8 +1,8 @@
-# Agent Specifications (MCM-Killer)
+# Agent Specifications
 
 > **Version**: v3.0.0
-> **Date**: 2026-01-23
-> **Purpose**: Complete specifications for all 14 agents in MCM-Killer
+> **Date**: 2026-01-24
+> **Purpose**: Complete specifications for all 14 agents
 
 ---
 
@@ -949,4 +949,4 @@ MCM-Killer/workspace/2025_C/.claude/agents/
 **Last Updated**: 2026-01-23
 **Status**: Complete ✅
 
-**Next**: See `06_PHASE_WORKFLOW.md` for detailed phase workflow
+**Next**: See `06_phase_workflow.md` for detailed phase workflow

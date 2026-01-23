@@ -1,7 +1,7 @@
-# Phase Workflow (MCM-Killer)
+# Phase Workflow
 
 > **Version**: v3.0.0
-> **Date**: 2026-01-23
+> **Date**: 2026-01-24
 > **Purpose**: Complete workflow specification for all 10 phases
 
 ---
@@ -1080,4 +1080,4 @@ Before moving to next phase, verify:
 **Last Updated**: 2026-01-23
 **Status**: Complete ✅
 
-**Next**: See `07_VALIDATION_GATES.md` for validation gate specifications
+**Next**: See `07_validation_gates.md` for validation gate specifications

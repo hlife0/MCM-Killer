@@ -1,7 +1,7 @@
-# Output Structure (MCM-Killer)
+# Output Structure
 
 > **Version**: v3.0.0
-> **Date**: 2026-01-23
+> **Date**: 2026-01-24
 > **Purpose**: Complete specification of output directory structure
 
 ---
@@ -639,4 +639,4 @@ paper/summary.pdf
 **Last Updated**: 2026-01-23
 **Status**: Complete ✅
 
-**Next**: Return to `00_ARCHITECTURE.md` for complete system overview
+**Next**: Return to `00_architecture.md` for complete system overview

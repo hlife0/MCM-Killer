@@ -1,9 +1,8 @@
-# MCM-Killer v3.0.0 System Architecture
+# System Architecture
 
-> **Authoritative Architecture Definition** — All Agent prompts should be derived from this document.
-> **Version**: v3.0.0 (Major Release - Complete Reorganization)
-> **Date**: 2026-01-23
-> **Architecture Overview**: Complete reorganization with clear separation between LLM-MM-Agent (reference) and MCM-Killer (competition system)
+> **Version**: v3.0.0
+> **Date**: 2026-01-24
+> **Purpose**: Complete system overview with two-system architecture
 
 ---
 
@@ -20,7 +19,7 @@
 | v2.5.8 | 2026-01-19 | Enhancement | Protocol 11: Emergency delegation (8× faster convergence fixes) |
 | v2.5.9 | 2026-01-20 | Critical Fix | Protocol 12: Phase 4.5 re-validation (8× fraud reduction) |
 | v2.6.0 | 2026-01-23 | Integration | Complete integration of all 12 protocols from v2.5.7-v2.5.9 |
-| **v3.0.0** | **2026-01-23** | **🎯 MAJOR REORGANIZATION** | **Complete reorganization with two-system architecture** |
+| v3.0.0 | 2026-01-24 | Complete Detailed | All details for complete reproduction |
 
 ---
 
@@ -290,15 +289,15 @@ migration/
 │   │   ├── v2-5-7/            # v2.5.7 10 critical protocols
 │   │   ├── v2-6-0/            # v2.6.0 integration release
 │   │   ├── v3-0-0/            # This version - Two-system architecture
-│   │   │   ├── 00_ARCHITECTURE.md  # This file
-│   │   │   ├── 01_SYSTEM_COMPARISON.md
-│   │   │   ├── 02_LLM_MM_AGENT_ARCHITECTURE.md
-│   │   │   ├── 03_MCM_KILLER_ARCHITECTURE.md
-│   │   │   ├── 04_PROTOCOLS_SUMMARY.md
-│   │   │   ├── 05_AGENT_SPECIFICATIONS.md
-│   │   │   ├── 06_PHASE_WORKFLOW.md
-│   │   │   ├── 07_VALIDATION_GATES.md
-│   │   │   ├── 08_OUTPUT_STRUCTURE.md
+│   │   │   ├── 00_architecture.md  # This file
+│   │   │   ├── 01_system_comparison.md
+│   │   │   ├── 02_llm_mm_agent_architecture.md
+│   │   │   ├── 03_mcm_killer_architecture.md
+│   │   │   ├── 04_protocols_summary.md
+│   │   │   ├── 05_agent_specifications.md
+│   │   │   ├── 06_phase_workflow.md
+│   │   │   ├── 07_validation_gates.md
+│   │   │   ├── 08_output_structure.md
 │   │   │   └── draft/         # Preserved - do not modify
 │   │   └── ...
 │   │
@@ -429,13 +428,13 @@ Both systems can be used from the same workspace context, providing flexibility 
 **Status**: Complete ✅
 
 **📚 Documentation Suite**:
-- **00_ARCHITECTURE.md** - This file (complete architecture)
-- **01_SYSTEM_COMPARISON.md** - Detailed system comparison
-- **02_LLM_MM_AGENT_ARCHITECTURE.md** - LLM-MM-Agent detailed architecture
-- **03_MCM_KILLER_ARCHITECTURE.md** - MCM-Killer detailed architecture
-- **04_PROTOCOLS_SUMMARY.md** - All 12 protocols summary
-- **05_AGENT_SPECIFICATIONS.md** - Complete agent specifications
-- **06_PHASE_WORKFLOW.md** - Detailed phase workflow
-- **07_VALIDATION_GATES.md** - Validation gate specifications
-- **08_OUTPUT_STRUCTURE.md** - Output directory structure
+- **00_architecture.md** - This file (complete architecture)
+- **01_system_comparison.md** - Detailed system comparison
+- **02_llm_mm_agent_architecture.md** - LLM-MM-Agent detailed architecture
+- **03_mcm_killer_architecture.md** - MCM-Killer detailed architecture
+- **04_protocols_summary.md** - All 12 protocols summary
+- **05_agent_specifications.md** - Complete agent specifications
+- **06_phase_workflow.md** - Detailed phase workflow
+- **07_validation_gates.md** - Validation gate specifications
+- **08_output_structure.md** - Output directory structure
 - **draft/** - Preserved drafts (do not modify)

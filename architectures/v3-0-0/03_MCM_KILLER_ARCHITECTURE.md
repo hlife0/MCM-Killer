@@ -1,9 +1,8 @@
-# MCM-Killer Architecture (System 2)
+# MCM-Killer Architecture
 
 > **Version**: v3.0.0
-> **Date**: 2026-01-23
-> **Purpose**: Complete architecture documentation for MCM-Killer (Competition System)
-> **Target**: O-Prize competitive ($1.5M target)
+> **Date**: 2026-01-24
+> **Purpose**: Complete architecture for MCM-Killer (Competition System)
 
 ---
 
@@ -464,7 +463,7 @@ output/
 
 ## 12 Critical Protocols
 
-(See `04_PROTOCOLS_SUMMARY.md` for complete details)
+(See `04_protocols_summary.md` for complete details)
 
 1. **@director File Reading Ban** - Prevent evaluation contamination
 2. **@time_validator Strict Mode** - Reject lazy implementations
@@ -530,4 +529,4 @@ cd "MCM-Killer/workspace/2025_C"
 **Last Updated**: 2026-01-23
 **Status**: Complete ✅
 
-**Next**: See `04_PROTOCOLS_SUMMARY.md` for all 12 protocols
+**Next**: See `04_protocols_summary.md` for all 12 protocols

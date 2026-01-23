@@ -1,7 +1,7 @@
-# Validation Gates (MCM-Killer)
+# Validation Gates
 
 > **Version**: v3.0.0
-> **Date**: 2026-01-23
+> **Date**: 2026-01-24
 > **Purpose**: Complete specification of all 7 mandatory validation gates
 
 ---
@@ -837,4 +837,4 @@ Detailed report written to: [report_path]
 **Last Updated**: 2026-01-23
 **Status**: Complete ✅
 
-**Next**: See `08_OUTPUT_STRUCTURE.md` for output directory structure
+**Next**: See `08_output_structure.md` for output directory structure

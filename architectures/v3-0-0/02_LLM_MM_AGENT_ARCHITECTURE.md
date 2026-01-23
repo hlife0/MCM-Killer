@@ -1,9 +1,8 @@
-# LLM-MM-Agent Architecture (System 1)
+# LLM-MM-Agent Architecture
 
 > **Version**: v3.0.0
-> **Date**: 2026-01-23
-> **Purpose**: Complete architecture documentation for LLM-MM-Agent (Reference/Stable System)
-> **Publication**: NeurIPS 2025 / ICML 2025
+> **Date**: 2026-01-24
+> **Purpose**: Complete architecture for LLM-MM-Agent (Reference/Stable System)
 
 ---
 
@@ -550,4 +549,4 @@ Use LLM-MM-Agent when you want to:
 **Last Updated**: 2026-01-23
 **Status**: Complete ✅
 
-**Next**: See `03_MCM_KILLER_ARCHITECTURE.md` for MCM-Killer architecture
+**Next**: See `03_mcm_killer_architecture.md` for MCM-Killer architecture

@@ -1,53 +1,84 @@
 # MCM-Killer: Agent 定义
 
-> Path: `MCM-Killer/workspace/2025_C/.claude/agents/`
+> 绝对路径：`D:/migration/MCM-Killer/architectures/v3-0-0/draft/MCM-Killer/03_Agents.md`
 > **重要程度**: ⭐⭐⭐ 智能代理协作核心
+> **扩容影响**: **极高** - 13 Agent → 52 Agent
 
-本目录包含 MCM-Killer 系统的 13+ 专业 Agent 定义文档。每个 Agent 都有明确的职责、输入输出、工作流程和协作关系。这些 Agent 通过精心设计的协作流程，共同完成 18 阶段工作流。
+本目录包含 MCM-Killer 系统的 13+ 专业 Agent 定义文档。每个 Agent 都有明确的职责、输入输出、工作流程和协作关系。这些 Agent 通过精心设计的协作流程，共同完成 18 阶段工作流。在"扩容一倍源代码再扩容一倍"的背景下（从 13 Agent 扩容到 52 Agent），Agent 的标准化、模块化、可组合性成为关键设计挑战。
+
+**迁移价值**：Agent 协作机制是扩容的核心。从 13 Agent 扩容到 52 Agent 需要：1）建立 Agent 模板和标准接口；2）定义 Agent 协作协议（输入输出格式、通信机制）；3）建立 Agent 工厂模式（动态创建和注册 Agent）；4）建立 Agent 组合机制（支持多个 Agent 协作完成复杂任务）。这是扩容中技术难度第二大的部分，仅次于 HMML 扩展。
 
 ---
 
 ### `advisor.md` ⭐⭐⭐
-**顾问 Agent** - 提供战略建议和方向指导。在关键决策点（如方法选择、模型设计、论文结构、验证门控）提供专业建议，基于领域知识和历史经验帮助团队做出最佳决策。输入当前进度和困惑点，输出建议方案、理由、备选方案。是贯穿全过程的战略指导者，在关键节点发挥决定性作用。
+**顾问 Agent**，绝对路径：`D:/migration/MCM-Killer/workspace/2025_C/.claude/agents/advisor.md`。提供战略建议和方向指导。在关键决策点（如方法选择、模型设计、论文结构、验证门控）提供专业建议，基于领域知识和历史经验帮助团队做出最佳决策。
 
-### `code_translator.md` ⭐⭐
-**代码翻译 Agent** - 将模型设计转换为可执行代码。理解数学模型设计文档，生成符合规范的 Python/MATLAB 代码，确保代码正确性、可读性、可维护性。输入设计文档，输出源代码文件。**重要程度较低**，因为 Claude Code 自带强大的代码生成能力。
-
-### `data_engineer.md` ⭐⭐
-**数据工程师 Agent** - 负责数据清洗、预处理、特征工程。处理缺失值、异常值、数据类型转换，进行特征选择、特征变换、数据标准化。输入原始数据，输出清洗后的数据和特征集。**重要程度中等**，数据处理是关键步骤但 Claude Code 可以处理。
-
-### `editor.md` ⭐⭐⭐
-**编辑 Agent** - 负责论文的语言优化和格式修正。改进表达的清晰性和学术性，修正语法和拼写错误，统一术语和格式风格，确保符合学术规范。输入论文草稿，输出润色后的版本。是论文质量保障的关键环节。
-
-### `feasibility_checker.md` ⭐⭐⭐
-**可行性检查 Agent** - 评估方案的可行性。分析技术可行性（方法是否可实现）、资源可行性（数据、计算资源）、时间可行性（是否能在规定时间内完成）。识别潜在风险，提供缓解策略，给出通过/不通过的判断。是 Phase 0.5 验证门控的核心，防止方案进入死胡同。
-
-### `model_trainer.md` ⭐⭐
-**模型训练 Agent** - 负责机器学习/深度学习模型的训练与调优。选择合适的算法，划分训练/验证/测试集，进行超参数调优，评估模型性能。输入数据和模型定义，输出训练好的模型和评估报告。**重要程度较低**，Claude Code 可以直接训练模型。
-
-### `modeler.md` ⭐⭐⭐
-**建模 Agent** - 负责数学模型的构建与设计。根据问题特点选择合适的建模方法（优化、预测、分类等），构建数学模型，定义变量和约束，设计求解算法，编写数学公式。输入问题理解，输出模型设计方案。是 Phase 2 设计阶段的核心 Agent。
+**迁移价值**：在扩容到 52 Agent 时，Advisor 的角色更加重要。需要支持更复杂的决策树、更多的知识库（支持 400+ 方法的 HMML）、更智能的建议算法。可能需要拆分为多个专门 Advisor（如 ModelAdvisor, WorkflowAdvisor, ValidationAdvisor）。
 
 ### `reader.md` ⭐⭐⭐
-**阅读 Agent** - 负责问题理解和数据读取。解析问题陈述 PDF，提取关键信息（背景、要求、约束），理解问题类型和目标。加载数据文件，生成数据概览，识别数据质量问题。输入问题文件和数据，输出问题摘要和数据概况。是 Phase 0 初始化阶段的第一步。
+**阅读 Agent**，绝对路径：`D:/migration/MCM-Killer/workspace/2025_C/.claude/agents/reader.md`。负责问题理解和数据读取。
+
+**迁移价值**：在扩容时需要支持更多类型的数据输入（如图像、视频、音频）、更复杂的数据格式（如大规模图数据库）、更智能的问题理解（支持多语言、跨领域）。
 
 ### `researcher.md` ⭐⭐⭐
-**研究 Agent** - 负责文献调研和方法研究。搜索相关领域的学术论文和资料，总结现有方法，分析优缺点，提出方法选择建议。输入研究方向，输出文献综述和方法建议。是 Phase 1 研究阶段的核心，为建模提供理论基础。
+**研究 Agent**，绝对路径：`D:/migration/MCM-Killer/workspace/2025_C/.claude/agents/researcher.md`。负责文献调研和方法研究。
 
-### `summarizer.md` ⭐⭐
-**总结 Agent** - 负责内容摘要和要点提炼。生成长文档（如文献综述、阶段报告）的执行摘要，提取关键信息和结论。输入长文档，输出简洁的摘要。辅助其他 Agent 和用户快速理解大量信息。
+**迁移价值**：在扩容时需要支持更大的文献库（从 50+ 篇到 500+ 篇）、更智能的文献检索（支持语义搜索）、更自动化的综述生成。
 
-### `time_validator.md` ⭐⭐⭐
-**时间验证 Agent** - 控制进度和时间管理。评估各阶段的预估耗时和实际耗时，识别进度偏差，建议调整方案确保在时间限制内完成。输入当前进度和时间预算，输出进度报告和建议。是竞赛环境下的关键保障，防止时间耗尽。
+### `modeler.md` ⭐⭐⭐
+**建模 Agent**，绝对路径：`D:/migration/MCM-Killer/workspace/2025_C/.claude/agents/modeler.md`。负责数学模型的构建与设计。
+
+**迁移价值**：在扩容时需要支持更多的建模方法（从 98+ 到 400+）、更复杂的模型组合、更自动化的模型选择算法。
 
 ### `validator.md` ⭐⭐⭐
-**验证 Agent** - 负责结果验证和质量检查。检查结果的正确性（是否回答了问题）、一致性（数据和结果是否匹配）、合理性（结果是否在合理范围内）。输入结果和数据，输出验证报告和通过/不通过判断。是各验证门控（Phase 0.5, 1.5, 2, 3, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 9, 9.5, 10）的核心执行者。
+**验证 Agent**，绝对路径：`D:/migration/MCM-Killer/workspace/2025_C/.claude/agents/validator.md`。负责结果验证和质量检查。
 
-### `visualizer.md` ⭐⭐
-**可视化 Agent** - 负责图表设计和生成。根据分析结果选择合适的图表类型（折线图、柱状图、散点图、热力图等），设计清晰、美观、信息丰富的可视化图表。输入数据和分析结果，输出图表文件。**重要程度较低**，Claude Code 可以生成图表。
+**迁移价值**：在扩容时需要支持更多的验证维度（从 3 个到 10+ 个）、更自动化的验证规则生成、更智能的异常检测。
 
 ### `writer.md` ⭐⭐⭐
-**写作 Agent** - 负责论文撰写和报告生成。按照学术规范撰写论文各部分（摘要、引言、方法、结果、讨论、结论），确保逻辑清晰、结构完整、表达准确。输入各阶段成果，输出论文各部分。是 Phase 8-9 写作阶段的核心。
+**写作 Agent**，绝对路径：`D:/migration/MCM-Killer/workspace/2025_C/.claude/agents/writer.md`。负责论文撰写和报告生成。
+
+**迁移价值**：在扩容时需要支持更多章节的论文（从 6 章到 20+ 章）、更复杂的引用管理、更自动化的图表生成。
+
+### `editor.md` ⭐⭐⭐
+**编辑 Agent**，绝对路径：`D:/migration/MCM-Killer/workspace/2025_C/.claude/agents/editor.md`。负责论文的语言优化和格式修正。
+
+**迁移价值**：在扩容时需要支持更多的语言风格（学术、技术、科普）、更复杂的格式规范、更智能的语法和拼写检查。
+
+### `feasibility_checker.md` ⭐⭐⭐
+**可行性检查 Agent**，绝对路径：`D:/migration/MCM-Killer/workspace/2025_C/.claude/agents/feasibility_checker.md`。评估方案的可行性。
+
+**迁移价值**：在扩容时需要支持更多的评估维度（技术、资源、时间、风险）、更智能的风险预测、更自动化的缓解策略生成。
+
+### `time_validator.md` ⭐⭐⭐
+**时间验证 Agent**，绝对路径：`D:/migration/MCM-Killer/workspace/2025_C/.claude/agents/time_validator.md`。控制进度和时间管理。
+
+**迁移价值**：在扩容时需要支持更复杂的进度管理（72 个阶段）、更智能的时间预测、更自动化的进度调整。
+
+### `data_engineer.md` ⭐⭐
+**数据工程师 Agent**，绝对路径：`D:/migration/MCM-Killer/workspace/2025_C/.claude/agents/data_engineer.md`。
+
+**迁移价值**：重要程度较低，Claude Code 可以处理大部分数据处理任务。
+
+### `code_translator.md` ⭐⭐
+**代码翻译 Agent**，绝对路径：`D:/migration/MCM-Killer/workspace/2025_C/.claude/agents/code_translator.md`。
+
+**迁移价值**：重要程度较低，Claude Code 自带强大的代码生成能力。
+
+### `model_trainer.md` ⭐⭐
+**模型训练 Agent**，绝对路径：`D:/migration/MCM-Killer/workspace/2025_C/.claude/agents/model_trainer.md`。
+
+**迁移价值**：重要程度较低，Claude Code 可以直接训练模型。
+
+### `visualizer.md` ⭐⭐
+**可视化 Agent**，绝对路径：`D:/migration/MCM-Killer/workspace/2025_C/.claude/agents/visualizer.md`。
+
+**迁移价值**：重要程度较低，Claude Code 可以生成图表。
+
+### `summarizer.md` ⭐⭐
+**总结 Agent**，绝对路径：`D:/migration/MCM-Killer/workspace/2025_C/.claude/agents/summarizer.md`。
+
+**迁移价值**：在扩容时需要支持更长的文档总结、更智能的关键信息提取。
 
 ---
 
@@ -69,34 +100,33 @@ Time Validator (进度监控，在所有阶段检查时间)
 Summarizer (关键节点总结，生成阶段摘要)
 ```
 
----
-
-## 核心设计原则
-
-### 1. 职责分离
-每个 Agent 专注于特定领域，避免职责重叠。例如 Reader 只负责理解问题，Modeler 只负责建模，Validator 只负责验证。
-
-### 2. 协作机制
-Agent 之间通过明确的输入输出进行协作，前一阶段的输出是后一阶段的输入。例如 Reader 的输出（问题摘要）是 Researcher 的输入。
-
-### 3. 验证门控
-在关键阶段后设置验证门控（Phase 0.5, 1.5, 2, 3, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 9, 9.5, 10），只有通过验证才能进入下一阶段。
-
-### 4. 贯穿式 Agent
-Advisor、Time Validator、Summarizer 三个 Agent 贯穿整个过程，在不同阶段提供支持。
+**迁移价值**：在扩容到 52 Agent 和 72 阶段时，这个协作流程会变得更加复杂。需要支持更多的 Agent 类型、更复杂的依赖关系、更动态的流程调整。
 
 ---
 
-## 与 LLM-MM-Agent 的区别
+## Agent 扩容计划
 
-| 特性 | LLM-MM-Agent | MCM-Killer |
-|------|-------------|-----------|
-| Agent 数量 | 6 个通用 Agent | 13+ 专业 Agent |
-| Agent 粒度 | 粗粒度（如 problem_analysis） | 细粒度（如 reader, researcher, modeler 分离） |
-| 协作方式 | Actor-Critic 迭代 | 18 阶段顺序协作 + 验证门控 |
-| 验证机制 | 内置在 Actor-Critic 中 | 独立的 Validator Agent + 7 个验证门控 |
-| 战略指导 | research_strategist | 独立的 Advisor Agent |
+### 阶段 1：Agent 标准化（2 周）
+- 建立 Agent 模板（标准接口、输入输出格式）
+- 定义 Agent 协作协议（通信机制、数据格式）
+- 建立 Agent 注册中心
+
+### 阶段 2：第一次扩容（3-4 周）
+- 从 13 Agent 扩展到 26 Agent（新增 13 个）
+- 添加新的专业 Agent（如图像处理 Agent、NLP Agent）
+- 建立Agent 组合机制
+
+### 阶段 3：Agent 工厂（2-3 周）
+- 建立 Agent 工厂模式
+- 支持动态 Agent 创建和注册
+- 建立 Agent 配置系统
+
+### 阶段 4：第二次扩容（4-6 周）
+- 从 26 Agent 扩展到 52 Agent（新增 26 个）
+- 添加更多专业 Agent
+- 完善 Agent 生态系统
 
 ---
 
 **文档版本**: v1.0
+**最后更新**: 2026-01-24
