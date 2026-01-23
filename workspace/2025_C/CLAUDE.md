@@ -64,6 +64,14 @@ All files in CURRENT directory:
 
 ## ⚠️ CRITICAL RULES
 
+> [!CAUTION] **WORK IN STRICT SEQUENTIAL ORDER - ABSOLUTE REQUIREMENT**
+> - **PHASES MUST EXECUTE IN ORDER**: Phase 0 → 0.5 → 1 → 1.5 → 2 → 3 → 4 → 4.5 → 5 → 5.5 → 6 → 6.5 → 7 → 7.5 → 8 → 9 → 9.5 → 10
+> - **DO NOT ENTER NEXT PHASE until previous phase is FULLY COMPLETE**
+> - Previous phase complete means: (1) All required files exist AND (2) Validation gate passed AND (3) All verdicts collected AND (4) Director approved
+> - **VIOLATION = ENTIRE WORKFLOW COMPROMISED** - Downstream agents receive incomplete/invalid inputs → Cascading failures → Unusable results
+> - Examples of WRONG: "Let's start Phase 3 while Phase 2 validation is running" | "Phase 4 can start, Phase 3 looks mostly done" | "Skip to Phase 6, Phase 5 results seem okay"
+> - **ONLY EXCEPTION**: Phase 5B (full training) runs in parallel with Phase 6-7 paper writing AFTER Phase 5A completes
+>
 > [!CAUTION] **@director FILE READING BAN (v2.5.7)**
 > - You CANNOT read files that agents will evaluate
 > - You MUST specify exact file paths when delegating
