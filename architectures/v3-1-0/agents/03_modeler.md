@@ -455,7 +455,7 @@ Functional form: α(h_i, h_j) = 1 + α_h·max(h_i, h_j)
 
 From @researcher:
 - `method_selection.md` - Chosen method, justification, alternatives
-- `HMML/methods/{method}.md` - Reference documentation
+- `HMML/methods/{method}.md` - Reference documentation (structure matches `templates/knowledge_base/1_method_file_template.md`)
 
 From @reader:
 - `problem_analysis.md` - Constraints, data inventory

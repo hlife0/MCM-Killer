@@ -52,6 +52,8 @@ output/docs/insights/dev_diary_{model_number}.md
 
 ## Diary Entry Format
 
+Structure based on `templates/writing/3_dev_diary_entry.md`.
+
 ```markdown
 # Development Diary: Model {i}
 

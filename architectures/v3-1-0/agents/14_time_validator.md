@@ -149,6 +149,8 @@ Create `time_tracking.csv`:
 
 ## Anti-Pattern Database
 
+Reference: `templates/writing/6_anti_patterns.md`.
+
 ### ❌ Pattern 1: "5-Minute Neural Network"
 Agent claims complex deep learning can be implemented in 5-30 minutes.
 

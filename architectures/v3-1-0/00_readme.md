@@ -11,9 +11,9 @@
 
 **v3.1.0** is a major evolutionary release that:
 
-1. **Adds Cognitive Narrative Layer**: Transform "errors and struggles" into "research insights"
+1. **Adds Cognitive Narrative Layer**: Transform "errors and struggles" into "research insights" via Iterative Refinement
 2. **Adds Adversarial Quality System**: Red-blue team confrontation for rigorous review
-3. **Adds Dynamic Knowledge Base**: HMML 2.0 with active retrieval and metadata
+3. **Adds Dynamic Knowledge Base**: HMML 2.0 with protocol-invoked consultation
 4. **Adds Academic Style Alignment**: Learning from O-Prize reference papers
 5. **Adds Self-Evolution Mechanism**: Continuous improvement through benchmarking
 6. **Maintains Backward Compatibility**: All v3.0.0 protocols, agents, and phases preserved
@@ -37,13 +37,13 @@
 
 #### 4 New Agents
 1. **@metacognition_agent** - Extract insights from training struggles
-2. **@narrative_weaver** - Weave Hero's Journey narratives
-3. **@knowledge_librarian** - Academic curator and method guardian
+2. **@narrative_weaver** - Outline Coordinator (Non-dramatic organization)
+3. **@knowledge_librarian** - Academic Consultant (Protocol-invoked)
 4. **@judge_zero** - Red team adversarial reviewer
 
 #### 5 New Phases
 - **Phase -1**: Style Guide Generation (pre-competition)
-- **Phase 0.2**: Active Knowledge Retrieval (push advanced methods)
+- **Phase 0.2**: Protocol-Invoked Consultation (On-demand methods)
 - **Phase 5.8**: Insight Extraction (metacognitive analysis)
 - **Phase 9.1**: Mock Judging (adversarial review)
 - **Phase 11**: Self-Evolution (post-competition benchmarking)
@@ -208,8 +208,8 @@ v3-1-0/
 | Agent | Role | Integration Point |
 |-------|------|-------------------|
 | **@metacognition_agent** | Philosopher & Forensic Analyst | Phase 5.8 |
-| **@narrative_weaver** | Story Director | Phase 7 |
-| **@knowledge_librarian** | Academic Curator & Method Guardian | Phase -1, 0.2 |
+| **@narrative_weaver** | Outline Coordinator | Phase 7 |
+| **@knowledge_librarian** | Academic Consultant | Phase -1, 0.2 |
 | **@judge_zero** | Red Team Critic & Gatekeeper | Phase 9.1 |
 
 **Details**: See `ARCHITECTURE_COMPLETE.md` and `agents/` directory
@@ -227,7 +227,7 @@ v3-1-0/
 ### New Phases in v3.1.0
 
 - **Phase -1**: Style Guide Generation - Learn from O-Prize papers
-- **Phase 0.2**: Active Knowledge Retrieval - Push advanced methods
+- **Phase 0.2**: Protocol-Invoked Consultation - On-demand advanced methods
 - **Phase 5.8**: Insight Extraction - Metacognitive analysis
 - **Phase 9.1**: Mock Judging - Adversarial review
 - **Phase 11**: Self-Evolution - Post-competition benchmarking
@@ -267,7 +267,7 @@ v3-1-0/
 ## Key Innovations
 
 ### 1. Cognitive Narrative Framework
-- **Hero's Journey Template**: Transform struggles into research insights
+- **Iterative Refinement Template**: Transform struggles into research insights
 - **Observation-Implication Protocol**: Every data point paired with meaning
 - **Metacognitive Agent**: Extracts insights from training logs
 
@@ -279,7 +279,7 @@ v3-1-0/
 ### 3. Dynamic Knowledge Base (HMML 2.0)
 - **Structured Methods**: Domain -> Subdomain -> Method hierarchy
 - **Metadata Enrichment**: narrative_value, common_pitfalls, O-Prize examples
-- **Active Retrieval**: @knowledge_librarian pushes advanced methods
+- **Protocol-Invoked Consultation**: @knowledge_librarian consults on request
 
 ### 4. Academic Style Alignment
 - **Phase -1**: Automatically learn from O-Prize papers

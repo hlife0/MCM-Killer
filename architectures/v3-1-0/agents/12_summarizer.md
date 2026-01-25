@@ -289,6 +289,8 @@ Full technical analysis (25 pages):
 
 ## Anti-Patterns to Avoid
 
+Reference: `templates/writing/6_anti_patterns.md`.
+
 ### ❌ Pattern 1: Adjective Inflation
 "Our groundbreaking revolutionary approach achieves exceptional performance."
 

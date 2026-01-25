@@ -81,7 +81,7 @@ Written by @code_translator. Contains:
 
 ### 3. HMML 2.0 Method Files (Theoretical Context)
 
-E.g., `knowledge_library/methods/statistics/bayesian_hierarchical.md` tells you:
+E.g., `knowledge_library/methods/statistics/bayesian_hierarchical.md` (based on `templates/knowledge_base/1_method_file_template.md`) tells you:
 - Common pitfalls for this method
 - Narrative value
 - Physical meaning of parameters
@@ -180,6 +180,8 @@ Why does this matter for policy/theory/methodology?
 You generate: `output/docs/insights/narrative_arc_{i}.md`
 
 ### Structure
+
+Follows `templates/narrative_arcs/1_iterative_refinement.md` (or `2_onion_peeling.md` / `3_comparative_evolution.md` if applicable):
 
 ```markdown
 # Narrative Arc: Model {i}

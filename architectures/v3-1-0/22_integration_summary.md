@@ -117,7 +117,7 @@ print(result)  # Output: "Data shape: {df}, columns: {df}"
 - `STAGE_REFLECTION_MODELING` - Modeling process reflection prompt
 - `ERROR_DIAGNOSIS` - DEFCON 1 autopsy report generation (for Protocol 13)
 - `RESULT_VALIDATION` - Result analysis and sensitivity discussion
-- `NARRATIVE_ARC_EXTRACTION` - Hero's Journey extraction for @metacognition_agent
+- `NARRATIVE_ARC_EXTRACTION` - Iterative Refinement narrative extraction for @metacognition_agent
 
 **Key Functions**:
 ```python
@@ -387,7 +387,7 @@ assert "6 lines" in prompt
 # Test 3: Journal prompt formatting
 from tools.journal_prompts import format_stage_prompt
 prompt = format_stage_prompt("narrative_arc", '{"loss": 0.5}')
-assert "Hero's Journey" in prompt
+assert "Iterative Refinement" in prompt
 ```
 
 ### Integration Tests
@@ -400,7 +400,7 @@ assert "Hero's Journey" in prompt
 2. **Metacognitive Extraction** (@metacognition_agent):
    - Read training logs
    - Use `journal_prompts.py` to extract narrative arc
-   - Verify output follows Hero's Journey structure
+   - Verify output follows Iterative Refinement structure
 
 3. **Knowledge Access** (@knowledge_librarian):
    - Access HMML 2.0 methods

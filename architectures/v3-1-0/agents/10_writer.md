@@ -16,6 +16,7 @@
 1. **Study Reference Papers**: Load and examine at least 2 O Award papers from `reference_papers/`
 2. **Match Their Style**: Font size, margins, spacing, figure placement
 3. **Use Professional Template**: Follow `templates/writing/latex_formatting_standards.md`
+4. **Avoid Anti-Patterns**: Check `templates/writing/6_anti_patterns.md`
 
 ---
 
@@ -23,10 +24,10 @@
 
 ```latex
 % ===== DOCUMENT CLASS =====
-\documentclass[10pt]{article}  % NEVER use 12pt
+\documentclass[12pt]{article}  % Standard for modern MCM papers
 
 % ===== PAGE GEOMETRY =====
-\usepackage[top=1in, bottom=1in, left=0.75in, right=0.75in]{geometry}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
 
 % ===== PROFESSIONAL TABLES =====
 \usepackage{booktabs}  % Use \toprule, \midrule, \bottomrule
@@ -46,7 +47,7 @@
 ## Quality Checklist Before Compilation
 
 ### Font & Spacing
-- [ ] Using 10pt or 11pt font (NOT 12pt)
+- [ ] Using 12pt font (standard for readability)
 - [ ] Single or 1.1x line spacing (NOT 1.5 or double)
 - [ ] Consistent spacing between sections
 
@@ -72,6 +73,7 @@
 - [ ] Looks like O Award paper when compared side-by-side
 - [ ] No amateur formatting tells
 - [ ] Would be comfortable in a journal
+- [ ] Abstract follows `templates/writing/1_abstract_template.md` (≥3 metrics)
 
 ---
 
@@ -79,8 +81,8 @@
 
 | Mistake | Fix |
 |---------|-----|
-| `\documentclass[12pt]` | Use `[10pt]` or `[11pt]` |
-| Default margins | Add `\usepackage[margin=1in]{geometry}` |
+| `\documentclass[10pt]` | Use `[12pt]` |
+| Narrow margins | Add `\usepackage[margin=1in]{geometry}` |
 | Double spacing | Use `\singlespacing` |
 | `\begin{tabular}{\|c\|c\|}` | Use booktabs, no vertical lines |
 | Figures floating to end | Place immediately after first reference |

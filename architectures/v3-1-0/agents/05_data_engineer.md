@@ -924,6 +924,8 @@ Create these artifacts:
 
 ## Anti-Patterns to Avoid
 
+Reference: `templates/writing/6_anti_patterns.md`.
+
 ### ❌ Pattern 1: Delete First, Ask Questions Later
 
 Removing outliers without investigation.

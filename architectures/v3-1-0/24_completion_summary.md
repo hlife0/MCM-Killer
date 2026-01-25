@@ -102,7 +102,7 @@ Successfully implemented comprehensive enhancement of MCM-Killer v3.1.0 accordin
 
 **Core Innovation**: Transform technical failures into research insights
 
-- **Hero's Journey** template: Struggle → Revelation → Triumph
+- **Iterative Refinement** template: Baseline → Limitation → Revision
 - **Onion Peeling** template: Surface → Depth → Core insight
 - **Comparative Evolution**: Model A → B → C progression
 
@@ -120,7 +120,7 @@ Successfully implemented comprehensive enhancement of MCM-Killer v3.1.0 accordin
 - @modeler - Preserved
 
 #### Storytellers (叙事与表达)
-- ✅ @narrative_weaver - NEW
+- ✅ @narrative_weaver - NEW (Outline Coordinator)
 - @writer - Enhanced (style_guide.md)
 - @editor - Enhanced
 - @visualizer - Enhanced (Mode B)
@@ -203,9 +203,10 @@ knowledge_library/
 - `tools/style_analyzer.py` → `style_guide.md`
 - @knowledge_librarian learns O-Prize patterns
 
-### Phase 0.2: Active Retrieval (In-Game)
+### Phase 0.2: Protocol-Invoked Consultation (In-Game)
 - @knowledge_librarian → `suggested_methods.md`
-- Bans mediocre methods, pushes O-Prize methods
+- Consults on methods (on-demand), no star-filtering
+- Bans mediocre methods, suggests O-Prize methods
 
 ### Phase 5.8: Insight Extraction (Post-Training)
 - `tools/log_analyzer.py` → `logs/summary.json`

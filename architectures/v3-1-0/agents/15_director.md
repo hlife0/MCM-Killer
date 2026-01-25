@@ -328,6 +328,8 @@ Phase 10: Final assembly
 
 ## Anti-Patterns to Avoid
 
+Reference: `templates/writing/6_anti_patterns.md`.
+
 ### ❌ Pattern 1: Rubber-Stamp Quality Gates
 Letting phases proceed without meeting criteria.
 

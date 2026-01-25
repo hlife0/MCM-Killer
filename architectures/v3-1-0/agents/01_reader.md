@@ -303,6 +303,8 @@ Pretending unclear requirements are clear.
 ### Required Files
 - Problem PDF (from competition organizers)
 - Data files (CSVs, Excel, etc.)
+- `templates/writing/6_anti_patterns.md`
+- `templates/narrative_arcs/4_observation_implication.md` (Early awareness)
 
 ### Output Files
 - `problem_analysis.md` (primary output)

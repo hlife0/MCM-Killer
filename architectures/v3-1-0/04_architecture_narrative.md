@@ -25,64 +25,59 @@
 
 ### 5.2 The Three Narrative Templates
 
-#### Template 1: Hero's Journey (Struggle → Triumph)
+#### Template 1: Iterative Refinement (formerly Hero's Journey)
 
-**Structure** (5 Steps):
+**Structure** (4 Steps):
 
-**Step 1: The Call to Adventure**
+**Step 1: Baseline Model**
 - Problem statement
-- Initial hypothesis
-- What we set out to do
+- Initial hypothesis / approach
+- Rationale for starting here
 
-**Step 2: The Ordeal** ⭐ Critical
-- Technical struggle (gradient explosion, R-hat divergence, oscillation)
+**Step 2: Observed Limitation (The Struggle)** ⭐ Critical
+- Technical limitation (gradient explosion, R-hat divergence, oscillation)
 - Quantitative evidence from logs
-- Failed attempts
+- "We observed [Symptom]"
 
-**Step 3: The Revelation** ⭐ Critical
+**Step 3: Mechanism Insight** ⭐ Critical
 - Physical insight extracted from technical failure
 - Domain mechanism discovered
 - "The bug was not a bug—it was the system revealing truth"
 
-**Step 4: The Resolution**
+**Step 4: The Resolution (Refined Model)**
 - Technical fix + physical justification
 - Model evolution (Model 1-A → Model 1-B)
 - Quantitative improvement
-
-**Step 5: The Treasure**
-- Research contribution
-- Policy implication
-- Theoretical advancement
 
 **Example: SIR-Network Regional Heterogeneity**
 
 ```markdown
 # Narrative Arc: Model 1 (SIR-Network)
 
-## 1. The Call
+## 1. Baseline Model
 We constructed a global SIR-Network model assuming homogeneous transmission
 parameters (β, γ) across all regions.
 
-## 2. The Ordeal
+## 2. Observed Limitation
 Training revealed severe R-hat divergence (>1.3) in β parameters for regions
 5-8 (Asia-Pacific), despite convergence in other regions.
 - **Log Evidence**: training_full.log:1523-1598
 - **Dev Diary**: "β_Asia diverges wildly. Tried increasing priors, didn't help."
 
-## 3. The Revelation
+## 3. Mechanism Insight
 The divergence revealed **fundamental heterogeneity in transmission dynamics**:
 - Asia-Pacific regions have distinct cultural factors (mask-wearing norms)
 - Economic development affects healthcare access (γ recovery rate)
 - **This is not a bug—it is the system telling us that one-size-fits-all
   policies are inappropriate**
 
-## 4. The Resolution
+## 4. Refined Model
 We adopted **non-centered parameterization** with region-specific hierarchical structure:
 - Each region has own (β_i, γ_i) with weak global prior
 - Resolved convergence (R-hat < 1.05)
 - Improved RMSE from 5.8 → 4.2
 
-## 5. The Treasure
+## 5. Research Value
 **Methodological**: Hierarchical models must respect data structure
 **Epidemiological**: Host country effect varies by development level
 **Policy**: Region-tailored interventions outperform global policies (see Section 5.2)
@@ -223,7 +218,7 @@ implications for global pandemic response policy."
 ### 5.6 The Risk of Narrative Imposition (Narrative vs. Science)
 
 **The "Cringe" Danger Zone**
-The introduction of narrative templates (Hero's Journey) carries an inherent risk: **Narrative Imposition**. This occurs when the desire for a story overrides scientific reality, resulting in melodramatic, forced, or "cringeworthy" papers that undermine academic solemnity.
+The introduction of narrative templates (Iterative Refinement) carries an inherent risk: **Narrative Imposition**. This occurs when the desire for a story overrides scientific reality, resulting in melodramatic, forced, or "cringeworthy" papers that undermine academic solemnity.
 
 **The Golden Mean**:
 - **Too Dry**: "We ran Model A. It failed. We ran Model B. It worked." (Boring, no insight)
@@ -232,7 +227,7 @@ The introduction of narrative templates (Hero's Journey) carries an inherent ris
 
 **Safety Protocols**:
 1.  **Epistemological Focus**: The "drama" comes from *knowing vs. not knowing*, not from human emotion.
-2.  **Scale Appropriateness**: Don't use a Hero's Journey arc for a minor parameter tune. Use it only for genuine conceptual breakthroughs.
+2.  **Scale Appropriateness**: Don't use a narrative arc for a minor parameter tune. Use it only for genuine conceptual breakthroughs.
 3.  **Adversarial Check**: @judge_zero (Persona C) is explicitly trained to flag "over-dramatization" and "flowery language" as fatal flaws.
 
 **Motto**: "The story must serve the science, not the other way around."
@@ -259,13 +254,13 @@ workspace/2025_C/
 │       ├── validator.md
 │       ├── visualizer.md                # [ENHANCED] Mode B concept diagrams
 │       ├── writer.md                    # [ENHANCED] style_guide.md constraint
-│       ├── narrative_weaver.md          # [NEW] Story director
+│       ├── narrative_weaver.md          # [NEW] Outline Coordinator
 │       ├── summarizer.md
 │       ├── editor.md                    # [ENHANCED] style_guide.md constraint
 │       ├── advisor.md
 │       ├── time_validator.md
 │       ├── metacognition_agent.md       # [NEW] Philosopher
-│       ├── knowledge_librarian.md       # [NEW] Academic curator
+│       ├── knowledge_librarian.md       # [NEW] Academic consultant
 │       └── judge_zero.md                # [NEW] Red team leader
 │
 ├── 📂 knowledge_library/                # [NEW] Dynamic knowledge base (HMML 2.0)
@@ -305,7 +300,7 @@ workspace/2025_C/
 │   │
 │   └── 📂 templates/
 │       └── 📂 narrative_arcs/
-│           ├── hero_journey.md          # 5-step template
+│           ├── iterative_refinement.md  # 4-step template
 │           ├── onion_peeling.md         # Layer-by-layer template
 │           ├── comparative_evolution.md # Model A→B→C template
 │           └── observation_implication.md # Protocol 15 templates

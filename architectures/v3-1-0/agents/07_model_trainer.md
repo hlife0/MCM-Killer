@@ -250,6 +250,8 @@ This maps directly to Hero's Journey:
 
 ## Anti-Patterns to Avoid
 
+Reference: `templates/writing/6_anti_patterns.md`.
+
 ### ❌ Pattern 1: Silent Failures
 Fixing bugs without documenting them.
 

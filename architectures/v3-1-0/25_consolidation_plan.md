@@ -102,8 +102,8 @@
 - Validation gates
 
 ## Part 5: Cognitive Narrative (from 02_cognitive_narrative_framework.md)
-- Hero's Journey template
-- Observation-Implication structure
+- Iterative Refinement template (Baseline → Limitation → Revision)
+- Onion Peeling template (Surface → Depth → Core insight)
 - Technical → Physical mapping
 
 ## Part 6: Workspace Structure (from 31_workspace_v3-1-0_structure.md)

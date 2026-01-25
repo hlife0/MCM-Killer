@@ -40,7 +40,7 @@ Per user guidance: "no need for truly thorough prompts, just enhancement is enou
 | # | Agent | File | Lines | O Award Training | Status |
 |---|-------|------|-------|------------------|--------|
 | 5 | @narrative_weaver | narrative_weaver.md | 588 | Conciseness, Observation-Implication | ✅ Complete |
-| 6 | @writer | writer_enhancement.md | 109 | LaTeX quality, 10-11pt font | ✅ Complete |
+| 6 | @writer | writer_enhancement.md | 109 | LaTeX quality, 12pt font (modern standard) | ✅ Complete |
 | 7 | @editor | editor.md | 478 | Protocol 14/15, LaTeX verification | ✅ Complete |
 | 8 | @visualizer | visualizer_enhancement.md | 571 | 300+ DPI, conclusionary captions | ✅ Complete |
 
@@ -150,7 +150,7 @@ Per user guidance: "no need for truly thorough prompts, just enhancement is enou
 
 **O Award Training Added**:
 - Abductive reasoning framework (technical → physical)
-- Hero's Journey narrative extraction
+- Narrative extraction (Iterative Refinement)
 - Anti-pattern: Over-elaboration on struggles
 
 **Key Additions**:
@@ -160,18 +160,17 @@ Per user guidance: "no need for truly thorough prompts, just enhancement is enou
 
 ---
 
-### 5. @narrative_weaver - Story Director
-
+### 5. @narrative_weaver - Outline Coordinator
 **File**: `narrative_weaver.md` (588 lines)
 
 **O Award Training Added**:
 - **CRITICAL: Conciseness Mandate** (≤3 sentences for struggles)
 - Observation-Implication enforcement (Protocol 15)
-- Hero's Journey template application
+- Narrative template application (Non-Dramatic)
 
 **Key Additions**:
 - Conciseness rules (vs. over-elaboration anti-pattern)
-- 3 narrative arc templates (Hero's Journey, Onion Peeling, Comparative Evolution)
+- 3 narrative arc templates (Iterative Refinement, Onion Peeling, Comparative Evolution)
 - paper_outline.md template
 
 ---
@@ -438,8 +437,8 @@ Per user guidance: "no need for truly thorough prompts, just enhancement is enou
 **File**: `templates/writing/latex_formatting_standards.md`
 
 **Contents**: 10-point checklist fixing common issues:
-1. Font size (12pt → 10-11pt)
-2. Margins (wide → 1 inch)
+1. Font size (10-11pt → 12pt for readability)
+2. Margins (narrow → 1 inch)
 3. Blank pages (prevention)
 4. Line spacing (double → single/1.1×)
 5. Section spacing (consistency)

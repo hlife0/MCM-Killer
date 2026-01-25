@@ -1025,72 +1025,43 @@ python tools/style_analyzer.py \
 
 ---
 
-## Phase 0.2: Active Knowledge Retrieval
+## Phase 0.2: Protocol-Invoked Consultation (On-Demand)
 
-**Purpose**: Proactively push advanced O-Prize-level methods to prevent mediocrity.
+**Purpose**: Provide advanced methods ONLY when requested by Protocol 20.
+**Philosophy**: "Consultation, not intrusion" - Provide rigorous method support upon request.
 
-**Philosophy**: "Good is the enemy of great" - Ban common methods, push sophisticated ones.
-
-**Agent**: @knowledge_librarian (Pre-Game Mode)
+**Agent**: @knowledge_librarian (Mode 2: In-Game)
 
 ### Process
 
-**Step 1**: Parse Problem Statement
-
-Extract:
-- Domain (epidemic, climate, finance, etc.)
-- Problem type (prediction, optimization, classification, etc.)
-- Required outputs (forecasts, decisions, etc.)
+**Step 1**: Receive Consultation Request
+- @researcher or @metacognition_agent invokes Protocol 20
+- Context: "Need method for [Domain] with [Complexity] and [Constraint]"
 
 **Step 2**: Query HMML 2.0
+- Search `knowledge_library/methods/`
+- Filter by domain match and complexity
 
-Search `knowledge_library/methods/` for:
-- Domain match
-- High `narrative_value` (>=4/5)
-- Recent O-Prize usage
-
-**Step 3**: Ban Common Methods (Anti-Mediocrity)
-
-Generate Kill List:
-```markdown
-## AVOID (Mediocrity Alert)
-
-1. **Basic SIR/SEIR** - Why: Too common, seen in 40%+ MCM papers
-2. **Linear Regression** - Why: Too simple for O-Prize
-3. **Random Forest (default)** - Why: Black box, no mechanism
-```
+**Step 3**: Provide Options (Unfiltered)
+- Present ALL relevant methods (Star rating is for internal sorting, not hiding)
+- **Rule**: Do not hide "3-star" methods if they fit the complexity requirement better than "5-star" ones.
+- **Rule**: Do not push methods unless requested.
 
 **Step 4**: Recommend Advanced Methods
-
-Output template:
-```markdown
-## RECOMMENDED (O-Prize Level)
-
-### Method 1: SIR-Network Model (5 stars)
-- **Mathematical Foundation**: dS_i/dt = -beta S_i Sum_j A_ij (I_j / N_j)
-- **O-Prize Examples**: 2019 Problem D, 2022 Problem F
-- **Why It Wins**: Captures network topology effects
-- **Narrative Value**: 5/5 (explains HOW transmission varies by hub)
-- **Implementation**: HMML 2.0 file `methods/network_science/sir_network.md`
-
-### Method 2: Hierarchical Bayesian SIR (4 stars)
-- **Mathematical Foundation**: beta_i ~ Normal(mu_beta, sigma_beta^2)
-- **O-Prize Examples**: 2020 Problem C
-- **Why It Wins**: Quantifies regional heterogeneity
-- **Narrative Value**: 4/5 (explains WHY regions differ)
-```
+- Provide Mathematical Foundation
+- Provide Narrative Value Explanation
 
 ### Output
 
 **Generated**: `output/docs/knowledge/suggested_methods.md`
 
 **Success Criteria**:
-- [ ] >=3 recommended methods
-- [ ] Each method has narrative_value >= 4/5
-- [ ] Each method has O-Prize example citation
-- [ ] >=2 common methods banned
+- [ ] Response directly addresses user request
+- [ ] Multiple options provided
+- [ ] No unsolicited "pushing"
+- [ ] Mathematical rigor in all options
 
-**Time**: ~30 minutes
+**Time**: ~15-30 minutes
 
 ---
 
@@ -1114,24 +1085,7 @@ Parse `logs/summary.json` for anomalies:
 
 **Step 2**: Hypothesize Physical Causes
 
-For each symptom, generate 2-3 physical hypotheses:
-
-**Example**:
-```
-Symptom: Loss oscillated epoch 50-100
-
-Hypothesis A: Data heterogeneity
-- Regional clusters have different dynamics
-- Model sees cluster A, adapts, then sees cluster B, confused
-
-Hypothesis B: Model sensitivity
-- Learning rate too high for later training
-- Model bouncing around local minima
-
-Hypothesis C: Overfitting onset
-- Model memorizing training data
-- Generalization degrading
-```
+For each symptom, generate 2-3 physical hypotheses.
 
 **Step 3**: Validate Against Diary
 
@@ -1159,26 +1113,23 @@ Synthesize all insights into coherent story:
 ```markdown
 # Narrative Arc: Model {i} - [Theme]
 
-## The Call (Initial Challenge)
-[What problem were we solving?]
-[Why was it difficult?]
+## 1. Baseline Model
+[What was the initial approach?]
 
-## The Ordeal (Technical Struggle)
-[What went wrong?]
-[Symptoms, errors, failures]
+## 2. Observed Limitation
+[What went wrong? Symptoms, errors, failures]
 
-## The Revelation (Insight)
+## 3. Mechanism Insight
 [What did the struggle reveal about the problem?]
 [Physical mechanism discovered]
 
-## The Resolution (How We Fixed It)
+## 4. Model Refinement
 [Technical solution]
 [Physical justification]
 
-## The Treasure (Research Value)
+## 5. Research Value
 [New understanding]
 [Performance improvement]
-[Physical insight gained]
 ```
 
 ### Quality Rule

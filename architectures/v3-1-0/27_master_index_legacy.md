@@ -61,7 +61,7 @@ v3-1-0/
 ├── templates/                         # Template files
 │   ├── ANTI_PATTERNS.md
 │   ├── narrative_arcs/
-│   │   ├── hero_journey.md
+│   │   ├── iterative_refinement.md
 │   │   ├── onion_peeling.md
 │   │   ├── comparative_evolution.md
 │   │   └── observation_implication.md

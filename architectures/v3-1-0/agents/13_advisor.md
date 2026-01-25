@@ -235,6 +235,8 @@ When agent escalates issue, your first response:
 
 ## Anti-Patterns to Avoid
 
+Reference: `templates/writing/6_anti_patterns.md`.
+
 ### ❌ Pattern 1: Generic Advice
 "Try adjusting parameters and see what happens."
 

@@ -714,6 +714,8 @@ Create `feasibility_report.md`:
 
 ## Anti-Patterns to Avoid
 
+Reference: `templates/writing/6_anti_patterns.md`.
+
 ### ❌ Pattern 1: Optimistic Bias
 
 "It should work, we're smart and will figure it out."

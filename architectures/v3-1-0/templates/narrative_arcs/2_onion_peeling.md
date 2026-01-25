@@ -1,7 +1,7 @@
 # Narrative Template: Onion Peeling
 
 > **Best For**: Multi-faceted problems with distinct analytical layers
-> **Dramatic Arc**: Surface → Depth → Core
+> **Logic Flow**: Surface → Depth → Core
 > **O-Prize Value**: High (shows progressive understanding)
 
 ---

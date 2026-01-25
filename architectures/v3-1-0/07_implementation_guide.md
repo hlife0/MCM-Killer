@@ -24,8 +24,8 @@
 | Sprint | Days | Focus | Key Deliverables |
 |--------|------|-------|------------------|
 | **Sprint 1** | 1-3 | Foundation & Eyes | Tools, HMML 2.0, Style Guide |
-| **Sprint 2** | 4-8 | Brain & Soul | @metacognition, @narrative_weaver, Mode B |
-| **Sprint 3** | 9-14 | Fangs & Shield | @judge_zero, @knowledge_librarian, Phase 9.1 |
+| **Sprint 2** | 4-8 | Brain & Soul | @metacognition, @narrative_weaver (Iterative), Mode B |
+| **Sprint 3** | 9-14 | Fangs & Shield | @judge_zero, @knowledge_librarian (Consultant), Phase 9.1 |
 
 ---
 
@@ -164,7 +164,7 @@ Implement the **cognitive** (Brain) and **narrative** (Soul) capabilities.
 **Files Created**:
 - `tools/log_analyzer.py` (~480 lines)
 - `agents/metacognition_agent.md` (~350 lines)
-- `templates/narrative_arcs/hero_journey.md`
+- `templates/narrative_arcs/iterative_refinement.md`
 - `templates/narrative_arcs/onion_peeling.md`
 - `templates/narrative_arcs/comparative_evolution.md`
 
@@ -181,7 +181,7 @@ cat logs/summary.json | jq '.struggles'
 # Test narrative arc generation (manual)
 # 1. Create sample dev_diary.md
 # 2. Run @metacognition_agent (via LLM)
-# 3. Check narrative_arc_1.md output
+# 3. Check narrative_arc_1.md output (Iterative Refinement style)
 ```
 
 ---
@@ -372,8 +372,8 @@ cat output/docs/auto_score.json | jq '.checks'
 
 1. **Input**: 2024 Problem C (epidemic)
 2. **Phase 0.2**: @knowledge_librarian recommends SIR-Network
-3. **Phase 5.8**: @metacognition extracts insights from training
-4. **Phase 7**: @narrative_weaver creates outline
+3. **Phase 5.8**: @metacognition extracts insights from training (Iterative Refinement)
+4. **Phase 7**: @narrative_weaver creates outline (Baseline/Limitation/Revision)
 5. **Phase 9.1**: @judge_zero reviews paper
 6. **If REJECT**: Protocol 13 activates
 7. **After fixes**: Re-review passes

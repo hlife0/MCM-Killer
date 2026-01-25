@@ -74,7 +74,7 @@ New features are **additive only**:
 **Implementation**:
 - **Phase 5.8**: Extract insights from training struggles
 - **dev_diary.md**: Document reasoning process
-- **narrative_arc.md**: Map struggles to physical mechanisms
+- **narrative_arc.md**: Summarize struggles in a neutral, technical way via Iterative Refinement templates (Baseline → Limitation → Revision)
 
 ### 3. Adversarial Quality Assurance
 
@@ -85,17 +85,14 @@ New features are **additive only**:
 
 **DEFCON 1 Protocol**: Emergency response when paper rejected
 
-### 4. Anti-Mediocrity Enforcement
+### 4. Anti-Mediocrity Enforcement (On-Demand)
 
-**@knowledge_librarian** actively bans mediocre methods:
-- ❌ Basic SIR (for epidemic problems)
-- ❌ ARIMA alone (for time series)
-- ❌ Linear regression only (for any problem)
+**@knowledge_librarian** is invoked via protocol when any agent needs methodological support.
+When invoked, it:
+- flags weak “default” choices (e.g., basic SIR, ARIMA-only, linear-regression-only) with concrete reasons
+- proposes stronger alternatives (e.g., network-structured models, SDEs, agent-based modeling) with assumptions, data needs, and pitfalls
 
-**Pushes O-Prize methods**:
-- ✅ SIR-Network (topology)
-- ✅ SDE (uncertainty)
-- ✅ Agent-Based Models (micro-foundations)
+This is **not** an always-on pre-competition push. It is an on-demand consultation designed to prevent mediocre method selection.
 
 ### 5. Protocol 15: Observation-Implication
 
@@ -119,7 +116,7 @@ New features are **additive only**:
 | Category | v3.0.0 | v3.1.0 | Change |
 |----------|--------|--------|--------|
 | **Thinkers** | 2 (researcher, modeler) | 4 (+metacognition, +knowledge_librarian) | +100% |
-| **Storytellers** | 4 | 5 (+narrative_weaver) | +25% |
+| **Storytellers** | 4 | 5 (+narrative_weaver) | +25% (non-dramatic outline support) |
 | **Critics** | 3 | 4 (+judge_zero) | +33% |
 | **Executors** | 5 | 5 (enhanced @code_translator) | 0% |
 
@@ -127,8 +124,8 @@ New features are **additive only**:
 
 | Stage | v3.0.0 Phases | v3.1.0 Phases | New Phases |
 |-------|--------------|--------------|------------|
-| **Pre-Competition** | 0 | 1 | Phase -1 (Style Generation) |
-| **Understanding** | 2 | 3 | Phase 0.2 (Active Retrieval) |
+| **Pre-Competition** | 0 | 1 | Phase -1 (Style Extraction, protocol-invoked) |
+| **Understanding** | 2 | 3 | Phase 0.2 (Method Consultation, protocol-invoked) |
 | **Implementation** | 4 | 5 | Phase 5.8 (Insight Extraction) |
 | **Paper** | 3 | 4 | Phase 9.1 (Mock Judging) |
 | **Post-Competition** | 1 | 2 | Phase 11 (Self-Evolution) |
@@ -240,7 +237,7 @@ Problem → Research → Model → Train → Reflect → Extract Insights →
 - log_analyzer.py (struggle identification)
 
 **Soul (Narrative)**:
-- @narrative_weaver (story architecture)
+- @narrative_weaver (concise synthesis of struggles → insights; writing guidance)
 - @writer (LaTeX generation)
 - @editor (style enforcement)
 - @visualizer (dual-mode visualization)
@@ -271,8 +268,8 @@ Problem → Research → Model → Train → Reflect → Extract Insights →
 | Agent | Role | v3.1.0 Status | Key Feature |
 |-------|------|--------------|-------------|
 | **@metacognition_agent** | Forensic analyst | **NEW** | Struggles → insights via abductive reasoning |
-| **@knowledge_librarian** | HMML curator | **NEW** | Dual-mode: style generation + active method pushing |
-| @researcher | Literature review | Preserved | O-Prize alignment, Phase 0.5 evaluation |
+| **@knowledge_librarian** | HMML curator | **NEW** | Protocol-invoked consultation; (1) style extraction, (2) method suggestions |
+| @researcher | Literature review | Preserved | Uses all methods provided by @knowledge_librarian (no star filtering) |
 | @modeler | Mathematical design | Preserved | Design expectations table |
 
 #### @metacognition_agent (NEW)
@@ -315,41 +312,42 @@ Problem → Research → Model → Train → Reflect → Extract Insights →
 ```markdown
 # Narrative Arc: Model 1 (SIR-Network)
 
-## The Call (Problem Statement)
-Predict epidemic spread on airline network
+## Initial Model
+Predict epidemic spread on an airline network.
 
-## The Ordeal (Technical Struggles)
-- Loss oscillation (epochs 45-120): 0.34 → 0.41 → 0.35 → 0.39
+## Observed Technical Symptoms (Concise)
+- Loss oscillation (epochs 45–120): 0.34 → 0.41 → 0.35 → 0.39
 - Hub instability (epoch 78): β > 1 (physically impossible)
-- Regional disparity: Europe RMSE=0.12, Asia RMSE=0.89
+- Regional disparity: Europe RMSE = 0.12, Asia RMSE = 0.89
 
-## The Revelation (Physical Mechanism)
-Oscillation reveals multi-scale hub effects:
-- Hubs create "jump dispersal" events (fast time-scale: hours-days)
-- Regions show gradual diffusion (slow time-scale: weeks-months)
-- Standard SIR assumes homogeneous mixing (WRONG for hubs)
+## Interpretation (Mechanism)
+The oscillation indicates multi-scale hub effects:
+- hubs induce fast-time-scale “jump dispersal” events (hours–days)
+- regions exhibit slower diffusion (weeks–months)
+- homogeneous-mixing assumptions are inadequate for hub-and-spoke topology
 
-## The Resolution (Technical + Physical)
-Technical: Implement multi-scale SIR with hub-aware transmission
-Physical: β_hub = β × (k_i / k_max)^γ captures burst transmission
+## Revision and Outcome
+Revision: multi-scale SIR with hub-aware transmission
+Mechanism alignment: β_hub = β × (k_i / k_max)^γ captures burst transmission
 
-Result: RMSE 0.34 → 0.18 (↓47%), Asia RMSE 0.89 → 0.21 (↓76%)
+Outcome: RMSE 0.34 → 0.18 (↓47%); Asia RMSE 0.89 → 0.21 (↓76%)
 
-## The Treasure (Scientific Contribution)
-Discovery: Hub topology creates dual time-scale epidemic dynamics
-Implication: Standard SIR insufficient for hub-and-spoke networks
-Policy: Target hubs for 3.2× more effective intervention
+## Scientific Contribution
+Finding: hub topology creates dual time-scale epidemic dynamics
+Implication: standard SIR is insufficient for hub-and-spoke networks
+Policy: targeted hub interventions are 3.2× more effective than uniform interventions
 ```
 
 #### @knowledge_librarian (NEW)
 
-**Role**: Academic Curator & Methodological Guardian
+**Role**: Academic Consultant & Methodological Guardian
 
 **Dual-Mode Operation**:
 
-**Mode 1: Pre-Game (Phase -1)** - Style Generator
+**Mode 1: Style Extraction (Protocol-Invoked)**
+- Triggered when the team needs a writing style baseline (or a refresh)
 - Run `tools/style_analyzer.py` on `reference_papers/*.pdf`
-- Extract: high-value verbs, abstract quantitative rules, sentence templates
+- Extract: high-value verbs, quantitative abstract rules, sentence templates
 - Generate: `knowledge_library/academic_writing/style_guide.md`
 
 **Output Example**:
@@ -373,13 +371,13 @@ Policy: Target hubs for 3.2× more effective intervention
 3. MUST state implication, not just observation
 ```
 
-**Mode 2: In-Game (Phase 0.2)** - Active Method Pusher
-- Identify domain from problem keywords
-- **BAN** simple methods (with justification)
-- **PUSH** advanced methods (with O-Prize examples)
+**Mode 2: Method Consultation (Protocol-Invoked)**
+- Triggered when @reader/@metacognition_agent/@researcher (or others) request method support
+- Clarify context and constraints (data availability, time budget, target deliverables)
+- Provide a set of method options (including baselines and advanced alternatives) with rationale and pitfalls
 - Output: `output/docs/knowledge/suggested_methods.md`
 
-**Example Active Injection**:
+**Example Output**:
 ```markdown
 # Suggested Methods: 2025 Problem C (Epidemic on Airline Network)
 
@@ -429,12 +427,12 @@ Secondary: Stochastic Processes
 **Philosophy**: "Good is the enemy of great."
 
 **Anti-Mediocrity Protocol**:
-1. Classify problem domain from keywords
-2. Load HMML 2.0 methods for domain
-3. Filter by `narrative_value: Very High | High`
-4. Ban methods with `oprize_compatibility: Poor | Fair`
-5. Justify bans mathematically (not just "it's too simple")
-6. Push ≥3 advanced methods with O-Prize evidence
+1. Clarify problem domain and constraints (data, time, deliverables)
+2. Load HMML 2.0 methods for the domain
+3. Provide a ranked set of options (including baselines and advanced methods)
+4. Flag weak defaults with mathematical and practical justifications
+5. Document assumptions, pitfalls, and when a “simple baseline” is acceptable
+6. Do not hide options by star filtering; support downstream selection with evidence
 
 ---
 
@@ -442,14 +440,15 @@ Secondary: Stochastic Processes
 
 **v3.0.0 Core Role**: Method suggestions
 
-**v3.1.0 Enhancement**: Phase 0.2 integration with @knowledge_librarian
+**v3.1.0 Enhancement**: Protocol-based method consultation with @knowledge_librarian
 
 **New Workflow**:
-1. Read `suggested_methods.md` from @knowledge_librarian
-2. Focus on ⭐⭐⭐⭐⭐ and ⭐⭐⭐⭐ methods only
-3. Deep-dive: Read HMML 2.0 method files
-4. Extract: equations, assumptions, pitfalls, O-Prize examples
-5. Propose specific method combination (e.g., "SIR-Network + SDE for uncertainty")
+1. Request method support (when needed) and provide context: data constraints, time budget, and deliverables
+2. Read `suggested_methods.md` from @knowledge_librarian
+3. Cover **all** methods provided (do not pre-filter by star ratings)
+4. Deep-dive: Read HMML 2.0 method files as needed
+5. Extract: equations, assumptions, pitfalls, and (when available) O-Prize examples
+6. Propose a method set (primary + baseline + validation), with clear selection rationale
 
 **Preserved Features**:
 - O-Prize alignment
@@ -511,174 +510,87 @@ $$
 
 | Agent | Role | v3.1.0 Status | Key Feature |
 |-------|------|--------------|-------------|
-| **@narrative_weaver** | Story director | **NEW** | 3 narrative templates (Hero's Journey, Onion Peeling, Comparative) |
+| **@narrative_weaver** | Outline coordinator | **NEW** | Converts struggles/insights into a concise outline; enforces brevity for @writer |
 | @writer | LaTeX generation | **Enhanced** | Protocol 14 (style_guide.md constraint) |
 | @editor | Style enforcement | **Enhanced** | Protocol 14 + Protocol 15 enforcement |
 | @visualizer | Visualization | **Enhanced** | Mode B (concept diagrams via Mermaid/Graphviz) |
 
 #### @narrative_weaver (NEW)
 
-**Role**: The Story Director & Narrative Architect
+**Role**: Outline Coordinator (Non-Dramatic)
 
 **Operates in**: Phase 7 (before @writer)
 
-**Core Capability**: Narrative Architecture - designing paper's dramatic structure
+**Core Capability**: Convert the team’s technical struggles and insights into a concise, paper-ready outline.
+
+**Hard Rule**: Do NOT dramatize. Use a neutral, technical voice; keep all struggle/limitation content concise and functional (i.e., it must directly justify a modeling or methodological revision).
 
 **Input**:
 - `narrative_arc_{i}.md` (from @metacognition_agent, Phase 5.8)
-- Model design documents
-- Results (from @validator)
-- Figures list (from @visualizer)
+- model design documents
+- validation findings (from @validator)
+- figures list (from @visualizer)
 
-**Output**: `paper_outline.md` (detailed paragraph-by-paragraph plan)
+**Output**: `paper_outline.md` (paragraph-by-paragraph plan + explicit brevity notes for @writer)
 
-**Three Narrative Templates**:
+**Organization Templates (Non-Theatrical)**:
 
-**Template 1: Hero's Journey** (for models that overcame major struggle)
+**Template A: Iterative Refinement (Baseline → Limitation → Revision)**
 ```
-1. The Call → Problem identified, initial approach chosen
-2. The Ordeal → Technical struggles, failures, obstacles
-3. The Revelation → Struggle reveals physical mechanism
-4. The Resolution → Technical fix aligned with mechanism
-5. The Treasure → Scientific insight gained
-```
-
-**Template 2: Onion Peeling** (for multi-layered analysis)
-```
-1. Surface Level → Basic model, initial results
-2. Layer 1 → First refinement, improved understanding
-3. Layer 2 → Second refinement, deeper insight
-4. Core → Fundamental mechanism discovered
+1. Baseline model and why it is a reasonable starting point
+2. Observed limitation (1–2 sentences, with a quantitative signal)
+3. Interpretation (what the limitation implies about the mechanism)
+4. Revision and its justification
+5. Result and what it supports
 ```
 
-**Template 3: Comparative Evolution** (for multiple model iterations)
+**Template B: Layered Refinement (Surface → Deeper Mechanism)**
 ```
-1. Model A → Baseline, demonstrates need for improvement
-2. Model B → First enhancement, partial success
-3. Model C → Final refinement, complete solution
+1. First-order structure
+2. Second-order effect / interaction
+3. Mechanism-level refinement
+4. Final model and evidence
+```
+
+**Template C: Comparative Models (A vs B vs C)**
+```
+1. Model A: baseline and weakness
+2. Model B: targeted fix and partial improvement
+3. Model C: final fix and best performance
+4. Comparative summary table/figure plan
 ```
 
 **Example Output** (paper_outline.md):
 ```markdown
 # Paper Outline: 2025 Problem C (Epidemic on Airline Network)
 
-## Narrative Template: Hero's Journey
-
-## Red Thread Sentence
-"Hub topology creates dual time-scale epidemic dynamics that standard models cannot capture."
+## Key Thread (One Sentence)
+"Hub topology induces multi-scale transmission dynamics that require topology-aware modeling."
 
 ---
 
-## 1. Introduction (1 page)
+## 1. Introduction
+- Context, gap, and contribution (quantitative)
 
-### Para 1.1: Problem Context
-"Epidemic spread on airline networks poses unique challenges due to hub-and-spoke topology.
-Standard SIR models assume homogeneous mixing (all-to-all contact), but airline networks
-exhibit extreme heterogeneity: hub airports (e.g., Atlanta, Beijing) connect hundreds of
-routes, while peripheral airports serve only regional traffic."
+## 2. Methods
+### 2.1 Baseline and limitation (≤2 sentences)
+- Baseline: homogeneous SIR
+- Limitation: regional residual structure (quantitative signal)
 
-### Para 1.2: Research Gap
-"Existing approaches (cite: basic SIR, SEIR) fail to capture topological effects.
-Our preliminary analysis reveals that hubs accelerate epidemic spread by 43% compared to
-peripheral nodes (see Figure 1), indicating topology-dependent transmission rates."
+### 2.2 Revision and justification
+- Revision: network-coupled formulation
+- Justification: mechanism implied by residual structure
 
-### Para 1.3: Our Contribution
-"We introduce a multi-scale SIR-Network model that:
-(1) incorporates hub-aware transmission (β_hub = β × (k_i / k_max)^γ),
-(2) separates fast (hub-to-hub) and slow (regional) time-scales,
-(3) achieves RMSE = 4.2 (↓42% from baseline)."
+## 3. Results
+- Main metrics + uncertainty
+- Ablation/comparison (baseline vs revised)
 
----
+## 4. Discussion
+- Interpretation and implications
 
-## 2. Methods (3 pages)
-
-### Section 2.1: Data
-[Paragraph about airline network structure, data sources]
-
-### Section 2.2: Model A (Baseline SIR)
-**Purpose**: Establish need for topology
-
-**Para 2.2.1**: Basic SIR equations (no network)
-**Para 2.2.2**: Results - RMSE = 7.2 (poor)
-**Para 2.2.3**: **The Ordeal** - "Training oscillated (epochs 45-120), revealing model
-confusion between hub and peripheral dynamics"
-
-### Section 2.3: Model B (SIR-Network)
-**Purpose**: Add topology
-
-**Para 2.3.1**: Network-aware equations (adjacency matrix)
-**Para 2.3.2**: **The Revelation** - "Loss oscillation disappeared for European routes
-(homogeneous network) but persisted for Asian routes (hub-heavy network), indicating
-multi-scale dynamics"
-**Para 2.3.3**: Results - RMSE = 4.2 (better, but Asia still RMSE = 0.89)
-
-### Section 2.4: Model C (Multi-Scale SIR-Network)
-**Purpose**: Dual time-scales
-
-**Para 2.4.1**: Hub-aware transmission term
-**Para 2.4.2**: **The Resolution** - "Separating hub (fast) and regional (slow) transmission
-aligned model with physical mechanism"
-**Para 2.4.3**: Results - Asia RMSE = 0.21 (↓76%)
-
----
-
-## 3. Results (2 pages)
-
-### Section 3.1: Model Performance
-**Figure 2**: Model A vs B vs C comparison (RMSE bar chart)
-**Caption** (Protocol 15 compliant):
-"Model performance across regions. Multi-scale SIR-Network (Model C) achieves RMSE = 4.2
-overall, demonstrating 42% improvement over baseline (Model A: RMSE = 7.2). Asian routes
-show largest gain (RMSE 0.89 → 0.21, ↓76%), indicating hub effects dominate in hub-heavy
-networks (p < 0.001)."
-
-### Section 3.2: Hub Effect Analysis
-**Figure 3**: Hub vs peripheral transmission rates
-**Caption**:
-"Hub-aware transmission rates. Hubs (degree > 50) exhibit β_hub = 0.00045, while peripheral
-nodes (degree < 10) show β = 0.00028, indicating 61% transmission acceleration at hubs.
-This reveals topological amplification mechanism consistent with 'jump dispersal' hypothesis."
-
-### Section 3.3: **The Treasure** (Key Insight)
-**Para 3.3.1**: "Our struggle with loss oscillation (Section 2.2.3) revealed fundamental
-multi-scale dynamics: epidemics on hub-and-spoke networks spread via dual mechanisms..."
-**Figure 4**: Time-scale separation diagram (fast hub-to-hub, slow regional)
-
----
-
-## 4. Discussion (1 page)
-
-### Para 4.1: Physical Interpretation
-"Hub topology creates 'jump dispersal' events (fast) superimposed on gradual regional
-diffusion (slow)..."
-
-### Para 4.2: Policy Implications
-"Our findings suggest targeted intervention at hubs is 3.2× more effective than random
-vaccination..."
-
-### Para 4.3: Limitations
-"Our model assumes static topology; future work should incorporate dynamic network structure..."
-
----
-
-## 5. Conclusion (0.5 page)
-
-**Para 5.1**: Summary of contribution
-**Para 5.2**: Broader impact
-
----
-
-## Figure Plan (7 figures)
-
-1. **Figure 1**: Network topology (hub identification) - CONCEPT DIAGRAM (Mode B)
-2. **Figure 2**: Model comparison (RMSE bar chart) - DATA PLOT (Mode A)
-3. **Figure 3**: Hub vs peripheral transmission - DATA PLOT (Mode A)
-4. **Figure 4**: Time-scale separation - CONCEPT DIAGRAM (Mode B)
-5. **Figure 5**: Sensitivity analysis (β, γ sweep) - DATA PLOT (Mode A)
-6. **Figure 6**: Prediction vs actual (time series) - DATA PLOT (Mode A)
-7. **Figure 7**: Policy intervention scenarios - DATA PLOT (Mode A)
-
-**All captions MUST follow Protocol 15**: Observation + Implication
+## 5. Brevity Notes for @writer
+- Challenges/limitations must be written as concise transitions (≤3 sentences each)
+- No dramatization; technical, neutral wording only
 ```
 
 **Protocol 15 Enforcement**: @narrative_weaver checks every planned figure caption:
@@ -1267,7 +1179,7 @@ torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
 
 | v3.0.0 Agent | v3.1.0 Enhancement | Type | Key Addition |
 |--------------|-------------------|------|--------------|
-| @researcher | Phase 0.2 integration | Minor | Reads suggested_methods.md |
+| @researcher | Knowledge-librarian consultation | Minor | Uses all methods from suggested_methods.md (no star filtering) |
 | @code_translator | dev_diary.md | **Major** | Documents struggles |
 | @writer | Protocol 14 | **Major** | style_guide.md constraint |
 | @editor | Protocol 14 + 15 | **Major** | Dual enforcement |
@@ -1285,7 +1197,7 @@ MCM-Killer v3.1.0 operates through **13 sequential phases** organized into 5 sta
 
 | Stage | Phases | Duration | Purpose |
 |-------|--------|----------|---------|
-| **Pre-Competition** | Phase -1 | Pre-comp | Style guide generation from O-Prize papers |
+| **Pre-Competition** | Phase -1 | Protocol-invoked | Style extraction from O-Prize papers (generate/refresh style_guide.md) |
 | **Understanding & Design** | Phases 0, 0.2, 0.5, 1, 1.5 | 8-12 hours | Problem analysis, method selection, model design |
 | **Implementation** | Phases 2-3, 4, 4.5, 5, 5.5, 5.8 | 20-30 hours | Data processing, coding, training, insight extraction |
 | **Results & Paper** | Phases 6, 7, 9, 9.1 | 8-12 hours | Results generation, paper writing, mock judging |

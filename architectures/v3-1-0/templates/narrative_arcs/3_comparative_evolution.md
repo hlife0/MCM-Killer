@@ -1,7 +1,7 @@
 # Narrative Template: Comparative Evolution
 
 > **Best For**: Comparing multiple model iterations with progressive refinement
-> **Dramatic Arc**: Baseline → Enhancement → Final
+> **Logic Flow**: Baseline → Enhancement → Final
 > **O-Prize Value**: Medium-High (shows systematic improvement)
 
 ---

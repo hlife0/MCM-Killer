@@ -279,6 +279,8 @@ def calculate_score(persona_scores):
 
 ## Output Format: judgment_report.md
 
+Based on `templates/writing/4_judgment_report_template.md`:
+
 ```markdown
 # Judgment Report: {Problem} {Date}
 
@@ -539,6 +541,8 @@ Compare to hypothetical O-Prize paper.
 ---
 
 ## Anti-Patterns to Catch
+
+Reference: `templates/writing/6_anti_patterns.md` (The Kill List).
 
 ### In Methodology
 - "We assume X" without justification

@@ -10,16 +10,16 @@
 
 These issues have been observed in current drafts and MUST be fixed:
 
-### 1. Font Size Too Large
+### 1. Font Size Too Small
 
-**Problem**: Using 12pt font makes the paper look amateur and wastes space.
+**Problem**: Using 10pt or 11pt font makes the paper hard to read and fails to match modern competition trends favoring readability.
 
 **Fix**:
 ```latex
-\documentclass[10pt]{article}  % or 11pt, NEVER 12pt for MCM
+\documentclass[12pt]{article}  % Standard for modern MCM papers
 ```
 
-**Standard**: O Award papers use 10-11pt body text.
+**Standard**: Modern O Award papers use 12pt body text for better readability.
 
 ---
 
@@ -206,10 +206,10 @@ A & B & C \\
 ## Complete Professional Template
 
 ```latex
-\documentclass[10pt]{article}
+\documentclass[12pt]{article}
 
 % ===== GEOMETRY =====
-\usepackage[top=1in, bottom=1in, left=0.75in, right=0.75in]{geometry}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
 
 % ===== FONTS & ENCODING =====
 \usepackage[T1]{fontenc}
@@ -273,8 +273,8 @@ A & B & C \\
 Before submission, compare your PDF against O Award reference papers:
 
 ### Page Layout
-- [ ] Font size matches (10-11pt)?
-- [ ] Margins appropriate (not too wide)?
+- [ ] Font size matches (12pt)?
+- [ ] Margins appropriate (1 inch)?
 - [ ] No blank pages?
 - [ ] Page count efficient (no wasted space)?
 
@@ -313,8 +313,8 @@ Before submission, compare your PDF against O Award reference papers:
 
 | Amateur Tell | Professional Fix |
 |--------------|-----------------|
-| 12pt font | Use 10-11pt |
-| Wide margins | 1 inch or less |
+| 10-11pt font | Use 12pt |
+| Narrow margins | 1 inch |
 | Double spacing | Single or 1.1x |
 | Vertical table lines | Use booktabs, no vertical lines |
 | Figures at end | Place near first reference |

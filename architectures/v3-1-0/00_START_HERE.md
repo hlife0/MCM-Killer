@@ -13,10 +13,10 @@
 
 **Read these 4 files in order:**
 
-1. **README.md** (5 min) - System overview, what's new in v3.1.0
-2. **ARCHITECTURE_COMPLETE.md** (10 min) - Complete system design, 18-Agent Grid
-3. **AGENT_DIRECTORY.md** (3 min) - Index to all 18 agents [📍 CREATE THIS NEXT]
-4. **IMPLEMENTATION_GUIDE.md** (15 min) - Step-by-step implementation roadmap
+1. **00_readme.md** (5 min) - System overview, what's new in v3.1.0
+2. **02_architecture_overview.md** (10 min) - Complete system design, 18-Agent Grid
+3. **06_agent_directory.md** (3 min) - Index to all agent prompts
+4. **07_implementation_guide.md** (15 min) - Step-by-step implementation roadmap
 
 **Total**: 33 minutes to understand the entire system
 
@@ -28,20 +28,20 @@
 
 1. **Setup Workspace**
    ```bash
-   python tools/init_workspace.py
+   python tools/4_init_workspace.py
    ```
 
 2. **Integrate Functional Components** (P0: Must-have)
-   - `tools/system_prompts.py` - Modular prompts (87% token savings)
-   - `tools/safe_template.py` - Crash-proof template formatting
-   - See: `INTEGRATION_SUMMARY.md` for usage
+   - `tools/1_system_prompts.py` - Modular prompts (87% token savings)
+   - `tools/2_safe_template.py` - Crash-proof template formatting
+   - See: `22_integration_summary.md` for usage
 
 3. **Follow Implementation Guide**
-   - Read: `IMPLEMENTATION_GUIDE.md`
+   - Read: `07_implementation_guide.md`
    - 3-sprint approach (Foundation → Brain/Soul → Fangs/Shield)
 
 4. **Test System**
-   - Read: `testing_guide.md`
+   - Read: `08_testing_guide.md`
    - Validate on historical MCM problem
 
 ---
@@ -50,12 +50,12 @@
 
 | Need | File | Time |
 |------|------|------|
-| **System Overview** | README.md | 5 min |
-| **Architecture Details** | ARCHITECTURE_COMPLETE.md | 10 min |
-| **Phase Workflow** | ARCHITECTURE_PART2_PHASES.md | 15 min |
-| **Agent Prompts** | agents/ directory (18 files) | - |
-| **Protocols (15 total)** | PROTOCOLS_COMPLETE.md | 10 min |
-| **O Award Criteria** | O_AWARD_CRITERIA.md | 8 min |
+| **System Overview** | 00_readme.md | 5 min |
+| **Architecture Details** | 02_architecture_overview.md | 10 min |
+| **Phase Workflow** | 03_architecture_phases.md | 15 min |
+| **Agent Prompts** | agents/ directory (19 files) | - |
+| **Protocols (15 total)** | 05_protocols_complete.md | 10 min |
+| **O Award Criteria** | 10_o_award_criteria.md | 8 min |
 | **Python Tools** | tools/ directory (8 files) | - |
 | **Templates** | templates/ directory | - |
 
@@ -68,15 +68,15 @@
 **Read in order for complete understanding:**
 
 ```
-01. README.md                          → System overview
+01. 00_readme.md                       → System overview
 02. 01_version_comparison.md           → v3.0.0 vs v3.1.0 detailed comparison
-03. ARCHITECTURE_COMPLETE.md           → System design (Part 1)
-04. ARCHITECTURE_PART2_PHASES.md       → All 13 phases detailed
-05. ARCHITECTURE_PART3_NARRATIVE.md    → Cognitive narrative framework
-06. PROTOCOLS_COMPLETE.md              → All 15 protocols
-07. [AGENT_DIRECTORY.md - TO CREATE]   → 18 agents index
-08. IMPLEMENTATION_GUIDE.md            → 3-sprint implementation
-09. testing_guide.md                   → Testing strategy
+03. 02_architecture_overview.md        → System design (Part 1)
+04. 03_architecture_phases.md          → All phases detailed
+05. 04_architecture_narrative.md       → Cognitive narrative framework
+06. 05_protocols_complete.md           → All protocols
+07. 06_agent_directory.md              → 19 agent prompts index
+08. 07_implementation_guide.md         → 3-sprint implementation
+09. 08_testing_guide.md                → Testing strategy
 ```
 
 **Estimated Reading Time**: 2-3 hours for complete mastery
@@ -88,10 +88,10 @@
 **Quick reference materials:**
 
 ```
-10. O_AWARD_CRITERIA.md                → 10 critical characteristics
-11. knowledge_library_specification.md → HMML 2.0 specification
-12. AGENT_KNOWLEDGE_ACCESS.md          → Agent→knowledge mapping
-13. STRUCTURE.md                       → Navigation guide
+10. 10_o_award_criteria.md             → 10 critical characteristics
+11. 11_knowledge_library_spec.md        → HMML 2.0 specification
+12. 12_agent_knowledge_access.md        → Agent→knowledge mapping
+13. 13_structure_reference.md           → Navigation guide
 ```
 
 **Use When**: Need detailed reference for specific topics
@@ -103,14 +103,14 @@
 **Historical/completion summaries:**
 
 ```
-20. FINAL_SUMMARY.md                   → v3.1.0-O-trained completion summary
-21. AGENT_ENHANCEMENT_SUMMARY.md       → All 18 agents enhancement details
-22. INTEGRATION_SUMMARY.md             → Functional components integration
-23. ALL_AGENTS_COMPLETE.md             → Legacy consolidated agent file
-24. COMPLETION_SUMMARY.md              → Historical completion record
-25. CONSOLIDATION_PLAN.md              → Consolidation strategy (historical)
-26. CONSOLIDATION_STATUS.md            → Consolidation tracking (historical)
-27. MASTER_INDEX.md                    → Legacy index (needs update)
+20. 20_final_summary.md                → v3.1.0-O-trained completion summary
+21. 21_agent_enhancement_summary.md    → All 18 agents enhancement details
+22. 22_integration_summary.md          → Functional components integration
+23. 23_all_agents_legacy.md            → Legacy consolidated agent file
+24. 24_completion_summary.md           → Historical completion record
+25. 25_consolidation_plan.md           → Consolidation strategy (historical)
+26. 26_consolidation_status.md         → Consolidation tracking (historical)
+27. 27_master_index_legacy.md          → Legacy index
 ```
 
 **Use When**: Understanding development history, completion status
@@ -155,24 +155,20 @@ v3-1-0/
 
 ### Path 1: "I want to understand the system"
 
-1. README.md (overview)
-2. ARCHITECTURE_COMPLETE.md (system design)
+1. 00_readme.md (overview)
+2. 02_architecture_overview.md (system design)
 3. Browse agents/ directory (see what each agent does)
-4. PROTOCOLS_COMPLETE.md (understand rules)
-
-**Time**: 1-2 hours
+4. 05_protocols_complete.md (understand rules)
 
 ---
 
 ### Path 2: "I want to implement this for my team"
 
-1. README.md (quick skim)
-2. IMPLEMENTATION_GUIDE.md (detailed read)
-3. Setup: Run tools/init_workspace.py
-4. Integrate: Follow INTEGRATION_SUMMARY.md
-5. Test: Follow testing_guide.md
-
-**Time**: 3-5 hours setup + development time
+1. 00_readme.md (quick skim)
+2. 07_implementation_guide.md (detailed read)
+3. Setup: Run tools/4_init_workspace.py
+4. Integrate: Follow 22_integration_summary.md
+5. Test: Follow 08_testing_guide.md
 
 ---
 
@@ -180,23 +176,19 @@ v3-1-0/
 
 1. Find agent in agents/ directory
 2. Read agent's O Award training section
-3. Check AGENT_KNOWLEDGE_ACCESS.md (does it need new knowledge?)
+3. Check 12_agent_knowledge_access.md (does it need new knowledge?)
 4. Update agent prompt
 5. Test changes
-
-**Time**: 1-2 hours per agent
 
 ---
 
 ### Path 4: "I need O Award quality paper"
 
-1. O_AWARD_CRITERIA.md (understand standards)
-2. agents/judge_zero.md (mandatory training protocol)
-3. templates/writing/latex_formatting_standards.md (LaTeX quality)
-4. agents/narrative_weaver.md (conciseness mandate)
-5. agents/writer.md + editor.md (execution)
-
-**Time**: 30 min to understand standards
+1. 10_o_award_criteria.md (understand standards)
+2. agents/19_judge_zero.md (mandatory training protocol)
+3. templates/writing/5_latex_formatting_standards.md (LaTeX quality)
+4. agents/17_narrative_weaver.md (conciseness mandate)
+5. agents/10_writer.md + agents/11_editor.md (execution)
 
 ---
 
@@ -232,7 +224,7 @@ v3-1-0/
 5. **Advanced Features**
    - Phase -1 (style_guide generation)
    - Phase 11 (self-evolution)
-   - Full DEFCON 1 protocol
+   - Full Protocol 13 (DEFCON 1)
 
 ---
 
@@ -246,9 +238,9 @@ v3-1-0/
 - @validator, @writer
 - @director, @time_validator
 
-### Q: What's the difference between ALL_AGENTS_COMPLETE.md and agents/ directory?
+### Q: What's the difference between 23_all_agents_legacy.md and agents/ directory?
 
-- **ALL_AGENTS_COMPLETE.md**: Legacy consolidated file (kept for reference)
+- **23_all_agents_legacy.md**: Legacy consolidated file (kept for reference)
 - **agents/ directory**: Current individual agent prompts (use these)
 
 ### Q: Do I need all 15 protocols?
@@ -270,9 +262,9 @@ v3-1-0/
 ### Q: How do I know if my implementation is O Award quality?
 
 Run through:
-1. O_AWARD_CRITERIA.md (10 characteristics checklist)
+1. 10_o_award_criteria.md (10 characteristics checklist)
 2. @judge_zero mandatory review
-3. templates/writing/latex_formatting_standards.md (10-point check)
+3. templates/writing/5_latex_formatting_standards.md (10-point check)
 
 ---
 
@@ -282,19 +274,19 @@ Run through:
 
 | Issue | Resource |
 |-------|----------|
-| **Architecture questions** | ARCHITECTURE_COMPLETE.md + Parts 2-3 |
-| **Agent not working** | agents/{agent_name}.md (check O Award training) |
-| **Protocol unclear** | PROTOCOLS_COMPLETE.md (all 15 detailed) |
-| **Implementation stuck** | IMPLEMENTATION_GUIDE.md (3-sprint roadmap) |
-| **LaTeX looks bad** | templates/writing/latex_formatting_standards.md |
-| **Paper rejected by @judge_zero** | Protocol 13 (DEFCON 1), check O_AWARD_CRITERIA.md |
-| **Agent needs knowledge** | AGENT_KNOWLEDGE_ACCESS.md (verify access) |
+| **Architecture questions** | 02_architecture_overview.md + Parts 2-3 |
+| **Agent not working** | agents/ directory (check agent file) |
+| **Protocol unclear** | 05_protocols_complete.md (all 15 detailed) |
+| **Implementation stuck** | 07_implementation_guide.md (3-sprint roadmap) |
+| **LaTeX looks bad** | templates/writing/5_latex_formatting_standards.md |
+| **Paper rejected by @judge_zero** | Protocol 13 (DEFCON 1), check 10_o_award_criteria.md |
+| **Agent needs knowledge** | 12_agent_knowledge_access.md (verify access) |
 
 ### Still Stuck?
 
-1. Check ORGANIZATION_AUDIT.md (file organization reference)
-2. Search FINAL_SUMMARY.md (completion summary)
-3. Review AGENT_ENHANCEMENT_SUMMARY.md (detailed agent docs)
+1. Check 28_organization_audit.md (file organization reference)
+2. Search 20_final_summary.md (completion summary)
+3. Review 21_agent_enhancement_summary.md (detailed agent docs)
 
 ---
 
@@ -304,8 +296,8 @@ Run through:
 |---------|------|-------------|
 | v3.0.0 | 2026-01-24 | Two-system architecture (14 agents, 10 phases, 12 protocols) |
 | **v3.1.0** | **2026-01-25** | **Cognitive narrative + adversarial validation** |
-| v3.1.0-consolidated | 2026-01-25 | 27 files merged to 12 core docs |
-| **v3.1.0-O-trained** | **2026-01-25** | **All 18 agents trained on O Award criteria** ✅ **CURRENT** |
+| v3.1.0-consolidated | 2026-01-25 | Reorganization/consolidation |
+| **v3.1.0-O-trained** | **2026-01-25** | **All 18 agents trained on O Award criteria** |
 
 ---
 
@@ -321,7 +313,7 @@ Run through:
 
 ---
 
-**Next Step**: Read README.md for system overview, then follow your user path above.
+**Next Step**: Read 00_readme.md for system overview, then follow your user path above.
 
 **Document Version**: 1.0
 **Created**: 2026-01-25

@@ -172,7 +172,7 @@ system_prompts.py
 #### **TIER 1: Sequential Core (Entry Point → Architecture → Agents → Implementation)**
 
 ```
-00_START_HERE.md                        [NEW - Entry point guide]
+00_start_here.md                        [NEW - Entry point guide]
 01_README.md                            [RENAME: README.md]
 02_VERSION_COMPARISON.md                [RENAME: 01_version_comparison.md → 02]
 03_ARCHITECTURE_COMPLETE.md             [RENAME: ARCHITECTURE_COMPLETE.md]
@@ -286,7 +286,7 @@ templates/
 
 ## New Files to Create
 
-### 1. 00_START_HERE.md (Entry Point)
+### 1. 00_start_here.md (Entry Point)
 
 **Purpose**: First file users read, provides navigation map
 
@@ -462,7 +462,7 @@ templates/
 - [ ] Move ANTI_PATTERNS.md → templates/writing/6_anti_patterns.md
 
 ### Phase 5: Create New Index Files ✅ (Low Risk)
-- [ ] Create 00_START_HERE.md
+- [ ] Create 00_start_here.md
 - [ ] Create 07_AGENT_DIRECTORY.md
 - [ ] Create tools/0_TOOLS_INDEX.md
 - [ ] Create agents/00_AGENT_INDEX.md
@@ -494,7 +494,7 @@ templates/
 
 ## Recommended Implementation Order
 
-1. **Create new index files first** (00_START_HERE.md, etc.) - ADDITIVE, no risk
+1. **Create new index files first** (00_start_here.md, etc.) - ADDITIVE, no risk
 2. **Rename root .md files** - Update README.md links
 3. **Rename template files** - Low impact
 4. **Rename agent files** - Verify no hardcoded references first
@@ -507,7 +507,7 @@ templates/
 
 If full reorganization is too risky, **MINIMAL changes**:
 
-1. **Create index files only** (00_START_HERE.md, 07_AGENT_DIRECTORY.md, etc.)
+1. **Create index files only** (00_start_here.md, 06_agent_directory.md, etc.)
 2. **Standardize agent files** (remove _enhancement suffix)
 3. **Leave everything else as-is**
 

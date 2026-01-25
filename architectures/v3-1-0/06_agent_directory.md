@@ -59,14 +59,14 @@
 
 ---
 
-### Phase 0.2: Active Knowledge Retrieval
+### Phase 0.2: Protocol-Invoked Consultation
 **Agent**: @knowledge_librarian
 **File**: `agents/knowledge_librarian.md`
-**Role**: Push advanced methods from HMML 2.0
-**Input**: problem_analysis.md
+**Role**: Consult on advanced methods (On-Demand)
+**Input**: Context request from Researcher
 **Output**: suggested_methods.md
 
-**O Award Focus**: Anti-mediocrity (ban simple methods, push sophistication)
+**O Award Focus**: Anti-mediocrity (provide rigorous options when asked)
 
 ---
 
@@ -137,7 +137,7 @@
 **Input**: dev_diary.md, training_full.log
 **Output**: narrative_arc.md
 
-**O Award Focus**: Transform struggles → research insights (Hero's Journey)
+**O Award Focus**: Transform struggles → research insights (Iterative Refinement)
 
 ---
 
@@ -155,7 +155,7 @@
 ### Phase 7: Narrative Weaving
 **Agent**: @narrative_weaver
 **File**: `agents/narrative_weaver.md`
-**Role**: Weave Hero's Journey narrative
+**Role**: Outline Coordinator (Non-dramatic organization)
 **Input**: narrative_arc.md, validation_report.md
 **Output**: paper_outline.md
 
@@ -253,7 +253,7 @@
 
 | Agent | File | Role |
 |-------|------|------|
-| @narrative_weaver | narrative_weaver.md | Story director (Hero's Journey) |
+| @narrative_weaver | narrative_weaver.md | Outline Coordinator |
 | @writer | writer_enhancement.md | LaTeX paper generation |
 | @editor | editor.md | Style enforcement, Protocol 14/15 |
 | @visualizer | visualizer_enhancement.md | Dual-mode visualization |
@@ -300,7 +300,7 @@
 
 | Agent | File | Role |
 |-------|------|------|
-| @knowledge_librarian | knowledge_librarian.md | HMML 2.0 curator, anti-mediocrity enforcer |
+| @knowledge_librarian | knowledge_librarian.md | HMML 2.0 consultant (On-Demand) |
 
 **Key Strength**: Push team toward sophisticated O Award methods
 
@@ -462,8 +462,8 @@ All other agents operate in specific phases (see execution order above)
 14. @summarizer - Executive memo
 15. @advisor - Strategic guidance
 16. @metacognition_agent - Insight extraction
-17. @narrative_weaver - Story director
-18. @knowledge_librarian - Method curation
+17. @narrative_weaver - Outline Coordinator
+18. @knowledge_librarian - Method consultant
 19. @judge_zero - Adversarial review
 
 **Estimated Setup Time**: 4-6 hours

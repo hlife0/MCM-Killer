@@ -70,7 +70,7 @@ mv MASTER_INDEX.md                      27_master_index_legacy.md
 mv ORGANIZATION_AUDIT.md                28_organization_audit.md
 
 # New files
-# 00_START_HERE.md - already exists
+# 00_start_here.md - already exists
 # 06_agent_directory.md - need to create from AGENT_DIRECTORY.md
 mv AGENT_DIRECTORY.md                   06_agent_directory.md
 ```

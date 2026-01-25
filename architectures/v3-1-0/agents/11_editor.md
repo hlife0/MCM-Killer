@@ -440,6 +440,7 @@ def check_observation_implication(tex_file):
 
 **Input from @knowledge_librarian** (Phase -1):
 - `style_guide.md` (academic style rules)
+- `templates/writing/6_anti_patterns.md` (for mediocrity check)
 
 **Output to @judge_zero**:
 - `paper.pdf` (compiled, polished final version)

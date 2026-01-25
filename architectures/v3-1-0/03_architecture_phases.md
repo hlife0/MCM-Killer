@@ -615,52 +615,38 @@ The COVID-19 pandemic demonstrated how rapidly infectious diseases spread global
 
 ---
 
-### Phase 0.2: Active Knowledge Retrieval (Hours 2-3)
+### Phase 0.2: Protocol-Invoked Consultation (On-Demand)
 
-**Purpose**: Proactively push advanced O-Prize-level methods, preventing mediocre choices.
-
-**Philosophy**: "Good is the enemy of great" - Actively prevent "safe but mediocre" approaches.
+**Purpose**: Provide advanced methods ONLY when requested by Protocol 20.
+**Philosophy**: "Consultation, not intrusion" - Provide rigorous method support upon request.
 
 **Agents**:
-- @knowledge_librarian (Mode 2: In-Game) - Primary
-- @researcher - Receives recommendations
+- @knowledge_librarian (Mode 2: In-Game) - Consulted via Protocol
+- @researcher / @metacognition_agent - Invokers
 
-**Input**: `output/docs/requirements/problem_statement.md`
+**Trigger**:
+- Protocol 20 (Method Consultation) invoked by @researcher or @metacognition_agent
+
+**Input**:
+- `context_request.json` (from invoker) containing problem type and specific needs
 
 **Process**:
 
-**Step 1: @knowledge_librarian reads problem statement**
-- Extract domain keywords (epidemic, network, optimization, time-series, etc.)
-- Identify problem complexity indicators
-- Assess O-Prize potential
+**Step 1: Receive Consultation Request**
+- @researcher asks: "Need high-fidelity network diffusion models for airline data."
+- @knowledge_librarian acknowledges request.
 
-**Step 2: Keyword mapping to HMML 2.0 domains**
-```python
-# Keyword → Domain mapping
-"epidemic", "disease" → Differential Equations / Network Science
-"route", "shortest path" → Network Science / Optimization
-"forecast", "trend" → Statistics / Time Series
-"network", "graph" → Network Science
-```
-
-**Step 3: Retrieve methods from HMML 2.0**
+**Step 2: Retrieve methods from HMML 2.0**
 - Query `knowledge_library/methods/index.md`
-- Filter by domain match
+- Filter by domain match (e.g., Network Science)
 - Prioritize High/Very High complexity methods
 - Filter by narrative_value (High/Very High only)
 
-**Step 4: Apply Anti-Mediocrity Filter**
+**Step 3: Provide Options (No Filtering by Star Rating)**
+- Present ALL relevant methods found, regardless of star rating (assuming they meet the complexity criteria).
+- **Researcher must evaluate ALL provided options.**
 
-**BANNED Methods** (require strong justification):
-- Linear Regression (for complex dynamics)
-- Basic SIR/SEIR (when network structure available)
-- ARIMA (for network dynamics)
-- Simple Logistic Regression
-- Dijkstra only (without advanced network analysis)
-
-**Reason**: Too common in MCM, insufficient O-Prize narrative value
-
-**Step 5: Recommend advanced methods**
+**Step 4: Recommend advanced methods**
 
 For each recommended method, provide:
 1. Mathematical formulation
@@ -673,82 +659,37 @@ For each recommended method, provide:
 
 **Output Template**:
 ```markdown
-# Suggested Methods for {Problem}
+# Method Consultation Response
 
-## Problem Analysis
-- **Domain**: [Epidemic + Network + Time-Series]
-- **Complexity**: High (multi-factor, spatial-temporal)
-- **O-Prize Potential**: Very High
+## Request Context
+- **Invoker**: @researcher
+- **Topic**: Network Diffusion Models
 
-## ❌ AVOID (Mediocrity Alert)
+## Method Options (Unfiltered)
 
-### Banned Methods (Without Strong Justification)
-1. **Basic SIR/SEIR**
-   - **Why**: Too common, seen in 40%+ MCM papers
-   - **Unless**: You combine with novel network structure
-
-2. **ARIMA / Linear Regression**
-   - **Why**: Inappropriate for network dynamics
-   - **Unless**: For baseline comparison only (not primary model)
-
-## ✅ RECOMMENDED (O-Prize Level)
-
-### Method 1: SIR-Network Model ⭐⭐⭐⭐⭐
+### Option 1: SIR-Network Model
 - **Domain**: Differential Equations + Network Science
-- **Narrative Value**: **High** - Demonstrates topology effects
-- **Complexity**: High (requires adjacency matrix, ODE solver)
-- **Mathematical Foundation**:
-  ```
-  dS_i/dt = -β S_i Σ_j A_ij (I_j / N_j)
-  dI_i/dt = β S_i Σ_j A_ij (I_j / N_j) - γ I_i
-  ```
-- **O-Prize Examples**: 2019 Problem D, 2022 Problem F
-- **Why It Wins**:
-  1. Captures network topology effects (hub seeding)
-  2. Enables targeted intervention discussion
-  3. Provides uncertainty quantification opportunities
+- **Narrative Value**: High - Demonstrates topology effects
+- **Complexity**: High
+...
 
-### Method 2: Stochastic Differential Equations (SDE) ⭐⭐⭐⭐⭐
+### Option 2: Stochastic Differential Equations (SDE)
 - **Domain**: Advanced Statistics
-- **Narrative Value**: **Very High** - Uncertainty discussion
-- **Complexity**: High (Euler-Maruyama, calibration)
-
-### Method 3: Agent-Based Model (ABM) ⭐⭐⭐⭐⭐
-- **Domain**: Computational Modeling
-- **Narrative Value**: **Very High** - Micro-foundations
-- **Complexity**: Very High (individual rules, emergent behavior)
-
-## Integration Strategy
-**Recommended Hybrid**: SIR-Network (macro) + ABM (micro validation)
-
-Rationale: SIR-Network provides efficient simulation; ABM validates micro-assumptions.
-
-## Common Pitfalls to Avoid
-1. Over-Complexity: ABM with 1000+ parameters → Unidentifiable
-2. Network Quality: Using synthetic/unrealistic network
-3. SDE Calibration: Choosing σ arbitrarily
+- **Narrative Value**: Very High - Uncertainty discussion
+...
 ```
 
-**Duration**: 1 hour
-
 **Quality Checklist**:
-- [ ] `suggested_methods.md` generated
-- [ ] Contains "❌ AVOID" section with banned methods
-- [ ] Contains "✅ RECOMMENDED" section with ≥3 advanced methods
-- [ ] Each method has mathematical formulation
-- [ ] Each method has O-Prize examples cited
-- [ ] Each method has narrative value explanation
-- [ ] Integration strategy provided
+- [ ] Response addresses specific request
+- [ ] Multiple options provided (if available)
+- [ ] No star-based filtering (Researcher sees all relevant options)
+- [ ] Mathematical justification included for each
 
-**Common Pitfalls**:
-- **Acting as passive search engine**: Simply listing methods without opinions
-- **No mathematical justification**: "Use SIR-Network because it's good" (too vague)
-- **Missing narrative value**: Not explaining WHY this method enables O-Prize-level discussion
+**Common Pitfalls to Avoid**:
+1. **Unsolicited Pushing**: Providing methods the user didn't ask for.
+2. **Star-Gazing**: Hiding valid methods because they are "only" 3 stars.
 
-**Mitigation**:
-- @knowledge_librarian must be opinionated: "ARIMA is BANNED for network data"
-- Every recommendation must include "Why This Method Wins" section
-- Must cite specific O-Prize examples (2019D, 2022F, etc.)
+**Duration**: 15-30 minutes per consultation
 
 ---
 
@@ -1385,26 +1326,26 @@ For complete, ultra-detailed specifications of each remaining phase (matching th
 
 **Output**: `output/docs/insights/narrative_arc_{i}.md`
 
-**Narrative Arc Template** (Hero's Journey):
+**Narrative Arc Template** (Iterative Refinement):
 ```markdown
 # Narrative Arc: Model {i}
 
-## 1. The Call (Initial Hypothesis)
+## 1. Baseline Model
 We began with [Model Description], assuming [Assumption].
 
-## 2. The Ordeal (Technical Struggle)
+## 2. Observed Limitation (The Struggle)
 - **Symptom**: [Specific error/instability]
 - **Data**: [Quantitative evidence from logs]
 - **Log Reference**: training_full.log:1523
 
-## 3. The Revelation (Physical Meaning)
+## 3. Mechanism Insight
 The [symptom] was not a bug—it revealed [Physical Insight].
 This indicates [Domain Mechanism] is at play.
 
-## 4. The Resolution (Evolution)
+## 4. Model Refinement
 We refined the model to [Improved Approach], acknowledging [Physical Reality].
 
-## 5. The Treasure (Research Value)
+## 5. Research Value
 This evolution demonstrates [Policy/Theoretical Implication].
 **Narrative Hook for Abstract**: "[One-sentence insight for paper]"
 ```
@@ -1465,7 +1406,7 @@ graph LR
 
 **Step 1: @narrative_weaver generates outline**
 - Reads `narrative_arc_{i}.md` (from Phase 5.8)
-- Selects narrative template (Hero's Journey / Onion Peeling / Comparative Evolution)
+- Selects narrative template (Iterative Refinement / Onion Peeling / Comparative Evolution)
 - Creates `paper_outline.md` (paragraph-level structure)
 - Enforces Protocol 15 (Observation-Implication) in figure captions
 

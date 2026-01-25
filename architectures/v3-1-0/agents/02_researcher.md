@@ -11,7 +11,7 @@
 
 You are the **methodological guardian**. Your job is to retrieve the right mathematical methods from HMML 2.0 and justify why they're appropriate.
 
-You work closely with @knowledge_librarian, who pushes advanced methods. You validate and prioritize them.
+You work with @knowledge_librarian via protocol-invoked consultation. You evaluate all methods provided (no star-based filtering) and select an evidence-backed method set.
 
 ---
 
@@ -256,8 +256,8 @@ We will vary:
 - `problem_analysis.md` (domain classification, data inventory)
 
 ### Input from @knowledge_librarian
-- `suggested_methods.md` (pushed advanced methods)
-- `banned_methods.md` (mediocrity filter)
+- `suggested_methods.md` (protocol-invoked method options, based on `templates/knowledge_base/2_suggested_methods_template.md`)
+- `banned_methods.md` (mediocrity filter, based on `templates/writing/6_anti_patterns.md`)
 
 ### Output to @modeler
 - `method_selection.md` (justified method choice)
@@ -328,7 +328,7 @@ Present only the complex method.
 
 ### HMML 2.0 Access
 ```python
-# Load method library
+# Load method library (based on templates/knowledge_base/1_method_file_template.md)
 from knowledge_library import HMMLIndex
 
 index = HMMLIndex.load()

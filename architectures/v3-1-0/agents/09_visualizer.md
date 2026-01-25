@@ -386,7 +386,7 @@ flowchart TD
 
 ### Step 4: Add Caption
 
-Every diagram needs a **Protocol 15 compliant caption**:
+Every diagram needs a **Protocol 15 compliant caption** (Ref: `templates/narrative_arcs/4_observation_implication.md`):
 
 **Template**:
 > "Figure X: [Title]. [Observation], which [Implication]. [Specific detail]."

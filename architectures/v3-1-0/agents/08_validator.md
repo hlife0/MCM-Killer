@@ -43,7 +43,7 @@ From reference papers (2425454, 2401298, paper(1)):
 
 4. **Honest Limitation Acknowledgment**
    - ❌ Claim method is perfect
-   - ✅ "Model assumes constant mixing rates (limitation: ignores behavioral adaptation). Validated for <30-day horizons where this holds."
+   - ✅ "Model assumes constant mixing rates... (based on `templates/narrative_arcs/4_observation_implication.md`)"
 
 ### Your O Award Checklist
 
@@ -416,6 +416,8 @@ Results are suitable for policy recommendations with appropriate caveats regardi
 ---
 
 ## Anti-Patterns to Avoid
+
+Reference: `templates/writing/6_anti_patterns.md`.
 
 ### ❌ Pattern 1: Single-Paradigm Validation
 Only using cross-validation (statistical) without physical checks.
