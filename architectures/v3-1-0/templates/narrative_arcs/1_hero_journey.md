@@ -14,6 +14,22 @@ Use the Hero's Journey when:
 - A major insight emerged from the struggle
 - The "failure" revealed something important about the problem
 
+## ⚠️ RISK WARNING: Avoiding Melodrama
+
+**The "Hero" is the Scientific Method, not the Researcher.**
+The term "Hero's Journey" is a structural metaphor, not a tonal instruction.
+
+- **DO NOT** use emotional language ("We were lost...", "In a stroke of genius...").
+- **DO NOT** dramatize trivial bugs (syntax errors are not an "Ordeal").
+- **DO** focus on the **Intellectual Struggle**: "The hypothesis failed to explain the variance..."
+- **DO** maintain Academic Solemnity: The tone must remain objective, precise, and professional.
+
+**Bad (Melodramatic)**:
+> "Darkness fell upon our team as the gradient exploded, mocking our efforts."
+
+**Good (Scientific)**:
+> "We encountered severe gradient instability (norm > 100), indicating a fundamental scale mismatch in the loss landscape."
+
 ---
 
 ## The Five Steps

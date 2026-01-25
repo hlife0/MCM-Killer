@@ -220,6 +220,25 @@ implications for global pandemic response policy."
 
 ---
 
+### 5.6 The Risk of Narrative Imposition (Narrative vs. Science)
+
+**The "Cringe" Danger Zone**
+The introduction of narrative templates (Hero's Journey) carries an inherent risk: **Narrative Imposition**. This occurs when the desire for a story overrides scientific reality, resulting in melodramatic, forced, or "cringeworthy" papers that undermine academic solemnity.
+
+**The Golden Mean**:
+- **Too Dry**: "We ran Model A. It failed. We ran Model B. It worked." (Boring, no insight)
+- **Too Dramatic**: "We battled the demons of divergence until a miraculous epiphany saved us!" (Cringe, unprofessional)
+- **Just Right**: "Initial convergence failure revealed a fundamental mismatch in regional dynamics, motivating our hierarchical extension." (Narrative structure + Scientific tone)
+
+**Safety Protocols**:
+1.  **Epistemological Focus**: The "drama" comes from *knowing vs. not knowing*, not from human emotion.
+2.  **Scale Appropriateness**: Don't use a Hero's Journey arc for a minor parameter tune. Use it only for genuine conceptual breakthroughs.
+3.  **Adversarial Check**: @judge_zero (Persona C) is explicitly trained to flag "over-dramatization" and "flowery language" as fatal flaws.
+
+**Motto**: "The story must serve the science, not the other way around."
+
+---
+
 ## Part 6: Workspace Structure Specification
 
 ### 6.1 Complete Directory Tree
