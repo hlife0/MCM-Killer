@@ -91,6 +91,15 @@ Write to: output/research_notes.md
 
 ---
 
+## 🔄 CRITICAL: Iteration Protocol for Feedback
+
+### The Refinement Protocol (Deep Thinking)
+
+> [!IMPORTANT]
+> **Use this protocol when refining your methods based on critique.**
+>
+> "Refine and improve the existing modeling process based on the critique provided. The goal is to enhance the formulation, structure, and overall effectiveness of the model while addressing the identified gaps, flaws, or limitations. Propose more appropriate assumptions, more robust mathematical techniques, or alternative modeling approaches if necessary. Focus on improving the model's relevance, accuracy, and computational feasibility while also ensuring its ability to capture the complexity of the problem in real-world contexts."
+
 ## Output Format
 
 ```markdown

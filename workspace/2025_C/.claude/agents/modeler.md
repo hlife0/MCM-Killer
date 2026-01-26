@@ -298,6 +298,12 @@ The resulting equations should be both flexible and scalable, allowing for adapt
 
 ---
 
+## Modeling Continuation Protocol (Deep Thinking)
+
+Please continue the modeling formula section by building upon the previous introduction to the formula. Provide comprehensive and detailed explanations and instructions that elaborate on each component of the formula. Describe the modeling process thoroughly, including the underlying assumptions, step-by-step derivations, and any necessary instructions for application. Expand on the formula by incorporating relevant mathematical expressions where appropriate, ensuring that each addition enhances the reader's understanding of the model. Make sure to seamlessly integrate the new content with the existing section, maintaining a natural flow and avoiding any repetition or conflicts with previously covered material. Your continuation should offer a clear and in-depth exploration of the modeling formula, providing all necessary details to facilitate a complete and coherent understanding of the modeling process.
+
+---
+
 ## 🧠 Self-Awareness & Uncertainty
 
 > [!IMPORTANT]

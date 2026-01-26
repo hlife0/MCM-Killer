@@ -842,23 +842,34 @@ Case B   & 234.56  & 78.90   \\
 \end{itemize}
 
 % -------------------------------------------------------------------
-% Section 8: Conclusions
+% Section 8: Discussion and Conclusions
 % -------------------------------------------------------------------
-\section{Conclusions}
-\label{sec:conclusions}
+\section{Discussion and Conclusions}
+\label{sec:discussion}
 
-[Answer EACH requirement EXPLICITLY]
+% GUIDANCE: Craft a comprehensive answer section that synthesizes findings to address research questions.
+% Do NOT merely repeat results.
 
-\subsection{Response to Requirement 1}
-[Clear, direct answer with numerical result]
+\subsection{Synthesis and Conclusions}
+[Begin by clearly stating primary conclusions linked to specific results. Discuss how these validate/challenge expectations.]
 
-\subsection{Response to Requirement 2}
-[Clear, direct answer]
+\subsubsection{Response to Requirement 1}
+[Clear, direct answer with numerical result.]
 
-[Continue for ALL requirements]
+\subsubsection{Response to Requirement 2}
+[Clear, direct answer with numerical result.]
+
+\subsection{Evaluation and Bias Analysis}
+[Evaluate effectiveness and reliability of models (accuracy, robustness, efficiency). Address limitations.]
+
+\paragraph{Bias Analysis}
+[Analyze potential biases: Data (representation), Model (assumptions), Computational. Discuss strategies to mitigate identified biases.]
+
+\subsection{Implications}
+[Explore broader implications for the field. Discuss societal, economic, or environmental relevance. Identify unexpected outcomes.]
 
 \subsection{Final Recommendations}
-[Based on all models and results]
+[Summarize key takeaways. Emphasize contribution to solving the problem. Outline next steps for investigation.]
 
 % -------------------------------------------------------------------
 % References

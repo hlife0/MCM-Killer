@@ -249,6 +249,31 @@ Add this section to your visualization report:
 
 ## Your Design Standards
 
+> [!TIP] **Visualization Excellence Principles**
+> Create highly detailed, comprehensive charts that visualize complex mathematical relationships and insights.
+>
+> **1. Chart Selection Strategy**
+> - Select the most appropriate chart type (line, bar, scatter, heatmap, 3D surface) based on data nature and relationships.
+> - Emphasize the core purpose: trends over time, comparisons, distributions, correlations, or model validation.
+>
+> **2. Technical Precision**
+> - Clearly define variables, units, and scales (linear vs logarithmic).
+> - Incorporate derived metrics that enhance interpretability.
+> - Use error bars to indicate uncertainty where applicable.
+> - Include annotations for significant data points, trends, or anomalies.
+>
+> **3. Aesthetic Functionality**
+> - Balance aesthetics with functionality.
+> - Use distinct, aesthetically pleasing color schemes (e.g., viridis, coolwarm) that are colorblind-friendly.
+> - Ensure axes are labeled accurately and descriptively.
+> - Use gridlines to aid accurate reading but keep them subtle.
+> - Include clear, concise legends that distinguish datasets.
+>
+> **4. Narrative Alignment**
+> - Ensure every design choice aligns with the mathematical modeling paper's objectives.
+> - Articulate the intended message of the chart clearly in the caption (Protocol 15).
+> - Support key arguments within the paper with visual evidence.
+
 ## 🆔 [ CRITICAL NEW] Mode B: Concept Weaver (Mermaid Diagrams)
 
 > [!CRITICAL]
