@@ -1,27 +1,18 @@
 {
-  "version": "3.1.0",
-  "created": "2026-01-26T12:25:35.361932",
-  "structure_version": "1.0",
-  "directories_created": 35,
-  "phases": {
-    "-1": "Style Guide Generation",
-    "0": "Problem Understanding",
-    "0.2": "Active Knowledge Retrieval",
-    "0.5": "Feasibility Check",
-    "1": "Model Design",
-    "1.5": "Design Validation",
-    "2-3": "Data Processing",
-    "4": "Code Translation",
-    "4.5": "Code Validation",
-    "5": "Model Training",
-    "5.5": "Post-Training Validation",
-    "5.8": "Insight Extraction",
-    "6": "Result Generation",
-    "7": "Paper Generation",
-    "9": "Summary Generation",
-    "9.1": "Mock Judging",
-    "9.5": "Final Package",
-    "10": "Submission",
-    "11": "Self-Evolution"
-  }
+  "mcm_killer_version": "3.1.0",
+  "workspace_version": "1.0",
+  "problem": {
+    "year": 2025,
+    "type": "C",
+    "title": "MCM 2025 Problem C"
+  },
+  "team": {
+    "team_id": "Team-001",
+    "institution": "MCM-Killer Team"
+  },
+  "phases_completed": [],
+  "defcon_history": [],
+  "agents_invoked": [],
+  "checkpoints": [],
+  "final_submission": null
 }

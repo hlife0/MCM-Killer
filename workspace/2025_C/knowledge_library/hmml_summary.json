@@ -1,0 +1,14 @@
+{
+  "version": "2.0",
+  "last_updated": "2026-01-27",
+  "total_methods": 0,
+  "domains": {
+    "optimization": {"count": 0, "categories": []},
+    "differential_equations": {"count": 0, "categories": []},
+    "statistics": {"count": 0, "categories": []},
+    "network_science": {"count": 0, "categories": []},
+    "machine_learning": {"count": 0, "categories": []},
+    "simulation": {"count": 0, "categories": []}
+  },
+  "methods": []
+}

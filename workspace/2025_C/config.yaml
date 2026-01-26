@@ -1,0 +1,41 @@
+# MCM-Killer v3.1.0 Configuration
+
+system:
+  version: "3.1.0"
+  llm_provider: "anthropic"
+  default_model: "claude-sonnet-4"
+
+agents:
+  "@director": "claude-sonnet-4"
+  "@reader": "claude-haiku-4"
+  "@metacognition_agent": "claude-sonnet-4"
+  "@narrative_weaver": "claude-sonnet-4"
+  "@judge_zero": "claude-sonnet-4"
+  "@writer": "claude-sonnet-4"
+  "@knowledge_librarian": "claude-haiku-4"
+
+tools:
+  style_analyzer:
+    path: "tools/6_style_analyzer.py"
+    output: "knowledge_library/academic_writing/style_guide.md"
+  log_analyzer:
+    path: "tools/7_log_analyzer.py"
+    compression_target: 10240
+
+protocols:
+  protocol_13_defcon:
+    max_iterations: 3
+    mercy_rule_enabled: true
+  protocol_14_style:
+    style_guide_path: "knowledge_library/academic_writing/style_guide.md"
+  protocol_15_interpretation:
+    max_descriptive_only_pct: 30
+
+phase_gates:
+  gate_9.1_mock_judging:
+    pass_threshold: 95
+    fail_action: "trigger_protocol_13"
+
+checkpoints:
+  enabled: true
+  auto_checkpoint_phases: ["1", "5", "7"]

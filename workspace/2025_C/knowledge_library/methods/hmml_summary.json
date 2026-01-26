@@ -1,0 +1,170 @@
+{
+  "version": "2.0",
+  "generated": "2026-01-27T05:42:41.998037",
+  "total_methods": 18,
+  "domains": {
+    "optimization": 6,
+    "graph_theory": 2,
+    "machine_learning": 5,
+    "statistics": 3,
+    "differential_equations": 1,
+    "network_science": 1
+  },
+  "by_complexity": {
+    "High": 7,
+    "Medium": 8,
+    "Very High": 3
+  },
+  "by_narrative_value": {
+    "Very High": 8,
+    "Medium": 2,
+    "High": 5,
+    "Low": 3
+  },
+  "methods": [
+    {
+      "name": "Programming Theory (Programming Theory):",
+      "domain": "optimization",
+      "subdomain": "linear_programming",
+      "complexity": "High",
+      "narrative_value": "Very High",
+      "file": "optimization/linear_programming/programming_theory_programming_theory.md"
+    },
+    {
+      "name": "Graph Theory (Graph Theory):",
+      "domain": "graph_theory",
+      "subdomain": "graph",
+      "complexity": "High",
+      "narrative_value": "Very High",
+      "file": "graph_theory/graph/graph_theory_graph_theory.md"
+    },
+    {
+      "name": "Stochastic Programming Theory (Stochastic Programming Theory):",
+      "domain": "optimization",
+      "subdomain": "linear_programming",
+      "complexity": "High",
+      "narrative_value": "Very High",
+      "file": "optimization/linear_programming/stochastic_programming_theory_stochastic_programming_theory.md"
+    },
+    {
+      "name": "Deterministic Algorithms (Deterministic Algorithms):",
+      "domain": "graph_theory",
+      "subdomain": "graph",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "graph_theory/graph/deterministic_algorithms_deterministic_algorithms.md"
+    },
+    {
+      "name": "Heuristic Algorithm (Heuristic Algorithms):",
+      "domain": "optimization",
+      "subdomain": "linear_programming",
+      "complexity": "High",
+      "narrative_value": "High",
+      "file": "optimization/linear_programming/heuristic_algorithm_heuristic_algorithms.md"
+    },
+    {
+      "name": "Iterative Algorithm (Iterative Algorithms):",
+      "domain": "optimization",
+      "subdomain": "linear_programming",
+      "complexity": "Medium",
+      "narrative_value": "High",
+      "file": "optimization/linear_programming/iterative_algorithm_iterative_algorithms.md"
+    },
+    {
+      "name": "Constrained Optimization (Constrained Optimization):",
+      "domain": "optimization",
+      "subdomain": "linear_programming",
+      "complexity": "Medium",
+      "narrative_value": "High",
+      "file": "optimization/linear_programming/constrained_optimization_constrained_optimization.md"
+    },
+    {
+      "name": "Solving Techniques:",
+      "domain": "optimization",
+      "subdomain": "linear_programming",
+      "complexity": "Very High",
+      "narrative_value": "Very High",
+      "file": "optimization/linear_programming/solving_techniques.md"
+    },
+    {
+      "name": "Classification (Classification):",
+      "domain": "machine_learning",
+      "subdomain": "trees",
+      "complexity": "High",
+      "narrative_value": "Very High",
+      "file": "machine_learning/trees/classification_classification.md"
+    },
+    {
+      "name": "Clustering (Clustering):",
+      "domain": "machine_learning",
+      "subdomain": "trees",
+      "complexity": "Medium",
+      "narrative_value": "Very High",
+      "file": "machine_learning/trees/clustering_clustering.md"
+    },
+    {
+      "name": "Regression:",
+      "domain": "statistics",
+      "subdomain": "regression",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "statistics/regression/regression.md"
+    },
+    {
+      "name": "Dimensionality Reduction (Dimensionality Reduction):",
+      "domain": "machine_learning",
+      "subdomain": "neural_networks",
+      "complexity": "High",
+      "narrative_value": "High",
+      "file": "machine_learning/neural_networks/dimensionality_reduction_dimensionality_reduction.md"
+    },
+    {
+      "name": "Ensemble Learning Algorithms (Ensemble Learning Algorithms):",
+      "domain": "machine_learning",
+      "subdomain": "trees",
+      "complexity": "High",
+      "narrative_value": "Medium",
+      "file": "machine_learning/trees/ensemble_learning_algorithms_ensemble_learning_algorithms.md"
+    },
+    {
+      "name": "Discrete Prediction (Discrete Prediction):",
+      "domain": "machine_learning",
+      "subdomain": "trees",
+      "complexity": "Very High",
+      "narrative_value": "High",
+      "file": "machine_learning/trees/discrete_prediction_discrete_prediction.md"
+    },
+    {
+      "name": "Continuous Prediction (Continuous Prediction):",
+      "domain": "differential_equations",
+      "subdomain": "epidemic",
+      "complexity": "Very High",
+      "narrative_value": "Very High",
+      "file": "differential_equations/epidemic/continuous_prediction_continuous_prediction.md"
+    },
+    {
+      "name": "Scoring Evaluation (Scoring Evaluation):",
+      "domain": "network_science",
+      "subdomain": "centrality",
+      "complexity": "Medium",
+      "narrative_value": "Very High",
+      "file": "network_science/centrality/scoring_evaluation_scoring_evaluation.md"
+    },
+    {
+      "name": "Statistical Evaluation (Statistical Evaluation):",
+      "domain": "statistics",
+      "subdomain": "regression",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "statistics/regression/statistical_evaluation_statistical_evaluation.md"
+    },
+    {
+      "name": "Goodness of Fit Test (Goodness of Fit Test):",
+      "domain": "statistics",
+      "subdomain": "time_series",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "statistics/time_series/goodness_of_fit_test_goodness_of_fit_test.md"
+    }
+  ]
+}
