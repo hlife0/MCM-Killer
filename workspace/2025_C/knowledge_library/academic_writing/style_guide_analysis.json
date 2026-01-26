@@ -1,0 +1,101 @@
+{
+  "generated": "2026-01-26T13:54:13.506805",
+  "papers_analyzed": 44,
+  "vocabulary": {
+    "total_words": 254199,
+    "high_value_verbs": {
+      "quantify": 1.02,
+      "demonstrate": 0.55,
+      "validate": 0.16,
+      "characterize": 0.12,
+      "synthesize": 0.12,
+      "extrapolate": 0.04,
+      "posit": 0.04,
+      "ascertain": 0.04,
+      "corroborate": 0.04,
+      "illuminate": 0.04,
+      "hypothesize": 0.04,
+      "substantiate": 0.04
+    },
+    "medium_value_verbs": {
+      "determine": 4.64,
+      "analyze": 4.56,
+      "evaluate": 2.56,
+      "identify": 2.32,
+      "establish": 1.97,
+      "indicate": 1.61,
+      "compare": 1.38,
+      "assess": 1.26,
+      "suggest": 1.22,
+      "observe": 1.14,
+      "conclude": 0.83,
+      "contrast": 0.63,
+      "investigate": 0.47,
+      "integrate": 0.43,
+      "examine": 0.43
+    },
+    "weak_verbs": {
+      "be": 40.52,
+      "have": 20.89,
+      "use": 16.68,
+      "make": 7.59,
+      "find": 6.33,
+      "get": 4.88,
+      "do": 4.29,
+      "show": 3.66,
+      "take": 3.66,
+      "see": 2.48
+    },
+    "academic_connectors": {
+      "however": 6.96,
+      "therefore": 13.89,
+      "furthermore": 1.53,
+      "moreover": 1.77,
+      "consequently": 0.39,
+      "nevertheless": 0.28,
+      "accordingly": 0.9,
+      "thus": 6.81,
+      "hence": 1.57,
+      "thereby": 0.67,
+      "conversely": 0.51,
+      "alternatively": 0.08,
+      "specifically": 1.69,
+      "notably": 0.39
+    }
+  },
+  "abstracts": {
+    "papers_analyzed": 44,
+    "papers_with_numbers": 35,
+    "avg_numbers_per_abstract": 4.7,
+    "papers_with_percentages": 11,
+    "papers_with_pvalues": 0,
+    "common_structures": [],
+    "pct_with_numbers": 79.5,
+    "pct_with_percentages": 25.0,
+    "pct_with_pvalues": 0.0
+  },
+  "patterns": {
+    "observation_implication_count": 10,
+    "figure_reference_count": 5
+  },
+  "captions": {
+    "total_figures": 755,
+    "descriptive_only": 734,
+    "conclusionary": 21,
+    "with_numbers": 474,
+    "examples": {
+      "good": [
+        "Varietyofprofitonlastdaywithrespecttoradioofbuyinggold(\ud835\udeff%)\nw\nThe figure shows that the final return is maximum for \ud835\udeff = 2.",
+        "shows that the p-values of the residual test of the models at different times are all\ngreater than 0.",
+        "and Figure 10 shows that the predicted price curve coincides with the actual price\ncurvebasically,thefluctuationtrendremainsthesame,andthedifferencebe"
+      ],
+      "bad": [
+        "Weobservethatbabypacifiers\nhave received the highest percentage of high star rating, while microwaves a lower star rating.",
+        "Starratingdistributionofpacifier,microwaveandhairdryerbasedonthegivendata.",
+        "TheoverallarchitectureofourproposedCE-VADERmodel."
+      ]
+    },
+    "pct_conclusionary": 2.8,
+    "pct_with_numbers": 62.8
+  }
+}

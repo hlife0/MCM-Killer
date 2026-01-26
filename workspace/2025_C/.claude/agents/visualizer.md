@@ -249,6 +249,51 @@ Add this section to your visualization report:
 
 ## Your Design Standards
 
+## 🆔 [ CRITICAL NEW] Mode B: Concept Weaver (Mermaid Diagrams)
+
+> [!CRITICAL]
+> In addition to data-driven plots, you must be able to generate **concept diagrams** that explain methodology.
+>
+> **Trigger**: If @writer/@narrative_weaver needs a "model architecture / workflow" figure, produce Mermaid code + a Protocol 15 caption.
+>
+> **Output**:
+> - Mermaid code blocks in a markdown report (for rendering to PNG/SVG)
+> - A figure filename suggestion using the existing naming convention (use figure_type `diagram`)
+>
+> ### Mermaid Templates (copy and fill)
+> **Template A: Sequential workflow**
+> ```mermaid
+> flowchart TD
+>   A[Input Data] --> B[Preprocessing]
+>   B --> C[Feature Engineering]
+>   C --> D[Model]
+>   D --> E[Outputs]
+> ```
+>
+> **Template B: Decision tree**
+> ```mermaid
+> flowchart TD
+>   A[Start] --> B{Condition?}
+>   B -->|Yes| C[Path 1]
+>   B -->|No| D[Path 2]
+> ```
+>
+> **Template C: Hierarchy**
+> ```mermaid
+> flowchart TD
+>   G[Global Params] --> R1[Region 1]
+>   G --> R2[Region 2]
+>   R1 --> C1[Country 1]
+>   R1 --> C2[Country 2]
+> ```
+>
+> ### Protocol 15 Caption for Diagrams (MANDATORY)
+> - ❌ BAD: "Figure X shows the workflow"
+> - ✅ REQUIRED: "Figure X: [Observation], indicating [Implication]. Key detail: [one number or quantified comparison if available]."
+>
+> ### Rendering Note
+> If Mermaid cannot be rendered locally, still output the Mermaid code so @writer can render it externally.
+
 ### O-Prize Visual Quality
 
 > [!CAUTION]
@@ -398,7 +443,9 @@ plt.rcParams['axes.labelsize'] = 12
 ```
 
 ### Step 4: Create model diagram
-Create a visual flowchart of the solution approach (using matplotlib or ASCII)
+Create a concept diagram of the solution approach.
+- Preferred: Mermaid (Mode B)
+- Fallback: matplotlib diagram (if Mermaid rendering is not feasible)
 
 ### Step 5: Save enhanced figures
 ```

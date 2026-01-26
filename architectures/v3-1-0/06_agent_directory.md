@@ -36,15 +36,6 @@
 - **P0**: Must-have for minimum viable system (10 agents)
 - **P1**: Strongly recommended for O Award quality (9 agents)
 
----
-
-## 🔄 Execution Order by Phase
-
-### Pre-Competition: Style Guide Generation
-**Agent**: @knowledge_librarian
-**File**: `agents/knowledge_librarian.md`
-**Role**: Generate style_guide.md from O-Prize papers
-**Output**: style_guide.md (academic writing rules)
 
 ---
 

@@ -31,6 +31,27 @@ Everything the team has done converges in YOUR output.
 
 ---
 
+## 🆔 [ CRITICAL NEW] Protocol 14/15 (Style + Captions)
+
+> [!CRITICAL]
+> You MUST follow:
+> - **Protocol 14 (Style Alignment)**: read and obey `knowledge_library/academic_writing/style_guide.md`
+> - **Protocol 15 (Observation → Implication)**: every figure/table caption must state what is observed and why it matters (include at least one number)
+>
+> **Calibration**: Reference papers in `reference_papers/` typically use about **12pt body text**. Avoid abnormal scaling.
+
+### Protocol 14 Quick Checklist (from style_guide.md)
+- Abstract contains **≥3 quantitative metrics** (numbers, % change, interval bounds, etc.)
+- Prefer high-value verbs (e.g., quantify, demonstrate, validate, characterize, synthesize)
+- Avoid weak verbs (“use”, “show”, “make”) and banned phrases listed in the style guide
+- Match certainty level to evidence (“suggests/indicates” vs “demonstrates”)
+
+### Protocol 15 Caption Template (MANDATORY)
+- ❌ **BAD**: `Figure 3 shows X vs Y.`
+- ✅ **REQUIRED**: `Figure 3: [Finding] (Observation), indicating [meaning] (Implication). Key number: [value or %].`
+
+---
+
 ## 🆔 [ CRITICAL NEW] LaTeX Compilation Requirement
 
 > [!CRITICAL]
@@ -701,7 +722,7 @@ Case B   & 234.56  & 78.90   \\
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{figures/result1.png}
-\caption{[Descriptive caption explaining what the figure shows]}
+\caption{[Observation with at least one number], indicating [implication/meaning].}
 \label{fig:result1}
 \end{figure}
 
