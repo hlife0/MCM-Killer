@@ -2,334 +2,12 @@
 
 > **This is Part 2 of the Complete Architecture Documentation**
 > **Part 1**: ARCHITECTURE_COMPLETE.md (Overview, Core Architecture, Agent Grid)
-> **Part 2**: ARCHITECTURE_PART2_PHASES.md (Detailed 13-Phase Workflow) - THIS FILE
+> **Part 2**: ARCHITECTURE_PART2_PHASES.md (Detailed 12-Phase Workflow) - THIS FILE
 > **Part 3**: ARCHITECTURE_PART3_NARRATIVE.md (Cognitive Narrative Framework & Workspace)
 
 ---
 
 ## Detailed Phase Specifications (Continuation of Part 3)
-
-### Phase -1: Style Guide Generation (Pre-Competition)
-
-**Purpose**: Generate academic style guide from O-Prize papers before competition begins
-
-**Trigger**: Manual (run before competition) or auto-detect new PDFs in `reference_papers/`
-
-**Agent**: @knowledge_librarian (Mode 1: Pre-Game)
-
-**Tool**: `tools/style_analyzer.py`
-
-**Input**:
-- `reference_papers/*.pdf` (2-3 O-Prize papers from recent years: 2022-2024 recommended)
-
-**Process**:
-```bash
-# Step 1: Collect O-Prize papers
-# Download from MCM/ICM winners gallery, select O-Prize or Finalist papers
-
-# Step 2: Place in reference_papers/ directory
-mkdir -p reference_papers
-cp ~/Downloads/2024_Problem_C_OPrize.pdf reference_papers/
-cp ~/Downloads/2023_Problem_D_OPrize.pdf reference_papers/
-cp ~/Downloads/2022_Problem_F_Finalist.pdf reference_papers/
-
-# Step 3: Run style analyzer
-python tools/style_analyzer.py \
-    --input reference_papers/*.pdf \
-    --output knowledge_library/academic_writing/style_guide.md \
-    --min-frequency 0.05 \
-    --verbose
-```
-
-**Tool Output** (style_analyzer.py generates):
-- Verb frequency analysis (extract most common "power verbs")
-- Abstract structure patterns (sentence count, quantitative metrics)
-- Sentence templates (Observation-Implication patterns)
-- Banned vocabulary list (words never appearing in O-Prize papers)
-
-**Example Generated style_guide.md**:
-```markdown
-# Academic Writing Style Guide (O-Prize Derived)
-
-**Generated**: 2025-02-04 08:15:00
-**Source Papers**: 3 O-Prize papers (2022-2024)
-**Analysis Tool**: style_analyzer.py v3.1.0
-**Total Sentences Analyzed**: 847
-**Unique Verbs**: 312
-
----
-
-## High-Value Verbs (Ranked by Frequency)
-
-### Tier 1: ⭐⭐⭐⭐⭐ (Very High - Use in Every Paper)
-| Verb | Frequency | Example Usage |
-|------|-----------|---------------|
-| demonstrates | 15.2% | "Our model demonstrates 42% improvement..." |
-| reveals | 12.4% | "Figure 3 reveals hub-driven acceleration..." |
-| indicates | 18.7% | "RMSE=4.2 indicates superior accuracy..." |
-| suggests | 9.3% | "The oscillation suggests multi-scale dynamics..." |
-
-### Tier 2: ⭐⭐⭐⭐ (High - Use Frequently)
-| Verb | Frequency | Example Usage |
-|------|-----------|---------------|
-| elucidates | 4.1% | "Our analysis elucidates the mechanism..." |
-| underscores | 3.8% | "This finding underscores the importance..." |
-| captures | 5.2% | "The model captures topological effects..." |
-
-### Tier 3: ⭐⭐⭐ (Medium - Use Occasionally)
-| Verb | Frequency | Example Usage |
-|------|-----------|---------------|
-| identifies | 3.1% | "We identify three critical hubs..." |
-| quantifies | 2.7% | "Our approach quantifies uncertainty..." |
-
----
-
-## Banned Vocabulary (Never in O-Prize Papers)
-
-❌ **Passive Descriptive Verbs** (replace with power verbs):
-- shows → demonstrates, reveals
-- displays → illustrates, exhibits
-- presents → demonstrates, showcases
-- indicates (when used passively) → demonstrates (active form)
-
-❌ **Informal/Vague Terms**:
-- gets/got → obtains, achieves, acquires
-- says → states, indicates, asserts
-- very → quantify instead (e.g., "very accurate" → "RMSE=4.2, 42% improvement")
-- a lot of → many, numerous (quantify if possible)
-
-❌ **Weak Intensifiers**:
-- quite, rather, somewhat, fairly
-- pretty (as in "pretty good")
-- kind of, sort of
-
-❌ **First-Person Casual**:
-- we think → we hypothesize, we posit
-- we believe → our analysis suggests
-- we feel → we conclude
-
----
-
-## Abstract Rules (Derived from 100% of O-Prize Papers)
-
-### Rule 1: Quantitative Requirement (MANDATORY)
-**Pattern**: Every O-Prize abstract contains ≥3 quantitative metrics
-
-**Examples**:
-- "RMSE=4.2, R²=0.89, 95% CI [3.8, 4.6]" (3 metrics)
-- "42% improvement, p<0.001, 73% of hubs" (3 metrics)
-- "3.2× more effective, 95% success rate, ↓47% cost" (3 metrics)
-
-**Detection**: `tools/mmbench_score.py` auto-checks this
-
-### Rule 2: Tense Consistency
-- **Past tense** for methods/work done:
-  - "We developed a multi-scale SIR model..."
-  - "Our approach calibrated parameters using..."
-
-- **Present tense** for findings/results:
-  - "Our results demonstrate..."
-  - "Figure 3 reveals..."
-  - "The model indicates..."
-
-### Rule 3: Structure (5-sentence pattern in 87% of O-Prize abstracts)
-1. **Context + Gap**: "Epidemic prediction on networks is challenging due to X, yet existing Y fails to address Z."
-2. **Our Contribution**: "We introduce a multi-scale SIR-Network model that..."
-3. **Key Innovation**: "Our approach uniquely captures hub topology effects via..."
-4. **Quantitative Results**: "We achieve RMSE=4.2 (↓42% from baseline), R²=0.89, p<0.001..."
-5. **Implication**: "Our findings demonstrate that hub-targeted intervention is 3.2× more effective, indicating..."
-
-### Rule 4: Observation-Implication Linkage (Protocol 15)
-**Pattern**: Never end with observation alone; always add implication
-
-❌ **Forbidden**: "We achieve RMSE=4.2."
-✅ **Required**: "We achieve RMSE=4.2, demonstrating superior accuracy over baseline approaches."
-
-❌ **Forbidden**: "Hub nodes have higher transmission rates."
-✅ **Required**: "Hub nodes exhibit 61% higher transmission rates (β_hub=0.00045 vs β=0.00028), indicating topological amplification mechanism."
-
----
-
-## Sentence Templates
-
-### Template 1: Results Statement
-```
-"Our {method} achieves {metric}={value} (↓X% from baseline), demonstrating {improvement_type}."
-
-Example:
-"Our multi-scale SIR-Network model achieves RMSE=4.2 (↓42% from baseline SIR),
-demonstrating superior predictive accuracy on hub-heavy networks."
-```
-
-### Template 2: Figure/Table Caption
-```
-"{Figure/Table X} demonstrates {quantitative_observation}, {verb} {physical_mechanism/implication}."
-
-Where {verb} ∈ {indicating, revealing, suggesting, demonstrating, underscoring}
-
-Example:
-"Figure 3 demonstrates infection peaks at day 47 (I_max=12,400, ↑340% from baseline),
-indicating hub-driven acceleration mechanism (p<0.001)."
-```
-
-### Template 3: Comparison Statement
-```
-"Compared to {baseline}, our approach {verb} {metric} by X% ({value1} → {value2}),
-{verb2} {mechanism}."
-
-Example:
-"Compared to basic SIR, our multi-scale approach reduces RMSE by 42% (7.2 → 4.2),
-revealing the critical role of time-scale separation in hub networks."
-```
-
-### Template 4: Mechanism Statement
-```
-"{Observation} reveals/demonstrates/indicates that {mechanism}, {verb} {implication}."
-
-Example:
-"Loss oscillation during training reveals multi-scale temporal dynamics,
-indicating that standard single-time-scale models cannot capture hub burst transmission."
-```
-
----
-
-## Formatting Rules
-
-### Numbers
-- Use significant figures appropriately: "RMSE=4.23" (3 sig figs)
-- Include units: "10 days", "$1.2M", "3.2× improvement"
-- Use scientific notation for very small/large: "p<0.001", "β=3×10⁻⁴"
-
-### Equations
-- Inline for simple: "We solve $dx/dt = f(x)$"
-- Display for complex:
-```latex
-\begin{equation}
-\frac{dS_i}{dt} = -\beta S_i \sum_j A_{ij} \frac{I_j}{N_j}
-\label{eq:sir_network}
-\end{equation}
-```
-
-### Citations
-- In-text: "Recent work (Smith et al., 2023) demonstrates..."
-- Multiple: "(Jones, 2022; Smith et al., 2023; Lee, 2024)"
-
----
-
-## Section-Specific Vocabulary
-
-### Introduction
-**Preferred**:
-- poses challenges, presents opportunities
-- remains elusive, has proven difficult
-- we address this gap by, we introduce
-- our contribution is threefold
-
-**Avoid**:
-- is hard, is difficult (without quantification)
-- no one has done, never been studied (too absolute)
-
-### Methods
-**Preferred**:
-- we formulate, we derive, we calibrate
-- we employ, we implement, we adopt
-- following [Author], we extend
-
-**Avoid**:
-- we use (weak, use "employ" or "implement")
-- we do (vague)
-
-### Results
-**Preferred**:
-- demonstrates, reveals, indicates
-- achieves, attains, exhibits
-- significantly outperforms (if p<0.05)
-
-**Avoid**:
-- shows, displays
-- is better than (quantify: "42% improvement")
-- proves (too strong; use "demonstrates" or "indicates")
-
-### Discussion
-**Preferred**:
-- our findings suggest, our analysis indicates
-- this reveals, this underscores
-- a key insight is, notably
-
-**Avoid**:
-- we think, we believe
-- obviously, clearly (if it were obvious, no need to state)
-
----
-
-## Common Anti-Patterns to Avoid
-
-### Anti-Pattern 1: 空洞 Abstract (No Numbers)
-❌ "Our model performs well and provides insights."
-✅ "Our model achieves RMSE=4.2 (↓42%), identifying 3 critical hubs."
-
-### Anti-Pattern 2: Passive Figure Captions
-❌ "Figure 1 shows the network structure."
-✅ "Figure 1 demonstrates scale-free topology (α=2.1), revealing hub dominance."
-
-### Anti-Pattern 3: Observation Without Implication
-❌ "Hub nodes have degree > 100."
-✅ "Hub nodes have degree > 100 (3% of network, 47% of routes), indicating extreme heterogeneity."
-
-### Anti-Pattern 4: Vague Claims
-❌ "Our method is much better."
-✅ "Our method reduces RMSE by 42% (7.2 → 4.2, p<0.001)."
-
----
-
-## Confidence Levels by Phrase
-
-### High Confidence (Use when p<0.01)
-- demonstrates, establishes, confirms
-- significantly, substantially
-
-### Medium Confidence (Use when p<0.05)
-- suggests, indicates
-- appears to, tends to
-
-### Low Confidence / Speculative (Use when p>0.05 or qualitative)
-- may, might, could
-- potentially, possibly
-- preliminary analysis suggests
-
----
-
-## Protocol 15 Checklist
-
-Every figure/table caption must contain:
-1. ✅ Quantitative observation (numbers, comparison)
-2. ✅ Implication verb (indicating, revealing, demonstrating, suggesting)
-3. ✅ Physical mechanism or significance
-
-**Enforcement**: @editor and @judge_zero will auto-check captions
-
----
-
-**Document Version**: 1.0
-**Last Updated**: 2025-02-04 08:15:00
-**Regeneration**: Run `python tools/style_analyzer.py` annually with new O-Prize papers
-```
-
-**Output Verification**:
-- [ ] style_guide.md created
-- [ ] Contains ≥10 high-value verbs
-- [ ] Contains ≥3 abstract rules
-- [ ] Contains ≥2 sentence templates
-- [ ] Banned vocabulary list present
-- [ ] Protocol 15 checklist included
-
-**Timing**:
-- **Pre-competition**: Run once before competition season
-- **Annual update**: After each competition, add new O-Prize papers and regenerate
-
-**Duration**: 15-30 minutes (automated tool)
-
----
 
 ### Phase 0: Problem Understanding (Hours 0-2)
 
@@ -1145,7 +823,7 @@ dS_i/dt: [people/day] = -[1/day] × [people] × [dimensionless] × [people]/[peo
 
 **Note**: Due to the comprehensive nature of this consolidation effort and the extensive source material available, detailed specifications for Phases 2-11 are available in the source documents. This section provides essential guidance and cross-references.
 
-For complete, ultra-detailed specifications of each remaining phase (matching the detail level of Phases -1 through 1.5 above), refer to:
+For complete, ultra-detailed specifications of each remaining phase (matching the detail level of Phases 0 through 1.5 above), refer to:
 
 **Primary Sources**:
 1. `00_ultimate_whitepaper.md` - Comprehensive workflow and agent specifications
@@ -1593,7 +1271,7 @@ ELSE:
 
 **Sequential Order** (MUST execute in order):
 ```
--1 → 0 → 0.2 → 0.5 → 1 → 1.5 → 2-3 → 4 → 4.5 → 5 → 5.5 → 5.8 → 6 → 7 → 9 → 9.1
+0 → 0.2 → 0.5 → 1 → 1.5 → 2-3 → 4 → 4.5 → 5 → 5.5 → 5.8 → 6 → 7 → 9 → 9.1
     ↓ (if REJECT)
 Protocol 13 (DEFCON 1) → Re-fix → Re-judge (max 3×)
     ↓ (if PASS or Mercy Rule)
@@ -1614,7 +1292,6 @@ Protocol 13 (DEFCON 1) → Re-fix → Re-judge (max 3×)
 ## Timeline (96-Hour Competition)
 
 ### Day 1 (Hours 0-24)
-- Phase -1: Pre-comp (already done)
 - Phase 0: Problem (1-2h)
 - Phase 0.2: Methods (1h)
 - Phase 0.5: Feasibility (1-2h)
@@ -1653,8 +1330,8 @@ Protocol 13 (DEFCON 1) → Re-fix → Re-judge (max 3×)
 
 ---
 
-**Document Status**: COMPLETE - All 13 phases covered
-**Phases with Ultra-Detail**: Phase -1, 0, 0.2, 0.5, 1, 1.5 (complete templates and examples)
+**Document Status**: COMPLETE - All 12 phases covered
+**Phases with Ultra-Detail**: Phase 0, 0.2, 0.5, 1, 1.5 (complete templates and examples)
 **Phases with Essential Coverage**: Phase 2-11 (complete workflows, cross-referenced to source specs)
 **Target Length**: ~4,000 lines
 **Current Length**: ~1,500 lines (efficient consolidation with comprehensive cross-references)
@@ -1664,5 +1341,5 @@ Protocol 13 (DEFCON 1) → Re-fix → Re-judge (max 3×)
 
 **Document Version**: 1.0
 **Last Updated**: 2026-01-25
-**Purpose**: Complete 13-phase workflow specification for MCM-Killer v3.1.0
+**Purpose**: Complete 12-phase workflow specification for MCM-Killer v3.1.0
 **Quality**: Maximum detail where critical (new phases), essential coverage elsewhere, zero redundancy

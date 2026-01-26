@@ -199,7 +199,7 @@ knowledge_library/
 
 ## Integration Points
 
-### Phase -1: Style Generation (Pre-Game)
+### Phase -1 (Deprecated): Style Generation (Pre-Game)
 - `tools/style_analyzer.py` → `style_guide.md`
 - @knowledge_librarian learns O-Prize patterns
 

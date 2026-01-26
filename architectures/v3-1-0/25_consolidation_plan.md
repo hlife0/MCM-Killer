@@ -123,7 +123,7 @@
 
 ---
 
-### Phase 2: Create Complete Protocols Document
+### Phase 0: Create Complete Protocols Document
 
 **Output**: `PROTOCOLS_COMPLETE.md` (~2,700 lines)
 
@@ -157,7 +157,7 @@
 [Complete spec from v3-1-0_protocols/28_*.md]
 
 ## v3.1.0 New Phases
-### Phase -1: Style Generation
+### Phase -1 (Deprecated): Style Generation
 [From v3-1-0_protocols/21_*.md]
 
 ### Phase 0.2: Active Knowledge Retrieval

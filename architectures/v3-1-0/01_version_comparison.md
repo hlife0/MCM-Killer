@@ -49,7 +49,7 @@
 |-----------|------|-----------|-------------------|
 | **narrative_weaver** | Storyteller | Transform scattered results into coherent Hero's Journey | Phase 7 (before @writer) |
 | **metacognition_agent** | Philosopher/Forensic analyst | Extract "Aha!" insights from training struggles | Phase 5.8 (NEW) |
-| **knowledge_librarian** | Academic curator | Guard standards + push advanced methods | Phase -1, Phase 0.2 (NEW) |
+| **knowledge_librarian** | Academic curator | Guard standards + push advanced methods | Pre-Competition, Phase 0.2 (NEW) |
 | **judge_zero** | Red team reviewer | Simulate harsh O-Prize judge | Phase 9.1 (NEW) |
 
 ### Enhanced Agents (3)
@@ -73,7 +73,7 @@
 ### v3.1.0 Workflow (13 Phases)
 
 ```
--1 → 0 → 0.2 → 0.5 → 1 → 1.5 → 2 → 3 → 4 → 4.5 → 5A → 5B → 5.5 → 5.8 → 6 → 6.5 → 7 → 7.5 → 8 → 9 → 9.1 → 9.5 → 10 → 11
+Pre-Comp → 0 → 0.2 → 0.5 → 1 → 1.5 → 2 → 3 → 4 → 4.5 → 5A → 5B → 5.5 → 5.8 → 6 → 6.5 → 7 → 7.5 → 8 → 9 → 9.1 → 9.5 → 10 → 11
    ^    ^       ^                                                                              ^        ^
    |    |       |                                                                              |        |
 New  New      New                                                                             New      New
@@ -83,7 +83,7 @@ New  New      New                                                               
 
 | Phase | v3.0.0 | v3.1.0 | Enhancement |
 |-------|--------|--------|-------------|
-| **-1** | ❌ None | ✅ Style Guide Generation | Learn from O-Prize papers |
+| **Pre-Comp** | ❌ None | ✅ Style Guide Generation | Learn from O-Prize papers |
 | **0.2** | ❌ None | ✅ Active Knowledge Retrieval | Push advanced methods |
 | **5.8** | ❌ None | ✅ Insight Extraction | Metacognitive analysis |
 | **6** | Data plots only | **+ Concept Weaver** | Dual-mode visualization |

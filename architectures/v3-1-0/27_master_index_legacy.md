@@ -205,7 +205,7 @@ v3-1-0/
 ### Phases (13 total)
 
 **Pre-Competition**:
-- Phase -1: Style Guide Generation
+- Phase -1: Deprecated (Style Guide Generation now on-demand)
 
 **Understanding & Design**:
 - Phase 0: Problem Understanding
@@ -262,7 +262,7 @@ v3-1-0/
 
 | Tool | Purpose | Phase |
 |------|---------|-------|
-| style_analyzer.py | Analyze O-Prize papers, generate style_guide.md | -1 |
+| style_analyzer.py | Analyze O-Prize papers, generate style_guide.md | 0/On-demand |
 | log_analyzer.py | Compress GB logs to JSON summary | 5.8 |
 | mmbench_score.py | Automatically score MCM/ICM papers | 11 |
 | init_workspace.py | Create v3.1.0 directory structure | Setup |

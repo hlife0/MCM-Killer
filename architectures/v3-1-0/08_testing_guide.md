@@ -418,7 +418,7 @@ pytest tests/integration/test_judging_pipeline.py -v
 def test_problem_c_full_pipeline(tmp_path):
     """Simulate complete pipeline for 2024 Problem C."""
 
-    # Phase -1: Style Generation (skip - use pre-generated)
+    # Pre-Competition: Style Generation (skip - use pre-generated)
 
     # Phase 0: Problem Reading
     problem_file = "tests/fixtures/2024_problem_c.pdf"

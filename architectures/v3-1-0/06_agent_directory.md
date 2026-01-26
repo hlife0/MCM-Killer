@@ -27,7 +27,7 @@
 | 15 | @director | director.md | 357 | Executors | Continuous | P0 |
 | 16 | @metacognition_agent | metacognition_agent.md | 385 | Thinkers | 5.8 | P1 |
 | 17 | @narrative_weaver | narrative_weaver.md | 588 | Storytellers | 7 | P1 |
-| 18 | @knowledge_librarian | knowledge_librarian.md | 366 | Knowledge | -1, 0.2 | P1 |
+| 18 | @knowledge_librarian | knowledge_librarian.md | 366 | Knowledge | 0.2 | P1 |
 | 19 | @judge_zero | judge_zero.md | 605 | Critics | 9.1 | P1 |
 
 **Total**: 18 agents, 8,884 lines
@@ -40,7 +40,7 @@
 
 ## 🔄 Execution Order by Phase
 
-### Phase -1: Style Guide Generation (Pre-Competition)
+### Pre-Competition: Style Guide Generation
 **Agent**: @knowledge_librarian
 **File**: `agents/knowledge_librarian.md`
 **Role**: Generate style_guide.md from O-Prize papers

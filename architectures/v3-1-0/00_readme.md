@@ -42,7 +42,7 @@
 4. **@judge_zero** - Red team adversarial reviewer
 
 #### 5 New Phases
-- **Phase -1**: Style Guide Generation (pre-competition)
+- **Pre-Competition**: Style Guide Generation
 - **Phase 0.2**: Protocol-Invoked Consultation (On-demand methods)
 - **Phase 5.8**: Insight Extraction (metacognitive analysis)
 - **Phase 9.1**: Mock Judging (adversarial review)
@@ -226,7 +226,7 @@ v3-1-0/
 
 ### New Phases in v3.1.0
 
-- **Phase -1**: Style Guide Generation - Learn from O-Prize papers
+- **Pre-Competition**: Style Guide Generation - Learn from O-Prize papers
 - **Phase 0.2**: Protocol-Invoked Consultation - On-demand advanced methods
 - **Phase 5.8**: Insight Extraction - Metacognitive analysis
 - **Phase 9.1**: Mock Judging - Adversarial review
@@ -282,7 +282,7 @@ v3-1-0/
 - **Protocol-Invoked Consultation**: @knowledge_librarian consults on request
 
 ### 4. Academic Style Alignment
-- **Phase -1**: Automatically learn from O-Prize papers
+- **Pre-Competition**: Automatically learn from O-Prize papers
 - **style_guide.md**: Generated rules for academic writing
 - **Protocol 14**: Mandatory style compliance for all text agents
 
@@ -299,7 +299,7 @@ Located in `tools/` directory:
 
 | Tool | Purpose | Usage |
 |------|---------|-------|
-| `style_analyzer.py` | Analyze O-Prize PDFs to generate style_guide.md | Phase -1 |
+| `style_analyzer.py` | Analyze O-Prize PDFs to generate style_guide.md | Pre-Competition |
 | `log_analyzer.py` | Compress training logs to JSON summaries | Phase 5.8 |
 | `mmbench_score.py` | Automated rule-based scoring (0-100) | Phase 11 |
 | `init_workspace.py` | Create v3.1.0 directory structure | Setup |

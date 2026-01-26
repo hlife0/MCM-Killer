@@ -425,7 +425,7 @@ workspace/2025_C/
     "institution": "Example University"
   },
   "phases_completed": [
-    {"phase": "-1", "completed_at": "2025-02-03T20:00:00Z", "status": "COMPLETE"},
+    {"phase": "Pre-Competition", "completed_at": "2025-02-03T20:00:00Z", "status": "COMPLETE"},
     {"phase": "0", "completed_at": "2025-02-04T10:30:00Z", "status": "COMPLETE"},
     {"phase": "0.2", "completed_at": "2025-02-04T11:15:00Z", "status": "COMPLETE"},
     {"phase": "1", "completed_at": "2025-02-04T14:00:00Z", "status": "COMPLETE"},
@@ -680,7 +680,7 @@ def generate_markdown_report(stats, output_path):
     # Writes: style_guide.md with all extracted rules
 ```
 
-**Output Example**: See Part 2 (Phase -1) for complete style_guide.md template
+**Output Example**: See Part 2 for complete style_guide.md template
 
 **Reference**: `00_ultimate_whitepaper.md` lines 1196-1390
 
@@ -1013,7 +1013,7 @@ o_prize_examples:
 
 | Phase | Primary Agents | Supporting Agents | Key Output |
 |-------|---------------|-------------------|------------|
-| -1 | @knowledge_librarian | - | style_guide.md |
+| Pre-Comp | @knowledge_librarian | - | style_guide.md |
 | 0 | @reader, @researcher | @director | problem_statement.md |
 | 0.2 | @knowledge_librarian | @researcher | suggested_methods.md |
 | 0.5 | @researcher, @advisor | @feasibility_checker | feasibility_report.md |
@@ -1038,7 +1038,7 @@ o_prize_examples:
 ### 8.2 File Flow Diagram
 
 ```
-[Phase -1]
+[Pre-Competition]
 reference_papers/*.pdf → tools/style_analyzer.py → style_guide.md
 
 [Phase 0]

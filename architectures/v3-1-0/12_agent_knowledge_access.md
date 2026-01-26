@@ -78,7 +78,7 @@ knowledge_library/
 **Path**: `workspace/{year}_{problem}/reference_papers/`
 
 **Agents with READ access**:
-- @knowledge_librarian (Phase -1: style analysis)
+- @knowledge_librarian (Pre-Competition: style analysis)
 - @writer (Phase 7: style reference)
 - @editor (Phase 7.5: style enforcement)
 - @judge_zero (Phase 9.1: O Award calibration)
@@ -171,7 +171,7 @@ The HMML structure in MCM-Killer v3.1.0 is compatible with MM-Agent's HMML:
 
 **Access Pattern**:
 ```python
-# Phase -1: @knowledge_librarian
+# Pre-Competition: @knowledge_librarian
 papers = glob.glob("workspace/2025_C/reference_papers/*.pdf")
 for paper in papers:
     patterns = style_analyzer.analyze(paper)
@@ -217,7 +217,7 @@ calibrate_standards(reference)
 | FileNotFoundError for reference papers | @judge_zero | Check `workspace/{year}_{problem}/reference_papers/` exists |
 | ImportError for tools | All | Ensure `tools/` is in Python path |
 | HMML method not found | @researcher | Check `knowledge_library/index.md` for method registration |
-| style_guide.md missing | @writer | Run Phase -1 to generate via @knowledge_librarian |
+| style_guide.md missing | @writer | Run Pre-Competition phase to generate via @knowledge_librarian |
 
 ### Debugging Commands
 

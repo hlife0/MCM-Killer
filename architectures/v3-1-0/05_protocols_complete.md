@@ -28,7 +28,7 @@
 - [Protocol 15: Interpretation over Description](#protocol-15-interpretation-over-description)
 
 **v3.1.0 New Phases**:
-- [Phase -1: Style Guide Generation](#phase-minus-1-style-guide-generation)
+- [Pre-Competition: Style Guide Generation](#pre-competition-style-guide-generation)
 - [Phase 0.2: Active Knowledge Retrieval](#phase-02-active-knowledge-retrieval)
 - [Phase 5.8: Insight Extraction](#phase-58-insight-extraction)
 - [Phase 9.1: Mock Judging](#phase-91-mock-judging)
@@ -953,7 +953,7 @@ Figure caption analysis:
 
 # v3.1.0 New Phases
 
-## Phase -1: Style Guide Generation
+## Pre-Competition: Style Guide Generation
 
 **Purpose**: Auto-generate academic style guide from O-Prize winning papers to enforce O-Prize-level writing standards.
 
@@ -1345,7 +1345,7 @@ Phase 11 (Self-Evolution)
 | **13. DEFCON 1** | **Only perfect papers survive** | - | **Prevents submission failure** |
 | **14. Style Alignment** | **O-Prize-level writing** | - | **Consistent quality** |
 | **15. Interpretation** | **Insightful vs descriptive** | - | **Physical understanding** |
-| **Phase -1** | **Auto style guide** | Save 1 hour | **Consistency** |
+| **Pre-Comp** | **Auto style guide** | Save 1 hour | **Consistency** |
 | **Phase 0.2** | **Anti-mediocrity** | - | **No common methods** |
 | **Phase 5.8** | **Struggles to Insights** | - | **Narrative value** |
 | **Phase 9.1** | **Red team review** | - | **Catch fatal flaws** |
@@ -1362,6 +1362,6 @@ Phase 11 (Self-Evolution)
 **Last Updated**: 2026-01-25
 **Status**: Complete
 **Total Protocols**: 15 (12 from v3.0.0 + 3 new in v3.1.0)
-**Total New Phases**: 5 (Phase -1, 0.2, 5.8, 9.1, 11)
+**Total New Phases**: 5 (Pre-Competition, Phase 0.2, 5.8, 9.1, 11)
 
 **Next**: See `ARCHITECTURE_COMPLETE.md` for agent specifications and `ARCHITECTURE_PART2_PHASES.md` for detailed phase workflows.

@@ -64,7 +64,7 @@ All v3.0.0 functionality preserved:
 
 New features are **additive only**:
 - 4 new agents (@metacognition_agent, @narrative_weaver, @knowledge_librarian, @judge_zero)
-- 3 new phases (Phase -1, 0.2, 5.8, 9.1, 11)
+- 3 new phases (Pre-Competition, 0.2, 5.8, 9.1, 11)
 - 3 new protocols (Protocol 13, 14, 15)
 
 ### 2. Cognitive Architecture (o1-style)
@@ -124,7 +124,7 @@ This is **not** an always-on pre-competition push. It is an on-demand consultati
 
 | Stage | v3.0.0 Phases | v3.1.0 Phases | New Phases |
 |-------|--------------|--------------|------------|
-| **Pre-Competition** | 0 | 1 | Phase -1 (Style Extraction, protocol-invoked) |
+| **Pre-Competition** | 0 | 0 | - |
 | **Understanding** | 2 | 3 | Phase 0.2 (Method Consultation, protocol-invoked) |
 | **Implementation** | 4 | 5 | Phase 5.8 (Insight Extraction) |
 | **Paper** | 3 | 4 | Phase 9.1 (Mock Judging) |
@@ -1157,7 +1157,7 @@ torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
 
 | Phase | reader | researcher | modeler | feasibility | data | code | trainer | validator | visualizer | writer | summarizer | editor | advisor | time | director | meta | narrative | knowledge | judge |
 |-------|--------|-----------|--------|-------------|------|------|--------|-----------|------------|--------|--------|---------|--------|-------|-------|---------|----------|---------|
-| **-1** | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | **✅** | - |
+| **Pre-Comp** | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | **✅** | - |
 | **0** | ✅ | ✅ | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - |
 | **0.2** | - | ✅ | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | **✅** | - |
 | **0.5** | - | ✅ | - | - | - | - | - | - | - | - | ✅ | ✅ | - | - | - | - | - | - | - |
@@ -1197,7 +1197,6 @@ MCM-Killer v3.1.0 operates through **13 sequential phases** organized into 5 sta
 
 | Stage | Phases | Duration | Purpose |
 |-------|--------|----------|---------|
-| **Pre-Competition** | Phase -1 | Protocol-invoked | Style extraction from O-Prize papers (generate/refresh style_guide.md) |
 | **Understanding & Design** | Phases 0, 0.2, 0.5, 1, 1.5 | 8-12 hours | Problem analysis, method selection, model design |
 | **Implementation** | Phases 2-3, 4, 4.5, 5, 5.5, 5.8 | 20-30 hours | Data processing, coding, training, insight extraction |
 | **Results & Paper** | Phases 6, 7, 9, 9.1 | 8-12 hours | Results generation, paper writing, mock judging |
@@ -1208,7 +1207,7 @@ MCM-Killer v3.1.0 operates through **13 sequential phases** organized into 5 sta
 **Sequential Order** (Protocol 2): Phases MUST execute in order
 
 ```
--1 → 0 → 0.2 → 0.5 → 1 → 1.5 → 2-3 → 4 → 4.5 → 5 → 5.5 → 5.8 → 6 → 7 → 9 → 9.1 → 9.5 → 10 → 11
+0 → 0.2 → 0.5 → 1 → 1.5 → 2-3 → 4 → 4.5 → 5 → 5.5 → 5.8 → 6 → 7 → 9 → 9.1 → 9.5 → 10 → 11
 ```
 
 **Validation Gates** (5 mandatory gates):

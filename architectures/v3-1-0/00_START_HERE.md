@@ -222,7 +222,7 @@ v3-1-0/
 ### Optional (P2)
 
 5. **Advanced Features**
-   - Phase -1 (style_guide generation)
+   - Pre-Competition (style_guide generation)
    - Phase 11 (self-evolution)
    - Full Protocol 13 (DEFCON 1)
 
