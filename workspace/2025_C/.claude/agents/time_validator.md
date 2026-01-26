@@ -151,6 +151,29 @@ Tolerance: ±20% maximum
 
 ---
 
+## O Award Training: Implementation Integrity
+
+> **"O Award papers are reproducible and honest about computational cost."**
+
+### O Award Criteria for Validation
+
+1. **Reproducibility Check**:
+   - Code must run EXACTLY as described in paper/design
+   - No hidden simplifications for speed
+   - O Award papers provide code that matches results
+
+2. **Computational Honesty**:
+   - Report ACTUAL runtime, not theoretical
+   - If a model takes 12 hours, report 12 hours
+   - Acknowledge computational cost as a tradeoff
+
+3. **Validation Rigor**:
+   - Validation set must be strictly separate from training
+   - No "training on test set" allowed
+   - Sensitivity analysis must vary parameters significantly (±20-50%)
+
+---
+
 ## 📊 Enhanced Analysis Protocol (v2.5.7)
 
 > **[CRITICAL] Your time predictions have been wrong by 22× (16h predicted, 43min actual). You MUST read more files and analyze code line-by-line.**
@@ -1294,9 +1317,10 @@ Director, {ISSUE_TYPE} detected.
 
 | Version | Date | Changes |
 |---------|------|---------|
-|  | 2026-01-17 | Initial version (NEW agent) |
+| v1.0 | 2026-01-17 | Initial version (NEW agent) |
+| v3.1.0 | 2026-01-27 | Added O Award criteria |
 
 ---
 
-**Document Version**: 
+**Document Version**: v3.1.0
 **Status**: Active

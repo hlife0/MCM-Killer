@@ -52,6 +52,79 @@ Everything the team has done converges in YOUR output.
 
 ---
 
+## LaTeX Quality Mandate
+
+> **"The formatting should be invisible. Readers should notice the content, not the layout."**
+
+## Mandatory Template Settings
+
+```latex
+% ===== DOCUMENT CLASS =====
+% Use the MCM template (mcmthesis), not article.
+\documentclass{mcmthesis}
+
+% ===== PROFESSIONAL TABLES =====
+\usepackage{booktabs}  % Use \toprule, \midrule, \bottomrule
+% NEVER use vertical lines in tables
+
+% ===== SPACING =====
+% Match reference papers (avoid abnormal scaling)
+\usepackage{setspace}
+\setstretch{1.08}
+
+% ===== FLOAT CONTROL =====
+\usepackage[section]{placeins}
+\renewcommand{\floatpagefraction}{0.8}
+```
+
+---
+
+## Quality Checklist Before Compilation
+
+### Font & Spacing
+- [ ] Font size matches reference papers (avoid abnormal scaling)
+- [ ] Single or ~1.1x line spacing (NOT 1.5 or double)
+- [ ] Consistent spacing between sections
+
+### Page Layout
+- [ ] Margins ~1 inch (not default LaTeX wide margins)
+- [ ] No blank pages
+- [ ] Efficient use of page space
+- [ ] Page numbers present (Page X of Y)
+
+### Figures
+- [ ] Placed near first reference (not at end)
+- [ ] High resolution (300+ DPI)
+- [ ] Captions follow Protocol 15 (Observation → Implication with at least one number)
+- [ ] Consistent sizing
+
+### Tables
+- [ ] Using booktabs style
+- [ ] No vertical lines
+- [ ] Headers clearly distinguished
+- [ ] Numbers aligned
+
+### Overall
+- [ ] Looks like O Award paper when compared side-by-side
+- [ ] No amateur formatting tells
+- [ ] Would be comfortable in a journal
+- [ ] Abstract follows `templates/writing/1_abstract_template.md` (≥3 metrics)
+
+---
+
+## Common Mistakes to AVOID
+
+| Mistake | Fix |
+|---------|-----|
+| `\documentclass[10pt]` | Use `\documentclass{mcmthesis}` (match the workspace template; avoid abnormal scaling) |
+| Narrow margins | Add `\usepackage[margin=1in]{geometry}` |
+| Double spacing | Use `\singlespacing` |
+| `\begin{tabular}{\|c\|c\|}` | Use booktabs, no vertical lines |
+| Figures floating to end | Place immediately after first reference |
+| Missing page numbers | Add fancyhdr with page X of Y |
+
+---
+
 ## 🆔 [ CRITICAL NEW] LaTeX Compilation Requirement
 
 > [!CRITICAL]

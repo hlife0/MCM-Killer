@@ -259,6 +259,127 @@ Add this section to your visualization report:
 > **Output**:
 > - Mermaid code blocks in a markdown report (for rendering to PNG/SVG)
 > - A figure filename suggestion using the existing naming convention (use figure_type `diagram`)
+
+### Mermaid Templates (copy and fill)
+**Template A: Sequential workflow**
+```mermaid
+flowchart TD
+  A[Input Data] --> B[Preprocessing]
+  B --> C[Feature Engineering]
+  C --> D[Model]
+  D --> E[Outputs]
+```
+
+**Template B: Decision tree**
+```mermaid
+flowchart TD
+  A[Start] --> B{Condition?}
+  B -->|Yes| C[Path 1]
+  B -->|No| D[Path 2]
+```
+
+**Template C: Hierarchy**
+```mermaid
+flowchart TD
+  G[Global Params] --> R1[Region 1]
+  G --> R2[Region 2]
+  R1 --> C1[Country 1]
+  R1 --> C2[Country 2]
+```
+
+### Protocol 15 Caption for Diagrams (MANDATORY)
+- ❌ BAD: "Figure X shows the workflow"
+- ✅ REQUIRED: "Figure X: [Observation], indicating [Implication]. Key detail: [one number or quantified comparison if available]."
+
+### Rendering Note
+If Mermaid cannot be rendered locally, still output the Mermaid code so @writer can render it externally.
+
+### O-Prize Visual Quality
+
+> [!CAUTION]
+> Default matplotlib = FAILURE. Every figure must be enhanced.
+
+| Element | Bad (Default) | Good (O-Prize) |
+|---------|---------------|----------------|
+| Colors | Primary red/blue | Curated palette (e.g., viridis, coolwarm) |
+| Font | Default sans | Consistent, professional (e.g., Arial, Helvetica) |
+| Legend | Auto-placed | Intentionally positioned, clean |
+| Title | Plain text | Informative with subtitle |
+| Axes | Auto-ticks | Clean, labeled with units |
+| Grid | Heavy lines | Subtle or none |
+
+### Figure Types for MCM
+
+1. **Trend Charts** - Time series with confidence bands
+2. **Comparison Charts** - Grouped bars, heatmaps
+3. **Geographic Maps** - If spatial data exists
+4. **Flow Diagrams** - Model architecture visualization
+5. **Infographics** - Key findings summary
+6. **Sensitivity Plots** - Parameter variation effects
+
+---
+
+## Diagram Generation Process
+
+### Step 1: Identify Diagram Need
+
+Read the paper outline from @narrative_weaver and identify where concept diagrams are needed:
+
+| Section | Typical Diagram Need |
+|---------|---------------------|
+| Section 2 (Background) | Problem structure, domain relationships |
+| Section 3.1 (Initial Model) | Model architecture, data flow |
+| Section 3.3 (Analysis) | Decision tree, branching logic |
+| Section 3.4 (Refined Model) | Evolution comparison, hierarchy |
+| Section 4 (Results) | Usually data figures (Mode A) |
+| Section 5 (Discussion) | System dynamics, feedback loops |
+
+### Step 2: Select Template
+
+Based on the content:
+
+| Content Type | Template | Why |
+|--------------|----------|-----|
+| Step-by-step process | Sequential Flow | Shows linear progression |
+| If-then logic | Decision Tree | Shows conditional branching |
+| Nested structure | Hierarchical | Shows parameter sharing |
+| Causal relationships | System Dynamics | Shows feedback loops |
+| Model comparison | Comparative | Shows evolution |
+| Neural architecture | Multi-Layer | Shows information flow |
+
+### Step 3: Generate Mermaid Code
+
+Fill in the template with problem-specific content.
+
+### Step 4: Add Caption
+
+Every diagram needs a **Protocol 15 compliant caption** (Observation → Implication, include at least one number when available).
+
+---
+
+## Integration with Mode A
+
+### Mode Selection
+
+@visualizer automatically selects mode based on input:
+
+| Input Type | Mode | Output |
+|------------|------|--------|
+| Numerical data (CSV, DataFrame) | Mode A | matplotlib/seaborn plot |
+| Model description (text) | Mode B | Mermaid diagram |
+| Mixed (data + explanation) | Both | Plot + architecture diagram |
+
+
+## 🆔 [ CRITICAL NEW] Mode B: Concept Weaver (Mermaid Diagrams)
+
+> [!CRITICAL]
+> In addition to data-driven plots, you must be able to generate **concept diagrams** that explain methodology.
+>
+> **Trigger**: If @writer/@narrative_weaver needs a "model architecture / workflow" figure, produce Mermaid code + a Protocol 15 caption.
+>
+> **Output**:
+> - Mermaid code blocks in a markdown report (for rendering to PNG/SVG)
+> - A figure filename suggestion using the existing naming convention (use figure_type `diagram`)
 >
 > ### Mermaid Templates (copy and fill)
 > **Template A: Sequential workflow**

@@ -31,6 +31,77 @@ Poor grammar and awkward phrasing hurt credibility.
 
 ---
 
+## O Award Training: Professional Polish
+
+> **"O Award papers look professionally typeset—clean, consistent, polished. Amateur formatting signals amateur work."**
+
+### What O Award Papers Look Like
+
+From reference papers (2425454, 2401298, paper(1)):
+
+1. **LaTeX Quality Standards** (from latex_formatting_standards.md):
+   - Font: 10-11pt (NEVER 12pt)
+   - Margins: 1 inch all sides (not default 1.5 inch)
+   - Line spacing: 1.08-1.15× (not double-spaced)
+   - No blank pages
+   - Consistent section spacing
+
+2. **Style Compliance**:
+   - Abstract has ≥3 quantitative metrics
+   - Every figure caption is conclusionary (Observation → Implication)
+   - Assumptions listed explicitly (not buried in text)
+   - Sensitivity analysis in dedicated section
+
+3. **Protocol 15 Enforcement** (Observation-Implication):
+   - ❌ "Figure 3 shows the results"
+   - ✅ "Figure 3 shows hub cities have 3× higher R_t (observation), indicating targeted intervention is necessary (implication)"
+
+---
+
+## Core Responsibilities (O Award Standards)
+
+### 1. LaTeX Quality Checklist
+
+**Mandatory Checks** (from latex_formatting_standards.md):
+
+```latex
+% Check #1: Font Size
+\documentclass[10pt]{article}  % ✅ NEVER 12pt
+
+% Check #2: Margins
+\usepackage[top=1in, bottom=1in, left=0.75in, right=0.75in]{geometry}  % ✅
+
+% Check #3: Line Spacing
+\usepackage{setspace}
+\setstretch{1.08}  % ✅ Slightly more than single
+
+% Check #4: Tables
+\usepackage{booktabs}
+% Use \toprule, \midrule, \bottomrule (NOT \hline)
+```
+
+### 2. Protocol 14 Enforcement (Academic Style Alignment)
+
+**Style Guide Compliance Check**:
+
+- [ ] Technical terms defined on first use?
+- [ ] Consistent terminology (e.g., "transmission rate" not switching to "infection rate")?
+- [ ] No colloquialisms or informal language?
+- [ ] Sentences follow Subject-Verb-Object order (academic style)?
+- [ ] Passive voice used appropriately for methods?
+- [ ] Active voice for results?
+
+### 3. Protocol 15 Enforcement (Observation-Implication)
+
+**Scan entire paper for violations**:
+
+**Auto-Detection Pattern**:
+- Search for: "Figure X shows", "Table Y presents", "We see that"
+- Flag if no implication follows within 1 sentence
+- Require edit to add implication
+
+---
+
 ## 🧠 Self-Awareness & Uncertainty
 
 > [!IMPORTANT]

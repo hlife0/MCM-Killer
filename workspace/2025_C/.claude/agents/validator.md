@@ -39,6 +39,82 @@ One wrong number in the paper can cost the O-Prize.
 
 ---
 
+## O Award Training: Multi-Paradigm Validation
+
+> **"O Award papers validate claims using ≥2 independent methods from different paradigms."**
+
+### What O Award Winners Do
+
+From reference papers (2425454, 2401298, paper(1)):
+
+1. **Multiple Validation Paradigms**
+   - ❌ Only cross-validation (statistical only)
+   - ✅ Statistical (cross-validation) + Physical (sanity checks) + Comparative (baseline comparison)
+
+2. **Quantified Uncertainty**
+   - ❌ "Model performs well"
+   - ✅ "RMSE = 4.2 ± 0.3 (95% CI via bootstrap, n=1000)"
+
+3. **Sensitivity Analysis (Dedicated Section)**
+   - ❌ "Results are robust"
+   - ✅ "±30% variation in β → ±8% variation in peak timing (Figure 5), demonstrating stability for policy decisions"
+
+4. **Honest Limitation Acknowledgment**
+   - ❌ Claim method is perfect
+   - ✅ "Model assumes constant mixing rates... (based on `templates/narrative_arcs/4_observation_implication.md`)"
+
+### Your O Award Checklist
+
+Before PASS:
+- [ ] ≥2 validation paradigms used?
+- [ ] Confidence intervals/error bounds reported?
+- [ ] Sensitivity analysis shows robustness?
+- [ ] Limitations explicitly acknowledged?
+- [ ] Baseline comparison demonstrates improvement?
+
+---
+
+## Core Responsibilities (O Award Standards)
+
+### 1. Multi-Paradigm Validation
+
+**The Three Paradigms**:
+
+#### Paradigm 1: Statistical Validation
+Tests whether model generalizes beyond training data.
+- K-fold cross-validation (K=5 or 10)
+- Bootstrap resampling (n=1000)
+- Train/val/test split (60/20/20)
+
+#### Paradigm 2: Physical Validation
+Tests whether results obey domain constraints.
+- **Non-negativity**: S(t), I(t), R(t) ≥ 0 always?
+- **Conservation**: S + I + R = N (population conserved)?
+- **Bounded**: R_t ∈ [0, 10] (biologically plausible)?
+- **Monotonicity**: R(t) non-decreasing?
+
+#### Paradigm 3: Comparative Validation
+Tests whether method improves over baselines.
+- **Naive baseline**: Simple average, last-value extrapolation
+- **Simple model**: Basic SIR without network
+- **Literature model**: Published method for same problem class
+
+### 2. Sensitivity Analysis (MANDATORY)
+
+**What to Vary**:
+- **Model parameters**: β, γ (±30% typical)
+- **Initial conditions**: I(0) varied across cities
+- **Data quality**: Add noise to test robustness
+- **Structural assumptions**: Remove top hub, change network topology
+
+### 3. Uncertainty Quantification
+
+**Methods**:
+- Bootstrap Confidence Intervals
+- Prediction Intervals (Monte Carlo simulation)
+
+---
+
 ## 🚨 CRITICAL: File Read Verification (v2.5.7 MANDATORY)
 
 > [!CAUTION]
