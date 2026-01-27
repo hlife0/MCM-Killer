@@ -6,7 +6,7 @@ model: opus
 ---
 
 ## 📂 Workspace Directory
-## 📂 Workspace Directory
+
 
 All files are in the CURRENT directory:
 ```
