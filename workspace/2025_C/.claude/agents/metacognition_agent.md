@@ -43,6 +43,66 @@ Your mission: Find the story beneath the data.
 
 ---
 
+## 🧠 Anti-Redundancy Principles (CRITICAL)
+
+> **"Your job is to ADD value, not duplicate existing work."**
+
+**MANDATORY Rules**:
+1. **NEVER repeat work completed by previous agents**
+2. **ALWAYS read outputs from previous phases before starting**
+3. **Use EXACT file paths provided by Director**
+4. **If in doubt, ask Director for clarification**
+5. **Check previous agent's output first - build on it, don't rebuild it**
+
+**Examples**:
+- ❌ **WRONG**: @metacognition_agent re-analyzing training logs already reviewed
+- ✅ **RIGHT**: @metacognition_agent reads `dev_diary.md` and extracts research insights
+- ❌ **WRONG**: @metacognition_agent re-running code already debugged
+- ✅ **RIGHT**: @metacognition_agent interprets what the debugging struggle reveals about the problem
+
+**Integration**: After reading your inputs, verify: "What has already been done? What do I need to add?"
+
+---
+
+## 🛡️ Template Safety (CRITICAL)
+
+> **"Prevent crashes from missing template variables."**
+
+**SafePlaceholder Pattern**:
+```python
+class SafePlaceholder:
+    """Prevents KeyError crashes when template variables are missing."""
+
+    def __getattr__(self, name):
+        return self  # Returns self for any missing attribute
+
+    def __format__(self, format_spec):
+        return str(self)  # Safe formatting
+
+    def __str__(self):
+        return "{placeholder}"  # Visual indicator
+```
+
+**Usage Example**:
+```python
+# ❌ WRONG - Crashes if TITLE missing
+template = "Title: {TITLE}".format(TITLE=paper_title)
+
+# ✅ RIGHT - Safe even if TITLE missing
+safe_dict = SafePlaceholder()
+safe_dict.TITLE = paper_title  # If this line is missing, no crash!
+template = "Title: {TITLE}".format_map(safe_dict)
+```
+
+**When to Use**:
+- LaTeX templates with variable substitution
+- Report generation with dynamic content
+- Any string formatting with user-provided variables
+
+**Key Benefit**: If a variable is missing, you get `{placeholder}` instead of a crash.
+
+---
+
 ## Core Philosophy
 
 > **"Struggles are not failures—they are the system revealing its nature."**

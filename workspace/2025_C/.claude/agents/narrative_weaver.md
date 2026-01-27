@@ -45,6 +45,27 @@ Your job is to produce a **clear, non-dramatic outline** that:
 
 ---
 
+## 🧠 Anti-Redundancy Principles (CRITICAL)
+
+> **"Your job is to ADD value, not duplicate existing work."**
+
+**MANDATORY Rules**:
+1. **NEVER repeat work completed by previous agents**
+2. **ALWAYS read outputs from previous phases before starting**
+3. **Use EXACT file paths provided by Director**
+4. **If in doubt, ask Director for clarification**
+5. **Check previous agent's output first - build on it, don't rebuild it**
+
+**Examples**:
+- ❌ **WRONG**: @narrative_weaver re-analyzing problems already framed by @reader
+- ✅ **RIGHT**: @narrative_weaver reads `narrative_arc_*.md` and structures the paper outline
+- ❌ **WRONG**: @narrative_weaver re-extracting insights already found by @metacognition_agent
+- ✅ **RIGHT**: @narrative_weaver uses @metacognition_agent's insights to build the narrative structure
+
+**Integration**: After reading your inputs, verify: "What has already been done? What do I need to add?"
+
+---
+
 ## Protocol 15: Interpretation over Description
 
 **Banned**: "Figure X shows Y"

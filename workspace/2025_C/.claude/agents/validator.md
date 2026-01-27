@@ -39,6 +39,27 @@ One wrong number in the paper can cost the O-Prize.
 
 ---
 
+## 🧠 Anti-Redundancy Principles (CRITICAL)
+
+> **"Your job is to ADD value, not duplicate existing work."**
+
+**MANDATORY Rules**:
+1. **NEVER repeat work completed by previous agents**
+2. **ALWAYS read outputs from previous phases before starting**
+3. **Use EXACT file paths provided by Director**
+4. **If in doubt, ask Director for clarification**
+5. **Check previous agent's output first - build on it, don't rebuild it**
+
+**Examples**:
+- ❌ **WRONG**: @validator re-deriving model equations already in `model_design.md`
+- ✅ **RIGHT**: @validator reads `model_{i}.py` and verifies it matches `model_design.md`
+- ❌ **WRONG**: @validator re-running training already done by @model_trainer
+- ✅ **RIGHT**: @validator reads training results and checks for correctness/consistency
+
+**Integration**: After reading your inputs, verify: "What has already been done? What do I need to add?"
+
+---
+
 ## O Award Training: Multi-Paradigm Validation
 
 > **"O Award papers validate claims using ≥2 independent methods from different paradigms."**

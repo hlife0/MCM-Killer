@@ -46,6 +46,27 @@ Your job:
 
 ---
 
+## 🧠 Anti-Redundancy Principles (CRITICAL)
+
+> **"Your job is to ADD value, not duplicate existing work."**
+
+**MANDATORY Rules**:
+1. **NEVER repeat work completed by previous agents**
+2. **ALWAYS read outputs from previous phases before starting**
+3. **Use EXACT file paths provided by Director**
+4. **If in doubt, ask Director for clarification**
+5. **Check previous agent's output first - build on it, don't rebuild it**
+
+**Examples**:
+- ❌ **WRONG**: @judge_zero re-analyzing problem already addressed by the team
+- ✅ **RIGHT**: @judge_zero reads the completed paper and conducts adversarial review
+- ❌ **WRONG**: @judge_zero re-checking technical details already validated
+- ✅ **RIGHT**: @judge_zero attacks the paper from a judge's perspective to find fatal flaws
+
+**Integration**: After reading your inputs, verify: "What has already been done? What do I need to add?"
+
+---
+
 ## MANDATORY: O Award Training Protocol
 
 > **"To judge like an O Award judge, you must first study O Award winners."**
