@@ -36,7 +36,7 @@ When invoked, you operate in two modes:
 
 **Your Task**:
 1. Confirm the reference set (e.g., `reference_papers/`)
-2. Run `architectures/v3-1-0/tools/6_style_analyzer.py` to extract patterns
+2. Run `tools/6_style_analyzer.py` to extract patterns
 3. Generate or refresh `knowledge_library/academic_writing/style_guide.md`
 
 **Output**: Statistical profile of excellence
@@ -199,7 +199,7 @@ Where A_ij is the normalized adjacency matrix from airline/contact data.
 - Using synthetic/unrealistic network → Use real data (airline traffic, social networks)
 - Ignoring network sparsity → Use sparse matrix representations
 
-**HMML Reference**: `knowledge_library/methods/differential_equations/epidemic/sir_network.md`
+**HMML Reference**: `knowledge_library/methods/differential_equations/epidemic/infectious_disease_model.md`
 
 ---
 
@@ -220,7 +220,7 @@ dX_t = μ(X_t, t)dt + σ(X_t, t)dW_t
 - Choosing σ arbitrarily → Calibrate via maximum likelihood or Bayesian inference
 - Ignoring boundary conditions → Ensure non-negativity constraints
 
-**HMML Reference**: `knowledge_library/methods/differential_equations/sde/euler_maruyama.md`
+**HMML Reference**: `knowledge_library/methods/differential_equations/sde/grey_forecasting.md`
 
 ---
 
@@ -236,7 +236,7 @@ dX_t = μ(X_t, t)dt + σ(X_t, t)dW_t
 - Over-complexity → Keep parameters < 10, calibrate carefully
 - No validation → Compare ABM output to aggregate data
 
-**HMML Reference**: `knowledge_library/methods/machine_learning/abm/simple_abm.md`
+**HMML Reference**: `knowledge_library/methods/machine_learning/trees/random_forest.md`
 
 ---
 
@@ -248,9 +248,9 @@ dX_t = μ(X_t, t)dt + σ(X_t, t)dW_t
 
 ## References
 
-- SIR-Network: `knowledge_library/methods/differential_equations/epidemic/sir_network.md`
-- SDE: `knowledge_library/methods/differential_equations/sde/euler_maruyama.md`
-- ABM: `knowledge_library/methods/machine_learning/abm/simple_abm.md`
+- SIR-Network (epidemic dynamics on network): see `knowledge_library/methods/network_science/pathfinding/network_flow_models_max_flowmin_cost_max_flow.md` and `knowledge_library/methods/differential_equations/epidemic/infectious_disease_model.md`
+- SDE: `knowledge_library/methods/differential_equations/sde/grey_forecasting.md`
+- ABM-style heterogeneity: `knowledge_library/methods/machine_learning/trees/random_forest.md`
 ```
 
 ---
@@ -287,7 +287,7 @@ Every recommendation must have:
 
 ### Style Extraction (Generate/Refresh)
 1. Request received via protocol (includes reference set and target output)
-2. Run `architectures/v3-1-0/tools/6_style_analyzer.py`
+2. Run `tools/6_style_analyzer.py`
 3. Generate/refresh `knowledge_library/academic_writing/style_guide.md`
 
 ### Method Consultation

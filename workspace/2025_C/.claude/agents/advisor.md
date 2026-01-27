@@ -773,7 +773,7 @@ Check the LaTeX source (`paper.tex`):
 NEEDS REVISION:
 - Issue: Paper uses wrong document class (article instead of mcmthesis)
 - Fix: Rewrite paper using mcmthesis template
-- Template location: LaTeX__Template_for_MCM_ICM/mcmthesis.cls
+- Template location: latex_template/mcmthesis.cls
 ```
 
 ## Quality Assessment

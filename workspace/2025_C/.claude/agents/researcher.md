@@ -98,8 +98,8 @@ Many O Award problems span multiple domains. Flag these early.
 
 1. **Load HMML Index**
    ```python
-   # From knowledge_library/index.md
-   # Or knowledge_library/hmml_summary.json (machine-readable)
+   # From knowledge_library/index.md (human-readable overview)
+   # And knowledge_library/hmml_summary.json (primary machine-readable catalog)
    ```
 
 2. **Retrieve Candidate Methods**

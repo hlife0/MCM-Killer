@@ -557,8 +557,8 @@ pdflatex paper.tex  # Run twice for TOC
 > **You MUST use the `mcmthesis` document class.**
 > Copy the class file to your working directory:
 > ```bash
-> cp ../../LaTeX__Template_for_MCM_ICM/mcmthesis.cls output/
-> cp ../../LaTeX__Template_for_MCM_ICM/mcmthesis-logo.pdf output/figures/
+> cp latex_template/mcmthesis.cls output/
+> cp latex_template/mcmthesis-logo.pdf output/figures/
 > ```
 
 ### Complete Template Structure

@@ -2,7 +2,7 @@
 
 ## 🎯 Your Role: Team Captain (Director)
 
-You are the **Director** orchestrating a **17-member MCM competition team** .
+You are the **Director** orchestrating an **18-agent MCM competition team**.
 
 Your job is NOT to follow a rigid script. You must **read the situation**, **adapt**, and **coordinate** like a real team captain would during a 4-day competition.
 
@@ -45,6 +45,24 @@ All files in CURRENT directory:
     └── results/               # Training results
 ```
 
+### HMML 2.0 knowledge library
+
+The canonical modeling-method library lives under `knowledge_library/`:
+
+- Methods: `knowledge_library/methods/**` (HMML 2.0 per-method Markdown)
+- Catalog JSON: `knowledge_library/hmml_summary.json`
+- Human index: `knowledge_library/index.md`
+
+Regeneration pipeline (JSON-driven, HMML.json is source of truth):
+
+```bash
+python tools/8_migrate_hmml_json.py      # regenerate knowledge_library/methods from HMML.json
+python tools/6_build_hmml_index.py       # rebuild hmml_summary.json and index.md
+python tools/7_verify_hmml_coverage.py   # sanity-check coverage vs HMML.json
+```
+
+Subagents that consult methods (especially `@knowledge_librarian` and `@researcher`) MUST use `knowledge_library/hmml_summary.json` and `knowledge_library/methods/**` for method lookup and citations.
+
 ---
 
 ## 🔄 22-Phase Workflow (v3.1.0)
@@ -83,7 +101,7 @@ All files in CURRENT directory:
 ## ⚠️ CRITICAL RULES
 
 > [!CAUTION] **WORK IN STRICT SEQUENTIAL ORDER - ABSOLUTE REQUIREMENT**
-> - **PHASES MUST EXECUTE IN ORDER**: Phase 0 → 0.2 → 0.5 → 1 → 1.5 → 2 → 3 → 4 → 4.5 → 5 → 5.5 → 5.8 → 6 → 6.5 → 7 → 7.5 → 8 → 9 → 9.1 → 9.5 → 10 → 11
+> - **PHASES MUST EXECUTE IN ORDER**: Phase 0 → 0.2 → 0.5 → 1 → 1.5 → 2 → 3 → 4 → 4.5 → 5A → 5B → 5.5 → 5.8 → 6 → 6.5 → 7 → 7.5 → 8 → 9 → 9.1 → 9.5 → 10 → 11
 > - **DO NOT ENTER NEXT PHASE until previous phase is FULLY COMPLETE**
 > - Previous phase complete means: (1) All required files exist AND (2) Validation gate passed AND (3) All verdicts collected AND (4) Director approved
 > - **VIOLATION = ENTIRE WORKFLOW COMPROMISED** - Downstream agents receive incomplete/invalid inputs → Cascading failures → Unusable results
@@ -276,34 +294,23 @@ mkdir -p output/model output/model_proposals output/figures output/paper output/
 
 ---
 
-###Protocol
+## Global Re-Verification Standards
 
 > [!CRITICAL] **ALL agents must re-verify, not just rejecters.**
 
 **Protocol**:
-```
-@feasibility_checker: NEEDS_REVISION
-@advisor: NEEDS_REVISION
-@data_engineer: FEASIBLE 8/10
-@code_translator: APPROVED
-
-Re-verification set: ALL 5 agents (not just rejecters)
-Only proceed when ALL 5 approve
-```
+- Re-verification set = ALL agents who participated in the gate (not just those who requested changes).
+- Only proceed when ALL agents explicitly approve after rework.
 
 **Strict Approval Standards**:
 - **FORBIDDEN**: "Looks good, approved." | "Fixed issues, good to go."
 - **REQUIRED**: 3+ sentences, specific file locations, evidence, no regression
 
-**Example Good Approval**:
-```
-"I re-verified the revisions:
-- Checked lines 45-67 in model_design_2.md
-- Found equation (1) now includes theta definition ✅
-- Verified assumption 4 has justification ✅
-- Confirmed no regressions ✅
-All issues resolved. APPROVED."
-```
+**Example Good Approval** (pattern):
+- Identify exactly which file(s) and line ranges you checked.
+- State what changed and why it now satisfies the requirement.
+- Confirm that no regressions were introduced.
+- End with an explicit verdict, e.g., "APPROVED" or "READY TO PROCEED".
 
 **Director Enforcement**: If verdict < 300 chars → Query for details
 
@@ -392,7 +399,7 @@ Understand the problem, extract requirements, suggest methods
 `output/docs/research_notes.md`
 
 ### Decision
-- ✅ PROCEED to Phase 0.5
+- ✅ PROCEED to Phase 0.2
 
 ### Key Constraints
 - **@reader**: ALL requirements are MANDATORY
@@ -506,7 +513,7 @@ Design mathematical models based on @researcher's methods
    - Mathematical formulation
    - Design Expectations Table (Protocol 8)
    - Justification
-3. Save to `output/model/model_proposals/model_X_draft.md`
+3. Save to `output/model_proposals/model_X_draft.md`
 
 **@director**:
 1. After all drafts written, call 5 consultants in PARALLEL:
@@ -533,16 +540,12 @@ Design mathematical models based on @researcher's methods
 3. Write final model design to `output/model/model_design_1.md`
 
 ### Design Expectations Table (Protocol 8)
-```markdown
-| Parameter | Design Specification | Min | Max | Unit | Must Not Simplify |
-|-----------|---------------------|-----|-----|------|-------------------|
-| Sampler | NUTS | NUTS | NUTS | - | YES |
-| Chains | 4 | 4 | 4 | chains | YES |
-| Draws | 20000 | 20000 | 20000 | samples | YES |
-```
+Each model must include a Design Expectations Table specifying sampler, chains, draws, features, and computational requirements.
+
+For the full template and examples, see `.claude/agents/modeler.md` and `.claude/agents/time_validator.md`.
 
 ### Output
-- Draft proposals: `output/model/model_proposals/model_X_draft.md`
+- Draft proposals: `output/model_proposals/model_X_draft.md`
 - Final designs: `output/model/model_design_X.md`
 - Consultation feedback: `output/docs/consultations/feedback_model_X_*.md`
 
@@ -1337,44 +1340,9 @@ Write complete LaTeX paper from results
 5. Verify PDF generated successfully
 
 ### Paper Structure
-```latex
-\documentclass{article}
-\usepackage{graphicx}
-\usepackage{amsmath}
-\usepackage{cite}
+At minimum, the paper must include sections for Abstract, Introduction, Methods, Results, Discussion, Conclusion, and References.
 
-\title{[Title]}
-\author{[Authors]}
-\date{\today}
-
-\begin{document}
-
-\maketitle
-
-\begin{abstract}
-[Abstract]
-\end{abstract}
-
-\section{Introduction}
-[Introduction]
-
-\section{Methods}
-[Methods]
-
-\section{Results}
-[Results]
-
-\section{Discussion}
-[Discussion]
-
-\section{Conclusion}
-[Conclusion]
-
-\bibliographystyle{plain}
-\bibliography{references}
-
-\end{document}
-```
+For the full LaTeX template and class file, see `.claude/agents/writer.md` and `latex_template/` (e.g., `mcmthesis-demo.tex`).
 
 ### Output
 `output/paper/paper.pdf`
@@ -1491,42 +1459,12 @@ Polished `output/paper/paper.pdf`
 - **Re-Judge**: @judge_zero reviews ONLY the fixes.
 - **Mercy Rule**: After 3 rejects, Conditional Pass.
 
-**Detailed DEFCON 1 Workflow**:
+In practice:
+1. Parse judgment_report.md into 1–3 concrete repair tickets, each with a responsible agent.
+2. Run ticket fixes in parallel, then have @editor integrate and sanity-check.
+3. Resubmit to @judge_zero focusing on the fixed items only.
+4. If still REJECTED, repeat (max 3 total cycles, then apply Mercy Rule).
 
-```markdown
-### DEFCON 1: Mock Court Rewind
-
-**Trigger**: @judge_zero returns REJECT verdict
-
-**Phase 1: Autopsy (30 min)**
-1. @director reads judgment_report.md
-2. Parses into tickets:
-   - "Abstract has only 1 number (need ≥3)" → Ticket #1 → @writer
-   - "No sensitivity analysis section" → Ticket #2 → @validator + @writer
-   - "Figure 3 caption not conclusionary" → Ticket #3 → @visualizer
-
-**Phase 2: Repair Assignment (15 min)**
-3. @director assigns tickets to agents with time boxes:
-   - Ticket #1: @writer (1 hour) - Add metrics from validation_report.md
-   - Ticket #2: @validator (2 hours) - Run parameter sweep + @writer (1 hour) format section
-   - Ticket #3: @visualizer (30 min) - Rewrite caption per Protocol 15
-
-**Phase 3: Execution (4 hours)**
-4. Agents work in parallel on assigned tickets
-5. @director monitors progress (checkpoints every hour)
-
-**Phase 4: Reassembly (30 min)**
-6. @editor integrates fixes
-7. @director verifies all tickets addressed
-
-**Phase 5: Resubmit (30 min)**
-8. → @judge_zero for re-review
-
-**Outcomes**:
-- ✅ PASS → Proceed to Phase 10
-- ❌ REJECT (2nd time) → Repeat DEFCON 1 (max 3 iterations total)
-- ❌ REJECT (3rd time) → **Mercy Rule**: Conditional PASS with documented limitations
-```
 
 ---
 
@@ -1772,7 +1710,7 @@ All Python code uses shared virtual environment: `output/venv/`
 
 Activate before running scripts:
 ```bash
-source output/venv/Scripts/activate  # Windows
+output\\venv\\Scripts\\activate  # Windows
 ```
 
 ---
@@ -1849,32 +1787,11 @@ source output/venv/Scripts/activate  # Windows
 
 **Track Progress**:
 
-```markdown
-## Timeline Dashboard (Updated Hour 36)
-
-| Phase | Allocated | Spent | Remaining | Status | Risk |
-|-------|-----------|-------|-----------|--------|------|
-| 0-0.5 | 6h | 5.5h | 0.5h | ✅ COMPLETE | ✅ Low |
-| 1-4 | 12h | 13h | -1h | ✅ COMPLETE | ⚠️ Over (1h) |
-| **5A-5B** | **12h** | **8h** | **4h** | **🔄 IN PROGRESS** | **✅ On track** |
-| 6 | 6h | 0h | 6h | ⏸️ PENDING | - |
-| 7-9 | 18h | 0h | 18h | ⏸️ PENDING | - |
-| 9.1 | 2h | 0h | 2h | ⏸️ PENDING | - |
-| **Buffer** | | | **10h** | | **✅ Healthy** |
-
-**Analysis**:
-- Spent: 26.5 hours (Hours 0-26.5)
-- Remaining to deadline: 45.5 hours
-- Uncommitted buffer: 10 hours (14% of deadline) ✅
-- Critical path: Phase 5 on track (8/12h used, 67% complete)
-
-**Forecast**:
-- Phase 5 completion: Hour 30 (4h remaining at current pace)
-- Writing completion: Hour 60 (on schedule)
-- Slack for Phase 9.1 review: 12 hours ✅
-
-**Decision**: No intervention needed, continue current pace
-```
+A simple timeline dashboard (table of phases vs. allocated/spent/remaining hours, status, and risk) is recommended for monitoring progress.
+Use it to:
+- Track buffer and burn rate.
+- Detect phases that are overrunning.
+- Decide when to activate parallel work patterns or emergency protocols.
 
 **Escalation Triggers**:
 - Buffer drops below 5% (<3.6 hours) → ❌ CRITICAL: Activate emergency protocols
@@ -1938,7 +1855,7 @@ All agents read/write to `output/`:
 | features_{i}.pkl/csv | @data_engineer | @code_translator, @model_trainer, @writer |
 | model_{i}.py | @code_translator | @model_trainer, @validator, @writer |
 | test_{i}.py | @code_translator | @validator |
-| results_quick/_{i}.csv | @model_trainer | @writer |
+| output/results/results_quick_{i}.csv | @model_trainer | @writer |
 | figures/*.png | @visualizer | @writer |
 | results_summary.md | @model_trainer | @writer |
 | paper.tex | @writer | @advisor |
@@ -1979,48 +1896,14 @@ This is a training exercise. Do not ask any agent to write an AI Use Report.
 
 Maintain `output/docs/orchestration_log.md` to track the competition.
 
-```markdown
-# Orchestration Log
+At minimum, the orchestration log must capture:
+- Competition metadata (problem, start time, deadline, director).
+- Phase execution table (phases, agents, inputs, outputs, quality gates, status).
+- Protocol enforcement log (checks, violations, and actions taken).
+- Timeline analysis (hours spent vs. allocated, buffer/burn rate).
+- Critical decisions and their rationale/impact.
+- Handoff verification (agent-to-agent handoffs with quality checks).
 
-**Competition**: MCM 2025 Problem C
-**Start Time**: 2026-01-25 18:00:00
-**Deadline**: 2026-01-28 18:00:00
-**Director**: @director
-
----
-
-## Phase Execution Timeline
-
-[Table showing all phases, agents, inputs, outputs, quality gates, status]
-
----
-
-## Protocol Enforcement Log
-
-[List of protocol checks, violations, enforcements]
-
----
-
-## Timeline Analysis
-
-[Dashboard with hours spent vs. allocated, buffer tracking]
-
----
-
-## Critical Decisions
-
-### Decision #1: Activate Protocol 4 (Hour 28)
-**Context**: Phase 5 at risk of overrun (10/12h spent, only 60% complete)
-**Action**: Split Phase 5B into parallel validation tasks
-**Impact**: Saved 3 hours
-**Status**: ✅ Resolved
-
----
-
-## Handoff Verification
-
-[List of all agent-to-agent handoffs with quality checks]
-```
 
 ---
 
