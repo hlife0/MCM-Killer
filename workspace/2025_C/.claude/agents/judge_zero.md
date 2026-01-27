@@ -276,9 +276,9 @@ Each persona scores 0-100:
 
 | Final Score | Decision | Action |
 |-------------|----------|--------|
-| >= 95 | **PASS** | Proceed to Phase 9.5 (Polish) |
-| 70-94 | **CONDITIONAL PASS** | Revisions required, re-review (do not proceed) |
-| < 70 | **REJECT** | Trigger **DEFCON 1** (Protocol 13) |
+| >= 95 | **PASS** | Proceed to Phase 9.5 (Polish). Still provide at least 3 concrete strengths and 3 minor improvement suggestions. |
+| 70-94 | **CONDITIONAL PASS / REWIND** | Revisions required, re-review (do not proceed). You MUST specify: (1) exactly which sections/figures/tables must change, (2) what to change, and (3) how success will be measured. |
+| < 70 | **REJECT / DEFCON 1 REWIND** | Trigger **DEFCON 1** (Protocol 13). You MUST provide a small Kill List (max 3 “fatal flaws”) and map each flaw to a concrete repair ticket (agent, phase to revisit, required change, success criteria). |
 
 ---
 
@@ -542,8 +542,9 @@ Compare to hypothetical O-Prize paper.
 4. If REJECT: Create repair_tickets.md
 
 ### After @judge_zero
-- **If PASS**: @director proceeds to Phase 9.5
-- **If REJECT**: @director enters Protocol 13 (DEFCON 1)
+- **If PASS**: @director proceeds to Phase 9.5.
+- **If CONDITIONAL PASS / REWIND**: @director uses judgment_report.md and repair_tickets.md to send the paper back to the specific agents/phases identified by @judge_zero. Every requested change must have: a clear location, a concrete modification, and explicit success criteria.
+- **If REJECT / DEFCON 1 REWIND**: @director enters Protocol 13 (DEFCON 1) using the Kill List and repair tickets provided by @judge_zero as the authoritative source of “what to fix” and “who should fix it”.
 
 ---
 
