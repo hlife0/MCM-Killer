@@ -276,7 +276,7 @@ mkdir -p output/model output/model_proposals output/figures output/paper output/
 
 ---
 
-### Enhanced Re-verification Protocol
+###Protocol
 
 > [!CRITICAL] **ALL agents must re-verify, not just rejecters.**
 

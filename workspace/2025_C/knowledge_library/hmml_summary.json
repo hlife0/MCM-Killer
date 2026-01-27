@@ -1,14 +1,801 @@
 {
   "version": "2.0",
-  "last_updated": "2026-01-27",
-  "total_methods": 0,
+  "generated": "2026-01-27T07:36:14.716180",
+  "total_methods": 97,
   "domains": {
-    "optimization": {"count": 0, "categories": []},
-    "differential_equations": {"count": 0, "categories": []},
-    "statistics": {"count": 0, "categories": []},
-    "network_science": {"count": 0, "categories": []},
-    "machine_learning": {"count": 0, "categories": []},
-    "simulation": {"count": 0, "categories": []}
+    "statistics": 10,
+    "optimization": 31,
+    "network_science": 12,
+    "machine_learning": 11,
+    "graph_theory": 3,
+    "differential_equations": 30
   },
-  "methods": []
+  "by_complexity": {
+    "Medium": 86,
+    "High": 8,
+    "Very High": 3
+  },
+  "by_narrative_value": {
+    "Low": 58,
+    "Medium": 31,
+    "High": 8
+  },
+  "methods": [
+    {
+      "name": "Analytic Hierarchy Process (AHP)",
+      "domain": "differential_equations",
+      "subdomain": "differential",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "differential_equations/differential/analytic_hierarchy_process_ahp.md"
+    },
+    {
+      "name": "Analytic Network Process (ANP)",
+      "domain": "differential_equations",
+      "subdomain": "differential",
+      "complexity": "Medium",
+      "narrative_value": "High",
+      "file": "differential_equations/differential/analytic_network_process_anp.md"
+    },
+    {
+      "name": "Battle Model",
+      "domain": "differential_equations",
+      "subdomain": "differential",
+      "complexity": "Medium",
+      "narrative_value": "High",
+      "file": "differential_equations/differential/battle_model.md"
+    },
+    {
+      "name": "Divide and Conquer",
+      "domain": "differential_equations",
+      "subdomain": "differential",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "differential_equations/differential/divide_and_conquer.md"
+    },
+    {
+      "name": "Dynamic Programming",
+      "domain": "differential_equations",
+      "subdomain": "differential",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "differential_equations/differential/dynamic_programming.md"
+    },
+    {
+      "name": "Economic Growth Model",
+      "domain": "differential_equations",
+      "subdomain": "differential",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "differential_equations/differential/economic_growth_model.md"
+    },
+    {
+      "name": "Entropy Weight Method",
+      "domain": "differential_equations",
+      "subdomain": "differential",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "differential_equations/differential/entropy_weight_method.md"
+    },
+    {
+      "name": "Golden-Section Search (Golden-Section Search)",
+      "domain": "differential_equations",
+      "subdomain": "differential",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "differential_equations/differential/golden_section_search_golden_section_search.md"
+    },
+    {
+      "name": "Information Entropy Method",
+      "domain": "differential_equations",
+      "subdomain": "differential",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "differential_equations/differential/information_entropy_method.md"
+    },
+    {
+      "name": "K-Nearest Neighbors (KNN)",
+      "domain": "differential_equations",
+      "subdomain": "differential",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "differential_equations/differential/k_nearest_neighbors_knn.md"
+    },
+    {
+      "name": "Kendall's Coefficient of Concordance Test",
+      "domain": "differential_equations",
+      "subdomain": "differential",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "differential_equations/differential/kendalls_coefficient_of_concordance_test.md"
+    },
+    {
+      "name": "Kolmogorov-Smirnov Test (KS Test)",
+      "domain": "differential_equations",
+      "subdomain": "differential",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "differential_equations/differential/kolmogorov_smirnov_test_ks_test.md"
+    },
+    {
+      "name": "Markov Decision Process (MDP)",
+      "domain": "differential_equations",
+      "subdomain": "differential",
+      "complexity": "Very High",
+      "narrative_value": "Low",
+      "file": "differential_equations/differential/markov_decision_process_mdp.md"
+    },
+    {
+      "name": "Pearson Correlation Coefficient Test",
+      "domain": "differential_equations",
+      "subdomain": "differential",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "differential_equations/differential/pearson_correlation_coefficient_test.md"
+    },
+    {
+      "name": "Population Prediction Model",
+      "domain": "differential_equations",
+      "subdomain": "differential",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "differential_equations/differential/population_prediction_model.md"
+    },
+    {
+      "name": "Technique for Order Preference by Similarity to an Ideal Solution (TOPSIS)",
+      "domain": "differential_equations",
+      "subdomain": "differential",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "differential_equations/differential/technique_for_order_preference_by_similarity_to_an_ideal_solution_topsis.md"
+    },
+    {
+      "name": "Decision Theory",
+      "domain": "differential_equations",
+      "subdomain": "epidemic",
+      "complexity": "Medium",
+      "narrative_value": "High",
+      "file": "differential_equations/epidemic/decision_theory.md"
+    },
+    {
+      "name": "Difference Equation",
+      "domain": "differential_equations",
+      "subdomain": "epidemic",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "differential_equations/epidemic/difference_equation.md"
+    },
+    {
+      "name": "Fuzzy Comprehensive Evaluation",
+      "domain": "differential_equations",
+      "subdomain": "epidemic",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "differential_equations/epidemic/fuzzy_comprehensive_evaluation.md"
+    },
+    {
+      "name": "Grey Evaluation",
+      "domain": "differential_equations",
+      "subdomain": "epidemic",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "differential_equations/epidemic/grey_evaluation.md"
+    },
+    {
+      "name": "Infectious Disease Model",
+      "domain": "differential_equations",
+      "subdomain": "epidemic",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "differential_equations/epidemic/infectious_disease_model.md"
+    },
+    {
+      "name": "Linear Regression",
+      "domain": "differential_equations",
+      "subdomain": "epidemic",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "differential_equations/epidemic/linear_regression.md"
+    },
+    {
+      "name": "Logistic Regression",
+      "domain": "differential_equations",
+      "subdomain": "epidemic",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "differential_equations/epidemic/logistic_regression.md"
+    },
+    {
+      "name": "Naive Bayes",
+      "domain": "differential_equations",
+      "subdomain": "epidemic",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "differential_equations/epidemic/naive_bayes.md"
+    },
+    {
+      "name": "Poisson Regression",
+      "domain": "differential_equations",
+      "subdomain": "epidemic",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "differential_equations/epidemic/poisson_regression.md"
+    },
+    {
+      "name": "Heat Conduction Model",
+      "domain": "differential_equations",
+      "subdomain": "pde",
+      "complexity": "Very High",
+      "narrative_value": "High",
+      "file": "differential_equations/pde/heat_conduction_model.md"
+    },
+    {
+      "name": "River Pollutant Diffusion Model",
+      "domain": "differential_equations",
+      "subdomain": "pde",
+      "complexity": "Very High",
+      "narrative_value": "High",
+      "file": "differential_equations/pde/river_pollutant_diffusion_model.md"
+    },
+    {
+      "name": "Grey Forecasting",
+      "domain": "differential_equations",
+      "subdomain": "sde",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "differential_equations/sde/grey_forecasting.md"
+    },
+    {
+      "name": "Inventory Theory",
+      "domain": "differential_equations",
+      "subdomain": "sde",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "differential_equations/sde/inventory_theory.md"
+    },
+    {
+      "name": "Queuing Theory",
+      "domain": "differential_equations",
+      "subdomain": "sde",
+      "complexity": "Medium",
+      "narrative_value": "High",
+      "file": "differential_equations/sde/queuing_theory.md"
+    },
+    {
+      "name": "Greedy Algorithm",
+      "domain": "graph_theory",
+      "subdomain": "graph",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "graph_theory/graph/greedy_algorithm.md"
+    },
+    {
+      "name": "Matching Problem",
+      "domain": "graph_theory",
+      "subdomain": "graph",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "graph_theory/graph/matching_problem.md"
+    },
+    {
+      "name": "Minimum Spanning Tree (Minimum Spanning Tree, MST)",
+      "domain": "graph_theory",
+      "subdomain": "graph",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "graph_theory/graph/minimum_spanning_tree_minimum_spanning_tree_mst.md"
+    },
+    {
+      "name": "K-Means Algorithm (including K-Means++ variant)",
+      "domain": "machine_learning",
+      "subdomain": "clustering",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "machine_learning/clustering/k_means_algorithm_including_k_means_variant.md"
+    },
+    {
+      "name": "Self-Organizing Maps (SOM)",
+      "domain": "machine_learning",
+      "subdomain": "clustering",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "machine_learning/clustering/self_organizing_maps_som.md"
+    },
+    {
+      "name": "Linear Discriminant Analysis (LDA)",
+      "domain": "machine_learning",
+      "subdomain": "machine",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "machine_learning/machine/linear_discriminant_analysis_lda.md"
+    },
+    {
+      "name": "Local Linear Embedding (LLE)",
+      "domain": "machine_learning",
+      "subdomain": "machine",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "machine_learning/machine/local_linear_embedding_lle.md"
+    },
+    {
+      "name": "Support Vector Machine (SVM)",
+      "domain": "machine_learning",
+      "subdomain": "machine",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "machine_learning/machine/support_vector_machine_svm.md"
+    },
+    {
+      "name": "Kernel Function",
+      "domain": "machine_learning",
+      "subdomain": "neural_networks",
+      "complexity": "High",
+      "narrative_value": "High",
+      "file": "machine_learning/neural_networks/kernel_function.md"
+    },
+    {
+      "name": "Bagging Algorithm",
+      "domain": "machine_learning",
+      "subdomain": "trees",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "machine_learning/trees/bagging_algorithm.md"
+    },
+    {
+      "name": "Boosting Algorithm",
+      "domain": "machine_learning",
+      "subdomain": "trees",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "machine_learning/trees/boosting_algorithm.md"
+    },
+    {
+      "name": "Decision Tree",
+      "domain": "machine_learning",
+      "subdomain": "trees",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "machine_learning/trees/decision_tree.md"
+    },
+    {
+      "name": "Hierarchical Clustering",
+      "domain": "machine_learning",
+      "subdomain": "trees",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "machine_learning/trees/hierarchical_clustering.md"
+    },
+    {
+      "name": "Random Forest",
+      "domain": "machine_learning",
+      "subdomain": "trees",
+      "complexity": "High",
+      "narrative_value": "Medium",
+      "file": "machine_learning/trees/random_forest.md"
+    },
+    {
+      "name": "Laplacian Eigenmaps",
+      "domain": "network_science",
+      "subdomain": "centrality",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "network_science/centrality/laplacian_eigenmaps.md"
+    },
+    {
+      "name": "Algebraic Representation of Graphs (Adjacency Matrix, Laplacian Matrix)",
+      "domain": "network_science",
+      "subdomain": "network",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "network_science/network/algebraic_representation_of_graphs_adjacency_matrix_laplacian_matrix.md"
+    },
+    {
+      "name": "Bayesian Network",
+      "domain": "network_science",
+      "subdomain": "network",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "network_science/network/bayesian_network.md"
+    },
+    {
+      "name": "Covering Models",
+      "domain": "network_science",
+      "subdomain": "network",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "network_science/network/covering_models.md"
+    },
+    {
+      "name": "Graph Coloring",
+      "domain": "network_science",
+      "subdomain": "network",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "network_science/network/graph_coloring.md"
+    },
+    {
+      "name": "Eulerian Graph (Euler Path)",
+      "domain": "network_science",
+      "subdomain": "pathfinding",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "network_science/pathfinding/eulerian_graph_euler_path.md"
+    },
+    {
+      "name": "Hamiltonian Cycle",
+      "domain": "network_science",
+      "subdomain": "pathfinding",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "network_science/pathfinding/hamiltonian_cycle.md"
+    },
+    {
+      "name": "Huffman Tree (Huffman Tree)",
+      "domain": "network_science",
+      "subdomain": "pathfinding",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "network_science/pathfinding/huffman_tree_huffman_tree.md"
+    },
+    {
+      "name": "Local Search",
+      "domain": "network_science",
+      "subdomain": "pathfinding",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "network_science/pathfinding/local_search.md"
+    },
+    {
+      "name": "Network Flow Models (Max-Flow/Min-Cost Max-Flow)",
+      "domain": "network_science",
+      "subdomain": "pathfinding",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "network_science/pathfinding/network_flow_models_max_flowmin_cost_max_flow.md"
+    },
+    {
+      "name": "Shortest Path Models (Shortest Path",
+      "domain": "network_science",
+      "subdomain": "pathfinding",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "network_science/pathfinding/shortest_path_models_shortest_path.md"
+    },
+    {
+      "name": "Steiner Tree (Steiner Tree)",
+      "domain": "network_science",
+      "subdomain": "pathfinding",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "network_science/pathfinding/steiner_tree_steiner_tree.md"
+    },
+    {
+      "name": "Traveling Salesman Problem (TSP)",
+      "domain": "optimization",
+      "subdomain": "heuristic",
+      "complexity": "High",
+      "narrative_value": "Medium",
+      "file": "optimization/heuristic/traveling_salesman_problem_tsp.md"
+    },
+    {
+      "name": "Ant Colony Optimization (Ant Colony Optimization, ACO)",
+      "domain": "optimization",
+      "subdomain": "linear_programming",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "optimization/linear_programming/ant_colony_optimization_ant_colony_optimization_aco.md"
+    },
+    {
+      "name": "Back Propagation Neural Network (BP Neural Network)",
+      "domain": "optimization",
+      "subdomain": "linear_programming",
+      "complexity": "High",
+      "narrative_value": "Medium",
+      "file": "optimization/linear_programming/back_propagation_neural_network_bp_neural_network.md"
+    },
+    {
+      "name": "Conjugate Gradient Method (Conjugate Gradient Method, CGM)",
+      "domain": "optimization",
+      "subdomain": "linear_programming",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "optimization/linear_programming/conjugate_gradient_method_conjugate_gradient_method_cgm.md"
+    },
+    {
+      "name": "Convex Programming",
+      "domain": "optimization",
+      "subdomain": "linear_programming",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "optimization/linear_programming/convex_programming.md"
+    },
+    {
+      "name": "Data Envelopment Analysis (DEA)",
+      "domain": "optimization",
+      "subdomain": "linear_programming",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "optimization/linear_programming/data_envelopment_analysis_dea.md"
+    },
+    {
+      "name": "Duality",
+      "domain": "optimization",
+      "subdomain": "linear_programming",
+      "complexity": "High",
+      "narrative_value": "Medium",
+      "file": "optimization/linear_programming/duality.md"
+    },
+    {
+      "name": "Feasible Direction Method",
+      "domain": "optimization",
+      "subdomain": "linear_programming",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "optimization/linear_programming/feasible_direction_method.md"
+    },
+    {
+      "name": "Genetic Algorithm (Genetic Algorithm, GA)",
+      "domain": "optimization",
+      "subdomain": "linear_programming",
+      "complexity": "High",
+      "narrative_value": "Low",
+      "file": "optimization/linear_programming/genetic_algorithm_genetic_algorithm_ga.md"
+    },
+    {
+      "name": "Integer Programming (Integer Programming, IP)",
+      "domain": "optimization",
+      "subdomain": "linear_programming",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "optimization/linear_programming/integer_programming_integer_programming_ip.md"
+    },
+    {
+      "name": "Karush-Kuhn-Tucker (KKT) Conditions",
+      "domain": "optimization",
+      "subdomain": "linear_programming",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "optimization/linear_programming/karush_kuhn_tucker_kkt_conditions.md"
+    },
+    {
+      "name": "Linear Programming",
+      "domain": "optimization",
+      "subdomain": "linear_programming",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "optimization/linear_programming/linear_programming.md"
+    },
+    {
+      "name": "Linear Programming (Linear Programming, LP)",
+      "domain": "optimization",
+      "subdomain": "linear_programming",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "optimization/linear_programming/linear_programming_linear_programming_lp.md"
+    },
+    {
+      "name": "Locally Weighted Linear Regression (LWLR)",
+      "domain": "optimization",
+      "subdomain": "linear_programming",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "optimization/linear_programming/locally_weighted_linear_regression_lwlr.md"
+    },
+    {
+      "name": "Mixed Integer Programming (Mixed Integer Programming, MIP)",
+      "domain": "optimization",
+      "subdomain": "linear_programming",
+      "complexity": "High",
+      "narrative_value": "Low",
+      "file": "optimization/linear_programming/mixed_integer_programming_mixed_integer_programming_mip.md"
+    },
+    {
+      "name": "Particle Swarm Optimization (Particle Swarm Optimization, PSO)",
+      "domain": "optimization",
+      "subdomain": "linear_programming",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "optimization/linear_programming/particle_swarm_optimization_particle_swarm_optimization_pso.md"
+    },
+    {
+      "name": "Penalty Function",
+      "domain": "optimization",
+      "subdomain": "linear_programming",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "optimization/linear_programming/penalty_function.md"
+    },
+    {
+      "name": "Quadratic Programming (Quadratic Programming, QP)",
+      "domain": "optimization",
+      "subdomain": "linear_programming",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "optimization/linear_programming/quadratic_programming_quadratic_programming_qp.md"
+    },
+    {
+      "name": "Relaxation",
+      "domain": "optimization",
+      "subdomain": "linear_programming",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "optimization/linear_programming/relaxation.md"
+    },
+    {
+      "name": "Restriction",
+      "domain": "optimization",
+      "subdomain": "linear_programming",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "optimization/linear_programming/restriction.md"
+    },
+    {
+      "name": "Set Programming",
+      "domain": "optimization",
+      "subdomain": "linear_programming",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "optimization/linear_programming/set_programming.md"
+    },
+    {
+      "name": "Simulated Annealing (Simulated Annealing, SA)",
+      "domain": "optimization",
+      "subdomain": "linear_programming",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "optimization/linear_programming/simulated_annealing_simulated_annealing_sa.md"
+    },
+    {
+      "name": "Newton Method/Quasi-Newton Methods (Newton Method)",
+      "domain": "optimization",
+      "subdomain": "nonlinear_programming",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "optimization/nonlinear_programming/newton_methodquasi_newton_methods_newton_method.md"
+    },
+    {
+      "name": "Projected Gradient Method",
+      "domain": "optimization",
+      "subdomain": "nonlinear_programming",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "optimization/nonlinear_programming/projected_gradient_method.md"
+    },
+    {
+      "name": "Branch and Bound Method",
+      "domain": "optimization",
+      "subdomain": "optimization",
+      "complexity": "High",
+      "narrative_value": "Low",
+      "file": "optimization/optimization/branch_and_bound_method.md"
+    },
+    {
+      "name": "Goal Programming",
+      "domain": "optimization",
+      "subdomain": "optimization",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "optimization/optimization/goal_programming.md"
+    },
+    {
+      "name": "Immune Algorithm (Immune Algorithm, IA)",
+      "domain": "optimization",
+      "subdomain": "optimization",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "optimization/optimization/immune_algorithm_immune_algorithm_ia.md"
+    },
+    {
+      "name": "Lagrange Multiplier",
+      "domain": "optimization",
+      "subdomain": "optimization",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "optimization/optimization/lagrange_multiplier.md"
+    },
+    {
+      "name": "Multi-Objective Programming",
+      "domain": "optimization",
+      "subdomain": "optimization",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "optimization/optimization/multi_objective_programming.md"
+    },
+    {
+      "name": "Multi-level Programming",
+      "domain": "optimization",
+      "subdomain": "optimization",
+      "complexity": "Medium",
+      "narrative_value": "High",
+      "file": "optimization/optimization/multi_level_programming.md"
+    },
+    {
+      "name": "Tabu Search (Tabu Search, TS)",
+      "domain": "optimization",
+      "subdomain": "optimization",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "optimization/optimization/tabu_search_tabu_search_ts.md"
+    },
+    {
+      "name": "Expectation Maximization (EM)",
+      "domain": "statistics",
+      "subdomain": "bayesian",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "statistics/bayesian/expectation_maximization_em.md"
+    },
+    {
+      "name": "Ridge Regression",
+      "domain": "statistics",
+      "subdomain": "regression",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "statistics/regression/ridge_regression.md"
+    },
+    {
+      "name": "Analysis of Variance (ANOVA)",
+      "domain": "statistics",
+      "subdomain": "statistics",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "statistics/statistics/analysis_of_variance_anova.md"
+    },
+    {
+      "name": "Canonical Correlation Analysis (CCA)",
+      "domain": "statistics",
+      "subdomain": "statistics",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "statistics/statistics/canonical_correlation_analysis_cca.md"
+    },
+    {
+      "name": "Chi-Square Goodness-of-Fit Test",
+      "domain": "statistics",
+      "subdomain": "statistics",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "statistics/statistics/chi_square_goodness_of_fit_test.md"
+    },
+    {
+      "name": "Principal Component Analysis (PCA)",
+      "domain": "statistics",
+      "subdomain": "statistics",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "statistics/statistics/principal_component_analysis_pca.md"
+    },
+    {
+      "name": "Wilcoxon's Signed Rank Test",
+      "domain": "statistics",
+      "subdomain": "statistics",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "statistics/statistics/wilcoxons_signed_rank_test.md"
+    },
+    {
+      "name": "ARIMA Model (Autoregressive Integrated Moving Average model)",
+      "domain": "statistics",
+      "subdomain": "time_series",
+      "complexity": "Medium",
+      "narrative_value": "Low",
+      "file": "statistics/time_series/arima_model_autoregressive_integrated_moving_average_model.md"
+    },
+    {
+      "name": "GARCH Model (including EGARCH variant) (Autoregressive Conditional Heteroskedasticity model)",
+      "domain": "statistics",
+      "subdomain": "time_series",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "statistics/time_series/garch_model_including_egarch_variant_autoregressive_conditional_heteroskedasticity_model.md"
+    },
+    {
+      "name": "Statistics",
+      "domain": "statistics",
+      "subdomain": "time_series",
+      "complexity": "Medium",
+      "narrative_value": "Medium",
+      "file": "statistics/time_series/statistics.md"
+    }
+  ]
 }

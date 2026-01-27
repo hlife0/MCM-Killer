@@ -1,0 +1,38 @@
+HMML Coverage Report
+====================
+Total HMML.json leaves: 97
+Total library methods:  21
+Missing in library:     97
+Extra in library:       21
+
+Sample missing methods (up to 20):
+  - algebraic representation of graphs (adjacency matrix, laplacian matrix)
+  - analysis of variance (anova)
+  - analytic hierarchy process (ahp)
+  - analytic network process (anp)
+  - ant colony optimization (ant colony optimization, aco)
+  - arima model (autoregressive integrated moving average model)
+  - back propagation neural network (bp neural network)
+  - bagging algorithm
+  - battle model
+  - bayesian network
+  - boosting algorithm
+  - branch and bound method
+  - canonical correlation analysis (cca)
+  - chi-square goodness-of-fit test
+  - conjugate gradient method (conjugate gradient method, cgm)
+  - convex programming
+  - covering models
+  - data envelopment analysis (dea)
+  - decision theory
+  - decision tree
+
+Sample extra methods (up to 20):
+Traceback (most recent call last):
+  File "D:\migration\MCM-Killer\workspace\2025_C\tools\7_verify_hmml_coverage.py", line 91, in <module>
+    main()
+    ~~~~^^
+  File "D:\migration\MCM-Killer\workspace\2025_C\tools\7_verify_hmml_coverage.py", line 86, in main
+    print(f"  - {name}")
+    ~~~~~^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\u2b50' in position 18: illegal multibyte sequence

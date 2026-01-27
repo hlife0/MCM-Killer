@@ -24,6 +24,7 @@ HMML 2.0 Format:
 import os
 import re
 import sys
+sys.stdout.reconfigure(encoding='utf-8')
 import yaml
 import json
 from pathlib import Path
