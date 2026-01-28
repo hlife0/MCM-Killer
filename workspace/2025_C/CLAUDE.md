@@ -64,6 +64,47 @@ You are the **conductor** of the 18-agent orchestra. You don't perform individua
 
 ---
 
+## AUTOMATIC DECISION RULES (End-to-End Automation)
+
+> [!CRITICAL] **These rules enable fully autonomous 72-hour execution. DO NOT ask user for decisions.**
+>
+> ### Rule 1: Phase 5B Timeline Exceeded
+> **Trigger**: Training >48h OR Windows compatibility detected
+> **Automatic Action**:
+> 1. Document issue in `output/docs/known_issues.md`
+> 2. Continue with Phase 5A results for paper
+> 3. Let Phase 5B run in background (no blocking)
+> 4. Proceed to Phase 6-7 immediately
+> **DO NOT**: Stop workflow or ask user
+>
+> ### Rule 2: Agent Timeout (3+ Attempts)
+> **Trigger**: Any agent times out 3× consecutively
+> **Automatic Action**:
+> 1. Try alternative approach
+> 2. Try simplified prompt
+> 3. Break task into smaller chunks
+> 4. Continue to next phase
+> **DO NOT**: Stop workflow or ask user
+>
+> ### Rule 3: Phase 5B Parallel Execution
+> **Trigger**: Phase 5A completes successfully
+> **Automatic Action**:
+> 1. Launch Phase 5B in background (run_in_background=true)
+> 2. IMMEDIATELY proceed to Phase 6-7
+> 3. Check 5B status every 2 hours
+> **DO NOT**: Wait for 5B or stop workflow
+>
+> ### Rule 4: Unexpected Issues (Default Protocol)
+> **Trigger**: Any unanticipated problem
+> **Automatic Action**:
+> 1. Document in `output/docs/known_issues.md`
+> 2. Assess: Does this block submission? (Y/N)
+> 3. If N: Apply workaround → Continue
+> 4. If Y: Document → Apply best available workaround → Continue
+> **DO NOT**: Stop unless 100% blocked (no workaround exists)
+
+---
+
 ## CRITICAL RULES
 
 > [!CAUTION] **WORK IN STRICT SEQUENTIAL ORDER - ABSOLUTE REQUIREMENT**
@@ -366,10 +407,11 @@ When @time_validator predicts >48 hours training: **ESCALATE_TO_DIRECTOR** for d
 
 **Purpose**: Full training while paper writes
 **Agent**: @model_trainer
-**Protocol 4**: Parallel workflow
+**Protocol 4**: Parallel workflow (AUTOMATIC: Run in background, proceed to Phase 6-7 immediately)
 **Protocol 10**: Watch mode - session does NOT exit
 **Protocol 11**: Emergency delegation (8× faster critical error response)
 **Output**: results_{i}.csv
+**Automatic Fallback**: If training >48h OR Windows compatibility → Continue with 5A results, let 5B run background
 **Details**: knowledge_base/phase_details.md#phase-5b
 
 ---
@@ -682,6 +724,28 @@ At minimum, the orchestration log must capture:
 - Timeline analysis (hours spent vs. allocated, buffer/burn rate)
 - Critical decisions and their rationale/impact
 - Handoff verification (agent-to-agent handoffs with quality checks)
+
+---
+
+## Issue Tracking (Automation Support)
+
+Maintain `output/docs/known_issues.md` to track all issues encountered during autonomous execution.
+
+**Format**:
+```markdown
+# Known Issues
+
+## [Issue ID] - Brief Title
+**Phase**: X.X
+**Timestamp**: YYYY-MM-DD HH:MM
+**Trigger**: What caused this issue
+**Automatic Action**: Rule applied (1-4)
+**Workaround**: What was done
+**Impact**: Low/Medium/High (blocks submission?)
+**Status**: Mitigated/Monitoring/Resolved
+```
+
+**Purpose**: Enables full autonomy by documenting issues instead of stopping to ask user
 
 ---
 
