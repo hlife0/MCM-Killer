@@ -552,13 +552,48 @@ python -c "import tensorflow, torch" 2>&1  # if required
 # Add other libraries as specified in model_design.md
 ```
 
-### Step 4: Estimate computational cost
+### Step 4: Check platform compatibility 
+
+```bash
+# Detect OS and platform constraints
+python -c "import platform, os; print(f'OS: {platform.system()}'); print(f'Cores: {os.cpu_count()}')"
+
+# Check for Windows + PyMC incompatibility
+python -c "
+import platform
+if platform.system() == 'Windows':
+    print('WARNING: Windows detected - PyMC has 5× slowdown penalty')
+    print('Recommendation: Use NumPyro or Linux environment')
+    print('Options:')
+    print('  1. Install NumPyro: pip install numpyro jax[cpu]')
+    print('  2. Use WSL2: wsl --install Ubuntu')
+    print('  3. Use cloud VM (Linux)')
+"
+```
+
+**Platform Compatibility Rules (Protocol 28)**:
+
+| Platform | Algorithm | Config | Expected Time | Action |
+|----------|-----------|--------|---------------|--------|
+| Linux | PyMC | chains=4, cores=4 | 5h/model | ✅ Proceed |
+| Windows | NumPyro | chains=4, cores=4 | 5h/model | ✅ Proceed |
+| Windows | PyMC | chains=2, cores=1, draws=20000 | 20h/model | ⚠️ Accept if ≤2 models |
+| macOS (M1/M2) | PyMC | chains=4, cores=4 | 4h/model | ✅ Proceed |
+| macOS (Intel) | PyMC | chains=2, cores=1 | 20h/model | ⚠️ Accept if ≤2 models |
+
+**If Windows detected AND PyMC planned**:
+- Alert @director about 5× PyMC penalty
+- Provide options: (A) NumPyro migration, (B) Linux env, (C) Accept 2× slowdown with optimized config
+- If (C) AND >2 models: **REJECT** → Require different strategy
+- Document decision before Phase 4
+
+### Step 5: Estimate computational cost
 ```bash
 # If possible, run a quick benchmark
 python -c "import time; start = time.time(); [x**2 for x in range(1000000)]; print(f'Test took: {time.time()-start:.2f}s')"
 ```
 
-### Step 5: Consult with other agents if needed
+### Step 6: Consult with other agents if needed
 - Consult @data_engineer about data availability
 - Consult @code_translator about implementation complexity
 
