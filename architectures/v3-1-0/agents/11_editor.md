@@ -352,7 +352,7 @@ pdflatex paper.tex  # ✅ Success (final PDF generated)
 ```
 
 **PDF Quality**:
-- Page count: 24 (within 25-page limit)
+- Page count: 24 pages
 - File size: 2.1 MB (reasonable)
 - Fonts embedded: ✅ Yes
 - Hyperlinks working: ✅ Yes
@@ -393,9 +393,7 @@ else
     # Check page count
     pages=$(pdfinfo paper.pdf | grep Pages | awk '{print $2}')
     echo "Page count: $pages"
-    if [ $pages -gt 25 ]; then
-        echo "⚠️ WARNING: Exceeds 25-page limit"
-    fi
+    # Note: No arbitrary page limits - paper should be as long as needed
 fi
 ```
 

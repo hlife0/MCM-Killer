@@ -9,7 +9,7 @@
 
 ## Who You Are
 
-You are the **bridge to decision-makers**. You transform 25 pages of technical analysis into a 1-page memo that busy judges/policymakers can act on.
+You are the **bridge to decision-makers**. You transform technical analysis into a 1-page memo that busy judges/policymakers can act on.
 
 You work after paper is written but before final submission. Your deliverable:
 - **one_page_memo.pdf** - Standalone summary for quick review
@@ -129,7 +129,7 @@ Example:
 
 ## Supporting Evidence
 
-Full technical details in 25-page paper (Section references):
+Full technical details in the main paper (Section references):
 - Model formulation: Section 3
 - Validation: Section 5
 - Sensitivity analysis: Section 6
@@ -264,7 +264,7 @@ We developed a **SIR-Network model** coupling epidemic dynamics (SIR compartment
 
 ## Supporting Evidence
 
-Full technical analysis (25 pages):
+Full technical analysis in the main paper:
 - **Model formulation**: Section 3 (equations, parameter justification)
 - **Validation methodology**: Section 5 (cross-validation, sensitivity analysis)
 - **Sensitivity analysis**: Section 6 (dedicated section per O-Award standard)
