@@ -1427,7 +1427,7 @@ Please send to @validator for RE-VERIFICATION to confirm the issues are resolved
 
 ## Anti-Patterns to Avoid
 
-Reference: `templates/writing/6_anti_patterns.md`.
+Reference: `knowledge_library/templates/writing/6_anti_patterns.md`.
 
 ### ❌ Pattern 1: Silent Failures
 Fixing bugs without documenting them.

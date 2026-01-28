@@ -141,6 +141,32 @@ Protocol 14 (Style) and Protocol 15 (Observation-Implication) work together:
 
 Both are enforced by @editor before @judge_zero review.
 
+---
+
+## Limitations Presentation
+
+**Aligned with Reference Papers**:
+- Use dedicated subsection for limitations (optional but recommended)
+- Bullet-point format for multiple related limitations
+- Transparent acknowledgment builds credibility
+- Reference: 2009116.pdf (explicit limitations section with 6+ items)
+
+**Tone Guidelines**:
+- Technical and neutral, not defensive
+- Acknowledge while demonstrating competence
+- Connect to future work when appropriate
+- Example: "The model exhibits prediction error when external variables change significantly, suggesting integration of additional covariates as future work."
+
+**What to Include**:
+- Technical limitations (data constraints, assumptions)
+- Methodological boundaries (scope conditions)
+- Performance characteristics (accuracy tradeoffs)
+
+**What to Exclude**:
+- Development struggles (debugging stories)
+- Emotional language (frustration, breakthroughs)
+- Narrative journey (failed attempts that led nowhere)
+
 ## Version History
 
 - **v1.0** (2026-01-25): Extracted from V3.1.0 architecture

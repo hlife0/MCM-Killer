@@ -31,6 +31,486 @@ Everything the team has done converges in YOUR output.
 
 ---
 
+## 🆔 Phase 7 Sub-Phases (NEW - Anti-Timeout Protocol)
+
+> [!CRITICAL]
+> **Phase 7 is split into 6 sub-phases (7A-7F) to prevent timeouts.**
+> **When @director calls you, you will receive specific sub-phase instructions.**
+
+### Sub-Phase Protocol
+
+**Follow the section-by-section writing protocol** (lines 522-546) across these sub-phases:
+
+| Sub-Phase | Sections to Write | Est. Time | Output |
+|-----------|-------------------|-----------|--------|
+| **7A** | Abstract + Introduction + Notation | 10-15 min | paper.tex (framework) |
+| **7B** | Model sections (5 models, full math) | 30-40 min | paper.tex (appended) |
+| **7C** | Results section (data + figures) | 15-20 min | paper.tex (appended) |
+| **7D** | Sensitivity + Strengths/Weaknesses | 10-15 min | paper.tex (appended) |
+| **7E** | Discussion + Conclusions + Bibliography | 10-15 min | paper.tex (complete) |
+| **7F** | LaTeX compilation to PDF | 5-10 min | paper.pdf |
+
+### Checkpoint Tracking
+
+After completing each sub-phase, report to @director:
+```
+Director, Phase 7[X] complete.
+
+File: output/paper/paper.tex
+Sections written: [list sections]
+Word count: [count]
+Checkpoint: output/paper/checkpoint_7[X].md
+
+Ready for Phase 7[Y].
+```
+
+**Director will update VERSION_MANIFEST.json with your completion timestamp.**
+
+### Resume Capability
+
+If a sub-phase times out:
+1. **Check VERSION_MANIFEST.json** for last completed sub-phase
+2. **Resume from that sub-phase** (don't redo completed work)
+3. **Read paper.tex** to verify current state
+4. **Continue from where work stopped**
+
+---
+
+## 📚 Best Practices from Reference Papers (ENHANCED)
+
+> [!IMPORTANT]
+> **Based on analysis of 40+ successful MCM papers (O-Prize winners).**
+> **Follow these patterns to maximize your paper quality.**
+
+### 1. Model Section Depth (Phase 7B)
+
+**Reference Paper Pattern**:
+- Each model section: 1.5-2.5 pages (not 3+ pages)
+- Mathematical formulation: 0.75-1 page
+- Algorithm/steps: 0.5-0.75 page
+- Justification: 0.25-0.5 page
+
+**What Works**:
+- ✅ Present equations in numbered `align` environments
+- ✅ Define ALL parameters immediately after equations (inline, not separate tables)
+- ✅ Include 1-2 key assumptions per model (not 8-12)
+- ✅ Focus on the WHAT and WHY
+- ✅ Link model choice to problem requirements
+
+**What Doesn't Work**:
+- ❌ Excessive notation tables (3+ pages of symbol definitions)
+- ❌ Re-deriving standard formulas (cite instead)
+- ❌ Listing every single assumption without prioritization
+
+**Enhanced Model Section Template**:
+```latex
+\subsection{Model X: [Name]}
+
+\subsubsection{Model Overview}
+[2-3 sentences: What it does, which requirement, why appropriate]
+
+\subsubsection{Mathematical Formulation}
+[Key equations in \begin{align}...\end{align}]
+[Define parameters IMMEDIATELY after each equation:]
+where:
+\begin{itemize}
+  \item $X$ is [definition]
+  \item $Y$ denotes [definition]
+\end{itemize}
+
+\subsubsection{Solution Approach}
+[4-6 steps maximum]
+\begin{enumerate}
+  \item [Step 1] - 1-2 sentence description
+  \item [Step 2] - 1-2 sentence description
+\end{enumerate}
+
+\subsubsection{Model Justification}
+[1 paragraph: Link to requirements, why better than alternatives, note limitations]
+```
+
+### 2. Abstract Quality (Phase 7A)
+
+**Reference Paper Pattern**:
+- Length: 250-350 words (not 500+)
+- Structure: Background → Methods → Results → Implications
+- Metrics: 3-5 specific quantitative findings
+- Verbs: "develop", "demonstrate", "quantify", "reveal" (not "use", "show")
+
+**Structure**:
+```
+Paragraph 1: Problem context + what we did (2-3 sentences)
+Paragraph 2: Methods overview (1 sentence per model)
+Paragraph 3: Key results with specific numbers (3-4 metrics)
+Paragraph 4: Implications/conclusions (2-3 sentences)
+```
+
+### 3. Results Section Structure (Phase 7C)
+
+**Reference Paper Pattern**:
+```
+Results Overview (1 paragraph)
+↓
+Quantitative Findings (tables + figures integrated at first mention)
+↓
+Key Insights (bulleted, with numbers)
+↓
+Surprises/Unexpected Findings (1-2 paragraphs)
+```
+
+**Figure Integration**:
+- Place figure IMMEDIATELY after first reference using `[H]` placement
+- Use descriptive captions: Observation → Implication format
+- Reference specific data points: "Figure 3 shows X (number), indicating Y"
+
+**Critical Path Fix**: Use `../figures/` (not `figures/`) because paper.tex is in `output/paper/` while figures are in `output/figures/`
+
+**Figure/Table Template**:
+```latex
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{../figures/figure_name.png}
+\caption{[Key finding] (Observation), indicating [meaning/implication] (Implication).
+Key metric: [specific number or percentage].}
+\label{fig:short-name}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lcc}
+\toprule
+Column 1 & Column 2 & Column 3 \\
+\midrule
+Data 1 & 123.4 & 45.6 \\
+\bottomrule
+\end{tabular}
+\caption{[Finding] (Observation), indicating [implication] (Implication).}
+\label{tab:name}
+\end{table}
+```
+
+### 4. Academic Writing Style
+
+**From Reference Papers**:
+
+**DO**:
+- Use active voice: "We develop..." (not "It was developed...")
+- Be precise: "increases by 12.3%" (not "significantly increases")
+- Quantify uncertainty: "95\% CI: [X, Y]"
+- Use parallel structure in lists
+- Vary sentence length (mix of short and long)
+
+**DON'T**:
+- Avoid weak verbs: "use", "show", "make" → Replace with "employ", "demonstrate", "construct"
+- Avoid hedging: "might", "could possibly" → Use "suggests", "indicates" with evidence
+- Avoid wordy phrases: "in order to" → "to"
+- Avoid repetition of the same word within 3 sentences
+
+### 5. Section Length Distribution
+
+**Typical 23-25 Page MCM Paper**:
+
+| Section | Pages | Percentage |
+|---------|-------|------------|
+| Summary Sheet | 1 | 4% |
+| Introduction | 2-2.5 | 8-10% |
+| Methods (Models) | 10-12 | 40-48% |
+| Results | 4-5 | 16-20% |
+| Discussion/Conclusions | 2.5-3 | 10-12% |
+| References | 1-1.5 | 4-6% |
+| Appendices | 1-2 | 4-8% |
+
+**Key Insight**: Methods section is the LARGEST section (40-48%), not Results.
+
+### 6. Common Mistakes to Avoid
+
+**From Reference Paper Analysis**:
+
+1. **Overcrowded tables**: >8 columns or >15 rows → Split into multiple tables
+2. **Tiny figures**: <0.7\textwidth → Increase size to 0.85-0.95\textwidth
+3. **Orphan figures**: Placed far from first reference → Use `[H]` placement
+4. **Missing units**: Numbers without units → Add (medals, years, \%)
+5. **Vague references**: "as shown in Figure 3" → Be specific: "Figure 3 shows X=12.3"
+6. **Redundant captions**: "Figure 3. Results." → Include observation + implication
+7. **Excessive appendices**: >4 pages → Move to supplementary materials
+
+---
+
+## Example Sub-Phase Calls (ENHANCED)
+```
+@writer: Phase 7A - Write paper framework
+- Write Abstract (with ≥3 quantitative metrics)
+- Write Introduction (problem background + restatement + approach)
+- Write Notation table (if not in template)
+- Use mcmthesis document class
+- Output: output/paper/paper.tex
+- DO NOT write model sections yet (that's Phase 7B)
+```
+
+**Phase 7B Call** (ENHANCED):
+```
+@writer: Phase 7B - Write model sections
+
+Read output/paper/paper.tex to verify Phase 7A is complete.
+
+Then APPEND model sections following this structure FOR EACH MODEL:
+
+## Model Section Template (1.5-2.5 pages per model, NOT 2-3 pages)
+
+### Subsection 1: Model Overview (2-3 sentences)
+- What the model does
+- Which requirement(s) it addresses
+- Why this approach is appropriate
+
+### Subsection 2: Mathematical Formulation (0.75-1 page)
+- Present key equations in \begin{align}...\end{align}
+- Number all equations: \label{eq:name}
+- Define parameters IMMEDIATELY after each equation:
+  where:
+  \begin{itemize}
+    \item $X$ is [definition]
+    \item $Y$ denotes [definition]
+  \end{itemize}
+- DO NOT create separate notation tables
+
+### Subsection 3: Solution Approach (4-6 steps)
+\begin{enumerate}
+  \item [Step 1: Brief title] - 1-2 sentence description
+  \item [Step 2: Brief title] - 1-2 sentence description
+  ...
+\end{enumerate}
+
+### Subsection 4: Model Justification (1 paragraph)
+- Link to problem requirements
+- Mention why this approach is better than alternatives
+- Note any limitations (briefly)
+
+CRITICAL REQUIREMENTS:
+- Copy equations WORD-FOR-WORD from model_design.md
+- Define ALL parameters inline (after equations), NOT in separate tables
+- Each model: 1.5-2.5 pages TOTAL
+- DO NOT summarize equations
+- DO NOT create separate notation tables
+
+After writing, read back paper.tex to verify no corruption.
+```
+
+**Phase 7C Call** (ENHANCED):
+```
+@writer: Phase 7C - Integrate results data and figures
+
+Read output/paper/paper.tex to verify Phases 7A-7B are complete.
+
+Then APPEND Results section following this structure:
+
+## Results Section Template (4-5 pages)
+
+### Section 1: Results Overview (1 paragraph)
+- Summary of key findings
+- Mention 2-3 most important metrics
+
+### Section 2: Requirement-Specific Results (repeat for each requirement)
+
+#### Title
+**Context** (1-2 sentences): What this addresses
+
+**Quantitative Findings** (2-3 paragraphs):
+- Start with specific numbers
+- Integrate tables/figures HERE (at first mention, not at end)
+- Reference format: "Figure X shows Y (Observation), indicating Z (Implication)"
+
+**Table/Figure Integration**:
+Use [H] placement and relative path ../figures/
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lcc}
+\toprule
+Column 1 & Column 2 & Column 3 \\
+\midrule
+Data 1 & 123.4 & 45.6 \\
+Data 2 & 234.5 & 56.7 \\
+\bottomrule
+\end{tabular}
+\caption{[Specific finding] (Observation), indicating [implication] (Implication).
+Key metric: [number].}
+\label{tab:name}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{../figures/figure_name.png}
+\caption{[Observation with number], indicating [implication].}
+\label{fig:name}
+\end{figure}
+
+**Key Insights** (bulleted):
+- Item 1: [Specific number] → [Implication]
+- Item 2: [Specific number] → [Implication]
+
+### Section 3: Unexpected Findings (1-2 paragraphs)
+- What surprised you
+- Why it matters
+
+CRITICAL REQUIREMENTS:
+- Every claim must have a number
+- Place figures/tables at first mention using [H]
+- Use relative path: ../figures/ (NOT figures/)
+- All captions follow Observation → Implication format
+- Each figure/table referenced in text BEFORE it appears
+
+Input files:
+- output/implementation/data/results_quick_*.csv
+- output/figures/*.png (22 figures)
+
+After writing, read back paper.tex to verify no corruption.
+```
+
+**Phase 7D Call** (ENHANCED):
+```
+@writer: Phase 7D - Write analysis sections
+
+Read output/paper/paper.tex to verify Phases 7A-7C are complete.
+
+Then APPEND analysis sections:
+
+## Sensitivity Analysis Section (1-1.5 pages)
+
+For each model (1-2 paragraphs per model):
+- Parameter tested
+- Range tested
+- Results observed (with specific numbers)
+- Implications for model robustness
+
+## Strengths and Weaknesses Section (1-1.5 pages)
+
+### Strengths (3-4 focused items)
+\begin{itemize}
+  \item \textbf{[Strength 1 Title]}\\
+  [Explanation with specific example or number]
+  \item \textbf{[Strength 2 Title]}\\
+  [Explanation with specific example or number]
+\end{itemize}
+
+### Weaknesses (2-3 honest limitations with mitigations)
+\begin{itemize}
+  \item \textbf{[Weakness 1 Title]}\\
+  [Explanation + mitigation strategy]
+  \item \textbf{[Weakness 2 Title]}\\
+  [Explanation + mitigation strategy]
+\end{itemize}
+
+CRITICAL REQUIREMENTS:
+- Be specific (include numbers where possible)
+- Avoid generic strengths ("our model is comprehensive")
+- Be honest about weaknesses but provide mitigations
+- Reference sensitivity analysis plans from model_design.md
+
+After writing, read back paper.tex to verify no corruption.
+```
+
+**Phase 7E Call** (ENHANCED):
+```
+@writer: Phase 7E - Write conclusions and bibliography
+
+Read output/paper/paper.tex to verify Phases 7A-7D are complete.
+
+Then APPEND final sections:
+
+## Discussion and Conclusions Section (2.5-3 pages)
+
+### Synthesis and Conclusions (1 paragraph)
+- Primary conclusions linked to specific results
+- How results validate/challenge expectations
+
+### Response to Each Requirement (1 paragraph each)
+\subsubsection{Response to Requirement 1}
+[Clear, direct answer with numerical result]
+
+\subsubsection{Response to Requirement 2}
+[Clear, direct answer with numerical result]
+
+[Continue for all 6 requirements]
+
+### Evaluation and Bias Analysis (1-1.5 paragraphs)
+- Model effectiveness (accuracy, robustness, efficiency)
+- Potential biases: Data, Model, Computational
+- Mitigation strategies employed
+
+### Implications (1 paragraph)
+- Broader implications for the field
+- Societal, economic, or environmental relevance
+- Unexpected outcomes
+
+### Final Recommendations (1 paragraph)
+- Key takeaways
+- Contribution to solving the problem
+- Next steps for investigation
+
+## Bibliography (1-1.5 pages)
+
+\begin{thebibliography}{9}
+
+\bibitem{ref1}
+Author, A.~A., (Year). ``Title of Paper,'' \textit{Journal Name}, Vol.~X, No.~Y, pp.~123--145.
+
+[Add 8-12 references for methods, data sources, etc.]
+
+\end{thebibliography}
+
+CRITICAL REQUIREMENTS:
+- Each requirement response: Start with specific numerical answer
+- Total length: 2.5-3 pages (not 4-5 pages)
+- Include 8-12 references
+- DO NOT repeat results (synthesize, don't restate)
+
+After writing, do final read of entire paper.tex to verify completeness.
+```
+
+**Phase 7F Call** (ENHANCED):
+```
+@writer: Phase 7F - Compile LaTeX to PDF
+
+Read output/paper/paper.tex to verify it's complete.
+
+Pre-compilation checks:
+- [ ] All \includegraphics use ../figures/ (not figures/)
+- [ ] All figures referenced in text before they appear
+- [ ] All tables/figures have descriptive captions
+- [ ] Paper ≤25 pages (excluding summary sheet)
+
+Then compile LaTeX:
+cd output/paper
+pdflatex paper.tex
+pdflatex paper.tex  # Run twice for references
+
+Check exit code:
+- 0 = Success
+- Non-zero = Compilation failed
+
+If failed:
+1. Check paper.log for errors: grep -i "error" paper.log
+2. Common issues to fix:
+   - Missing } or \end{env}
+   - Math mode errors (_ or ^ outside $...$)
+   - File not found (check figure paths)
+3. Fix errors (max 3 attempts total)
+4. Retry compilation
+
+After success:
+- Verify PDF exists: ls -lh paper.pdf
+- Check page count: pdfinfo paper.pdf | grep Pages
+- Verify figures render (not placeholders)
+
+Report compilation status:
+SUCCESS: paper.pdf generated (N pages)
+FAILURE: errors encountered, specify errors
+
+After success, paper.pdf is ready for Phase 7.5 (LaTeX Gate).
+```
+
+---
+
 ## 🧠 Anti-Redundancy Principles (CRITICAL)
 
 > **"Your job is to ADD value, not duplicate existing work."**
@@ -88,6 +568,37 @@ template = "Title: {TITLE}".format_map(safe_dict)
 - Any string formatting with user-provided variables
 
 **Key Benefit**: If a variable is missing, you get `{placeholder}` instead of a crash.
+
+---
+
+## Using Methodology Evolution in Discussion Section
+
+When incorporating methodology_evolution_{i}.md insights:
+
+**Input Files Location**: `output/docs/methodology_evolution_{i}.md`
+(Generated by @metacognition_agent during Phase 5.8)
+
+**Template Reference**: `knowledge_library/templates/methodology_evolution_template.md`
+(For understanding the structure and content of methodology evolution files)
+
+**Brevity Constraint**:
+- Maximum 2 sentences per evolution item
+- Focus on the insight, not the journey
+- Omit if it doesn't directly support a conclusion
+
+**Academic Framing Examples**:
+
+❌ Too narrative:
+"We initially struggled with R-hat values exceeding 1.3, but this revealed that parameter correlations were masking convergence. After much deliberation, we..."
+
+✅ Academic:
+"Sensitivity analysis revealed R-hat > 1.3 for β parameters, indicating parameter correlation. We addressed this through reparameterization (see Section 4.2), improving convergence efficiency by 40%."
+
+**Integration Pattern**:
+1. State the technical observation
+2. Mention the refinement briefly
+3. Report the quantitative improvement
+4. Move to next point (no storytelling)
 
 ---
 
@@ -168,7 +679,7 @@ template = "Title: {TITLE}".format_map(safe_dict)
 - [ ] Looks like O Award paper when compared side-by-side
 - [ ] No amateur formatting tells
 - [ ] Would be comfortable in a journal
-- [ ] Abstract follows `templates/writing/1_abstract_template.md` (≥3 metrics)
+- [ ] Abstract follows `knowledge_library/templates/writing/1_abstract_template.md` (≥3 metrics)
 
 ---
 
@@ -188,19 +699,18 @@ template = "Title: {TITLE}".format_map(safe_dict)
 ## 🆔 [ CRITICAL NEW] LaTeX Compilation Requirement
 
 > [!CRITICAL]
-> **[ MANDATORY] You MUST compile your LaTeX paper before submitting it as "complete".**
->
-> This prevents workflow deadlocks from non-compilable LaTeX.
+> **[ MANDATORY] Phase 7F: You MUST compile your LaTeX paper before submitting it as "complete".**
+> **This prevents workflow deadlocks from non-compilable LaTeX.**
 
-### Mandatory Compilation Step
+### Mandatory Compilation Step (Phase 7F)
 
-After you complete writing `paper_{i}.tex`, you **MUST**:
+After you complete writing `paper.tex` (after Phase 7E), in Phase 7F you **MUST**:
 
 1. **Compile the LaTeX**:
    ```bash
    cd output/paper/
-   pdflatex paper_{i}.tex
-   pdflatex paper_{i}.tex  # Run twice for references
+   pdflatex paper.tex
+   pdflatex paper.tex  # Run twice for references
    ```
 
 2. **Check exit code**:
@@ -209,7 +719,7 @@ After you complete writing `paper_{i}.tex`, you **MUST**:
 
 3. **Examine errors** (if failed):
    ```bash
-   grep -i "error" paper_{i}.log
+   grep -i "error" paper.log
    ```
 
 4. **Fix errors and retry** (max 3 attempts total)
@@ -523,17 +1033,32 @@ Model [Name]:
 
 > [!CAUTION]
 > **DO NOT write the entire paper in one Write call. This causes file corruption.**
+> **This is why Phase 7 is split into sub-phases 7A-7F.**
 
-### Writing Protocol
+### Writing Protocol (Aligned with Phase 7 Sub-Phases)
 
-1. **Write Summary + Introduction first** → Save to paper.tex
+**Phase 7A** (Framework):
+1. **Write Summary + Introduction + Notation** → Save to paper.tex
 2. **Read back paper.tex** → Verify no corruption
+
+**Phase 7B** (Models):
 3. **Append Assumptions + Model sections** → Save
-4. **Read back paper.tex** → Verify no corruption  
-5. **Append Results + Analysis sections** → Save
+4. **Read back paper.tex** → Verify no corruption
+
+**Phase 7C** (Results):
+5. **Append Results section** → Save
 6. **Read back paper.tex** → Verify no corruption
-7. **Append Conclusions + Bibliography** → Save
-8. **Final read of entire paper.tex** → Verify completeness
+
+**Phase 7D** (Analysis):
+7. **Append Sensitivity + Strengths/Weaknesses** → Save
+8. **Read back paper.tex** → Verify no corruption
+
+**Phase 7E** (Conclusions):
+9. **Append Discussion + Conclusions + Bibliography** → Save
+10. **Final read of entire paper.tex** → Verify completeness
+
+**Phase 7F** (Compilation):
+11. **Compile LaTeX to PDF** → Verify PDF generated
 
 ### Corruption Detection
 

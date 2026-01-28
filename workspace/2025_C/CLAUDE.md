@@ -47,7 +47,12 @@ You are the **conductor** of the 18-agent orchestra. You don't perform individua
 | **5.8** | **Insight Extraction** | **metacognition_agent** | - | **15-20 min** |
 | 6 | Visualization | visualizer | - | 30 min |
 | **6.5** | **Visual Quality Gate** | **visualizer, Director** | **✅ VISUAL** | **5-10 min** |
-| 7 | Paper Writing | writer | ✅ PAPER | 2-3 hours |
+| **7A** | **Paper Framework** | **writer** | - | **10-15 min** |
+| **7B** | **Model Sections** | **writer** | - | **30-40 min** |
+| **7C** | **Results Integration** | **writer** | - | **15-20 min** |
+| **7D** | **Analysis Sections** | **writer** | - | **10-15 min** |
+| **7E** | **Conclusions** | **writer** | - | **10-15 min** |
+| **7F** | **LaTeX Compilation** | **writer** | - | **5-10 min** |
 | **7.5** | **LaTeX Gate** | **writer, Director** | **✅ LATEX** | **5-10 min** |
 | 8 | Summary | summarizer | ✅ SUMMARY | 30 min |
 | 9 | Polish | editor | ✅ FINAL | 30 min |
@@ -56,9 +61,9 @@ You are the **conductor** of the 18-agent orchestra. You don't perform individua
 | 10 | Final Review | advisor | - | 30 min |
 | **11** | **Self-Evolution** | **Director** | - | **5-10 min** |
 
-**New v3.1.0**: Phase 0.2 (Knowledge Retrieval) | Phase 5.8 (Insight Extraction) | Phase 9.1 (Mock Judging) | Phase 11 (Self-Evolution)
+**New v3.1.0**: Phase 0.2 (Knowledge Retrieval) | Phase 5.8 (Insight Extraction) | Phase 9.1 (Mock Judging) | Phase 11 (Self-Evolution) | **Phase 7A-7F (Paper Sub-Phases)**
 
-**Notes**: Phase 5A MANDATORY → proceed to paper, Phase 5B MANDATORY parallel (>6h) | Never skip Phases 0.5, 2, 5A, or 5B (all mandatory)
+**Notes**: Phase 5A MANDATORY → proceed to paper, Phase 5B MANDATORY parallel (>6h) | Never skip Phases 0.5, 2, 5A, or 5B (all mandatory) | **Phase 7 split into 7A-7F to prevent timeouts**
 
 **Phase Details**: See knowledge_base/phase_details.md for detailed procedures
 
@@ -108,12 +113,18 @@ You are the **conductor** of the 18-agent orchestra. You don't perform individua
 ## CRITICAL RULES
 
 > [!CAUTION] **WORK IN STRICT SEQUENTIAL ORDER - ABSOLUTE REQUIREMENT**
-> - **PHASES MUST EXECUTE IN ORDER**: Phase 0 → 0.2 → 0.5 → 1 → 1.5 → 2 → 3 → 4 → 4.5 → 5A → 5B → 5.5 → 5.8 → 6 → 6.5 → 7 → 7.5 → 8 → 9 → 9.1 → 9.5 → 10 → 11
+> - **PHASES MUST EXECUTE IN ORDER**: Phase 0 → 0.2 → 0.5 → 1 → 1.5 → 2 → 3 → 4 → 4.5 → 5A → 5B → 5.5 → 5.8 → 6 → 6.5 → **7A → 7B → 7C → 7D → 7E → 7F** → 7.5 → 8 → 9 → 9.1 → 9.5 → 10 → 11
 > - **DO NOT ENTER NEXT PHASE until previous phase is FULLY COMPLETE**
 > - Previous phase complete means: (1) All required files exist AND (2) Validation gate passed AND (3) All verdicts collected AND (4) Director approved
 > - **VIOLATION = ENTIRE WORKFLOW COMPROMISED** - Downstream agents receive incomplete/invalid inputs → Cascading failures → Unusable results
 > - Examples of WRONG: "Let's start Phase 3 while Phase 2 validation is running" | "Phase 4 can start, Phase 3 looks mostly done" | "Skip to Phase 6, Phase 5 results seem okay"
 > - **ONLY EXCEPTION**: Phase 5B (full training) runs in parallel with Phase 6-7 paper writing AFTER Phase 5A completes
+>
+> [!CAUTION] **PHASE 7 SUB-PHASE SEQUENCE (7A-7F)** - Phase 7 is split into 6 sub-phases to prevent timeout
+> - **PHASE 7 SUB-PHASES MUST EXECUTE IN ORDER**: 7A (framework) → 7B (models) → 7C (results) → 7D (analysis) → 7E (conclusions) → 7F (compilation)
+> - **EACH SUB-PHASE updates VERSION_MANIFEST.json checkpoint** - Enables resume from failure
+> - **If timeout occurs**: Resume from last completed sub-phase checkpoint
+> - **DO NOT skip sub-phases** - Each builds on previous (paper.tex grows incrementally)
 >
 > [!CAUTION] **@director FILE READING BAN** - You CANNOT read files that agents will evaluate | You MUST specify exact file paths when delegating | You MUST verify agents read the correct file | Violation → Agent evaluations contaminated → Quality gates fail
 >
@@ -427,12 +438,25 @@ When @time_validator predicts >48 hours training: **ESCALATE_TO_DIRECTOR** for d
 
 ---
 
-### Phase 5.8: Insight Extraction (Narrative Arc)
+### Phase 5.8: Methodology Evolution Documentation
 
-**Purpose**: Transform struggles into research insights
+**Purpose**: Document technical challenges, refinements, and insights
 **Agent**: @metacognition_agent
-**Output**: narrative_arc_{i}.md
-**Usage**: @writer MUST incorporate into Discussion/Conclusion
+**Output**: output/docs/methodology_evolution_{i}.md
+**Usage**: @writer incorporates insights into Discussion section (≤2 sentences per item)
+
+**Template**: knowledge_library/templates/methodology_evolution_template.md
+- Full structure with 6 sections
+- Language guidelines (forbidden/required words)
+- Quantitative requirements and examples
+- Quality checklist for validation
+
+**Academic Standards**:
+- Use neutral technical language (no "journey," "epiphany," "treasure")
+- Present limitations transparently but briefly
+- Focus on methodological progression, not storytelling
+- Align with reference paper style (e.g., 2009116.pdf limitations section)
+
 **Details**: knowledge_base/phase_details.md#phase-58
 
 ---
@@ -456,14 +480,116 @@ When @time_validator predicts >48 hours training: **ESCALATE_TO_DIRECTOR** for d
 
 ---
 
-### Phase 7: Paper Writing
+### Phase 7: Paper Writing (SPLIT INTO 7A-7F)
 
-**Purpose**: Write complete LaTeX paper
+**Purpose**: Write complete LaTeX paper in manageable chunks
 **Agent**: @writer
 **Protocol 14**: Academic style alignment
 **Protocol 15**: Observation-Implication
+**Output**: paper.tex → paper.pdf
+**Validation**: ✅ PAPER (4 agents) after Phase 7F
+
+---
+
+### Phase 7A: Paper Framework
+
+**Purpose**: Write Abstract + Introduction + Notation sections
+**Agent**: @writer
+**Input**: requirements_checklist.md, research_notes.md, narrative_arc_*.md
+**Output**: paper.tex with framework sections
+**Time**: 10-15 minutes
+**Checkpoint**: Update VERSION_MANIFEST.json with phase_7a completion
+**Next**: Phase 7B
+
+---
+
+### Phase 7B: Model Sections
+
+**Purpose**: Write complete model sections (5 models, 2-3 pages each with full math)
+**Agent**: @writer
+**Input**: model_design.md (CRITICAL - copy equations WORD-FOR-WORD)
+**Output**: paper.tex with model sections appended
+**Time**: 30-40 minutes
+**Checkpoint**: Update VERSION_MANIFEST.json with phase_7b completion
+**Next**: Phase 7C
+
+---
+
+### Phase 7C: Results Integration
+
+**Purpose**: Integrate results data and figures
+**Agent**: @writer
+**Input**: results_summary.md, output/figures/*.png, output/implementation/data/*.csv
+**Output**: paper.tex with Results section appended
+**Time**: 15-20 minutes
+**Checkpoint**: Update VERSION_MANIFEST.json with phase_7c completion
+**Next**: Phase 7D
+
+---
+
+### Phase 7D: Analysis Sections
+
+**Purpose**: Write Sensitivity + Strengths/Weaknesses sections
+**Agent**: @writer
+**Input**: model_design.md (sensitivity plans), results_summary.md
+**Output**: paper.tex with analysis sections appended
+**Time**: 10-15 minutes
+**Checkpoint**: Update VERSION_MANIFEST.json with phase_7d completion
+**Next**: Phase 7E
+
+---
+
+### Phase 7E: Conclusions
+
+**Purpose**: Write Discussion + Conclusions + Bibliography
+**Agent**: @writer
+**Input**: requirements_checklist.md, narrative_arc_*.md
+**Output**: paper.tex with conclusions and bibliography
+**Time**: 10-15 minutes
+**Checkpoint**: Update VERSION_MANIFEST.json with phase_7e completion
+**Next**: Phase 7F
+
+---
+
+### Phase 7F: LaTeX Compilation
+
+**Purpose**: Compile LaTeX to PDF and verify
+**Agent**: @writer
+**Protocol**: Mandatory compilation (see writer.md lines 188-256)
 **Output**: paper.pdf
-**Validation**: ✅ PAPER (4 agents)
+**Time**: 5-10 minutes
+**Checkpoint**: Update VERSION_MANIFEST.json with phase_7f completion
+**Next**: Phase 7.5 (LaTeX Gate)
+
+---
+
+### Phase 7 Checkpoint/Resume Protocol
+
+**Checkpoint Tracking**: After each Phase 7 sub-phase (7A-7F), update VERSION_MANIFEST.json:
+
+```json
+{
+  "phase_7a": { "status": "completed", "timestamp": "2026-01-28T14:30:00Z" },
+  "phase_7b": { "status": "completed", "timestamp": "2026-01-28T15:15:00Z" },
+  "phase_7c": { "status": "in_progress", "timestamp": "2026-01-28T15:30:00Z" }
+}
+```
+
+**Resume Capability**: If timeout occurs at Phase 7C:
+1. Check VERSION_MANIFEST.json for last completed sub-phase
+2. Resume from that sub-phase (don't redo 7A-7B)
+3. Continue from where work stopped
+
+**Director Calling Protocol**:
+```
+@writer: Phase 7A - Write paper framework (Abstract + Introduction + Notation)
+@writer: Phase 7B - Write model sections (5 models with full math)
+@writer: Phase 7C - Integrate results data and figures
+@writer: Phase 7D - Write analysis sections (Sensitivity + Strengths/Weaknesses)
+@writer: Phase 7E - Write conclusions and bibliography
+@writer: Phase 7F - Compile LaTeX to PDF
+```
+
 **Details**: knowledge_base/phase_details.md#phase-7
 
 ---

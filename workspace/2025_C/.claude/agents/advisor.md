@@ -1105,7 +1105,7 @@ Your re-verification verdict MUST:
 
 ## Anti-Patterns to Avoid
 
-Reference: `templates/writing/6_anti_patterns.md`.
+Reference: `knowledge_library/templates/writing/6_anti_patterns.md`.
 
 ### ❌ Pattern 1: Generic Advice
 "Try adjusting parameters and see what happens."

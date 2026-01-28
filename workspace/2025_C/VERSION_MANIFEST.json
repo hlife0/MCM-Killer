@@ -14,5 +14,50 @@
   "defcon_history": [],
   "agents_invoked": [],
   "checkpoints": [],
-  "final_submission": null
+  "final_submission": null,
+  "phase_7_subphases": {
+    "7A": {
+      "name": "Paper Framework",
+      "status": "pending",
+      "timestamp": null,
+      "output_file": "output/paper/paper.tex",
+      "sections": ["Abstract", "Introduction", "Notation"]
+    },
+    "7B": {
+      "name": "Model Sections",
+      "status": "pending",
+      "timestamp": null,
+      "output_file": "output/paper/paper.tex",
+      "sections": ["Model Development"]
+    },
+    "7C": {
+      "name": "Results Integration",
+      "status": "pending",
+      "timestamp": null,
+      "output_file": "output/paper/paper.tex",
+      "sections": ["Results"]
+    },
+    "7D": {
+      "name": "Analysis Sections",
+      "status": "pending",
+      "timestamp": null,
+      "output_file": "output/paper/paper.tex",
+      "sections": ["Sensitivity Analysis", "Strengths and Weaknesses"]
+    },
+    "7E": {
+      "name": "Conclusions",
+      "status": "pending",
+      "timestamp": null,
+      "output_file": "output/paper/paper.tex",
+      "sections": ["Discussion and Conclusions", "Bibliography"]
+    },
+    "7F": {
+      "name": "LaTeX Compilation",
+      "status": "pending",
+      "timestamp": null,
+      "output_file": "output/paper/paper.pdf",
+      "sections": ["PDF Compilation"]
+    }
+  },
+  "phase_7_resume_point": null
 }

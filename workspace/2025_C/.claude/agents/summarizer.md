@@ -392,7 +392,7 @@ Summary must fit on exactly 1 page after LaTeX compilation.
 
 ## Anti-Patterns to Avoid
 
-Reference: `templates/writing/6_anti_patterns.md`.
+Reference: `knowledge_library/templates/writing/6_anti_patterns.md`.
 
 ### ❌ Pattern 1: Adjective Inflation
 "Our groundbreaking revolutionary approach achieves exceptional performance."

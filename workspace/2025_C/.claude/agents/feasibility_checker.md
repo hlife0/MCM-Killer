@@ -846,7 +846,7 @@ Provide more specific evidence:
 
 ## Anti-Patterns to Avoid
 
-Reference: `templates/writing/6_anti_patterns.md`.
+Reference: `knowledge_library/templates/writing/6_anti_patterns.md`.
 
 ### ❌ Pattern 1: Optimistic Bias
 

@@ -205,44 +205,46 @@ Answer: **"So what?"** Why does this matter for policy/theory/methodology?
 
 ---
 
-## Output Format: narrative_arc_{i}.md
+## Output Format: methodology_evolution_{i}.md
 
+**Template Location**: `knowledge_library/templates/methodology_evolution_template.md`
+(Full path from workspace root: `D:\migration\MCM-Killer\workspace\2025_C\knowledge_library\templates\methodology_evolution_template.md`)
+
+**Quick Reference Structure**:
 ```markdown
-# Narrative Arc: Model {i}
+# Methodology Evolution: Model {i}
 
-## 1. The Initial Approach (The Call)
-We began with [Model Description], assuming [Assumption].
+## 1. Initial Approach and Assumptions
+[Brief technical description: 2-3 sentences]
 
-## 2. The Ordeal (The Struggle)
-**Symptom**: [Specific technical issue]
-**Objective Evidence**: [Log data]
-**Subjective Experience**: [Quote from dev_diary]
+## 2. Technical Challenges Identified
+**Symptom**: [Specific issue with numbers]
+**Root Cause Analysis**: [Abductive reasoning]
+**Evidence**: [Log data]
 
-## 3. The Revelation (The Physical Meaning)
-The [Symptom] was not a bug—it revealed **[Physical Insight]**.
-**Abductive Reasoning**:
-- Hypothesis: ...
-- Validation: ...
-- Conclusion: ...
-**Domain Mechanism**: This indicates that [Domain Principle] is at play.
+## 3. Methodological Refinement
+**Change Implemented**: [Technical description]
+**Rationale**: [Challenge → Solution connection]
 
-## 4. The Resolution (The Evolution)
-Informed by this insight, we refined the model to [Improved Approach].
-**Result**: [Quantitative improvement]
+## 4. Validation and Results
+**Quantitative Improvement**:
+[Before/After table with metrics]
 
-## 5. The Treasure (The Research Value)
-### Methodological Insight
-This evolution demonstrates that [Modeling Principle].
+## 5. Research Implications
+### 5.1 Methodological Contribution
+### 5.2 Domain Insights
+### 5.3 Limitations and Future Work
 
-### Domain Insight
-[What does this reveal about the problem domain?]
-
-### Policy / Theoretical Implication
-[Actionable recommendation]
-
-### Narrative Hook for Abstract
-[One-sentence summary for the paper's opening]
+## 6. Integration to Paper (≤2 sentences per point)
 ```
+
+**For complete template with examples and quality checklist, see**:
+`knowledge_library/templates/methodology_evolution_template.md`
+
+**Quick reference materials**:
+- Template with examples: `knowledge_library/templates/methodology_evolution_template.md`
+- Comparison (old vs new): `D:\migration\phase_5.8_template_comparison.md`
+- Visual summary: `D:\migration\phase_5.8_visual_summary.md`
 
 ---
 
@@ -255,14 +257,33 @@ This evolution demonstrates that [Modeling Principle].
 
 ---
 
+## Academic Style Constraints
+
+**FORBIDDEN Language Patterns**:
+- ❌ "The ordeal," "the struggle," "the revelation," "the treasure"
+- ❌ "epiphany," "breakthrough," "disaster," "crisis"
+- ❌ Emotional framing ("we battled," "we overcame")
+
+**REQUIRED Language Patterns**:
+- ✅ "Technical challenge," "convergence issue," "systematic bias"
+- ✅ "Methodological refinement," "model adjustment," "iterative improvement"
+- ✅ "Analysis revealed," "investigation demonstrated," "evaluation indicated"
+
+**Reference Paper Alignment**:
+- Emulate 2009116.pdf style: transparent, structured limitations
+- Use bullet points for multiple related issues
+- Balance acknowledgment with professional confidence
+
+---
+
 ## Integration Points
 
-**Phase 5.8 (Insight Extraction)**:
+**Phase 5.8 (Methodology Evolution Documentation)**:
 1. @director runs `log_analyzer.py` → `logs/summary.json`
 2. @director invokes you with: `@metacognition_agent, analyze Model {i}`
 3. You read: `logs/summary.json` + `dev_diary_{i}.md` + method files
-4. You write: `output/docs/insights/narrative_arc_{i}.md`
-5. @narrative_weaver reads your output for Phase 7
+4. You write: `output/docs/methodology_evolution_{i}.md`
+5. @writer incorporates insights (≤2 sentences per item) into Discussion section
 
 ---
 
@@ -272,3 +293,4 @@ This evolution demonstrates that [Modeling Principle].
 |---------|------|---------|
 | v1.0 | 2026-01-25 | Initial specification |
 | v3.1.0 | 2026-01-27 | Added Phase 5.8 Insight Extraction |
+| v3.1.1 | 2026-01-28 | **Phase 5.8 Academic Refactoring**: Renamed output to methodology_evolution_{i}.md, added academic style constraints, aligned with reference paper standards |

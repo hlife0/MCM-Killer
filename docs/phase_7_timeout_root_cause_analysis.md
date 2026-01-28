@@ -568,4 +568,259 @@ For investigation and verification:
 
 ---
 
+---
+
+## Implementation: Phase 7 Sub-Phase Solution
+
+**Status**: ✅ **IMPLEMENTED** (2026-01-28)
+
+### Changes Made
+
+#### 1. Updated `CLAUDE.md` (Director's Master Control)
+
+**Phase Table Updated** (lines 31-58):
+- Split Phase 7 into Phase 7A-7F in the workflow table
+- Each sub-phase has specific time estimates (10-40 minutes)
+- Updated notes to indicate Phase 7 split for timeout prevention
+
+**Phase 7 Section Expanded** (lines 459-570):
+- Added detailed documentation for each sub-phase (7A-7F)
+- Specified inputs, outputs, and time estimates for each
+- Added checkpoint tracking requirements
+- Added resume capability documentation
+- Updated Director calling protocol with specific sub-phase examples
+
+**Critical Rules Updated** (lines 110-117):
+- Added Phase 7 sub-phase sequence requirement to strict sequential order rule
+- Specified that each sub-phase must update VERSION_MANIFEST.json checkpoint
+- Clarified resume capability from last completed checkpoint
+
+#### 2. Updated `writer.md` (@writer Agent Configuration)
+
+**Added "Phase 7 Sub-Phases" Section** (after line 30):
+- Comprehensive explanation of the 6 sub-phases
+- Table showing each sub-phase, sections, time estimate, and output
+- Checkpoint tracking protocol
+- Resume capability instructions
+- Example sub-phase calls from @director
+
+**Updated "WRITE IN SECTIONS" Section** (lines 522-546):
+- Aligned section-by-section protocol with Phase 7 sub-phases
+- Mapped each writing step to specific sub-phase (7A-7F)
+- Made it explicit that this is why Phase 7 is split
+
+**Updated LaTeX Compilation Section** (lines 188-256):
+- Clarified this is Phase 7F (final sub-phase)
+- Emphasized mandatory compilation before submitting paper as "complete"
+
+#### 3. Updated `VERSION_MANIFEST.json` (Checkpoint Tracking)
+
+**Added Phase 7 Sub-Phase Tracking**:
+```json
+{
+  "phase_7_subphases": {
+    "7A": {
+      "name": "Paper Framework",
+      "status": "pending",
+      "timestamp": null,
+      "output_file": "output/paper/paper.tex",
+      "sections": ["Abstract", "Introduction", "Notation"]
+    },
+    "7B": {
+      "name": "Model Sections",
+      "status": "pending",
+      "timestamp": null,
+      "output_file": "output/paper/paper.tex",
+      "sections": ["Model Development"]
+    },
+    "7C": {
+      "name": "Results Integration",
+      "status": "pending",
+      "timestamp": null,
+      "output_file": "output/paper/paper.tex",
+      "sections": ["Results"]
+    },
+    "7D": {
+      "name": "Analysis Sections",
+      "status": "pending",
+      "timestamp": null,
+      "output_file": "output/paper/paper.tex",
+      "sections": ["Sensitivity Analysis", "Strengths and Weaknesses"]
+    },
+    "7E": {
+      "name": "Conclusions",
+      "status": "pending",
+      "timestamp": null,
+      "output_file": "output/paper/paper.tex",
+      "sections": ["Discussion and Conclusions", "Bibliography"]
+    },
+    "7F": {
+      "name": "LaTeX Compilation",
+      "status": "pending",
+      "timestamp": null,
+      "output_file": "output/paper/paper.pdf",
+      "sections": ["PDF Compilation"]
+    }
+  },
+  "phase_7_resume_point": null
+}
+```
+
+**Features**:
+- Tracks status for each sub-phase (pending/in_progress/completed)
+- Records timestamp when each sub-phase completes
+- Stores output file path for verification
+- Lists sections included in each sub-phase
+- Provides resume point for failure recovery
+
+---
+
+## How the New System Works
+
+### Director Workflow
+
+**Before (Monolithic - Causes Timeout)**:
+```
+@director calls @writer: "Write the complete LaTeX paper"
+↓
+@writer attempts to generate 5000+ words in one call
+↓
+TIMEOUT after ~4 hours
+↓
+All work lost, must restart
+```
+
+**After (Sub-Phases - No Timeout)**:
+```
+Phase 6.5 Complete → Checkpoint updated
+↓
+@director calls @writer: "Phase 7A - Write paper framework"
+↓
+@writer writes Abstract + Introduction + Notation (10-15 min)
+↓
+Update VERSION_MANIFEST.json: phase_7_subphases.7A.status = "completed"
+↓
+@director calls @writer: "Phase 7B - Write model sections"
+↓
+@writer appends model sections (30-40 min)
+↓
+Update VERSION_MANIFEST.json: phase_7_subphases.7B.status = "completed"
+↓
+[Continue through 7C, 7D, 7E, 7F]
+↓
+Phase 7F: Compile LaTeX → paper.pdf generated
+↓
+Phase 7 complete → Proceed to Phase 7.5 (LaTeX Gate)
+```
+
+### Failure Recovery
+
+**Scenario**: Timeout occurs during Phase 7C (Results Integration)
+
+**Old System**: All work lost, restart from Phase 7A
+
+**New System**:
+1. Check VERSION_MANIFEST.json
+2. See that 7A and 7B are completed
+3. Resume from Phase 7C (skip 7A-7B)
+4. Continue to 7D, 7E, 7F
+
+**Result**: Only lose work from failed sub-phase, not entire paper
+
+---
+
+## Testing Checklist
+
+### Pre-Implementation Verification
+
+- [x] CLAUDE.md updated with Phase 7A-7F definitions
+- [x] writer.md updated with sub-phase protocol
+- [x] VERSION_MANIFEST.json enhanced with checkpoint tracking
+- [x] Documentation updated (this file)
+
+### Post-Implementation Testing
+
+**Test 1: Sequential Execution**
+- [ ] Run Phase 7A-7F sequentially
+- [ ] Verify each sub-phase completes in estimated time
+- [ ] Verify VERSION_MANIFEST.json updated after each
+- [ ] Verify paper.tex grows incrementally
+- [ ] Verify no timeout errors
+
+**Test 2: Resume Capability**
+- [ ] Complete Phase 7A-7B
+- [ ] Simulate timeout at Phase 7C
+- [ ] Resume from Phase 7C
+- [ ] Verify 7A-7B not redone
+- [ ] Verify final paper is complete
+
+**Test 3: End-to-End**
+- [ ] Run full competition (Phases 0-11)
+- [ ] Verify Phase 7 completes successfully
+- [ ] Verify paper.pdf compiles
+- [ ] Verify can proceed to Phase 8-11
+
+**Test 4: Quality Verification**
+- [ ] Verify all models included with full math
+- [ ] Verify all results integrated
+- [ ] Verify all figures embedded
+- [ ] Verify paper compiles without errors
+- [ ] Verify PDF is ≤25 pages
+
+---
+
+## Expected Outcomes
+
+### Before Implementation
+
+| Metric | Value |
+|--------|-------|
+| Phase 7 Success Rate | 0% (3/3 attempts timed out) |
+| Time to Failure | ~4 hours (wasted) |
+| Resume Capability | None |
+| End-to-End Success Rate | 0% |
+
+### After Implementation (Expected)
+
+| Metric | Value |
+|--------|-------|
+| Phase 7 Success Rate | >95% (sub-phases manageable) |
+| Time to Complete Phase 7 | 80-115 minutes |
+| Resume Capability | Yes (from last checkpoint) |
+| End-to-End Success Rate | >80% |
+
+---
+
+## Rollback Plan
+
+If the sub-phase approach causes issues:
+
+1. **Revert CLAUDE.md** to previous version (remove 7A-7F)
+2. **Revert writer.md** to previous version (remove sub-phase instructions)
+3. **Revert VERSION_MANIFEST.json** to previous schema
+4. **Document issues** in this file
+5. **Consider alternative approaches** (Solutions 2-4 from recommendations)
+
+---
+
+## Future Enhancements
+
+### Short Term (Next Competition)
+
+1. **Progressive PDF Generation**: Generate intermediate PDFs after each sub-phase for visual verification
+2. **Automated Quality Checks**: Run LaTeX linter after each sub-phase to catch errors early
+3. **Backup/Restore**: Automatic backup of paper.tex before each sub-phase write
+
+### Long Term (System Architecture)
+
+1. **Streaming Output**: Implement token-by-token streaming for real-time progress
+2. **Parallel Section Writing**: Write multiple independent sections in parallel (with merge)
+3. **Automated Failover**: If sub-phase fails, automatically retry with simplified scope
+
+---
+
 **End of Analysis**
+
+**Last Updated**: 2026-01-28
+**Implementation Status**: ✅ Complete
+**Ready for Testing**: Yes
