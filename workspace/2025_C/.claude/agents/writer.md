@@ -617,9 +617,262 @@ When incorporating methodology_evolution_{i}.md insights:
 - Avoid weak verbs (“use”, “show”, “make”) and banned phrases listed in the style guide
 - Match certainty level to evidence (“suggests/indicates” vs “demonstrates”)
 
-### Protocol 15 Caption Template (MANDATORY)
+### Caption Template (MANDATORY - UPDATED)
 - ❌ **BAD**: `Figure 3 shows X vs Y.`
-- ✅ **REQUIRED**: `Figure 3: [Finding] (Observation), indicating [meaning] (Implication). Key number: [value or %].`
+- ✅ **REQUIRED (4-Element Enhanced)**: `Figure 3: [Finding] (Observation), indicating [meaning] (Implication). This [challenges expectations/reveals pattern] (Story), suggesting [actionable insight] (Takeaway). Key number: [value or %].`
+
+**Enhanced Caption Structure**:
+1. **Observation**: What the data shows (specific numbers)
+2. **Implication**: What it means (interpretation)
+3. **Story**: How it challenges expectations (narrative element)
+4. **Takeaway**: Actionable insight (so what?)
+
+Example:
+```latex
+\caption{Small nations face 99.3\% relative uncertainty compared to 78.4\% for superpowers (Observation),
+indicating that prediction error scales inversely with country size (Implication). This contradicts the
+intuition that larger datasets should reduce relative uncertainty (Story), mandating flexible budgeting
+approaches with tiered funding commitments rather than fixed medal targets (Takeaway). Key number: 99.3\%
+CI width for 2.5-medal countries vs. 78.4\% for 38.2-medal countries.}
+```
+
+---
+
+## 🆔 [ CRITICAL NEW] O-Prize Visual Storytelling Elements
+
+> [!CRITICAL]
+> **O-Prize papers are "flexible but present really eye-catching results."**
+> **Reference papers use professional techniques: strategic bolding, data-driven storytelling, and complete caption structures.**
+>
+> **NO EMOJIS, NO BOXES, NO DECORATIVE ELEMENTS** - These are unprofessional.
+
+### 1. Strategic Emphasis Paragraphs (3-5 per paper)
+
+**Purpose**: Highlight counterintuitive findings using professional formatting
+
+**Technique**: Use **bold title** + structured paragraph with specific numbers
+
+**Template**:
+```latex
+\textbf{[Finding Title]}: [Specific number] [measurement] contradicts [expectation].
+This [challenges theory/reveals pattern], suggesting [implication]. [Supporting evidence].
+```
+
+**Example** (from reference paper style):
+```latex
+\textbf{The 2.0 Medal Floor}: 79 countries (51\% of NOCs) are predicted to win exactly
+2.0 medals with identical 95\% prediction intervals (1.0--3.0). This clustering reveals
+an artificial ceiling where the model cannot distinguish between countries, contradicting
+the expectation that predictions should vary continuously across nations.
+```
+
+**When to Use**:
+- Counterintuitive results (e.g., "Host advantage: +1.5\% not 10-20\%")
+- Policy recommendations (e.g., "Target middle-power nations for highest ROI")
+- Methodological discoveries (e.g., "Convergence revealed identifiability constraints")
+- Unexpected patterns (e.g., "Gold efficiency gap")
+- Avoid: Routine results, obvious conclusions
+
+**Full Templates**: See `knowledge_library/templates/writing/insight_box_templates.md`
+
+### 2. Narrative Hooks (Compelling Openers)
+
+**Purpose**: Grab attention with specific numbers and contrast/comparison
+
+**Technique**: Specific numbers + challenge expectations + progressive revelation
+
+**Template A: Surprising Fact Hook**
+```latex
+\section{Introduction}
+
+The 2024 Paris Games featured Albania earning its first-ever Olympic medal, while
+more than 60 countries remain medalless after decades of participation. This
+dichotomy reveals that Olympic success is threshold-governed, not continuous.
+```
+
+**Template B: Problem Gap Hook**
+```latex
+\section{Introduction}
+
+Conventional wisdom holds that [common belief]. However, [specific evidence] reveals
+[contradiction], creating a critical gap: [gap description]. Our analysis addresses
+this by [approach].
+```
+
+**Template C: Counterintuitive Result Hook**
+```latex
+\subsection{[Section Title]}
+
+\textbf{The Unexpected Discovery}: [Specific number] [measurement units] contradicts the
+expectation that [common assumption]. This [reveals pattern/challenges theory].
+```
+
+### 3. Strategic Emphasis Guidelines
+
+**Principle**: Use emphasis strategically to guide reader attention, not decorate
+
+**DO** (aligned with reference papers):
+- Bold key phrases in emphasized paragraphs: `\textbf{The 2.0 Medal Floor}: ...`
+- Emphasize critical metrics: "reduces response time by \textbf{67\%}"
+- Use italics for emphasis sparingly: "\textit{contrary to established literature}"
+- Color section titles if using colored headers (consistent throughout)
+
+**DON'T** (unprofessional):
+- NO emojis (🔍, 💡, etc.) - these are never used in academic papers
+- NO boxes/fboxes around text - decorative, not substantive
+- NO underlining - non-academic formatting
+- NO ALL CAPS - unprofessional
+- NO multiple colors in one sentence - confusing
+- NO colored text within paragraphs - hard to read
+
+### 4. Section Transition Requirements
+
+**Purpose**: Create narrative flow between sections
+
+**Transition Templates**:
+```latex
+[End of Section 3]
+Having established [key finding from Section 3], we now turn to [Section 4 topic].
+
+[Alternative]
+The [Section 3 finding] reveals [implication]. This motivates our investigation of
+[Section 4 topic].
+
+[Alternative]
+While [Section 3] addressed [aspect], [Section 4] examines [related aspect].
+```
+
+### 5. "What We Discovered" Section Template
+
+**Purpose**: Synthesize key insights at end of Results/Discussion
+
+```latex
+\subsection{What We Discovered}
+
+Our analysis revealed six counterintuitive patterns that challenge conventional wisdom:
+
+\begin{enumerate}
+  \item \textbf{The "2.0 Medal Floor"}: 79 countries (51\% of NOCs) face identical baseline
+  predictions, revealing an artificial ceiling breakable through targeted bronze conversion
+  strategies.
+
+  \item \textbf{Host Advantage Overrated}: USA receives only +1.9 medals (+1.5\%) from hosting
+  in 2028, contradicting 10--20\% conventional wisdom.
+
+  \item [Continue 4-6 more insights with specific numbers]
+\end{enumerate}
+```
+
+---
+
+## 🆔 [ CRITICAL NEW] O-Prize Quality Metrics
+
+> [!CRITICAL]
+> **Before marking paper as complete, verify these O-Prize quality standards.**
+> **O-Prize papers balance technical rigor (100% math accuracy) + narrative engagement.**
+
+### Narrative Engagement Checklist
+
+**Opening Hook**:
+- [ ] Introduction starts with specific numbers (not generic statements)
+- [ ] First paragraph includes at least 2 quantitative facts
+- [ ] Hook challenges conventional wisdom or presents surprising fact
+- [ ] Example: "The 2024 Paris Games featured Albania earning its first-ever Olympic medal, while more than 60 countries remain medalless after decades of participation."
+
+**Section Transitions**:
+- [ ] Each section ends with transition to next section
+- [ ] Transitions connect findings (not just "Next we address...")
+- [ ] Narrative flow is coherent (story arc from problem → solution → insights)
+
+**Strategic Emphasis Paragraphs** (3-5 per paper):
+- [ ] At least 3 emphasized paragraphs highlight key discoveries
+- [ ] Each emphasized paragraph includes specific numbers
+- [ ] Emphasized paragraphs use bold titles: `\textbf{The Title}: ...`
+- [ ] NO emojis, NO boxes, NO decorative formatting (unprofessional)
+
+**"What We Discovered" Section**:
+- [ ] Results or Discussion section includes "What We Discovered" subsection
+- [ ] Lists 3-6 key insights with specific numbers
+- [ ] Insights are synthesized (not just repeating results)
+- [ ] Insights challenge conventional wisdom
+
+### Visual Storytelling Checklist
+
+**Enhanced Captions** (4-element format):
+- [ ] All figure captions follow: Observation → Implication → Story → Takeaway
+- [ ] All table captions follow 4-element format
+- [ ] Every caption includes at least one specific number
+- [ ] Captions tell a story (not just describe what's shown)
+
+**Color and Emphasis**:
+- [ ] Strategic use of bold for key numbers/insights (not overused)
+- [ ] Section titles use color sparingly (if using colored headers)
+- [ ] No ALL CAPS or underlining (unprofessional)
+- [ ] Emphasis supports narrative (doesn't distract)
+
+### Eye-Catching Results Checklist
+
+**Counterintuitive Findings**:
+- [ ] Abstract mentions at least one counterintuitive finding
+- [ ] Introduction highlights what challenges expectations
+- [ ] Results section includes "Unexpected Findings" subsection
+- [ ] Discussion section explains why findings are surprising
+
+**Specific Numbers**:
+- [ ] Every claim has a supporting number
+- [ ] Abstract contains ≥3 quantitative metrics
+- [ ] Key numbers are repeated in multiple sections (reinforcement)
+- [ ] Numbers use appropriate precision (not false precision)
+
+**Actionable Insights**:
+- [ ] Results include implications for policy/practice
+- [ ] Insights are specific (not vague recommendations)
+- [ ] "So what?" is answered for each key finding
+- [ ] Takeaways are actionable (not just observations)
+
+### Balance Verification (Critical)
+
+**Technical Rigor Check**:
+- [ ] All equations copied word-for-word from model_design.md
+- [ ] All parameters defined with exact wording
+- [ ] Mathematical notation is consistent throughout
+- [ ] No summarizing or paraphrasing of math content
+
+**Narrative Engagement Check**:
+- [ ] Paper uses compelling hooks (not generic openings)
+- [ ] Narrative flow is coherent (story arc present)
+- [ ] Key findings emphasized with insight boxes
+- [ ] Enhanced captions provide context, not just descriptions
+
+**Brevity Check** (No Soap Opera):
+- [ ] Methodology struggles limited to ≤2 sentences each
+- [ ] No storytelling about "our journey" or "epiphany"
+- [ ] Struggles presented as technical observations, not narratives
+- [ ] Focus on insights, not process
+
+**Synthesis Check** (Not Formulaic):
+- [ ] Paper doesn't follow rigid predictable structure
+- [ ] Narrative connections between sections (not just section headings)
+- [ ] Insights synthesized from multiple sources (not rote copying)
+- [ ] Paper would be memorable to judges (not blends in)
+
+### O-Prize Quality Thresholds
+
+**Minimum Standards**:
+- ✅ 3+ insight boxes highlighting key discoveries
+- ✅ Enhanced captions (4-element) on all major figures/tables
+- ✅ Compelling hook in introduction (specific numbers)
+- ✅ "What We Discovered" section in Results/Discussion
+- ✅ Abstract with ≥3 quantitative metrics
+- ✅ 100% math accuracy (equations copied word-for-word)
+
+**O-Prize Excellence Standards**:
+- ✅ 5+ insight boxes strategically placed
+- ✅ Narrative hooks in multiple sections (not just intro)
+- ✅ Counterintuitive findings emphasized throughout
+- ✅ Story arc: problem → solution → unexpected insights → implications
+- ✅ Every major finding has "so what?" answered
+- ✅ Paper would be memorable to judges 6 months later
 
 ---
 
@@ -954,78 +1207,104 @@ Before writing ANY section, you MUST:
 4. **Read `results_summary.md`** - Extract ALL numerical results
 5. **List `output/figures/`** - Note EVERY figure file
 
-### 🚨 CRITICAL: How to Handle `model_design.md`
+### 🚨 CRITICAL: Three-Tier Integration Protocol (O-Prize Quality)
 
-> [!DANGER]
-> **DO NOT SUMMARIZE. DO NOT PARAPHRASE. COPY-ADAPT-PASTE.**
+> [!CRITICAL]
+> **COPY-ADAPT-SYNTHESIZE: Balance technical rigor with narrative engagement.**
+>
+> **Core Philosophy**: "Copy mathematics, synthesize narrative, enable visual storytelling"
 
-**WRONG APPROACH (What causes failure):**
+---
+
+## Three-Tier Protocol
+
+### Tier 1: Mathematical Content (COPY WORD-FOR-WORD)
+**Elements**: Equations, parameters, algorithms, constraints, objective functions
+**Rule**: PRESERVE 100% TECHNICAL ACCURACY
+**Action**: Copy word-for-word from model_design.md
+**Rationale**: Mathematical precision is non-negotiable for technical rigor
+
 ```
-❌ "The model uses a regression approach to predict outcomes."
-❌ "We developed an optimization model with constraints."
-❌ "Assumptions include linearity and independence."
-```
-**These are USELESS summaries. They earn 0 points.**
-
-**CORRECT APPROACH (What O-Prize papers do):**
-```latex
-✅ Copy the FULL mathematical formulation from model_design.md:
-
-\subsection{Model for Requirement 1: [Exact Name from model_design.md]}
-
-\subsubsection{Assumptions}
-\begin{enumerate}
-  \item [Exact assumption 1 text from model_design.md] \\
-  \textbf{Justification:} [Exact justification text]
-  \item [Exact assumption 2 text from model_design.md] \\
-  \textbf{Justification:} [Exact justification text]
-\end{enumerate}
-
-\subsubsection{Mathematical Formulation}
-The objective function is:
+✅ CORRECT: Copy exact LaTeX from model_design.md
 \begin{equation}
-  \min_{x} \quad f(x) = \sum_{i=1}^{n} [exact formula from model_design.md] \label{eq:obj}
+  \min_{x} \quad f(x) = \sum_{i=1}^{n} [exact formula] \label{eq:obj}
 \end{equation}
 
-Subject to:
-\begin{align}
-  \sum_{j=1}^{m} a_{ij}x_j &\leq b_i, \quad \forall i \in I \label{eq:constraint1} \\
-  x_j &\geq 0, \quad \forall j \in J \label{eq:constraint2}
-\end{align}
-
-where:
-\begin{itemize}
-  \item $x_j$ represents [exact definition from model_design.md notation table]
-  \item $a_{ij}$ is the [exact definition]
-  \item $b_i$ denotes [exact definition]
-\end{itemize}
-
-\subsubsection{Solution Method}
-[Copy the complete algorithm description from model_design.md]
-Include all steps, parameters, and implementation details.
+❌ WRONG: Summarize or paraphrase equations
+"The model minimizes a cost function..."
 ```
 
-### Integration Verification
+### Tier 2: Technical Context (ADAPT FOR FLOW)
+**Elements**: Model overviews, assumptions, solution approach descriptions
+**Rule**: PRESERVE MEANING, IMPROVE READABILITY
+**Action**: Adapt phrasing for narrative flow, maintain technical accuracy
+**Rationale**: Context needs readability while preserving substance
 
-For EACH model in `model_design.md`, verify you have copied:
+```
+✅ CORRECT: Adapt for flow
+"We employ a hurdle model that separates medal-winning probability from count distribution,
+capturing the threshold effect between non-medalists and medalists."
+
+❌ WRONG: Rote copying that breaks narrative flow
+"The model is a hurdle model. A hurdle model is defined as..."
+```
+
+### Tier 3: Narrative & Visuals (SYNTHESIZE)
+**Elements**: Compelling hooks, insight boxes, narrative connections, enhanced captions
+**Rule**: CREATE ENGAGING NARRATIVE FROM INSIGHTS
+**Action**: Synthesize from narrative_arc_*.md and research insights
+**Rationale**: O-Prize papers tell stories with data, not just report data
+
+```
+✅ CORRECT: Synthesize compelling narrative
+"🔍 \textbf{The 2.0 Medal Floor}: Our model revealed 79 countries (51\% of NOCs)
+predicted to win exactly 2.0 medals—a self-reinforcing ceiling that constrains small nations."
+
+❌ WRONG: Generic formulaic text
+"The model shows that 79 countries have 2.0 medals predicted."
+```
+
+---
+
+## Decision Framework: When to Copy vs. Synthesize
+
+| Content Type | Strategy | Example |
+|--------------|----------|---------|
+| **Equations** | COPY (word-for-word) | All \begin{equation}...\end{equation} blocks |
+| **Parameters** | COPY (exact definitions) | "where $X$ denotes [exact definition from model_design.md]" |
+| **Constraints** | COPY (exact LaTeX) | All \begin{align}...\end{align} blocks |
+| **Model Overview** | ADAPT (improve flow) | 2-3 sentences explaining what + why |
+| **Assumptions** | COPY (exact text) | Word-for-word from model_design.md |
+| **Narrative Hooks** | SYNTHESIZE (create new) | Use narrative_hook_templates.md |
+| **Insight Boxes** | SYNTHESIZE (create new) | Use insight_box_templates.md |
+| **Captions** | ENHANCE (4-element) | obs → impl → story → takeaway |
+| **Section Openers** | SYNTHESIZE (engaging) | Hook reader with specific numbers |
+| **Methodology Struggles** | SUMMARIZE (≤2 sentences) | From methodology_evolution_*.md |
+
+---
+
+## Integration Verification (UPDATED)
+
+For EACH model in `model_design.md`, verify:
 
 ```
 Model [Name]:
-  [ ] Full model name and purpose
-  [ ] ALL assumptions (with justifications) - word-for-word
-  [ ] COMPLETE objective function/expression
-  [ ] ALL constraints (if optimization model)
-  [ ] ALL parameter definitions
-  [ ] COMPLETE variable notation table
-  [ ] Full solution approach/algorithm
-  [ ] Sensitivity analysis plan
+  [ ] Full model name and purpose (ADAPT for flow)
+  [ ] ALL assumptions (COPY word-for-word)
+  [ ] COMPLETE equations (COPY exact LaTeX)
+  [ ] ALL parameters (COPY exact definitions)
+  [ ] Solution approach (ADAPT for readability)
+  [ ] Insight boxes for key discoveries (SYNTHESIZE 1-2)
+  [ ] Enhanced captions (4-element format)
+  [ ] Narrative hooks (compelling opener)
 ```
 
 > [!DANGER]
-> **If any checkbox is empty, YOU HAVE FAILED.**
+> **Math accuracy is absolute. Narrative engagement is mandatory.**
 >
-> O-Prize papers typically have 2-3 pages of mathematical formulations per model.
-> If your model section is only 3-4 paragraphs, it's TOO SHORT.
+> - If equations aren't exact → TECHNICAL FAILURE
+> - If paper is formulaic/dry → O-PRIZE FAILURE
+> - O-Prize papers balance rigor (100% math accuracy) + engagement (hooks, insights, flow)
 
 ---
 
@@ -1069,6 +1348,145 @@ After EACH write, read back the file and check for:
 - Garbled LaTeX commands
 
 If corruption detected: DELETE the file and rewrite that section.
+
+---
+
+## 🆔 [ CRITICAL NEW] Narrative Flow Requirements
+
+> [!CRITICAL]
+> **O-Prize papers tell coherent stories, not just present sequential sections.**
+> **Each section must connect to the next, creating narrative engagement.**
+
+### 1. Section Transitions (MANDATORY)
+
+**Purpose**: Create coherent flow between sections
+
+**Requirement**: Each section MUST end with a transition to the next section
+
+**Transition Templates**:
+```latex
+[At end of Section N]
+Having established [key finding], which demonstrates [implication], we now turn to
+[Section N+1 topic]. This [connection/motivation] is critical because [reason].
+
+[Alternative]
+The [Section N finding] reveals [implication]. This motivates our investigation of
+[Section N+1 topic].
+
+[Alternative]
+While [Section N] addressed [aspect], [Section N+1] examines [related aspect].
+```
+
+**Quality Check**:
+- [ ] Each section ends with transition sentence
+- [ ] Transitions connect findings (not just "Next we address...")
+- [ ] Narrative flow is coherent (story arc from problem → solution → insights)
+
+### 2. Section Opening Hooks (MANDATORY)
+
+**Purpose**: Grab attention with specific numbers and surprising facts
+
+**Requirement**: Each major section MUST start with compelling hook (2-3 sentences)
+
+**Hook Templates**:
+```latex
+\section{[Section Title]}
+
+[Specific number] [measurement] reveals [surprising truth], contradicting [common
+assumption]. This [pattern/finding] exposes [fundamental principle]. [Context/significance]
+```
+
+**Example (Results Section)**:
+```latex
+\section{Results}
+
+The United States receives only +1.9 medals (+1.5\% increase) from hosting the 2028
+Games, contradicting the expectation that host nations gain 10--20\% medal advantages.
+This diminished host advantage effect suggests that coaching globalization and reduced
+travel barriers have eroded traditional home-field benefits.
+```
+
+**Quality Check**:
+- [ ] Section opening includes specific number(s)
+- [ ] Hook challenges expectations or presents surprising fact
+- [ ] Hook connects directly to section content
+- [ ] Maximum 3 sentences (concise)
+
+### 3. "What We Discovered" Section (REQUIRED)
+
+**Purpose**: Synthesize key insights at end of Results or Discussion
+
+**Requirement**: Results or Discussion section MUST include "What We Discovered" subsection
+
+**Template**:
+```latex
+\subsection{What We Discovered}
+
+Our analysis revealed [number] counterintuitive patterns that challenge conventional wisdom:
+
+\begin{enumerate}
+  \item \textbf{[Finding Title]}: [Specific number] [finding]. This [challenges expectations/
+  reveals pattern], suggesting [implication].
+
+  \item \textbf{[Finding Title]}: [Specific number] [finding]. This [challenges expectations/
+  reveals pattern], suggesting [implication].
+
+  [Continue 3-6 insights with specific numbers]
+\end{enumerate}
+```
+
+**Example**:
+```latex
+\subsection{What We Discovered}
+
+Our analysis revealed six counterintuitive patterns that challenge conventional wisdom:
+
+\begin{enumerate}
+  \item \textbf{The 2.0 Medal Floor}: 79 countries (51\% of NOCs) face identical baseline
+  predictions, revealing an artificial ceiling breakable through targeted bronze conversion
+  strategies.
+
+  \item \textbf{Host Advantage Overrated}: USA receives only +1.9 medals (+1.5\%) from
+  hosting in 2028, contradicting 10--20\% conventional wisdom.
+
+  [Continue 4 more insights]
+\end{enumerate}
+```
+
+**Quality Check**:
+- [ ] "What We Discovered" subsection present in Results or Discussion
+- [ ] Lists 3-6 key insights with specific numbers
+- [ ] Insights are synthesized (not just repeating results)
+- [ ] Insights challenge conventional wisdom
+
+### 4. Model Section Openers (REQUIRED)
+
+**Purpose**: Each model section opens with problem context, not just name
+
+**Template**:
+```latex
+\subsection{Model [N]: [Model Name]}
+
+[Specific data characteristic] creates [challenge]. [Standard approach] fails because
+[limitation]. We employ [model name], which [key advantage].
+```
+
+**Example**:
+```latex
+\subsection{Model 1: Hurdle Model for Zero-Inflated Medal Counts}
+
+Olympic medal data exhibits severe zero-inflation, with 60+ countries having never won
+a medal while established powers win 50+ medals per Olympics. Standard Poisson models
+fail because they assume a single stochastic process governs all medal counts. We employ
+a hurdle model, which separates the probability of winning any medal from the count
+distribution for medal-winning countries.
+```
+
+**Quality Check**:
+- [ ] Each model section starts with problem description (2-3 sentences)
+- [ ] Includes specific numbers describing data characteristic
+- [ ] Explains why standard approaches fail
+- [ ] Introduces model with key advantage
 
 ---
 

@@ -550,6 +550,176 @@ Think from YOUR perspective: **Correctness, reproducibility, edge cases**
 
 ---
 
+## 🔬 Enhanced Data Integrity Validation 
+
+> [!CRITICAL]
+> **[MANDATORY] Validate data integrity, not just code correctness.**
+>
+> This catches entire classes of bugs that code-only validation misses.
+
+### Data Integrity Checks
+
+When validating model code, MUST also check:
+
+#### 1. Geographic Consistency
+
+- [x] NOC-to-continent mappings are correct
+- [x] Caribbean countries → Americas (not Africa)
+- [x] Countries grouped by correct continent
+- [x] No "mixed" continent assignments
+
+**Auto-Detection Patterns**:
+
+```python
+# Search for common mistakes:
+if 'HAI' in NOC_TO_CONTINENT and NOC_TO_CONTINENT['HAI'] != 'Americas':
+    raise ValidationError("Haiti assigned to wrong continent")
+
+# Check for Caribbean misassignments
+caribbean_countries = {'HAI', 'TTO', 'JAM', 'CUB', 'DOM', 'BRB'}
+for country in caribbean_countries:
+    if country in NOC_TO_CONTINENT:
+        if NOC_TO_CONTINENT[country] != 'Americas':
+            raise ValidationError(f"{country} should be in Americas")
+```
+
+**What to Look For in Code**:
+
+```python
+# ✅ CORRECT: Geographic mappings validated
+from implementation.data.validation import DataValidator
+
+validator = DataValidator(data)
+validator.validate_completeness(NOC_TO_CONTINENT, key_column='NOC')
+validator.validate_consistency(check_geographic_consistency, rule_name="geographic")
+
+# ❌ WRONG: No validation, hardcoded mappings
+NOC_TO_CONTINENT = {'USA': 'Americas', 'HAI': 'Africa', ...}  # Bug!
+```
+
+#### 2. Cross-Validation Implementation
+
+- [x] Time-based train/test split actually implemented
+- [x] Not just random split (wrong for time series)
+- [x] Holdout set exists (e.g., train 1896-2016, test 2020)
+- [x] Cross-validation code executed, not just mentioned
+
+**Auto-Detection Patterns**:
+
+```python
+# Search for sklearn's train_test_split (wrong for time series):
+if 'train_test_split' in code and 'shuffle=True' not in code:
+    raise ValidationError("Random split incompatible with time series")
+
+# CORRECT pattern for time series:
+if 'year <= 2016' in code or 'temporal_split' in code:
+    print("✅ Time-based split detected")
+```
+
+**What to Look For in Code**:
+
+```python
+# ✅ CORRECT: Time-based split for time series
+train = data[data['year'] <= 2016]
+test = data[data['year'] > 2016]
+
+# ❌ WRONG: Random split for time series
+from sklearn.model_selection import train_test_split
+train, test = train_test_split(data, test_size=0.2)  # Data leakage!
+```
+
+#### 3. Feature Engineering Validation
+
+- [x] First-time winner logic correctly identifies new medalists
+- [x] Host country advantage feature implemented
+- [x] Time-dependent features (years since last medal, etc.)
+- [x] No data leakage from future to past
+
+**Auto-Detection Patterns**:
+
+```python
+# Check for data leakage: future info in past
+if data[data['year'] == 2016]['future_feature'].notna().any():
+    raise ValidationError("Data leakage: future information in 2016 data")
+
+# Check for first-time winner logic
+if 'first_time_winner' not in features.columns:
+    raise ValidationError("Missing feature: first_time_winner")
+```
+
+#### 4. Train/Test Split Verification
+
+```python
+# MUST verify this pattern exists in code:
+train = data[data['year'] <= 2016]
+test = data[data['year'] > 2016]
+# NOT:
+# train, test = train_test_split(data, test_size=0.2)  # ❌ WRONG for time series
+```
+
+### Validation Template
+
+Add to validation report:
+
+```markdown
+## Data Integrity Verification (Protocol 25)
+
+### Geographic Consistency
+- [x] NOC-to-continent mapping validated
+- [x] Caribbean countries correctly assigned to Americas
+- [x] All NOCs have continent assignments
+- [ ] Issues found: HAI, TTO assigned to Africa → FIX REQUIRED
+
+### Cross-Validation Implementation
+- [x] Time-based train/test split found (line X)
+- [x] Holdout year: 2020+
+- [x] No data leakage detected
+- [ ] Cross-validation not implemented → FIX REQUIRED
+
+### Feature Validation
+- [x] First-time winner logic implemented
+- [x] Host advantage feature present
+- [x] Time-dependent features correct
+- [ ] Missing feature: lagged medal count → ADD REQUIRED
+
+### Validation Strategy
+- [x] Out-of-sample validation implemented (Protocol 27)
+- [x] Validation method appropriate to data type: [temporal/spatial/K-fold/LOOCV]
+- [x] Test metrics reported: RMSE, MAE, R²
+- [ ] No out-of-sample validation → ADD REQUIRED (O-Prize violation)
+```
+
+### Enhanced Verdict Format
+
+```markdown
+## Overall Verdict: NEEDS_REVISION
+
+**Critical Issues**:
+
+1. **Data Integrity Violation**: NOC-to-continent mapping has errors
+   - Haiti assigned to Africa (should be Americas)
+   - Trinidad & Tobago assigned to Africa (should be Americas)
+   - Impact: Continent-level predictions will be wrong
+   - Fix: Use authoritative source (GeoNames, ISO 3166)
+
+2. **Cross-Validation Missing**: No train/test split detected
+   - Model trained on all data (1896-2024)
+   - Cannot measure generalization to future Olympics
+   - Impact: O-Prize requirement violation (no out-of-sample validation)
+   - Fix: Implement temporal holdout (train ≤ 2016, test > 2016)
+
+3. **Data Leakage Detected**: Future information in training data
+   - Line X: `data['future_medal_count']` used in training
+   - Impact: Inflated performance, invalid results
+   - Fix: Remove all future information from training set
+
+**Required Action**:
+@code_translator must fix all data integrity issues before training.
+Re-validation required after fixes.
+```
+
+---
+
 ## Deep Analysis Rubric (Methodological)
 
 Critically examine the analysis results of the given mathematical modeling solution, focusing on the following aspects. Use this rubric to identify flaws and provide constructive feedback.
