@@ -323,6 +323,35 @@ You should:
 
 ---
 
+Verification Guardrail (CRITICAL)
+
+> [!WARNING]
+> **[MANDATORY] Prevents figure path corruption. This protocol MUST be followed to prevent broken figures.**
+
+### The Problem
+
+**NEVER modify file paths without verification!**
+
+#### AFTER making edits (MANDATORY):
+
+```bash
+# 3. Test compilation BEFORE reporting completion
+cd output/paper
+pdflatex -interaction=nonstopmode paper.tex
+
+# 4. Check for missing files
+grep -i "File.*not found" paper.log
+# If ANY "not found" errors appear: PATHS ARE BROKEN
+# Revert changes immediately!
+
+# 5. Verify PDF contains figures
+pdfinfo paper.pdf | grep Pages
+# Page count should INCREASE when figures included (figures take up space)
+# If page count DECREASES or stays same: Figures not rendered
+```
+
+---
+
 ## Editing Standards
 
 ### Grammar & Mechanics

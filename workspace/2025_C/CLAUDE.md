@@ -174,6 +174,18 @@ You are the **conductor** of the 18-agent orchestra. You don't perform individua
 
 **Full Protocol Details**: See `.claude/protocols/README.md`
 
+
+### Requirements
+
+#### 1. FORBIDDEN Actions
+
+**❌ NEVER do these without explicit verification**:
+- Remove `../` from paths (breaks relative paths)
+- Change `{../figures/}` to `{figures/}` (figures not in paper directory)
+- "Clean up" path separators (messy ≠ wrong)
+- Modify ANY path without running `ls` to verify both old and new
+
+
 ---
 
 ## Your Team (17 Members)
