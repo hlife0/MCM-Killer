@@ -16,35 +16,21 @@ All files in CURRENT directory:
 └── model/                 # Model designs
 ```
 
-## 🛡️ UTF-8 Enforcement (CRITICAL)
+## 📖 External Knowledge Reference
 
-> **"ALWAYS use UTF-8 encoding when writing files."**
+This agent references external knowledge files for detailed workflow and code templates:
 
-**MANDATORY Rules for ALL Python Code**:
-1. **ALWAYS specify `encoding='utf-8'`** in Python file operations
-2. **NEVER use default system encoding** (platform-dependent)
-3. **For code files**: Add `# -*- coding: utf-8 -*-` at top
-4. **For data files**: Use `encoding='utf-8'` in `read_csv()`, `to_csv()`
-5. **For print statements**: Use `sys.stdout.reconfigure(encoding='utf-8')` if needed
+- **Code Translation Workflow**: `../agent_knowledge/code_translator/workflow.md`
+  - Step-by-step translation process
+  - Test suite structure
+  - Iteration and re-verification protocol
 
-**Example**:
-```python
-import sys
-import io
-
-# Force UTF-8 output
-sys.stdout.reconfigure(encoding='utf-8')
-
-# Read/write with UTF-8
-df = pd.read_csv('data.csv', encoding='utf-8')
-df.to_csv('output.csv', index=False, encoding='utf-8')
-
-# Write text files
-with open('output.txt', 'w', encoding='utf-8') as f:
-    f.write(text)
-```
-
-**Why This Matters**: Special characters, mathematical symbols, and non-English text will corrupt without UTF-8.
+- **Code Structure Template**: `../agent_knowledge/code_translator/code_structure_template.md`
+  - Standard Python code structure
+  - UTF-8 enforcement rules
+  - Code quality standards
+  - Numerical stability engineering
+  - Computational requirements
 
 ---
 
@@ -862,200 +848,14 @@ Training resumed: {timestamp}"
 
 ## 📝 Code Translation Workflow
 
-### Step 1: Read Model Design (AND Design Expectations Table)
-
-```
-Read: output/model_design.md
-```
-
-**Extract**: Objective functions, constraints, variables/parameters, algorithms/procedures, input/output specifications
-
-### Step 2: Load Features
-
-```python
-import pickle
-import pandas as pd
-
-with open('output/implementation/data/features_1.pkl', 'rb') as f:
-    features = pickle.load(f)
-print(f"Features loaded: {features.shape}")
-```
-
-### Step 3: Implement Model Code
-
-**Standard Code Structure (MANDATORY)**:
-
-```python
-#!/usr/bin/env python3
-"""
-Model {i} Implementation
-Based on: output/model_design.md
-Translated by: @code_translator
-"""
-
-import pandas as pd
-import numpy as np
-from typing import Dict, Tuple, Optional
-import pickle
-
-# Model-specific imports (add sklearn, scipy, statsmodels as needed)
-
-def load_features(path: str) -> pd.DataFrame:
-    """Load feature data from pickle file."""
-    with open(path, 'rb') as f:
-        features = pickle.load(f)
-    print(f"Loaded features: {features.shape}")
-    return features
-
-def prepare_data(features: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
-    """Prepare data for model training."""
-    # Implement per model_design.md: Train/test split, Feature scaling, Missing value imputation
-    pass
-
-def train_model(X_train: pd.DataFrame, y_train: pd.DataFrame, **kwargs) -> Dict:
-    """Train the model."""
-    # Implement training algorithm from model_design.md
-    pass
-
-def predict(model: Dict, X: pd.DataFrame) -> np.ndarray:
-    """Make predictions using trained model."""
-    # Implement prediction logic
-    pass
-
-def save_model(model: Dict, path: str):
-    """Save trained model to file."""
-    with open(path, 'wb') as f:
-        pickle.dump(model, f)
-    print(f"Model saved to {path}")
-
-def main():
-    """Main execution function."""
-    print("="*50)
-    print(f"Model {i} Implementation")
-    print("="*50)
-
-    features = load_features('output/implementation/data/features_1.pkl')
-    X_train, X_test, y_train, y_test = prepare_data(features)
-    model = train_model(X_train, y_train, **hyperparameters)
-    save_model(model, 'output/implementation/models/model_1.pkl')
-    print("✅ Model implementation complete")
-
-if __name__ == "__main__":
-    main()
-```
-
-### Step 4: Create Test Suite
-
-**Standard Test Structure (MANDATORY)**:
-
-```python
-#!/usr/bin/env python3
-"""Test Suite for Model {i} - Tests: model_{i}.py"""
-
-import pandas as pd
-import numpy as np
-import pickle
-import sys
-from model_{i} import load_features, prepare_data, train_model, predict
-
-def test_load_features():
-    """Test feature loading."""
-    print("Testing load_features()...")
-    features = load_features('output/implementation/data/features_1.pkl')
-    assert features is not None, "Features is None"
-    assert isinstance(features, pd.DataFrame), "Features is not DataFrame"
-    assert len(features) > 0, "Features is empty"
-    print("✅ test passed")
-
-def test_prepare_data():
-    """Test data preparation."""
-    print("Testing prepare_data()...")
-    features = load_features('output/implementation/data/features_1.pkl')
-    X_train, X_test, y_train, y_test = prepare_data(features)
-    assert X_train is not None and y_train is not None
-    print("✅ test passed")
-
-def test_train_model():
-    """Test model training (quick test with subset)."""
-    print("Testing train_model()...")
-    features = load_features('output/implementation/data/features_1.pkl')
-    X_train, X_test, y_train, y_test = prepare_data(features)
-    X_subset = X_train.head(10)
-    y_subset = y_train.head(10)
-    model = train_model(X_subset, y_subset, test_mode=True)
-    assert model is not None
-    print("✅ test passed")
-
-def test_predict():
-    """Test predictions."""
-    print("Testing predict()...")
-    features = load_features('output/implementation/data/features_1.pkl')
-    X_train, X_test, y_train, y_test = prepare_data(features)
-    X_subset = X_train.head(10)
-    y_subset = y_train.head(10)
-    model = train_model(X_subset, y_subset, test_mode=True)
-    predictions = predict(model, X_test.head(5))
-    assert predictions is not None and len(predictions) == 5
-    print("✅ test passed")
-
-def run_all_tests():
-    """Run all tests."""
-    print("\n" + "="*50)
-    print(f"Running Test Suite for Model {i}")
-    print("="*50 + "\n")
-    try:
-        test_load_features()
-        test_prepare_data()
-        test_train_model()
-        test_predict()
-        print("\n" + "="*50)
-        print("✅ ALL TESTS PASSED")
-        print("="*50)
-        return 0
-    except (AssertionError, Exception) as e:
-        print(f"\n❌ TEST FAILED: {e}")
-        return 1
-
-if __name__ == "__main__":
-    sys.exit(run_all_tests())
-```
-
-### Step 5: Execute Tests (MANDATORY)
-
-```bash
-source output/venv/bin/activate
-python output/implementation/code/test_{i}.py
-```
-
-**ALL TESTS MUST PASS before reporting completion.**
-
-### Step 6: Save Files
-
-- `output/implementation/code/model_{i}.py`
-- `output/implementation/code/test_{i}.py`
-
----
-
-## 🔄 Iteration and Re-verification
-
-### The Revision-Verification Cycle
-
-**When you receive feedback**:
-1. Read feedback carefully
-2. Make revisions
-3. Re-run tests
-4. Request re-verification from @validator
-
-```
-Director, I have completed the revisions based on feedback from @validator.
-Changes made:
-- [List each code change]
-- Re-ran tests: [all passed / specific results]
-
-Please send to @validator for RE-VERIFICATION to confirm the issues are resolved.
-```
-
-**DO NOT**: ❌ Assume revisions are "good enough" without verification, ❌ Mark task as complete without re-verification, ❌ Skip re-running tests after changes
+See `../agent_knowledge/code_translator/workflow.md` for the complete step-by-step workflow:
+- Read Model Design (and Design Expectations Table)
+- Load Features
+- Implement Model Code
+- Create Test Suite
+- Execute Tests (MANDATORY)
+- Save Files
+- Iteration and Re-verification
 
 ---
 
