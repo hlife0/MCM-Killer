@@ -16,10 +16,16 @@ import numpy as np
 # Add tools to path
 # NOTE: Adjust path based on where you run this script from
 import os
+import importlib.util
+
 script_dir = os.path.dirname(os.path.abspath(__file__))
 tools_dir = os.path.join(script_dir, '../../../tools')
 sys.path.insert(0, tools_dir)
-import mpl_config
+
+# Import mpl_config (handle numbered filename)
+spec = importlib.util.spec_from_file_location("mpl_config", os.path.join(tools_dir, "9_mpl_config.py"))
+mpl_config = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(mpl_config)
 
 # Apply research style (IEEE format with fallback)
 scienceplots_available = mpl_config.apply_research_style(dpi=300, figsize=(10, 6))
@@ -31,7 +37,7 @@ scienceplots_available = mpl_config.apply_research_style(dpi=300, figsize=(10, 6
 # 1992,105,98,112
 # 1994,108,100,116
 # 1996,115,107,123
-data_path = 'output/sample_time_series.csv'  # UPDATE THIS
+data_path = 'output/results_1.csv'  # UPDATE THIS - Path relative to workspace root
 data = pd.read_csv(data_path, encoding='utf-8')
 
 # Create figure

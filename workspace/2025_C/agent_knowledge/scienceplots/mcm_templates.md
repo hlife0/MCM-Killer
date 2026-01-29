@@ -34,10 +34,18 @@ import sys
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+import os
+import importlib.util
 
 # Add tools to path
-sys.path.insert(0, '../../tools')
-import mpl_config
+script_dir = os.path.dirname(os.path.abspath(__file__))
+tools_dir = os.path.join(script_dir, '../../../tools')
+sys.path.insert(0, tools_dir)
+
+# Import mpl_config (handle numbered filename)
+spec = importlib.util.spec_from_file_location("mpl_config", os.path.join(tools_dir, "9_mpl_config.py"))
+mpl_config = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(mpl_config)
 
 # Apply research style
 scienceplots_available = mpl_config.apply_research_style()
@@ -59,6 +67,20 @@ if success:
 else:
     print(f"✗ Error: {msg}")
 ```
+
+---
+
+## Available Templates
+
+**Currently Implemented** (v3.1.0):
+1. **Template 1**: Performance Comparison (`performance_comparison_template.py`) ✓
+2. **Template 2**: Time Series with CI (`time_series_ci_template.py`) ✓
+
+**Planned Templates** (Future versions):
+3. **Template 3**: Predictions vs Actual - Scatter plot with reference line
+4. **Template 4**: Residual Distribution - Histogram with normality checks
+5. **Template 5**: Feature Correlation - Heatmap with annotations
+6. **Template 6**: Multi-Panel Results - 2x2 or 3x1 layout
 
 ---
 

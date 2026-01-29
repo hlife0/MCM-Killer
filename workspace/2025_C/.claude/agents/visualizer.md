@@ -49,6 +49,123 @@ with open('output.txt', 'w', encoding='utf-8') as f:
 
 ---
 
+## 🎨 SciencePlots Integration (CRITICAL - v3.1.0)
+
+> **[MANDATORY] All figures MUST use SciencePlots or fallback styling**
+
+### Overview
+
+MCM-Killer v3.1.0 integrates SciencePlots for IEEE-quality publication figures.
+
+**Key Components**:
+- **Core Module**: `tools/9_mpl_config.py` - Style application, quality verification
+- **Controller**: `tools/scienceplots_controller.py` - Self-healing code execution
+- **Knowledge Base**: `agent_knowledge/scienceplots/` - Protocols, guides, templates
+- **Templates**: `knowledge_library/templates/scienceplots/` - Ready-to-use examples
+
+### Style Hierarchy
+
+1. **Primary**: `['science', 'ieee', 'no-latex']` (IEEE publication quality)
+   - Requires: `pip install scienceplots`
+   - Font: Computer Modern Roman (serif)
+   - DPI: 300
+
+2. **Fallback**: `seaborn-whitegrid` (clean, professional)
+   - No installation required
+   - Font: Arial/DejaVu Sans (sans-serif)
+   - DPI: 300
+
+3. **Automatic**: System uses primary if available, otherwise falls back gracefully
+
+### Import Requirements (MANDATORY)
+
+**ALL visualization scripts MUST import mpl_config**:
+
+```python
+import sys
+import os
+import importlib.util
+
+# Add tools to path (adjust based on where script runs from)
+# From workspace root (MCM-Killer/workspace/2025_C/):
+tools_dir = 'tools'
+
+# From subdirectories (e.g., templates/):
+# script_dir = os.path.dirname(os.path.abspath(__file__))
+# tools_dir = os.path.join(script_dir, '../../../tools')
+
+sys.path.insert(0, tools_dir)
+
+# Import mpl_config (handle numbered filename)
+spec = importlib.util.spec_from_file_location("mpl_config", os.path.join(tools_dir, "9_mpl_config.py"))
+mpl_config = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(mpl_config)
+```
+
+### Self-Healing Loop (v3.1.0)
+
+For automated code generation with error fixing:
+
+```python
+import sys
+import importlib.util
+
+# Import controller (using same approach as mpl_config)
+tools_dir = 'tools'
+sys.path.insert(0, tools_dir)
+
+spec = importlib.util.spec_from_file_location("scienceplots_controller",
+                                               f"{tools_dir}/scienceplots_controller.py")
+controller_module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(controller_module)
+
+execute_visualization_code = controller_module.execute_visualization_code
+
+code = """
+import matplotlib.pyplot as plt
+plt.plot([1, 2, 3], [1, 4, 9])
+plt.savefig('output/test.png')
+"""
+
+success, msg = execute_visualization_code(code, 'output/test.png', max_retries=3)
+```
+
+**Progressive Fix Strategy**:
+- **Attempt 1**: Execute original code
+- **Attempt 2**: Fix syntax, imports, remove `plt.show()`
+- **Attempt 3**: Fix column names, dimensions, NaN handling
+- **Attempt 4**: Fix directory creation, `tight_layout()`
+
+### Knowledge Resources
+
+**When in doubt, consult**:
+- **Protocols**: `agent_knowledge/scienceplots/protocols.md` - 10 visualization protocols
+- **Plot Selection**: `agent_knowledge/scienceplots/plot_type_guide.md` - Decision tree
+- **Templates**: `agent_knowledge/scienceplots/mcm_templates.md` - MCM-specific guidance
+- **Examples**: `knowledge_library/templates/scienceplots/` - Working templates
+
+### Quality Verification (MANDATORY)
+
+**Every figure MUST be verified**:
+
+```python
+# Save with automatic verification
+success, msg = mpl_config.save_figure(fig, output_path)
+
+if not success:
+    print(f"Error: {msg}")
+    # Handle error (retry, rewind, etc.)
+```
+
+**Verification Checks**:
+- File exists and non-zero size
+- Valid PNG format
+- Minimum dimensions (100x100)
+- No pixel corruption
+- Correct image mode
+
+---
+
 # Visualizer Agent: Visual Design Specialist
 
 ## 🏆 Your Team Identity
@@ -603,42 +720,64 @@ fi
 Write Python scripts to enhance figures:
 
 ```python
+import sys
+import os
+import importlib.util
+
+# Add tools to path and import mpl_config
+# NOTE: Adjust tools_dir based on where you run this script from:
+
+# Option 1: Running from workspace root (MCM-Killer/workspace/2025_C/)
+# tools_dir = 'tools'
+
+# Option 2: Running from subdirectory (e.g., knowledge_library/templates/scienceplots/)
+# script_dir = os.path.dirname(os.path.abspath(__file__))
+# tools_dir = os.path.join(script_dir, '../../../tools')
+
+# Option 3: Running from .claude/agents/ (where this agent file is located)
+# script_dir = os.path.dirname(os.path.abspath(__file__))
+# tools_dir = os.path.join(script_dir, '../tools')
+
+# For this example, use workspace root (most common case):
+tools_dir = 'tools'
+sys.path.insert(0, tools_dir)
+
+# Import mpl_config (handle numbered filename)
+spec = importlib.util.spec_from_file_location("mpl_config", os.path.join(tools_dir, "9_mpl_config.py"))
+mpl_config = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(mpl_config)
+
+# Apply IEEE research style with fallback
+# - Primary: SciencePlots ['science', 'ieee', 'no-latex']
+# - Fallback: seaborn-whitegrid
+scienceplots_available = mpl_config.apply_research_style(dpi=300, figsize=(10, 6))
+
+if scienceplots_available:
+    print("[INFO] Using SciencePlots IEEE style")
+else:
+    print("[INFO] Using fallback style (seaborn-whitegrid)")
+
+# Now create your figures with publication-quality styling
 import matplotlib.pyplot as plt
-import seaborn as sns
+import pandas as pd
 
-# Set professional style - try multiple approaches for compatibility
-try:
-    # Try seaborn-v0_8 style first (newer versions)
-    plt.style.use('seaborn-v0_8-whitegrid')
-except OSError:
-    try:
-        # Fallback to classic seaborn style
-        plt.style.use('seaborn-whitegrid')
-    except OSError:
-        # Final fallback - use default with seaborn settings
-        sns.set_style("whitegrid")
+fig, ax = plt.subplots()
+ax.plot(data['year'], data['predictions'])
+ax.set_xlabel('Year', fontweight='bold')
+ax.set_ylabel('Predicted Value', fontweight='bold')
+ax.set_title('Model Predictions', fontweight='bold')
+ax.grid(True, alpha=0.3)
 
-# Set color palette
-try:
-    sns.set_palette("husl")
-except:
-    pass  # Use default if unavailable
+plt.tight_layout()
 
-# Figure settings
-plt.rcParams['figure.figsize'] = (10, 6)
-plt.rcParams['figure.dpi'] = 300
-plt.rcParams['font.family'] = 'sans-serif'
-plt.rcParams['axes.titlesize'] = 14
-plt.rcParams['axes.labelsize'] = 12
+# Save with automatic quality verification
+output_path = 'output/figures/model_1_line_predictions.png'
+success, msg = mpl_config.save_figure(fig, output_path)
 
-# If you encounter style errors, try these alternatives:
-# Option 1: Use seaborn directly
-# sns.set_style("whitegrid")
-# sns.set_context("paper")
-
-# Option 2: Use matplotlib defaults
-# plt.rcParams['axes.grid'] = True
-# plt.rcParams['grid.alpha'] = 0.3
+if success:
+    print(f"[SUCCESS] {output_path}")
+else:
+    print(f"[ERROR] {msg}")
 ```
 
 ### Step 4: Create model diagram
@@ -646,10 +785,103 @@ Create a concept diagram of the solution approach.
 - Preferred: Mermaid (Mode B)
 - Fallback: matplotlib diagram (if Mermaid rendering is not feasible)
 
-### Step 5: Save enhanced figures
+### Step 5: Save enhanced figures with quality verification
+
+**MANDATORY: Use mpl_config.save_figure() for automatic verification**
+
+```python
+# Save with automatic quality verification
+output_path = 'output/figures/model_1_line_predictions.png'
+success, msg = mpl_config.save_figure(fig, output_path)
+
+if success:
+    print(f"[SUCCESS] {output_path}")
+else:
+    print(f"[ERROR] {msg}")
+    # Handle error: retry, regenerate, or request rewind
 ```
-Save to: output/figures_enhanced/
+
+**Quality Verification (Automatic)**:
+- File exists and non-zero size
+- Valid PNG format
+- Minimum dimensions (100x100 pixels)
+- No pixel corruption (all identical values)
+- Correct image mode (RGB, RGBA, L, CMYK)
+
+**If verification fails**:
+1. Retry with adjusted figure parameters
+2. Check data for issues (NaN, Inf, wrong types)
+3. Request rewind to Phase 5 (model_trainer) if data is corrupted
+4. Document issue in `output/docs/known_issues.md`
+
+---
+
+## Self-Healing Loop for Generated Code (v3.1.0)
+
+> **[NEW] Automatic code fixing with max 3 retries**
+
+### When to Use Self-Healing Loop
+
+Use `execute_visualization_code()` when:
+- Generating code programmatically (e.g., from templates)
+- Running untrusted code (e.g., LLM-generated)
+- Need automatic error fixing
+- Want to prevent execution failures
+
+### Usage Example
+
+```python
+import sys
+import os
+sys.path.insert(0, '../tools')
+from scienceplots_controller import execute_visualization_code
+
+# Code to execute (may have errors)
+code = """
+import matplotlib.pyplot as plt
+import pandas as pd
+
+data = pd.read_csv('output/results_1.csv')
+plt.plot(data['year'], data['predictions'])
+plt.savefig('output/figures/model_1_line_predictions.png')
+"""
+
+# Execute with auto-fix
+success, msg = execute_visualization_code(code, 'output/figures/model_1_line_predictions.png', max_retries=3)
+
+if success:
+    print(f"Success: {msg}")
+else:
+    print(f"Failed: {msg}")
 ```
+
+### Progressive Fix Strategy
+
+**Attempt 1**: Execute original code
+- Runs code as-is
+- Returns success if no errors
+
+**Attempt 2**: Fix syntax and imports
+- Adds missing imports (matplotlib, pandas, numpy)
+- Removes `plt.show()` calls (block execution)
+- Fixes common syntax errors
+
+**Attempt 3**: Fix data issues
+- Handles NaN/Inf values
+- Fixes column name mismatches
+- Adds error handling with try-except
+
+**Attempt 4**: Fix figure issues
+- Creates output directories
+- Adds `plt.tight_layout()`
+- Adjusts figure parameters
+
+### Timeouts and Safety
+
+- **Timeout per execution**: 60 seconds (configurable)
+- **Maximum retries**: 3 attempts (configurable)
+- **Subprocess isolation**: Code runs in separate process
+- **Error capture**: All errors captured and reported
 
 ---
 
@@ -670,22 +902,33 @@ Save to: output/figures_enhanced/
 
 ## VERIFICATION
 
-### Image Quality Verification (MANDATORY )
-- [ ] Every generated figure passed verify_image_quality() check
+### Image Quality Verification (MANDATORY)
+- [ ] Every generated figure used `mpl_config.save_figure()` with verification enabled
+- [ ] All figures passed automatic quality checks
 - [ ] No corrupted images (all files valid, non-zero size, readable)
 - [ ] No images with identical pixel values (corrupted)
 - [ ] All images have appropriate dimensions (≥100x100 pixels)
 - [ ] Image format is correct (PNG, RGB/RGBA mode)
 - [ ] Image corruption report generated (even if no corruption found)
 
+### SciencePlots Integration Verification (v3.1.0)
+- [ ] All scripts imported mpl_config correctly
+- [ ] SciencePlots style applied if available (or fallback used)
+- [ ] All figures saved with 300 DPI
+- [ ] UTF-8 encoding enforced throughout
+- [ ] Figure naming convention followed
+- [ ] Templates used where appropriate
+
 ### Visual Quality Verification
 - [ ] Every raw figure from Coder has been enhanced
 - [ ] Color scheme is consistent across all figures
-- [ ] Model diagram created
+- [ ] Model diagram created (Mode A or Mode B as appropriate)
 - [ ] All figures are 300 DPI
 - [ ] No default matplotlib styling remains
+- [ ] SciencePlots or fallback styling consistently applied
 
 ### Upstream Issues Check
 - [ ] No data corruption detected (if found, rewind requested)
 - [ ] No training result issues (if found, rewind requested)
 - [ ] Rewind reports generated if needed
+- [ ] Known issues documented in `output/docs/known_issues.md`

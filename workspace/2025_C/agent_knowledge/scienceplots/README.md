@@ -120,12 +120,15 @@ success, msg = execute_visualization_code(code, 'output/test.png', max_retries=3
 
 ## Templates
 
-### Available Templates
-1. **Performance Comparison** - Grouped bar chart
-2. **Time Series with CI** - Line chart with confidence bands
+### Available Templates (v3.1.0)
+1. **Performance Comparison** ✓ - Grouped bar chart (`performance_comparison_template.py`)
+2. **Time Series with CI** ✓ - Line chart with confidence bands (`time_series_ci_template.py`)
+
+### Planned Templates (Future)
 3. **Scatter Plot** - Predictions vs actual
 4. **Histogram** - Residual distribution
 5. **Heatmap** - Correlation matrix
+6. **Multi-Panel** - Combined results display
 
 **Location**: `knowledge_library/templates/scienceplots/`
 
