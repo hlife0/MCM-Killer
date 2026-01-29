@@ -146,13 +146,13 @@ To complete the full extraction:
 All agent files are in: `.claude/agents/`
 All knowledge files are in: `agent_knowledge/`
 
-**Correct relative path from agents**: `../agent_knowledge/`
+**Correct relative path from agents**: `../../agent_knowledge/`
 
 Example reference format:
 ```markdown
 ## 📖 External Knowledge Reference
 
-- **[Topic]**: `../agent_knowledge/[agent]/[file].md`
+- **[Topic]**: `../../agent_knowledge/[agent]/[file].md`
 ```
 
 ---
@@ -172,4 +172,4 @@ Example reference format:
 - **writer.md** and **code_translator.md** have been fully updated with references
 - **modeler.md**, **model_trainer.md**, **time_validator.md**, and **data_engineer.md** need agent file updates to add external knowledge references
 - All knowledge files use consistent markdown formatting
-- Relative paths verified: from `.claude/agents/` to `agent_knowledge/` is `../agent_knowledge/`
+- Relative paths verified: from `.claude/agents/` to `agent_knowledge/` is `../../agent_knowledge/`

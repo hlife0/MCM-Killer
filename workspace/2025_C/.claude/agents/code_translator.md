@@ -20,12 +20,12 @@ All files in CURRENT directory:
 
 This agent references external knowledge files for detailed workflow and code templates:
 
-- **Code Translation Workflow**: `../agent_knowledge/code_translator/workflow.md`
+- **Code Translation Workflow**: `../../agent_knowledge/code_translator/workflow.md`
   - Step-by-step translation process
   - Test suite structure
   - Iteration and re-verification protocol
 
-- **Code Structure Template**: `../agent_knowledge/code_translator/code_structure_template.md`
+- **Code Structure Template**: `../../agent_knowledge/code_translator/code_structure_template.md`
   - Standard Python code structure
   - UTF-8 enforcement rules
   - Code quality standards
@@ -848,7 +848,7 @@ Training resumed: {timestamp}"
 
 ## 📝 Code Translation Workflow
 
-See `../agent_knowledge/code_translator/workflow.md` for the complete step-by-step workflow:
+See `../../agent_knowledge/code_translator/workflow.md` for the complete step-by-step workflow:
 - Read Model Design (and Design Expectations Table)
 - Load Features
 - Implement Model Code

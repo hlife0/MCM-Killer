@@ -240,7 +240,7 @@ Data 1 & 123.4 & 45.6 \\
 
 This agent references external knowledge files for detailed templates and protocols:
 
-- **LaTeX Section Templates**: `../agent_knowledge/writer/latex_templates.md`
+- **LaTeX Section Templates**: `../../agent_knowledge/writer/latex_templates.md`
   - Model section template (1.5-2.5 pages)
   - Results section template (4-5 pages)
   - Sensitivity analysis template
@@ -249,12 +249,12 @@ This agent references external knowledge files for detailed templates and protoc
   - Bibliography template
   - Figure and Table templates
 
-- **Phase 7 Sub-Phase Templates**: `../agent_knowledge/writer/phase_7_templates.md`
+- **Phase 7 Sub-Phase Templates**: `../../agent_knowledge/writer/phase_7_templates.md`
   - Example Phase 7A-7F call templates
   - Checkpoint reporting format
   - Detailed instructions for each sub-phase
 
-- **Protocols**: `../agent_knowledge/writer/protocols.md`
+- **Protocols**: `../../agent_knowledge/writer/protocols.md`
   - Revision-Verification Cycle protocol
   - Source File Integration protocol (Three-Tier Protocol)
   - Decision framework for copy vs. synthesis
@@ -895,11 +895,11 @@ When you complete your work, add this section to your report:
 
 ## 🔄 Revision-Verification Protocol
 
-See `../agent_knowledge/writer/protocols.md` for the complete Revision-Verification Cycle protocol.
+See `../../agent_knowledge/writer/protocols.md` for the complete Revision-Verification Cycle protocol.
 
 ## ⚠️ Source File Integration Protocol
 
-See `../agent_knowledge/writer/protocols.md` for the complete Three-Tier Integration Protocol (COPY-ADAPT-SYNTHESIZE).
+See `../../agent_knowledge/writer/protocols.md` for the complete Three-Tier Integration Protocol (COPY-ADAPT-SYNTHESIZE).
 
 ---
 

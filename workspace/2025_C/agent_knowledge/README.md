@@ -39,12 +39,12 @@ agent_knowledge/
 **Critical**: All agent files are located in `.claude/agents/`
 **Knowledge files are in**: `agent_knowledge/`
 
-**Relative path from agents to knowledge**: `../agent_knowledge/`
+**Relative path from agents to knowledge**: `../../agent_knowledge/`
 
 Example:
 - Agent file: `.claude/agents/writer.md`
 - Knowledge file: `agent_knowledge/writer/latex_templates.md`
-- Reference in agent: `../agent_knowledge/writer/latex_templates.md`
+- Reference in agent: `../../agent_knowledge/writer/latex_templates.md`
 
 ---
 
@@ -90,7 +90,7 @@ When extracting content from agent files:
    ```markdown
    ## 📖 External Knowledge Reference
 
-   - **[Topic]**: `../agent_knowledge/[agent]/[file].md`
+   - **[Topic]**: `../../agent_knowledge/[agent]/[file].md`
    ```
 
 ---
@@ -99,7 +99,7 @@ When extracting content from agent files:
 
 After extraction, verify:
 - [ ] Agent file size reduced
-- [ ] All references use correct relative path (`../agent_knowledge/`)
+- [ ] All references use correct relative path (`../../agent_knowledge/`)
 - [ ] No content lost during extraction
 - [ ] Headers and formatting preserved
 - [ ] Code blocks intact
