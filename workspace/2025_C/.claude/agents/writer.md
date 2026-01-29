@@ -388,6 +388,38 @@ CI width for 2.5-medal countries vs. 78.4\% for 38.2-medal countries.}
 
 ---
 
+## 🆔 [ CRITICAL NEW] Protocol 16: Page Count Tracking Compliance
+
+> [!CRITICAL] **See Knowledge Base**: `../../agent_knowledge/writer/protocols/protocol_16_page_tracking_examples.md`
+>
+> **You MUST follow Protocol 16: Page Count Tracking**
+> **Report page count after EACH Phase 7 sub-phase (7A-7F)**
+> **Stay within allocated budget OR trigger emergency consolidation**
+
+**Key Requirements**:
+- Report page count after each sub-phase (format in knowledge base)
+- Yellow Warning: ≥20.0 pages | Red Critical: ≥23.0 pages | Limit: ≥25.0 pages
+- Use `csv_to_latex_table.py` for all numerical tables (Protocol 18)
+- **Full examples and scenarios**: See knowledge base
+
+---
+
+## 🆔 [ CRITICAL NEW] Protocol 18: Automated Value Injection Compliance
+
+> [!CRITICAL] **See Knowledge Base**: `../../agent_knowledge/data_engineer/protocols/protocol_18_script_examples.md`
+>
+> **AUTOMATIC REJECTION POLICY**: Data inconsistency = REJECT
+> **Use `csv_to_latex_table.py` for ALL numerical tables**
+> **NO manual transcription from CSV to LaTeX**
+
+**Key Requirements**:
+- Generate tables: `python output/implementation/code/csv_to_latex_table.py <csv_path> <table_id>`
+- Include in LaTeX: `\input{../output/paper/tables/table_1.tex}`
+- @validator validates before Phase 7.5 (Exit 0 = PASS, Exit 1 = REJECT)
+- **Full examples and rejection scenarios**: See knowledge base
+
+---
+
 ## 🆔 [ CRITICAL NEW] O-Prize Visual Storytelling Elements
 
 > [!CRITICAL]

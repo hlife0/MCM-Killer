@@ -1,0 +1,54 @@
+\
+## Problem Description
+
+{problem_description}
+
+## Method List
+
+{methods}
+
+## Evaluation Task
+
+Evaluate each method based on the following dimensions. For each dimension, consider the associated criteria and assign a score from 1 (poor) to 5 (excellent). 
+
+## Criteria Dimensions
+
+**1. Assumptions:** Whether the foundational mathematical assumptions align with the intrinsic characteristics of the problem.  
+For instance, linear regression assumes linear relationships but fails to capture nonlinear dynamics (e.g., exponential growth). Similarly, deterministic models (e.g., ordinary differential equations) may overlook critical uncertainties in inherently stochastic systems (e.g., financial markets or biological processes). Misaligned assumptions risk oversimplification or systematic bias.
+
+**2. Structure:** The mathematical framework's ability to mirror the problem's inherent logic, hierarchy, or spatiotemporal relationships.  
+Network-based problems (e.g., traffic flow or social interactions) demand graph theory or network flow models, while hierarchical systems (e.g., ecological food webs) may require multi-stage or layered modeling. A mismatch here--such as using static equations for time-dependent phenomena--renders the model structurally inadequate.
+
+**3. Variables:** Compatibility between the model's mathematical tools and the variable types in the problem (continuous, discrete, categorical, stochastic, etc.).  
+For example, logistic regression or decision trees suit categorical outcomes, while partial differential equations better model spatially continuous systems. High-dimensional sparse data (e.g., genomics) may necessitate dimensionality reduction (PCA) or sparse optimization, whereas rigid variable handling leads to inefficiency or inaccuracy.
+
+**4. Dynamics:** Alignment of the model's temporal or dynamic properties with the problem's evolutionary behavior.  
+Short-term forecasting might use static models (e.g., linear regression), but long-term ecological or economic systems require dynamic frameworks (e.g., differential equations or agent-based models). Ignoring time delays (e.g., policy impacts in economics) or feedback loops often invalidates predictions.
+
+**5. Solvability:** The existence and practicality of solutions under real-world constraints.  
+High-dimensional non-convex optimization problems (e.g., neural network training) may rely on heuristic algorithms (genetic algorithms) rather than exact solutions. Similarly, NP-hard problems (e.g., traveling salesman) demand approximations to balance computational feasibility and precision. Overly complex models risk theoretical elegance without actionable results.
+
+## Instructions
+1. For each method in the Method List, score its performance on **all** evaluation dimensions.
+2. Return results in JSON format, including the method index and scores for each dimension.
+
+## Output Example (Only return the JSON output, no other text)
+```json
+{{
+  "methods": [
+    {{
+      "method_index": 1,
+      "scores": {{
+        "Assumptions": 4,
+        "Structure": 3,
+        // Include other dimensions here
+      }}
+    }},
+    // Include other methods here
+  ]
+}}
+```
+
+## Required Output
+Provide the JSON output below:
+```json

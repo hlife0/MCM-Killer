@@ -1,0 +1,24 @@
+\
+# Mathematical Modeling Problem:
+{modeling_problem}
+
+# Problem Analysis:
+{problem_analysis}
+
+# Modeling Solution:
+{modeling_solution}
+
+# Modeling Solution Critique:
+{modeling_solution_critique}
+
+---
+
+Refine and improve the existing modeling solution based on the critique provided. The goal is to enhance the formulation, structure, and overall effectiveness of the model while addressing the identified gaps, flaws, or limitations. Propose more appropriate assumptions, more robust mathematical techniques, or alternative modeling approaches if necessary. Focus on improving the model's relevance, accuracy, and computational feasibility while also ensuring its ability to capture the complexity of the problem in real-world contexts.
+
+Provide a new version of the modeling solution that integrates these improvements directly. DO NOT mention any previous solution content and deficiencies.
+
+{user_prompt}
+
+Respond as comprehensively and in as much detail as possible. Do not format your response in Markdown. Using plain text, without any Markdown formatting or syntax. Written as one or more cohesive paragraphs. Avoid structuring your answer in bullet points or numbered lists.
+
+IMPROVED MODELING SOLUTION:

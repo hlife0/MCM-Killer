@@ -1,0 +1,18 @@
+\
+# Decompose Principle:
+{decomposed_principle}
+
+# Mathematical Modeling Problem:
+{modeling_problem}
+
+# Problem Analysis:
+{problem_analysis}
+
+# Modeling Solution:
+{modeling_solution}
+
+---
+
+Please decompose the given modeling solution into {tasknum} distinct and well-defined subtasks that collectively contribute to the overall objective. These subtasks should be clearly separated in their focus, each addressing a specific aspect of the modeling process. The goal is to break down the solution into key stages or methodologies, ensuring that all components of the solution are covered without redundancy. For each subtask, the approach or technique should be explicitly described, detailing the specific data, algorithms, or models required. The decomposition should reflect a logical and comprehensive path toward completing the task, with each part having a clear purpose and contributing to the final result.
+{user_prompt}
+Each subtask should be described as comprehensively and in as much detail as possible within a single paragraph using plain text and seperated by '---' for each subtask. All the contents and details of the original solution need to be covered by the {tasknum} subtasks without omission.

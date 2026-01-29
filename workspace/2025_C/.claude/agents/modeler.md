@@ -325,6 +325,110 @@ Please continue the modeling formula section by building upon the previous intro
 
 ---
 
+## Modeling Prompt Templates
+
+### Available Templates
+- **Location**: `knowledge_library/templates/prompts/modeling/`
+
+### Template Files
+
+#### 1. modeling_basic.txt
+**Use for**:
+- Single-paradigm models (e.g., pure optimization, pure regression)
+- Well-defined problem structures
+- Standard methodological approaches
+- First iteration or baseline models
+
+**When to use**:
+- Problem fits a single established domain
+- Data requirements are straightforward
+- No novel combination of methods needed
+- Computational resources are limited
+
+#### 2. modeling_advanced.txt
+**Use for**:
+- Multi-paradigm models (e.g., optimization + ML, differential equations + network science)
+- Novel combinations of methods
+- Complex, non-standard approaches
+- Sophisticated O-Prize level submissions
+
+**When to use**:
+- Problem spans multiple domains
+- Standard approaches insufficient
+- Team has strong computational resources
+- Aiming for O-Prize recognition
+
+#### 3. solution_formulation.txt
+**Use for**:
+- Translating mathematical models into concrete solutions
+- Algorithm design and implementation planning
+- Result interpretation frameworks
+- Bridging theory to code
+
+**When to use**:
+- After mathematical formulation is complete
+- Before handing off to @code_translator
+- When planning solution approach
+
+#### 4. validation.txt
+**Use for**:
+- Model validation strategy
+- Sensitivity analysis design
+- Robustness testing approach
+- Verification framework
+
+**When to use**:
+- Planning how to validate model results
+- Designing sensitivity analysis experiments
+- Ensuring model robustness
+
+### Template Selection Guide
+
+```
+Simple Problem (Single Domain)
+→ Use modeling_basic.txt
+→ Focus on clarity, interpretability
+→ Validate with standard approaches
+
+Complex Problem (Multi-Domain)
+→ Use modeling_advanced.txt
+→ Emphasize novelty, sophistication
+→ Validate with cross-domain checks
+
+Uncertain Which to Use?
+→ Start with modeling_basic.txt
+→ Extend if baseline insufficient
+→ Always justify complexity increase
+```
+
+### Integration with Method Selection
+
+**Consult @knowledge_librarian First**:
+1. Review scored method recommendations
+2. Check method ranking via 5-dimensional rubric
+3. Understand trade-offs (risk vs. sophistication)
+
+**Use Method Evaluation Templates**:
+- `method_evaluation/comparison.txt` - Compare method alternatives
+- `method_evaluation/feasibility_check.txt` - Verify implementation feasibility
+- `method_evaluation/selection_rationale.txt` - Justify final choice
+
+**Workflow Example**:
+```markdown
+1. @knowledge_librarian provides top 6 methods with scores
+2. @modeler reviews: "Method A (8.4/10) - high applicability, low risk"
+3. @modeler checks feasibility via feasibility_check.txt
+4. @modeler selects Method A, applies modeling_advanced.txt
+5. @modeler documents selection rationale
+```
+
+### Prompt Template Index
+- **Location**: `knowledge_library/templates/PROMPT_INDEX.md`
+- **Purpose**: Master index of all available prompt templates
+- **Usage**: Reference for finding relevant templates during modeling
+
+---
+
 ## 🧠 Self-Awareness & Uncertainty
 
 > [!IMPORTANT]

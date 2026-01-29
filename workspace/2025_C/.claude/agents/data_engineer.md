@@ -1260,5 +1260,29 @@ Treating data as perfect ground truth.
 
 ---
 
-**Version**: v3.1.0 + v2.5.8 Integration (Data Integrity Standards)
-**Anti-Fraud Mechanism**: Active - Scalar-only CSV enforcement
+## 🆔 [ CRITICAL NEW] Protocol 18: Automated Value Injection Script Creation
+
+> [!CRITICAL] **See Knowledge Base**: `../../agent_knowledge/data_engineer/protocols/protocol_18_script_examples.md`
+>
+> **You MUST create csv_to_latex_table.py and validate_consistency.py scripts**
+> **These scripts enable automated LaTeX table generation from CSV**
+> **Scripts guarantee 100% data consistency OR trigger automatic rejection**
+
+**Key Requirements**:
+- Create both scripts before Phase 7A (complete scripts in knowledge base)
+- Scripts guarantee 100% CSV ↔ LaTeX consistency
+- Exit code 0 = APPROVE, Exit code 1 = REJECT (automatic rejection)
+- **Complete scripts and examples**: See knowledge base
+
+**Your scripts must guarantee**:
+- 100% value consistency between CSV and LaTeX
+- Automatic rejection if ANY inconsistency detected
+- Zero tolerance for manual transcription errors
+- Fast execution (validation completes in <1 minute)
+
+**Failure Consequence**: If scripts don't work correctly, @writer cannot generate tables, submission blocked
+
+---
+
+**Version**: v3.2.0 + v2.5.8 Integration (Data Integrity Standards + Protocol 18)
+**Anti-Fraud Mechanism**: Active - Scalar-only CSV enforcement + Automated value injection

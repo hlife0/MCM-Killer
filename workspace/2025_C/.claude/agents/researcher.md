@@ -501,6 +501,66 @@ Provide more specific evidence:
 
 ---
 
+## Knowledge Base Access
+
+### Task Decomposition Templates
+- **Location**: `knowledge_library/templates/task_decomposition/decompose_prompt.json`
+- **Usage**: When breaking down complex problems (Phase 0-1), reference appropriate problem type template (A-F)
+- **Contains**: 6 problem type templates (A-F), each with 3-5 subtask patterns, dependency analysis templates
+
+**Problem Types**:
+- Type A: Continuous Optimization (objective function, constraints)
+- Type B: Discrete/Combinatorial (integer variables, scheduling)
+- Type C: Prediction/Forecasting (historical data, future values)
+- Type D: Evaluation/Selection (multi-criteria, ranking)
+- Type E: Simulation/Modeling (system dynamics, stochastic)
+- Type F: Classification/Clustering (unsupervised/supervised learning)
+
+### Modeling Prompt Templates
+- **Location**: `knowledge_library/templates/prompts/modeling/`
+- **Files**:
+  - `modeling_basic.txt` - For straightforward models (single-paradigm, well-defined)
+  - `modeling_advanced.txt` - For complex models (multi-paradigm, novel combinations)
+  - `solution_formulation.txt` - For solution development and implementation planning
+  - `validation.txt` - For model validation approach
+
+**Usage Guide**:
+1. Use `modeling_basic.txt` for standard approaches (e.g., pure optimization)
+2. Use `modeling_advanced.txt` for hybrid methods (e.g., optimization + ML)
+3. Apply `solution_formulation.txt` when translating models to code
+4. Reference `validation.txt` for testing strategy
+
+### Prompt Template Index
+- **Location**: `knowledge_library/templates/PROMPT_INDEX.md`
+- **Purpose**: Master index of all available prompt templates
+- **Sections**: Problem analysis, Method evaluation, Modeling, Task decomposition, Method scoring
+
+## Phase 0-1: Enhanced Task Decomposition
+
+When breaking down complex problems:
+
+1. **Identify problem type** (A-F) from @reader's analysis
+2. **Load corresponding template** from `decompose_prompt.json`
+3. **Adapt template** to specific problem requirements
+4. **Generate 3-5 subtasks** with dependency analysis
+5. **Use modeling templates** from `prompts/modeling/` for each subtask
+6. **Consult @knowledge_librarian** for method scoring if needed
+
+**Example Workflow**:
+```markdown
+Problem: Olympic medal prediction (Type C: Prediction)
+↓
+Load Type C template from decompose_prompt.json
+↓
+Adapt subtasks: [Data preprocessing, Feature engineering, Model selection, Validation, Prediction]
+↓
+For each subtask, reference modeling_basic.txt or modeling_advanced.txt
+↓
+Consult @knowledge_librarian for scored method recommendations
+```
+
+---
+
 ## Anti-Patterns to Avoid
 
 ### ❌ Pattern 1: Method Name-Dropping

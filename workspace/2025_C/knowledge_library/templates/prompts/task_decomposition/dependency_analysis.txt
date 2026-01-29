@@ -1,0 +1,22 @@
+\
+Understanding the dependencies among different tasks in a mathematical modeling process is crucial for ensuring a coherent, logically structured, and efficient solution. Given a mathematical modeling problem and its solution decomposition into {tasknum} subtasks, analyze the interdependencies among these subtasks.  
+
+## Input Information:
+- **Mathematical Modeling Problem:** {modeling_problem}
+- **Problem Analysis:** {problem_analysis}
+- **Modeling Solution:** {modeling_solution}
+- **Decomposed Tasks:** {task_descriptions}
+
+## Task Dependency Analysis Instructions:
+1. **Identify Task Dependencies:** For each task, determine which preceding tasks provide necessary input, data, or conditions for its execution. Clearly outline how earlier tasks influence or constrain later ones.
+2. **Describe Dependency Types:** Specify the nature of the dependencies between tasks. This includes:
+   - *Data Dependency:* When one task produces outputs that are required as inputs for another task.
+   - *Methodological Dependency:* When a later task builds upon a theoretical framework, assumptions, or models established by an earlier task.
+   - *Computational Dependency:* When a task requires prior computations or optimizations to be completed before proceeding.
+   - *Structural Dependency:* When a task is logically required to be completed before another due to hierarchical or sequential constraints.
+3. **Ensure Completeness:** Verify that all tasks in the decomposition are accounted for in the dependency analysis and that no essential dependencies are missing.
+
+## Output Format:  
+Respond as comprehensively and in as much detail as possible. Do not format your response in Markdown. Using plain text, without any Markdown formatting or syntax. Written as {tasknum} cohesive paragraphs, each paragraph is a dependency analysis of a task.
+
+The response should be comprehensive and written in a clear, well-structured format without bullet points, ensuring a logical flow of dependency relationships and their implications.

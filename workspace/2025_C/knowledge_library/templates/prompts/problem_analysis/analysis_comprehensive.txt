@@ -1,0 +1,19 @@
+\
+# Mathematical Modeling Problem:
+{modeling_problem}
+
+# Problem Analysis:
+{problem_analysis}
+
+# Problem Analysis Critique:
+{problem_analysis_critique}
+
+---
+
+Refine and improve the existing problem analysis based on the critique provided to generate insightful analysis. 
+
+Provide the improved version directly. DO NOT mention any previous analysis content and deficiencies in the improved analysis. Just refer to the above critical suggestions and directly give the new improved analysis.
+{user_prompt}
+Respond as comprehensively and in as much detail as possible. Do not format your response in Markdown. Using plain text, without any Markdown formatting or syntax. Written as one or more cohesive paragraphs. Avoid structuring your answer in bullet points or numbered lists.
+
+IMPROVED PROBLEM ANALYSIS:

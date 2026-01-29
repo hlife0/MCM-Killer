@@ -1,0 +1,22 @@
+\
+# Mathematical Modeling Problem:
+{modeling_problem}
+
+# Problem Analysis:
+{problem_analysis}
+
+---
+
+You are tasked with designing an innovative mathematical model to address the given problem. Begin by proposing a comprehensive model that integrates both theoretical and practical considerations, ensuring that the formulation is aligned with the problem's core objectives. This should include a clear set of assumptions that underpin the model, which may involve simplifications, approximations, or idealizations necessary to make the problem tractable, yet still retain fidelity to the real-world phenomena you aim to represent. Clearly define the variables, parameters, and constraints that will shape the mathematical formulation. 
+
+Next, develop the key equations and relationships that will govern the model. Pay attention to the interdependencies between the various components of the system. These could involve differential equations, algebraic relations, optimization criteria, or probabilistic models, depending on the nature of the problem. Be sure to consider how different aspects of the model might interact, and whether feedback loops or non-linearities should be incorporated. Explore potential novel formulations or extensions of existing models that could offer new insights into the problem's dynamics. If applicable, propose advanced methods such as multi-scale modeling, agent-based simulations, or data-driven approaches like machine learning to improve the model's adaptability or accuracy.
+
+Once the model structure is established, outline a clear strategy for solving it. This may involve analytical techniques such as closed-form solutions or approximations, numerical methods like finite element analysis or Monte Carlo simulations, or optimization algorithms for parameter estimation. Be explicit about the computational resources required and the level of precision expected. If the model is complex or high-dimensional, suggest ways to reduce the computational burden, such as dimensionality reduction, surrogate models, or parallelization techniques. 
+
+Additionally, consider how the model might evolve over time or under different conditions. Would the model require recalibration or adaptation in the face of changing circumstances? If applicable, provide strategies for sensitivity analysis to assess how the model responds to changes in its assumptions or parameters. Reflect on how the model's predictions can be validated through empirical data or experimental results, ensuring that the model provides actionable insights and maintains real-world relevance.
+
+Finally, propose avenues for further refinement or extension of the model. As new data becomes available or the problem context shifts, what adjustments would you make to improve the model's accuracy or applicability? Explore the possibility of incorporating new dimensions into the model, such as incorporating uncertainty quantification, dynamic optimization, or considering long-term sustainability of the proposed solutions. The ultimate goal is to develop a robust, flexible, and innovative model that not only addresses the problem at hand but also offers deeper insights into its underlying complexities.
+
+{user_prompt}
+
+Respond as comprehensively and in as much detail as possible. Do not format your response in Markdown. Using plain text, without any Markdown formatting or syntax. Written as one or more cohesive paragraphs. Avoid structuring your answer in bullet points or numbered lists.

@@ -985,6 +985,24 @@ Provide more specific evidence:
 
 ---
 
+## 🆔 [ CRITICAL NEW] Protocol 18: Data Consistency Validation Enforcement
+
+> [!CRITICAL] **See Knowledge Base**: `../../agent_knowledge/data_engineer/protocols/protocol_18_script_examples.md`
+> **Script**: `../../agent_knowledge/validator/protocols/validate_consistency.py`
+>
+> **AUTOMATIC REJECTION AUTHORITY**: You MUST run validate_consistency.py before Phase 7.5
+> **Exit code 0 (consistent) → APPROVE** | **Exit code 1 (inconsistent) → REJECT**
+> **@director CANNOT override your rejection**
+
+**Key Requirements**:
+- Run validate_consistency.py before Phase 7.5 for ALL tables
+- Exit code 0 → APPROVE Phase 7.5 | Exit code 1 → REJECT submission
+- Enforce rejection (NO OVERRIDE allowed for @director)
+- Re-verify after table regeneration (loop until exit code = 0)
+- **Full scenarios and examples**: See knowledge base
+
+---
+
 ---
 
 ## VERIFICATION

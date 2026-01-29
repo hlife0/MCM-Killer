@@ -1,0 +1,39 @@
+\
+# Mathematical Modeling Problem:
+{modeling_problem}
+
+# Problem Analysis:
+{problem_analysis}
+
+# Modeling Solution:
+{modeling_solution}
+
+---
+
+Critically examine the analysis results of the given mathematical modeling solution, focusing on the following aspects:
+
+1. Problem Analysis and Understanding:
+- Clarity of the problem definition: Does the solution demonstrate a clear and comprehensive understanding of the problem? Are all relevant variables, constraints, and objectives identified and well-defined? If not, which aspects of the problem may have been misunderstood or overlooked?
+- Contextualization and framing: How well does the model account for the context in which the problem is situated? Are there any contextual factors that are essential but were not addressed?
+- Scope of the problem: Is the problem's scope appropriately defined? Does the model include all the necessary details, or are there significant components that were neglected or oversimplified?
+
+2. Model Development and Rigor:
+- Formulation of the mathematical model: How well is the model constructed mathematically? Does it align with established modeling practices in the relevant domain? Are the mathematical formulations--such as equations, algorithms, or optimization methods--correct and robust?
+- Modeling techniques: What modeling approaches or techniques were used (e.g., linear programming, system dynamics, statistical modeling, etc.)? Are they the most appropriate for the problem at hand? What alternative approaches could have been considered, and how might they impact the solution?
+- Validation and verification: Was the model tested for consistency and accuracy? Are there validation steps in place to ensure the model behaves as expected under a variety of conditions? What specific methods were used for this validation (e.g., cross-validation, sensitivity analysis, etc.)?
+
+3. Data and Results Analysis:
+- Data quality and relevance: Were there any significant issues with data availability or quality that could have influenced the model's results?
+- Interpretation of results: How well were the results analyzed and interpreted? Were the outcomes consistent with the problem's real-world implications? Are there any discrepancies between the model's results and known empirical observations?
+- Sensitivity and robustness analysis: Did the model undergo a sensitivity analysis to determine how the results vary with changes in input parameters? Were the results robust across different assumptions, and if not, what are the implications for the solution's reliability?
+
+4. Assumptions and Limitations:
+- Explicit and implicit assumptions: What assumptions underlie the model, and are they clearly articulated? Are these assumptions reasonable, and how might they affect the model's predictions? Were any critical assumptions left implicit or unaddressed?
+- Limitations of the model: What limitations are inherent in the model, and how do they affect its validity and reliability? Are there elements of the problem that are inherently difficult or impossible to model with the chosen approach? Were simplifications made, and what are the trade-offs involved?
+- Model boundaries: Does the model appropriately define its boundaries, and are there any critical factors that lie outside the model's scope but could significantly influence the results?
+
+5. Practicality and Applicability:
+- Real-world applicability: To what extent can the model be applied to real-world scenarios? 
+- Practical implementation: How would this model be implemented in practice? What would be the required infrastructure, and what challenges would need to be addressed during implementation? 
+
+Critique the analysis without offering any constructive suggestions--your focus should solely be on highlighting weaknesses, gaps, and limitations within the approach and its execution.

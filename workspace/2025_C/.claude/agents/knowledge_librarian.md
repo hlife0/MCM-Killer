@@ -142,6 +142,86 @@ template = "Title: {TITLE}".format_map(safe_dict)
 
 ---
 
+## Method Scoring Tool
+
+### Tool Location
+`tools/method_scorer.py` (adapted from MM_Assets_Export)
+
+### Usage
+
+#### Manual Scoring
+1. Read problem description from @reader's requirements_checklist.md
+2. Identify candidate methods from HMML 2.0
+3. Apply 5-dimensional rubric (see below)
+4. Rank by total score
+5. Return top-k methods (k=6-10)
+
+#### Scoring Rubric Reference
+**Location**: `knowledge_library/method_scoring/scoring_rubric.md`
+
+**Five Dimensions** (0-10 scale each):
+1. **Applicability** (适用性) - Problem fit
+2. **Feasibility** (可行性) - Implementation practicality
+3. **Cost/Efficiency** (成本/效率) - Resource requirements
+4. **Risk** (风险) - Failure likelihood (higher = lower risk)
+5. **Clarity** (清晰度) - Implementation clarity
+
+**Total Score** = Average of all 5 dimensions
+
+#### Scoring Guidelines
+
+**Conservative Approach**:
+- When uncertain, use scores 5-7 (moderate)
+- Risk: Default to moderate unless clearly proven
+- Feasibility: Assume feasible unless clearly impossible
+
+**Red Flags** (Auto-reject):
+- Applicability < 5: Wrong problem type
+- Feasibility < 4: Impossible to implement
+- Risk < 3: Experimental/unproven for competition
+
+#### Example Output Format
+
+```markdown
+# Top 6 Methods for [Problem Name]
+
+## 1. [Method Name] (Total: 8.4/10)
+**Scores**: Applicability: 9.0, Feasibility: 8.0, Cost/Efficiency: 9.0, Risk: 7.0, Clarity: 9.0
+**Rationale**: [2-3 sentence justification based on 5-dim analysis]
+
+## 2. [Method Name] (Total: 8.1/10)
+[... continue for top 6-10 methods ...]
+```
+
+---
+
+## Enhanced HMML Access
+
+### HMML 2.0 Methods
+- **Base location**: `knowledge_library/hmml_summary.json`
+- **Total methods**: 97 (original HMML 2.0)
+
+**Current Status**: ✅ HMML migration complete - All methods available in hmml_summary.json
+
+### Method Evaluation Templates
+- **Location**: `knowledge_library/templates/prompts/method_evaluation/`
+- **Available templates**:
+  - `critique_five_dimensions.txt` - Detailed 5-dim analysis
+  - Additional templates (scoring, comparison, selection_rationale, feasibility_check) to be created
+
+**Usage**:
+1. Load `critique_five_dimensions.txt` for detailed method analysis
+2. Apply 5-dimensional scoring rubric
+3. Compare methods across dimensions
+4. Generate ranked recommendations
+
+### Prompt Template Index
+- **Location**: `knowledge_library/templates/PROMPT_INDEX.md`
+- **Purpose**: Master index of all available prompt templates
+- **Usage**: Reference for finding relevant templates during method evaluation
+
+---
+
 ## The Anti-Mediocrity Protocol
 
 ### Step 1: Identify Domain

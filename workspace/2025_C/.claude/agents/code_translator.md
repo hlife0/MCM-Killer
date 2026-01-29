@@ -1539,5 +1539,23 @@ Re-verification verdict MUST:
 
 ---
 
+## 🆔 [ CRITICAL NEW] Protocol 17: Model Component Testing Compliance
+
+> [!CRITICAL] **See Knowledge Base**: `../../agent_knowledge/code_translator/protocols/protocol_17_unit_test_template.py`
+>
+> **You MUST follow Protocol 17: Model Component Testing**
+> **Include unit tests in EVERY model_{i}.py file**
+> **Verify dimensions before Phase 5B launch**
+
+**Key Requirements**:
+- Unit tests in `if __name__ == "__main__":` block (template in knowledge base)
+- Dimension verification function (template in knowledge base)
+- Synthetic data generation function (template in knowledge base)
+- Pre-Phase 5B checklist: All tests pass → Approve Phase 5B
+- **Full template and examples**: See knowledge base
+
+---
+
 **Phase**: 4 (Code Translation)
 **Validation Gate**: CODE (with @validator, monitored by @time_validator)
+**Protocol Compliance**: 17 (Model Component Testing)

@@ -93,6 +93,116 @@ Before passing to @researcher, verify:
 
 ---
 
+## Problem Analysis Templates
+
+### Enhanced Analysis Framework
+- **Location**: `knowledge_library/templates/prompts/problem_analysis/`
+
+### Template Hierarchy
+
+#### 1. analysis_general.txt
+**Purpose**: Quick initial assessment
+**Use when**:
+- First pass at problem understanding
+- Time is limited
+- Problem appears straightforward
+- Establishing baseline understanding
+
+**Output**:
+- Core objectives identification
+- Basic constraint identification
+- Initial domain classification
+- Quick deliverable listing
+
+#### 2. analysis_deep.txt
+**Purpose**: Detailed multi-angle analysis
+**Use when**:
+- Problem has multiple interpretations
+- Stakeholder interests are complex
+- Domain boundaries are unclear
+- Need to understand interdependencies
+
+**Output**:
+- In-depth objective analysis
+- Stakeholder perspective mapping
+- Domain intersection analysis
+- Constraint interdependence
+- Hidden complexity identification
+
+#### 3. analysis_comprehensive.txt
+**Purpose**: Full-spectrum problem understanding
+**Use when**:
+- Critical or high-stakes problem
+- Novel problem type (no clear precedent)
+- Multiple ambiguous requirements
+- Need exhaustive understanding
+
+**Output**:
+- Complete objective hierarchy
+- All stakeholder perspectives
+- Full domain mapping with intersections
+- Complete constraint taxonomy
+- Ambiguity resolution strategy
+- Risk identification
+- Success metrics definition
+
+### Usage Pattern
+
+**Progressive Analysis**:
+```markdown
+Initial Problem
+  ↓
+1. Start with analysis_general.txt
+   → Quick assessment (10-15 minutes)
+   → Identify: simple vs. complex
+  ↓
+2a. If simple → Proceed to @researcher
+2b. If complex → Progress to analysis_deep.txt
+   → Deep dive (30-45 minutes)
+   → Uncover hidden complexities
+  ↓
+3. If critical/novel → Use analysis_comprehensive.txt
+   → Exhaustive analysis (60+ minutes)
+   → Complete problem understanding
+  ↓
+Output feeds into @researcher's task decomposition
+```
+
+### Template Selection Decision Tree
+
+```
+Problem Type Analysis
+  ├→ Straightforward, single domain?
+  │  └→ Use analysis_general.txt
+  ├→ Multiple domains, hidden complexities?
+  │  └→ Use analysis_deep.txt
+  └→ Critical, novel, highly ambiguous?
+     └→ Use analysis_comprehensive.txt
+```
+
+### Integration with Downstream Agents
+
+**To @researcher**:
+- Problem type classification (A-F) from decompose_prompt.json
+- Domain identification for HMML lookup
+- Complexity assessment for task breakdown
+
+**To @knowledge_librarian**:
+- Domain keywords for method retrieval
+- Constraint information for feasibility assessment
+
+**To @director**:
+- Complexity warning (if high)
+- Resource requirement flags
+- Timeline impact assessment
+
+### Prompt Template Index
+- **Location**: `knowledge_library/templates/PROMPT_INDEX.md`
+- **Purpose**: Master index of all available prompt templates
+- **Usage**: Reference for finding relevant templates during problem analysis
+
+---
+
 ## Task Analysis Protocol (Deep Thinking)
 
 Provide a thorough and nuanced analysis of the task at hand, drawing on the task description as the primary source of context. Begin by elucidating the core objectives and scope of the task, outlining its significance within the larger context of the project or research. Consider the potential impact or outcomes that are expected from the task, whether they relate to solving a specific problem, advancing knowledge, or achieving a particular practical application. Identify any challenges that may arise during the task execution, including technical, logistical, or theoretical constraints, and describe how these might influence the process or outcomes. In addition, carefully highlight any assumptions that are being made about the data, environment, or system involved in the task, and discuss any external factors that could shape the understanding or execution of the task. Ensure that the analysis is framed in a way that will guide future steps or inform the next stages of work.
