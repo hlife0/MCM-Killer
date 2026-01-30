@@ -172,6 +172,8 @@ You are the **conductor** of the 18-agent orchestra. You don't perform individua
 > [!CAUTION] **FOLLOW DIRECTOR PRIORITY HIERARCHY**: 1. Data Integrity (ABSOLUTE) | 2. Model Completeness (CRITICAL) | 3. Code Correctness (CRITICAL) | 4. Paper Quality (HIGH) | 5. Efficiency (MEDIUM) | 6. Polish (LOW)
 >
 > [!CAUTION] **MANDATORY ORCHESTRATION LOG UPDATE AFTER EVERY PHASE** - You MUST update `output/docs/orchestration_log.md` IMMEDIATELY after EVERY phase completes | Update BEFORE calling next agent | Update BEFORE proceeding to next phase | **Batch updates are FORBIDDEN** - each phase gets its own update | @time_validator will REJECT if orchestration_log.md is stale | **Violation = Phase incomplete, cannot proceed**
+>
+> [!CAUTION] **MANDATORY TIME VALIDATION GATE BEFORE NEXT PHASE (BLOCKING)** - After EVERY phase completion, you MUST: (1) **SELF-CHECK duration against threshold** (see table: Phase 0: 14m | 0.2: 5m | 0.5: 7m | 1: 63m | 2: 14m | 3: 28m | 4: 28m | 5: 252m | 6: 14m) | (2) If duration < threshold → **AUTO-REJECT immediately, force rerun, do NOT proceed** | (3) If duration >= threshold → **CALL @time_validator** for verification | (4) **WAIT for @time_validator verdict** (APPROVE/REJECT/INVESTIGATE) | (5) If REJECT → force rerun, do NOT proceed | (6) **ONLY if APPROVE** → update log, proceed to next phase | **Skipping @time_validator = Phase NOT complete = CANNOT proceed = Academic Fraud**
 
 ---
 
@@ -301,14 +303,42 @@ Agent discovers upstream problem → Suggests Rewind → Director evaluates (sev
 ### Step 6: Execute Action
 - [ ] Proceed: Call next? | [ ] Rework: Follow protocol? | [ ] Rewind: Follow protocol?
 
-### Step 7: Update Orchestration Log (MANDATORY - Protocol 17)
+### Step 7: Time Validation Gate (MANDATORY - BLOCKING - Protocol 2)
+
+> [!CRITICAL] **You CANNOT skip this step. Phase is NOT complete until @time_validator APPROVES.**
+
+**Quick Reference - Minimum Thresholds (-30%)**:
+| Phase | 0 | 0.2 | 0.5 | 1 | 1.5 | 2 | 3 | 4 | 4.5 | 5 | 5.5 | 5.8 | 6 | 6.5 | 7A-F | 7.5 | 8-10 | 9.1 |
+|-------|---|-----|-----|---|-----|---|---|---|-----|---|-----|-----|---|-----|------|-----|------|-----|
+| Threshold | 14m | 5m | 7m | 63m | 3m | 14m | 28m | 28m | 3m | 252m | 3m | 7m | 14m | 3m | varies | 3m | 14m | 7m |
+
+- [ ] **7a. SELF-CHECK**: Compare actual duration against threshold above
+  - Actual duration: _____ min
+  - Threshold for this phase: _____ min
+  - **Is duration >= threshold?** YES / NO
+- [ ] **7b. If duration < threshold**: **STOP HERE. AUTO-REJECT.**
+  - Log rejection in `output/docs/time_rejections.md`
+  - Force agent to rerun phase with message: "Phase {X} REJECTED - Duration {actual}m < threshold {threshold}m. Rerun with full rigor."
+  - **DO NOT proceed to Step 8. Return to Step 2.**
+- [ ] **7c. If duration >= threshold**: Call @time_validator with Phase Time Check prompt:
+  ```
+  @time_validator: Phase Time Check
+  Phase: {X} ({name}) | Agent: @{agent} | Duration: {XX}m | Threshold: {YY}m
+  Self-check: Duration {XX}m >= Threshold {YY}m ✓
+  Verify: 1. Check orchestration_log.md updated 2. Validate timing 3. Return verdict
+  ```
+- [ ] **7d. WAIT for @time_validator verdict**: APPROVE / REJECT / INVESTIGATE
+- [ ] **7e. If REJECT or INVESTIGATE**: Do NOT proceed. Fix issue first.
+- [ ] **7f. If APPROVE**: Proceed to Step 8.
+
+### Step 8: Update Orchestration Log (ONLY after Step 7 passes - Protocol 17)
 - [ ] Read current orchestration_log.md?
 - [ ] Update Phase Execution Table row for this phase (Start, End, Duration, Status, Quality Gate)?
 - [ ] Add Protocol Enforcement Log entry if applicable?
 - [ ] **VERIFY update completed BEFORE calling next agent**?
 - **If NOT updated**: Phase is NOT complete. Update first.
 
-### Step 8: Update Manifest
+### Step 9: Update Manifest
 - [ ] Update VERSION_MANIFEST.json? | [ ] Log decision? | [ ] Record timestamp?
 
 ---
@@ -329,9 +359,19 @@ Agent discovers upstream problem → Suggests Rewind → Director evaluates (sev
 
 ---
 
-## Phase Completion Protocol (v3.2.0)
+## Phase Completion Protocol (v3.2.1)
 
-> [!CRITICAL] **After EVERY phase completion, Director MUST validate time with @time_validator.**
+> [!CRITICAL] **BLOCKING REQUIREMENT - Time Validation Gate**
+>
+> After agent reports phase completion, Director MUST:
+> 1. **SELF-CHECK duration** against threshold table below (if duration < threshold → REJECT immediately, force rerun)
+> 2. **CALL @time_validator** with Phase Time Check prompt (MANDATORY even if self-check passes)
+> 3. **WAIT for @time_validator verdict** (APPROVE / REJECT / INVESTIGATE)
+> 4. **If REJECT**: Log in time_rejections.md, force rerun, **DO NOT update log, DO NOT proceed**
+> 5. **ONLY if APPROVE**: Update orchestration log, proceed to next phase
+>
+> **Skipping @time_validator = Academic Fraud** (allowing incomplete/rushed work to contaminate downstream phases)
+>
 > **Details**: knowledge_base/phase_completion_protocol.md
 
 ### Phase Time Requirements

@@ -1,6 +1,6 @@
-# Phase Completion Protocol (v3.2.0)
+# Phase Completion Protocol (v3.2.2)
 
-> **Source**: CLAUDE.md v3.2.0 Phase Completion Protocol
+> **Source**: CLAUDE.md v3.2.1 Phase Completion Protocol
 > **Purpose**: Detailed reference for phase timing validation and completion reporting
 
 ---
@@ -11,6 +11,47 @@ After EVERY phase completion, Director MUST validate time with @time_validator. 
 1. Agents spend adequate time on each phase
 2. Work is not rushed or shortcuts taken
 3. Quality is maintained through time accountability
+
+---
+
+## Blocking Workflow (MANDATORY)
+
+> [!CRITICAL] **This workflow is BLOCKING. Director CANNOT skip any step.**
+
+```
+Agent completes phase → Reports to Director
+                ↓
+┌─────────────────────────────────────────────────────────────┐
+│ STEP 7a: Director SELF-CHECK                                │
+│ Compare actual duration vs threshold from table             │
+│ Duration >= Threshold?                                      │
+└─────────────────────────────────────────────────────────────┘
+        ↓ NO                              ↓ YES
+┌───────────────────┐         ┌───────────────────────────────┐
+│ STEP 7b: REJECT   │         │ STEP 7c: Call @time_validator │
+│ Log rejection     │         │ Include self-check result     │
+│ Force rerun       │         └───────────────────────────────┘
+│ Return to Step 2  │                     ↓
+│ (do NOT proceed)  │         ┌───────────────────────────────┐
+└───────────────────┘         │ STEP 7d: WAIT for verdict     │
+                              │ APPROVE / REJECT / INVESTIGATE│
+                              └───────────────────────────────┘
+                                          ↓
+                    ┌─────────────────────┴─────────────────────┐
+                    ↓ REJECT/INVESTIGATE                        ↓ APPROVE
+        ┌───────────────────┐                   ┌───────────────────────────┐
+        │ STEP 7e: BLOCK    │                   │ STEP 7f: PROCEED          │
+        │ Log rejection     │                   │ → Step 8: Update log      │
+        │ Force rerun       │                   │ → Step 9: Update manifest │
+        │ (do NOT proceed)  │                   │ → Call next agent         │
+        └───────────────────┘                   └───────────────────────────┘
+```
+
+**Key Points**:
+- @time_validator is the **BLOCKING GATE** - no progression without APPROVE
+- Director self-check catches obvious violations immediately (duration < threshold)
+- Even if self-check passes, @time_validator must still verify
+- Skipping @time_validator = Academic Fraud
 
 ---
 
@@ -263,4 +304,4 @@ After successful time validation, update manifest:
 
 ---
 
-*Reference: CLAUDE.md - Phase Completion Protocol (v3.2.0)*
+*Reference: CLAUDE.md - Phase Completion Protocol (v3.2.2)*

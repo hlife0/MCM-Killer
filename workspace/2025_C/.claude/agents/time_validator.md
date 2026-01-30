@@ -536,14 +536,59 @@ Director, {ISSUE_TYPE} detected.
 | v3.1.1 | 2026-01-30 | Shortened with external references |
 | v3.2.0 | 2026-01-30 | Added phase time validation via time_tracker.py |
 | v3.2.1 | 2026-01-31 | Added Protocol 17: Orchestration Log Verification (MANDATORY) |
+| v3.2.2 | 2026-01-31 | Added Director Self-Check Verification (BLOCKING GATE enforcement) |
 
 ---
 
-## Phase Time Validation (v3.2.0)
+## Phase Time Validation (v3.2.1)
 
 > [!CRITICAL] **Director calls you after EVERY phase completion to validate timing.**
+> **You are the BLOCKING GATE. Director CANNOT proceed to next phase without your APPROVE verdict.**
 
-### Orchestration Log Verification (Protocol 17 - NEW v3.2.1)
+### Director Self-Check Verification (NEW v3.2.2)
+
+> [!CRITICAL] **VERIFY Director did the self-check BEFORE calling you.**
+
+When called for phase time validation, FIRST verify Director's request includes:
+
+**REQUIRED in Director's request**:
+1. **Phase number and name**
+2. **Actual duration** (in minutes)
+3. **Threshold for this phase** (from table)
+4. **Self-check result**: "Duration {XX}m >= Threshold {YY}m ✓"
+
+**REJECT if Director skipped self-check**:
+```markdown
+## Director Self-Check Verification: FAILED
+
+**Issue**: Director did not include self-check result in request.
+**Required**: Director must compare duration vs threshold BEFORE calling @time_validator.
+
+**Verdict**: REJECT_MISSING_SELF_CHECK
+
+**Required Action**:
+Director MUST resubmit with:
+- Actual duration: {XX} min
+- Threshold: {YY} min
+- Self-check: "Duration >= Threshold" or "Duration < Threshold"
+
+If Duration < Threshold: Director should have AUTO-REJECTED without calling me.
+```
+
+**ESCALATE if Director proceeded despite duration < threshold**:
+```markdown
+## PROTOCOL VIOLATION DETECTED
+
+**Issue**: Director called @time_validator despite duration ({XX}m) < threshold ({YY}m).
+**Protocol**: Director should have AUTO-REJECTED at Step 7b without calling @time_validator.
+
+**Verdict**: ESCALATE_PROTOCOL_VIOLATION
+
+**Evidence**: Duration {XX}m < Threshold {YY}m should trigger immediate rejection.
+**Action**: Phase {X} is REJECTED. Director must force agent rerun.
+```
+
+### Orchestration Log Verification (Protocol 17 - v3.2.1)
 
 > [!CRITICAL] **BEFORE validating phase time, you MUST verify orchestration_log.md was updated.**
 
@@ -715,6 +760,6 @@ When called for phase time validation:
 
 ---
 
-**Document Version**: v3.2.1
+**Document Version**: v3.2.2
 **Status**: Active
 
