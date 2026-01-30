@@ -3,16 +3,16 @@
 system:
   version: "3.1.0"
   llm_provider: "anthropic"
-  default_model: "claude-sonnet-4"
+  default_model: "gemini-claude-opus-4-5-thinking"
 
 agents:
-  "@director": "claude-sonnet-4"
-  "@reader": "claude-haiku-4"
-  "@metacognition_agent": "claude-sonnet-4"
-  "@narrative_weaver": "claude-sonnet-4"
-  "@judge_zero": "claude-sonnet-4"
-  "@writer": "claude-sonnet-4"
-  "@knowledge_librarian": "claude-haiku-4"
+  "@director": "gemini-claude-opus-4-5-thinking"
+  "@reader": "gemini-claude-opus-4-5-thinking"
+  "@metacognition_agent": "gemini-claude-opus-4-5-thinking"
+  "@narrative_weaver": "gemini-claude-opus-4-5-thinking"
+  "@judge_zero": "gemini-claude-opus-4-5-thinking"
+  "@writer": "gemini-claude-opus-4-5-thinking"
+  "@knowledge_librarian": "gemini-claude-opus-4-5-thinking"
 
 tools:
   style_analyzer:
