@@ -222,10 +222,12 @@ def list_phases() -> None:
         phase = data.get('phase', '?')
         name = data.get('phase_name', 'Unknown')
         status = data.get('status', 'unknown')
-        duration = data.get('duration_minutes', 'N/A')
+        duration = data.get('duration_minutes')
         verdict = data.get('time_verdict', 'N/A')
 
-        print(f"Phase {phase:5s} ({name:25s}): {status:12s} | {duration:>6} min | {verdict}")
+        # Handle None duration for in-progress phases
+        duration_str = f"{duration:.2f}" if duration is not None else "N/A"
+        print(f"Phase {phase:5s} ({name:25s}): {status:12s} | {duration_str:>6} min | {verdict}")
 
     if not logs:
         print("No timing logs found.")
