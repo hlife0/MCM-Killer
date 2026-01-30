@@ -512,6 +512,19 @@ When @time_validator predicts >48 hours training: **ESCALATE_TO_DIRECTOR** for d
 **Output**: paper.tex → paper.pdf
 **Validation**: ✅ PAPER (4 agents) after Phase 7F
 
+#### Phase 7 Sub-Phase Workflow with Editor Feedback
+
+| Sub-Phase | Writer Action | Editor Feedback | Target Pages | Cumulative | O-Prize % |
+|-----------|--------------|-----------------|--------------|------------|-----------|
+| **7A** | Abstract + Intro + Notation | Page check (target: 3 pages) | 3 | 3 | 10.7% |
+| **7B** | Model sections | Page check (cumulative: 14 pages) | 11 | 14 | 39.3% |
+| **7C** | Results + figures | Page check (cumulative: 21 pages) | 7 | 21 | 25.0% |
+| **7D** | Sensitivity + Strengths/Weaknesses + Conclusions | Page check (cumulative: 25 pages) | 4 | 25 | 14.3% |
+| **7E** | References + Appendix | Page check (cumulative: 28 pages) | 3 | 28 | 10.7% |
+| **7F** | LaTeX compilation | - | 0 | 28 | - |
+
+**Note**: Phase allocations based on analysis of 8 O-Prize papers (2020-2022). Model section is largest (39%), followed by Results (25%).
+
 ---
 
 ### Phase 7A: Paper Framework
@@ -588,6 +601,35 @@ When @time_validator predicts >48 hours training: **ESCALATE_TO_DIRECTOR** for d
 
 ### Phase 7 Checkpoint/Resume Protocol
 
+### Editor Feedback After Each Sub-Phase
+
+After each Phase 7 sub-phase (7A-7F), @director calls @editor:
+
+**@director**: "@editor: Review Phase 7[X] page count and formatting
+- File: output/paper/paper.tex
+- Sections: [list sections just written]
+- Writer's page count: [X.X] pages
+- Budget: [target] pages
+
+Provide page count feedback using Protocol 17."
+
+**@editor response format**:
+```
+Phase 7[X] Page Count Feedback:
+
+Measured: [X.X] pages (using pdflatex word count)
+Target: [Y] pages
+Status: ✅ GREEN / ⚠️ YELLOW / 🔴 RED / 🛑 CRITICAL
+
+[If YELLOW/RED/CRITICAL]:
+Recommendations:
+- [Specific suggestion 1]
+- [Specific suggestion 2]
+
+@writer: [if changes needed] Please revise [section] to reduce by [X] pages.
+Director: [if OK] Proceed to Phase 7[next].
+```
+
 **Checkpoint Tracking**: After each Phase 7 sub-phase (7A-7F), update VERSION_MANIFEST.json:
 
 ```json
@@ -617,10 +659,21 @@ When @time_validator predicts >48 hours training: **ESCALATE_TO_DIRECTOR** for d
 
 ---
 
-### Phase 7.5: LaTeX Compilation Gate
+### Phase 7.5: LaTeX Quality Gate
 
-**Purpose**: Verify LaTeX compiles
-**Decision**: ✅ PASS → Phase 8 | ❌ 3 failures → Rewind
+**Purpose**: Verify LaTeX compiles AND formatting quality
+**Agents**: @editor (primary), @writer (fixes)
+**Checks**:
+1. Compilation success (existing)
+2. Blank space detection (NEW)
+3. Text overflow detection (NEW)
+4. Page breaks and figure placement (NEW)
+
+**Decision**:
+- ✅ PASS → Phase 8
+- ⚠️ FORMATTING ISSUES → @writer revises → Re-check
+- ❌ 3 failures → Rewind to Phase 7
+
 **Details**: knowledge_base/phase_details.md#phase-75
 
 ---

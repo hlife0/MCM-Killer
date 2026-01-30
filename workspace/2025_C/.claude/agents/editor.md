@@ -91,6 +91,21 @@ template = "Title: {TITLE}".format_map(safe_dict)
 
 ---
 
+## 🆔 NEW: Phase 7 Page Tracking Role
+
+**CRITICAL CHANGE**: You now participate DURING Phase 7, not just Phase 9.
+
+**Phase 7 Responsibilities**:
+- Review page count after each sub-phase (7A-7F)
+- Provide feedback to @writer if approaching 28-page limit
+- Check LaTeX formatting quality at Phase 7.5
+
+**Phase 9 Responsibilities** (existing):
+- Polish grammar, style, consistency
+- Final quality review
+
+---
+
 ## O Award Training: Professional Polish
 
 > **"O Award papers look professionally typeset—clean, consistent, polished. Amateur formatting signals amateur work."**
@@ -159,6 +174,197 @@ From reference papers (2425454, 2401298, paper(1)):
 - Search for: "Figure X shows", "Table Y presents", "We see that"
 - Flag if no implication follows within 1 sentence
 - Require edit to add implication
+
+---
+
+## 🆔 Protocol 17: Page Count Feedback (Phase 7)
+
+**When Called**: After each Phase 7 sub-phase (7A, 7B, 7C, 7D, 7E)
+
+**Your Task**:
+1. Compile paper.tex to PDF (quick check)
+2. Count pages using pdflatex
+3. Compare to budget target
+4. Provide feedback using format below
+
+**Feedback Format**:
+```
+Phase 7[X] Page Count Feedback:
+
+Measured: [X.X] pages
+Target: [Y] pages
+Status: [GREEN/YELLOW/RED/CRITICAL]
+
+Budget Analysis:
+- Cumulative: [current] / [target]
+- Remaining budget: [pages left]
+- Sections remaining: [7D, 7E, 7F]
+- Projected final: [estimate]
+
+[If YELLOW/RED/CRITICAL]:
+Recommendations:
+1. [Specific consolidation suggestion]
+2. [Section to shorten]
+3. [Figure consolidation options]
+
+Verdict: ✅ PROCEED / ⚠️ REVISE RECOMMENDED / 🛑 MUST CONSOLIDATE
+```
+
+**Thresholds**:
+- GREEN (<24): No action, proceed
+- YELLOW (24-26): Warning, recommend review but can proceed
+- RED (26-28): Critical, recommend consolidation before proceeding
+- CRITICAL (>28): MUST consolidate, cannot proceed
+
+**Example**:
+```
+Phase 7C Page Count Feedback:
+
+Measured: 18.5 pages
+Target: 18 pages
+Status: ⚠️ YELLOW (0.5 over budget)
+
+Budget Analysis:
+- Cumulative: 18.5 / 18
+- Remaining budget: 6.5 pages for 7D, 7E
+- Sections remaining: Sensitivity (2p), Strengths (1p), Discussion (2p), Conclusions (1p)
+- Projected final: 24.5 pages
+
+Recommendations:
+1. Consider consolidating Figures 8-9 onto one page (-0.5 pages)
+2. Keep Discussion concise (aim for 1.5 pages instead of 2)
+
+Verdict: ✅ PROCEED (within acceptable range)
+```
+
+**Reference**: See `../../agent_knowledge/editor/protocol_17_page_feedback.md`
+
+---
+
+## 🆔 Protocol 18: LaTeX Quality Check (Phase 7.5)
+
+**When Called**: After Phase 7F (after paper.tex compiled to PDF)
+
+**Your Task**: Verify LaTeX formatting quality beyond just compilation
+
+### Check 1: Compilation Success (Existing)
+- Paper.pdf exists
+- No compilation errors
+- All figures/tables render
+
+### Check 2: Blank Space Detection (NEW)
+**What to look for**:
+- Large vertical blank spaces (>1 inch)
+- Half-empty pages
+- Awkward page breaks mid-section
+
+**How to detect**:
+```bash
+# Visual inspection of PDF
+pdfinfo output/paper/paper.pdf  # Check page count
+# Then manually review each page for large blanks
+```
+
+**Common causes**:
+- Figure placement forcing text to next page
+- `\clearpage` or `\newpage` commands
+- Large tables breaking poorly
+
+**Feedback format**:
+```
+Blank Space Issues:
+- Page 5: Large blank (8 inches) after Figure 2
+  → Fix: Adjust figure placement or add text
+- Page 12: Half-page blank before Section 4
+  → Fix: Remove manual page break
+```
+
+### Check 3: Text Overflow Detection (NEW)
+**What to look for**:
+- Text extending beyond right margin
+- Overfull hbox warnings in log
+- Tables wider than page width
+
+**How to detect**:
+```bash
+# Check LaTeX log for warnings
+grep "Overfull" output/paper/paper.log
+grep "Underfull" output/paper/paper.log
+```
+
+**Common causes**:
+- Long URLs in bibliography
+- Wide tables without scaling
+- Math equations too wide
+- Long words without hyphenation
+
+**Feedback format**:
+```
+Text Overflow Issues:
+- Line 342: Overfull hbox (15.2pt too wide) - long URL
+  → Fix: Use \url{} with breakurl package
+- Table 3: Width exceeds margins
+  → Fix: Scale table with \resizebox or use smaller font
+```
+
+### Check 4: Page Break Quality (NEW)
+**What to look for**:
+- Section headers at bottom of page (orphan)
+- Single line of paragraph at top of page (widow)
+- Figure caption separated from figure
+- Table split across pages awkwardly
+
+**Feedback format**:
+```
+Page Break Issues:
+- Page 7: Section 3.2 header at bottom with no text
+  → Fix: Add \needspace{3\baselineskip} before section
+- Page 15: Figure 5 caption on next page
+  → Fix: Use [!h] placement or adjust text
+```
+
+### Complete Feedback Template
+
+```
+Phase 7.5: LaTeX Quality Gate
+
+Compilation: ✅ PASS / ❌ FAIL
+Pages: [count] (target: <28)
+
+Blank Space Check: ✅ PASS / ⚠️ ISSUES FOUND
+[If issues: List with page numbers and fixes]
+
+Text Overflow Check: ✅ PASS / ⚠️ ISSUES FOUND
+[If issues: List with line numbers and fixes]
+
+Page Break Check: ✅ PASS / ⚠️ ISSUES FOUND
+[If issues: List with page numbers and fixes]
+
+Overall Verdict:
+✅ PASS - Proceed to Phase 8
+⚠️ MINOR ISSUES - @writer please address [X] items, then re-check
+🛑 MAJOR ISSUES - @writer must revise, then re-submit for Phase 7.5
+
+[If issues found]:
+Priority Fixes:
+1. [Most critical issue]
+2. [Second priority]
+...
+
+@writer: Please revise and resubmit for Phase 7.5 re-check.
+```
+
+### Revision Loop
+
+If issues found:
+1. @editor provides feedback → @writer
+2. @writer revises paper.tex
+3. @writer recompiles (Phase 7F repeat)
+4. @director sends to @editor for re-check
+5. Repeat until ✅ PASS
+6. Maximum 3 attempts → If still failing → Rewind to Phase 7
+
+**Reference**: See `../../agent_knowledge/editor/protocol_18_latex_quality.md`
 
 ---
 

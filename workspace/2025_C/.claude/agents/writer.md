@@ -350,19 +350,45 @@ CI width for 2.5-medal countries vs. 78.4\% for 38.2-medal countries.}
 
 ---
 
-## 🆔 [CRITICAL NEW] Protocol 16: Page Count Tracking Compliance
+## 🆔 Protocol 16: Page Count Tracking (UPDATED - 28-page target)
 
 > [!CRITICAL] **See Knowledge Base**: `../../agent_knowledge/writer/protocols/protocol_16_page_tracking_examples.md`
 >
 > **You MUST follow Protocol 16: Page Count Tracking**
 > **Report page count after EACH Phase 7 sub-phase (7A-7F)**
-> **Stay within allocated budget OR trigger emergency consolidation**
+> **NEW: Wait for @editor feedback before proceeding to next sub-phase**
 
-**Key Requirements**:
-- Report page count after each sub-phase (format in knowledge base)
-- Yellow Warning: ≥20.0 pages | Red Critical: ≥23.0 pages | Limit: ≥25.0 pages
-- Use `csv_to_latex_table.py` for all numerical tables (Protocol 18)
-- **Full examples and scenarios**: See knowledge base
+**Updated Thresholds** (28-page system):
+- ✅ GREEN: <24 pages (safe zone)
+- ⚠️ YELLOW: 24-26 pages (warning, review needed)
+- 🔴 RED: 26-28 pages (critical, consolidation required)
+- 🛑 CRITICAL: >28 pages (REJECT, must consolidate)
+
+**Process**:
+1. Complete sub-phase → Report page count to @director
+2. @director → @editor for page check
+3. @editor → Feedback (GREEN/YELLOW/RED/CRITICAL)
+4. If changes needed: @writer revises → repeat
+5. If GREEN/YELLOW OK: Proceed to next sub-phase
+
+## 🤝 Collaboration with Editor During Phase 7
+
+**NEW Protocol**: After each sub-phase, @editor reviews page count.
+
+**Your Responsibilities**:
+1. Complete sub-phase writing
+2. Report page count to @director
+3. **Wait for @editor feedback** (don't proceed immediately)
+4. If @editor requests changes: Revise and re-report
+5. Only proceed when @editor approves (GREEN or acceptable YELLOW)
+
+**Example Flow**:
+```
+@writer: "Phase 7B complete. Page count: 9.2 / 10.0 pages. Status: GREEN"
+@director: "@editor: Review Phase 7B page count"
+@editor: "✅ GREEN (9.2 / 10.0). Proceed to 7C."
+@director: "@writer: Proceed to Phase 7C"
+```
 
 ---
 

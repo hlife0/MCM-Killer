@@ -1,24 +1,75 @@
-# Protocol 16: Page Count Tracking Examples
+# Protocol 16: Page Count Tracking Examples (UPDATED - 28-Page System)
 
 **Agent**: @writer
-**Protocol**: 16 (Page Count Tracking)
-**Purpose**: Show examples of page count reporting and consolidation
+**Protocol**: 16 (Page Count Tracking with Editor Feedback)
+**Purpose**: Show examples of page count reporting, editor feedback, and consolidation
+**NEW**: Editor provides feedback after each sub-phase (7A-7F)
 
 ---
 
-## Example 1: Normal Progression (All Checkpoints Pass)
+## NEW: 28-Page System Overview
+
+**Change**: Target increased from 25 → 28 pages to allow manual reduction later
+
+**Updated Thresholds**:
+- ✅ **GREEN**: <24 pages (safe zone)
+- ⚠️ **YELLOW**: 24-26 pages (warning, review needed)
+- 🔴 **RED**: 26-28 pages (critical, consolidation required)
+- 🛑 **CRITICAL**: >28 pages (REJECT, must consolidate)
+
+**NEW Workflow**: After each sub-phase:
+1. @writer completes sub-phase → Reports page count to @director
+2. @director → @editor for page check (Protocol 17)
+3. @editor → Feedback (GREEN/YELLOW/RED/CRITICAL)
+4. If changes needed: @writer revises → repeat
+5. If GREEN/YELLOW OK: Proceed to next sub-phase
+
+---
+
+## Example 1: Normal Progression with Editor Feedback (All GREEN)
 
 ### Phase 7A Complete
 ```
-Director, Phase 7A complete.
+@writer: Director, Phase 7A complete.
 
 File: output/paper/paper.tex
 Sections written: Abstract, Introduction, Notation
 Page count: 2.8 / 3.0 pages
-Status: ✅ PASS (within budget)
+Status: ✅ GREEN (within budget)
 
 Checkpoint: output/paper/checkpoint_7A.md
-Ready for Phase 7B.
+Awaiting @editor page check before Phase 7B.
+```
+
+**NEW: @director calls @editor for page check**
+```
+@director: @editor, review Phase 7A page count and formatting.
+- File: output/paper/paper.tex
+- Sections: Abstract, Introduction, Notation
+- Writer's page count: 2.8 pages
+- Budget: 3.0 pages
+```
+
+**NEW: @editor provides feedback (Protocol 17)**
+```
+@editor: Phase 7A Page Count Feedback:
+
+Measured: 2.8 pages
+Target: 3 pages
+Status: ✅ GREEN (0.2 under budget)
+
+Budget Analysis:
+- Cumulative: 2.8 / 3
+- Remaining budget: 23.2 pages for 7B-7E
+- Sections remaining: Models (7p), Results (8p), Analysis (4p), Conclusions (4p)
+- Projected final: 25.8 pages
+
+Verdict: ✅ PROCEED to Phase 7B
+```
+
+**@director to @writer**
+```
+@director: @writer, @editor approves. Proceed to Phase 7B.
 ```
 
 ### Phase 7B Complete
@@ -284,32 +335,37 @@ python output/implementation/code/csv_to_latex_table.py \
 
 ---
 
-## Page Budget Reference Table
+## Page Budget Reference Table (O-PRIZE ALIGNED)
 
 ### Quick Reference for @writer
 
-| Section | Budget | Cumulative | Checkpoint |
-|---------|--------|------------|------------|
-| Abstract | 0.3 | 0.3 | - |
-| Introduction | 1.2 | 1.5 | After 7A |
-| Notation | 0.5 | 2.0 | After 7A |
-| Models | 6.0 | 8.0 | After 7B |
-| Data | 2.0 | 10.0 | After 7C |
-| Results | 8.0 | 18.0 | After 7C |
-| Sensitivity | 2.0 | 20.0 | After 7D |
-| Strengths/Weaknesses | 2.0 | 22.0 | After 7D |
-| Discussion | 1.5 | 23.5 | After 7E |
-| Conclusions | 1.0 | 24.5 | After 7E |
-| Bibliography | 0.5 | 25.0 | After 7E |
+**Based on analysis of 8 O-Prize papers (2020-2022):**
 
-### Alert Thresholds
+| Section | Budget | Cumulative | O-Prize % | Checkpoint |
+|---------|--------|------------|-----------|------------|
+| Abstract | 1.0 | 1.0 | 3.6% | - |
+| Introduction | 2.0 | 3.0 | 7.1% | After 7A |
+| Notation | - | 3.0 | - | After 7A |
+| **Models (all)** | 11.0 | 14.0 | 39.3% | After 7B |
+| Results | 7.0 | 21.0 | 25.0% | After 7C |
+| Sensitivity | 2.0 | 23.0 | 7.1% | After 7D |
+| Strengths/Weaknesses | 1.0 | 24.0 | 3.6% | After 7D |
+| Conclusions | 1.0 | 25.0 | 3.6% | After 7D |
+| References | 1.0 | 26.0 | 3.6% | After 7E |
+| Appendix | 2.0 | 28.0 | 7.1% | After 7E |
+
+**Key Insight**: O-Prize papers allocate 39% to model development (NOT introduction). Model section should be detailed with full mathematics.
+
+### Alert Thresholds (UPDATED - 28-Page System)
 
 | Status | Condition | Action |
 |--------|-----------|--------|
-| ✅ PASS | Page count ≤ budget | Proceed to next phase |
-| ⚠️ YELLOW | Page count ≥ 20.0 | Tighten remaining sections |
-| ❌ RED | Page count ≥ 23.0 | Stop writing, consolidate |
-| ❌ CRITICAL | Page count ≥ 25.0 | Block submission, mandatory consolidation |
+| ✅ GREEN | Page count <24 | Proceed to next phase |
+| ⚠️ YELLOW | Page count 24-26 | Warning, review recommended (can proceed) |
+| 🔴 RED | Page count 26-28 | Critical, consolidation recommended before proceeding |
+| 🛑 CRITICAL | Page count >28 | Block progression, MUST consolidate |
+
+**Key Change**: Thresholds shifted from 20/23/25 to 24/26/28 to align with 28-page target.
 
 ---
 
@@ -333,8 +389,226 @@ python output/implementation/code/csv_to_latex_table.py \
 ### 4. Track Continuously
 - Check page count after EVERY section
 - Report to @director at each checkpoint
+- **NEW**: Wait for @editor feedback before proceeding
 - Adjust if approaching yellow/red thresholds
 
 ---
 
-**END OF PROTOCOL 16 EXAMPLES**
+## Example 6: Editor Feedback Workflow (YELLOW Warning at Phase 7C)
+
+### Phase 7C Complete
+```
+@writer: Director, Phase 7C complete.
+
+File: output/paper/paper.tex
+Sections written: Data Description, Results (with figures and tables)
+Page count: 19.5 / 18.0 pages cumulative
+Status: ⚠️ YELLOW (1.5 pages over budget)
+
+Checkpoint: output/paper/checkpoint_7C.md
+Awaiting @editor page check before Phase 7D.
+```
+
+**@director calls @editor for page check**
+```
+@director: @editor, review Phase 7C page count and formatting.
+- File: output/paper/paper.tex
+- Sections: Data Description, Results
+- Writer's page count: 19.5 pages
+- Budget: 18.0 pages
+```
+
+**@editor provides YELLOW feedback (Protocol 17)**
+```
+@editor: Phase 7C Page Count Feedback:
+
+Measured: 19.5 pages
+Target: 18 pages
+Status: ⚠️ YELLOW (1.5 pages over budget)
+
+Budget Analysis:
+- Cumulative: 19.5 / 18
+- Remaining budget: 4.5 pages for 7D, 7E
+- Sections remaining: Sensitivity (2p), Strengths (1p), Discussion (2p), Conclusions (1p)
+- Projected final: 25.5 pages
+
+Recommendations:
+1. Consider consolidating Figures 8-9 into single multi-panel figure (-0.5 pages)
+2. Reduce Results section introduction from 1 page to 0.5 pages (-0.5 pages)
+3. Keep Discussion section concise (aim for 1.5 pages instead of 2 pages)
+
+Verdict: ⚠️ REVISE RECOMMENDED (but can proceed if writer confident)
+```
+
+**@director decision: Option 1 - Request revisions**
+```
+@director: @writer, please implement @editor's recommendations 1 and 2 before proceeding to Phase 7D.
+- Consolidate Figures 8-9 (-0.5 pages)
+- Reduce Results intro (-0.5 pages)
+- Target: 18.5 pages after revisions
+```
+
+**@writer revises and re-reports**
+```
+@writer: Director, Phase 7C revisions complete.
+
+Actions taken:
+1. ✅ Consolidated Figures 8-9 into single multi-panel figure
+2. ✅ Reduced Results introduction from 1.0 to 0.5 pages
+
+Page count: 19.5 → 18.5 pages
+Status: ✅ GREEN (0.5 pages over budget, acceptable)
+
+Awaiting @editor re-check before Phase 7D.
+```
+
+**@editor re-checks**
+```
+@editor: Phase 7C Re-Check:
+
+Measured: 18.5 pages
+Target: 18 pages
+Status: ✅ GREEN (0.5 over budget, within acceptable range)
+
+Budget Analysis:
+- Cumulative: 18.5 / 18
+- Remaining budget: 5.5 pages for 7D, 7E
+- Projected final: 24.5 pages
+
+Verdict: ✅ PROCEED to Phase 7D
+
+Good work consolidating figures and tightening narrative.
+```
+
+**@director to @writer**
+```
+@director: @writer, @editor approves. Proceed to Phase 7D.
+```
+
+---
+
+## Example 7: Editor Feedback Workflow (RED Critical at Phase 7D)
+
+### Phase 7D Complete
+```
+@writer: Director, Phase 7D complete.
+
+File: output/paper/paper.tex
+Sections written: Sensitivity Analysis, Strengths/Weaknesses
+Page count: 26.2 / 22.0 pages cumulative
+Status: 🔴 RED (4.2 pages over budget)
+
+Issue: Sensitivity section longer than expected due to comprehensive parameter variations
+
+Checkpoint: output/paper/checkpoint_7D.md
+Awaiting @editor page check before Phase 7E.
+```
+
+**@director calls @editor for page check**
+```
+@director: @editor, review Phase 7D page count and formatting.
+- File: output/paper/paper.tex
+- Sections: Sensitivity Analysis, Strengths/Weaknesses
+- Writer's page count: 26.2 pages
+- Budget: 22.0 pages
+```
+
+**@editor provides RED feedback (Protocol 17)**
+```
+@editor: Phase 7D Page Count Feedback:
+
+Measured: 26.2 pages
+Target: 22 pages
+Status: 🔴 RED (4.2 pages over budget)
+
+Budget Analysis:
+- Cumulative: 26.2 / 22
+- Remaining budget: -0.2 pages for 7E (DEFICIT)
+- Sections remaining: Discussion (2p), Conclusions (1p)
+- Projected final: 29.2 pages (EXCEEDS 28-PAGE LIMIT)
+
+**CRITICAL**: Current trajectory will exceed 28-page limit.
+
+Emergency Consolidation Plan:
+1. Model sections (reduce 7 pages → 5.5 pages = -1.5 pages):
+   - Consolidate Models 2-3 into integrated framework (-0.5 pages)
+   - Remove equation derivations, cite instead (-0.5 pages)
+   - Merge assumption tables (-0.5 pages)
+
+2. Results section (reduce 8 pages → 6.5 pages = -1.5 pages):
+   - Consolidate Figures 4-5 into multi-panel (-0.5 pages)
+   - Merge Tables 2-3 (-0.5 pages)
+   - Tighten narrative (-0.5 pages)
+
+3. Sensitivity section (reduce 2.5 pages → 1.5 pages = -1 page):
+   - Multi-panel sensitivity figures (-0.5 pages)
+   - Tabulate parameter variations (-0.5 pages)
+
+Total savings: 4 pages → Projected final: 26.2 - 4 = 22.2 pages ✅
+
+Verdict: 🛑 MUST CONSOLIDATE before Phase 7E
+```
+
+**@director decision: BLOCK progression**
+```
+@director: @writer, CRITICAL page count issue. Implement emergency consolidation plan immediately.
+- Target: Reduce from 26.2 to ≤24 pages
+- Do NOT proceed to Phase 7E until cumulative ≤24 pages
+- Follow @editor's consolidation plan exactly
+```
+
+**@writer consolidates and re-reports**
+```
+@writer: Director, consolidation complete.
+
+Actions taken:
+1. ✅ Consolidated Models 2-3 sections (-0.5 pages)
+2. ✅ Removed equation derivations, added citations (-0.5 pages)
+3. ✅ Merged assumption tables (-0.5 pages)
+4. ✅ Consolidated Results Figures 4-5 into multi-panel (-0.5 pages)
+5. ✅ Merged Tables 2-3 (-0.5 pages)
+6. ✅ Tightened Results narrative (-0.5 pages)
+7. ✅ Created multi-panel sensitivity figures (-0.5 pages)
+8. ✅ Tabulated parameter variations (-0.5 pages)
+
+Total pages saved: -4.0
+Page count: 26.2 → 22.2 pages
+Status: ✅ GREEN (0.2 pages over target, acceptable)
+
+Awaiting @editor re-check before Phase 7E.
+```
+
+**@editor re-checks**
+```
+@editor: Phase 7D Re-Check:
+
+Measured: 22.2 pages
+Target: 22 pages
+Status: ✅ GREEN (0.2 over budget, well within acceptable range)
+
+Budget Analysis:
+- Cumulative: 22.2 / 22
+- Remaining budget: 3.8 pages for 7E
+- Sections remaining: Discussion (2p), Conclusions (1p)
+- Projected final: 25.2 pages (within 28-page limit ✅)
+
+Consolidation Quality:
+- Model sections: Well integrated, no loss of clarity
+- Results: Effective figure consolidation
+- Sensitivity: Good use of multi-panel and tables
+
+Verdict: ✅ PROCEED to Phase 7E
+
+Excellent consolidation work. Paper is now on track to finish ≤26 pages.
+```
+
+**@director to @writer**
+```
+@director: @writer, @editor approves. Proceed to Phase 7E.
+- Remaining budget: 3.8 pages for Discussion + Conclusions
+- Stay within budget to avoid further consolidation
+```
+
+---
+
+**END OF PROTOCOL 16 EXAMPLES (UPDATED)**
