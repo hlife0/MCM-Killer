@@ -2,7 +2,7 @@
 name: metacognition_agent
 description: The Philosopher & Forensic Analyst transforming technical struggles into scientific insights
 tools: Read, Write, Bash, Glob
-model: opus
+model: sonnet
 ---
 
 ## 📂 Workspace Directory
