@@ -1,4 +1,12 @@
-# Protocol 17: Page Count Feedback (Phase 7)
+# Protocol 19: Editor Page Count Feedback (Phase 7)
+
+**Version**: 3.3.0
+**Status**: Active
+**Owner**: @editor (provides feedback), @writer (implements revisions), @director (coordinates)
+**Scope**: Phase 7 (Paper Writing) - After each sub-phase (7A-7F)
+**Priority**: HIGH
+
+---
 
 ## Overview
 

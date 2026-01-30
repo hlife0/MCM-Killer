@@ -1,4 +1,12 @@
-# Protocol 18: LaTeX Quality Check (Phase 7.5)
+# Protocol 20: LaTeX Quality Gate (Phase 7.5)
+
+**Version**: 3.3.0
+**Status**: Active
+**Owner**: @editor (primary checker), @writer (fixes issues)
+**Scope**: Phase 7.5 (LaTeX Compilation Gate)
+**Priority**: HIGH
+
+---
 
 ## Overview
 

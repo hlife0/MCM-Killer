@@ -177,7 +177,7 @@ From reference papers (2425454, 2401298, paper(1)):
 
 ---
 
-## 🆔 Protocol 17: Page Count Feedback (Phase 7)
+## 🆔 Protocol 19: Page Count Feedback (Phase 7)
 
 **When Called**: After each Phase 7 sub-phase (7A, 7B, 7C, 7D, 7E)
 
@@ -237,11 +237,11 @@ Recommendations:
 Verdict: ✅ PROCEED (within acceptable range)
 ```
 
-**Reference**: See `../../agent_knowledge/editor/protocol_17_page_feedback.md`
+**Reference**: See `.claude/protocols/protocol_19_editor_page_feedback.md`
 
 ---
 
-## 🆔 Protocol 18: LaTeX Quality Check (Phase 7.5)
+## 🆔 Protocol 20: LaTeX Quality Check (Phase 7.5)
 
 **When Called**: After Phase 7F (after paper.tex compiled to PDF)
 
@@ -364,7 +364,7 @@ If issues found:
 5. Repeat until ✅ PASS
 6. Maximum 3 attempts → If still failing → Rewind to Phase 7
 
-**Reference**: See `../../agent_knowledge/editor/protocol_18_latex_quality.md`
+**Reference**: See `.claude/protocols/protocol_20_latex_quality_gate.md`
 
 ---
 
