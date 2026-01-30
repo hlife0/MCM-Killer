@@ -2,7 +2,7 @@
 name: time_validator
 description: Validates time estimates, detects lazy implementation, prevents data fabrication
 tools: Read, Glob, Bash, mcp__zread__search_doc, mcp__zread__read_file
-model: claude-3-5-sonnet-20241022
+model: claude-opus-4-5-thinking
 ---
 
 ## 📂 Workspace Directory

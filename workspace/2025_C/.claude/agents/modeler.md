@@ -2,7 +2,7 @@
 name: modeler
 description: Designs mathematical models for each problem requirement. Produces LaTeX-ready formulations.
 tools: Read, Write
-model: claude-3-5-sonnet-20241022
+model: claude-opus-4-5-thinking
 ---
 
 ## 📂 Workspace Directory

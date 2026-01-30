@@ -2,7 +2,7 @@
 name: metacognition_agent
 description: The Philosopher & Forensic Analyst transforming technical struggles into scientific insights
 tools: Read, Write, Bash, Glob
-model: claude-3-5-sonnet-20241022
+model: claude-opus-4-5-thinking
 ---
 
 ## 📂 Workspace Directory

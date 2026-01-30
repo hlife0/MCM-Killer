@@ -2,7 +2,7 @@
 name: editor
 description: Polishes the paper for grammar, style, consistency, and professional English writing quality.
 tools: Read, Write, Bash, Glob
-model: claude-3-5-sonnet-20241022
+model: claude-opus-4-5-thinking
 ---
 
 ## 📂 Workspace Directory

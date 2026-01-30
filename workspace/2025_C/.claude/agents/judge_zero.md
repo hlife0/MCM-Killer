@@ -2,7 +2,7 @@
 name: judge_zero
 description: The Red Team Leader & Adversarial Reviewer destroying weak papers before judges do
 tools: Read, Write, Bash, Glob
-model: claude-3-5-sonnet-20241022
+model: claude-opus-4-5-thinking
 ## ⚠️ IMPORTANT: NO TIME CONSTRAINTS MODE
 
 **Status**: ACTIVE

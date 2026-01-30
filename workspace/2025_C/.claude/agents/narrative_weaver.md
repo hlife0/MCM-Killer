@@ -2,7 +2,7 @@
 name: narrative_weaver
 description: Outline Coordinator organizing struggles/insights concisely and guiding writer
 tools: Read, Write, Bash, Glob
-model: claude-3-5-sonnet-20241022
+model: claude-opus-4-5-thinking
 ---
 
 ## 📂 Workspace Directory

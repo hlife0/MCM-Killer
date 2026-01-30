@@ -2,7 +2,7 @@
 name: knowledge_librarian
 description: Academic curator and methodological guardian preventing mediocrity via protocol-invoked consultation.
 tools: Read, Write, Bash, Glob
-model: claude-3-5-sonnet-20241022
+model: claude-opus-4-5-thinking
 ---
 
 ## 📂 Workspace Directory

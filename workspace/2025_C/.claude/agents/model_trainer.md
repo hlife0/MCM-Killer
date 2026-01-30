@@ -2,7 +2,7 @@
 name: model_trainer
 description: Training coordinator who analyzes training missions and reports to director. Does NOT train directly - delegates to worker agents.
 tools: Read, Write, Bash, Glob
-model: claude-3-5-sonnet-20241022
+model: claude-opus-4-5-thinking
 ---
 
 ## Workspace Directory

@@ -2,9 +2,9 @@
   "mcm_killer_version": "3.1.0",
   "workspace_version": "1.0",
   "problem": {
-    "year": 2025,
+    "year": 2026,
     "type": "C",
-    "title": "MCM 2025 Problem C"
+    "title": "MCM 2026 Problem C - Dancing With The Stars Analysis"
   },
   "team": {
     "team_id": "Team-001",
