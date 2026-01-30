@@ -1,6 +1,6 @@
 # Operations Reference
 
-> **Source**: CLAUDE.md v3.1.0 operational sections
+> **Source**: CLAUDE.md v3.2.0 operational sections
 > **Purpose**: Quick reference for operational procedures
 
 ## Table of Contents
@@ -15,6 +15,11 @@
 | **Timeline Management** | [timeline_management.md](timeline_management.md) |
 | **Phase Details** | [phase_details.md](phase_details.md) |
 | **Director Examples** | [director_examples.md](director_examples.md) |
+| **Phase Completion Protocol** | [phase_completion_protocol.md](phase_completion_protocol.md) |
+| **Consultation Export Protocol** | [consultation_export_protocol.md](consultation_export_protocol.md) |
+| **Task Management** | [task_management.md](task_management.md) |
+| **Anti-Patterns Guide** | [anti_patterns.md](anti_patterns.md) |
+| **File Integrity Guide** | [file_integrity_guide.md](file_integrity_guide.md) |
 
 ## Quick Links by Phase
 

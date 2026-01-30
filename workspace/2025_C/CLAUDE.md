@@ -25,6 +25,11 @@ You are the **conductor** of the 18-agent orchestra. You don't perform individua
 | Phase Details | knowledge_base/phase_details.md |
 | Agent Details | .claude/agents/README.md |
 | Operations Index | knowledge_base/operations.md |
+| **Phase Completion** | **knowledge_base/phase_completion_protocol.md** |
+| **Consultation Export** | **knowledge_base/consultation_export_protocol.md** |
+| **Task Management** | **knowledge_base/task_management.md** |
+| **Anti-Patterns** | **knowledge_base/anti_patterns.md** |
+| **File Integrity** | **knowledge_base/file_integrity_guide.md** |
 
 ---
 
@@ -316,6 +321,7 @@ Agent discovers upstream problem → Suggests Rewind → Director evaluates (sev
 ## Phase Completion Protocol (v3.2.0)
 
 > [!CRITICAL] **After EVERY phase completion, Director MUST validate time with @time_validator.**
+> **Details**: knowledge_base/phase_completion_protocol.md
 
 ### Phase Time Requirements
 
@@ -359,6 +365,7 @@ Return: APPROVE / REJECT_INSUFFICIENT_TIME / INVESTIGATE
 ## Mandatory Consultation Export (v3.2.0)
 
 > [!CRITICAL] **EVERY agent MUST export consultation document after completing work.**
+> **Details**: knowledge_base/consultation_export_protocol.md
 
 **Path**: `output/docs/consultations/phase_{X}_{agent}_{YYYY-MM-DDTHH-MM-SS}.md`
 
@@ -637,6 +644,8 @@ Validation Gate → Collect verdicts
 
 ## Parallel Work Patterns
 
+> **Details**: knowledge_base/task_management.md
+
 1. **Background**: @modeler on Model 1 → @writer drafts Intro/Background/Assumptions
 2. **Multiple Models**: Independent reqs → @modeler A+B simultaneously → @feasibility_checker both → @data_engineer features both → @code_translator sequential/parallel
 3. **Early Review**: First section done → @advisor reviews → feedback informs rest
@@ -645,14 +654,16 @@ Validation Gate → Collect verdicts
 
 ## File Write Integrity Rules
 
-> [!CAUTION] **Prevent corruption**: No parallel writes to same file | Write→Read→Verify→If corrupted→delete/rewrite | Large files: section-by-section | Corruption signs: fragments/duplicates/garbled/missing
+> [!CAUTION] **Prevent corruption**: No parallel writes | Write→Verify→If corrupted→rewrite | Corruption: fragments/duplicates/garbled
+> **Details**: knowledge_base/file_integrity_guide.md
 
 ---
 
 ## PDF Reading: Use Docling MCP
 
-> [!IMPORTANT] **Use `docling-mcp`** (Claude built-in PDF produces hallucinations): `mcp__docling__convert_document_into_docling_document` with `{"source": "file:///path/to/file.pdf"}`
-> **SEQUENTIAL ONLY**: ✅ PDF1→Wait→PDF2 | ❌ No concurrent reads (crashes)
+> [!IMPORTANT] **Use `docling-mcp`**: `mcp__docling__convert_document_into_docling_document` with `{"source": "file:///path.pdf"}`
+> **SEQUENTIAL ONLY**: PDF1→Wait→PDF2 | No concurrent reads
+> **Details**: knowledge_base/file_integrity_guide.md
 
 ---
 
@@ -683,11 +694,13 @@ Validation Gate → Collect verdicts
 
 ## Task Management
 
-**Start**: @reader extracts requirements → @researcher finds methods → Identify parallel work
+> **Details**: knowledge_base/task_management.md
 
-**During**: Agent idle→Give task | Weak results→@modeler iteration | @writer waiting→Draft background | Low time→@advisor early review
+**Start**: @reader→requirements | @researcher→methods | Identify parallel work
 
-**Checkpoints**: After @reader (verify checklist) | After first model (@advisor review) | 50% done (mid-point) | Before @writer (pre-flight)
+**During**: Idle→Give task | Weak results→iterate | @writer waiting→Draft background
+
+**Checkpoints**: After @reader | After first model | 50% done | Before @writer
 
 ---
 
@@ -735,7 +748,7 @@ Maintain `output/docs/known_issues.md` to track all issues encountered during au
 
 ## Anti-Patterns to Avoid
 
-Reference: `templates/writing/6_anti_patterns.md`
+> **Details**: knowledge_base/anti_patterns.md
 
 | Pattern | Problem | Fix |
 |---------|---------|-----|
@@ -747,6 +760,6 @@ Reference: `templates/writing/6_anti_patterns.md`
 
 ## Begin
 
-Call @reader → extract requirements. Assess: parallel work opportunities, @writer early drafts, @advisor review timing.
+Call @reader → requirements. Assess: parallel opportunities, @writer drafts, @advisor timing.
 
-**MCM is not a script—it's a competition. Adapt as work progresses.**
+**MCM is a competition. Adapt as you progress.**
