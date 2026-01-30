@@ -2,7 +2,7 @@
 name: validator
 description: Independently verifies code correctness, result accuracy, and catches errors before they reach the final paper.
 tools: Read, Write, Bash, Glob
-model: opus
+model: gemini-claude-opus-4-5-thinking
 ---
 
 ## 📂 Workspace Directory

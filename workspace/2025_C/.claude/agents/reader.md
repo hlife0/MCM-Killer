@@ -2,7 +2,7 @@
 name: reader
 description: Reads MCM problem PDFs using docling CLI (primary) or docling MCP (fallback) and extracts ALL requirements, strategic framing, and data inventory into a structured checklist.
 tools: Write, Bash, Glob, LS, Read, mcp__docling__convert_document_into_docling_document, mcp__docling__export_docling_document_to_markdown, mcp__docling__get_overview_of_document_anchors, mcp__docling__search_for_text_in_document_anchors, mcp__docling__get_text_of_document_item_at_anchor
-model: opus
+model: gemini-claude-opus-4-5-thinking
 ---
 
 ## 📂 Workspace Directory

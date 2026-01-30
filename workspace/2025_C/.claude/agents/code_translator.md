@@ -2,7 +2,7 @@
 name: code_translator
 description: Mathematical model translator who converts model designs into Python code with test suites.
 tools: Read, Write, Bash, Glob
-model: opus
+model: gemini-claude-opus-4-5-thinking
 ---
 
 ## 📂 Workspace Directory

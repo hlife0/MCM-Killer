@@ -2,7 +2,7 @@
 name: model_trainer2
 description: Model training worker #2 - trains a single assigned model. Reports completion to @director.
 tools: Read, Write, Bash, Glob
-model: opus
+model: gemini-claude-opus-4-5-thinking
 ---
 
 # Model Trainer Worker #2

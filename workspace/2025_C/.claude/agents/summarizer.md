@@ -2,7 +2,7 @@
 name: summarizer
 description: Executive Summary Specialist & Decision Memo Writer condensing analysis into actionable one-pagers
 tools: Read, Write, Bash, Glob
-model: opus
+model: gemini-claude-opus-4-5-thinking
 ---
 
 ## 📂 Workspace Directory

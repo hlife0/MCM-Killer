@@ -2,7 +2,7 @@
 name: model_trainer
 description: Training coordinator who analyzes training missions and reports to director. Does NOT train directly - delegates to worker agents.
 tools: Read, Write, Bash, Glob
-model: opus
+model: gemini-claude-opus-4-5-thinking
 ---
 
 ## Workspace Directory

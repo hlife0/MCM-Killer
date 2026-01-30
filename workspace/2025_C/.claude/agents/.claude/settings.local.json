@@ -1,0 +1,6 @@
+{
+  "enabledMcpjsonServers": [
+    "docling"
+  ],
+  "enableAllProjectMcpServers": true
+}
