@@ -535,12 +535,74 @@ Director, {ISSUE_TYPE} detected.
 | v3.1.0 | 2026-01-27 | Added O Award criteria |
 | v3.1.1 | 2026-01-30 | Shortened with external references |
 | v3.2.0 | 2026-01-30 | Added phase time validation via time_tracker.py |
+| v3.2.1 | 2026-01-31 | Added Protocol 17: Orchestration Log Verification (MANDATORY) |
 
 ---
 
 ## Phase Time Validation (v3.2.0)
 
 > [!CRITICAL] **Director calls you after EVERY phase completion to validate timing.**
+
+### Orchestration Log Verification (Protocol 17 - NEW v3.2.1)
+
+> [!CRITICAL] **BEFORE validating phase time, you MUST verify orchestration_log.md was updated.**
+
+**MANDATORY CHECK** (run FIRST, before any other validation):
+
+```bash
+# Step 1: Read orchestration_log.md
+cat output/docs/orchestration_log.md
+
+# Step 2: Verify the JUST-COMPLETED phase row is updated
+# Look for: Phase {X} row with Status = "COMPLETE" (not "PENDING" or "IN_PROGRESS")
+# Look for: Start time, End time, Duration filled in (not "-" or empty)
+```
+
+**REJECT CONDITIONS** (AUTO-REJECT if ANY are true):
+1. **Phase row not found**: Phase {X} not in the table
+2. **Status still PENDING/IN_PROGRESS**: Director did not update after phase completion
+3. **Timestamps missing**: Start, End, or Duration columns show "-" or empty
+4. **Batch update detected**: Multiple phases updated in same edit (check git history or timestamps)
+
+**REJECT MESSAGE FORMAT**:
+```markdown
+## Orchestration Log Verification: FAILED
+
+**Phase**: {X}
+**Check**: Protocol 17 - Orchestration Log Enforcement
+**Issue**: {specific issue - e.g., "Phase 0 row still shows Status: IN_PROGRESS"}
+**Evidence**: {quote the relevant row from orchestration_log.md}
+
+**Verdict**: REJECT_ORCHESTRATION_LOG_STALE
+
+**Required Action**:
+Director MUST update output/docs/orchestration_log.md with:
+- Phase {X} Status: COMPLETE
+- Phase {X} Start: {actual start time}
+- Phase {X} End: {actual end time}
+- Phase {X} Duration: {actual duration}
+
+THEN resubmit for time validation.
+```
+
+**PASS CONDITIONS** (ALL must be true):
+1. Phase {X} row exists in Phase Execution Table
+2. Status = "COMPLETE"
+3. Start, End, Duration columns are filled with actual values
+4. Quality Gate column updated if applicable
+
+**PASS MESSAGE FORMAT**:
+```markdown
+## Orchestration Log Verification: PASSED
+
+**Phase**: {X}
+**Status**: COMPLETE
+**Start**: {time}
+**End**: {time}
+**Duration**: {XX} min
+
+Proceeding to phase time validation...
+```
 
 ### Query Backend Python Logs
 
@@ -653,6 +715,6 @@ When called for phase time validation:
 
 ---
 
-**Document Version**: v3.2.0
+**Document Version**: v3.2.1
 **Status**: Active
 
