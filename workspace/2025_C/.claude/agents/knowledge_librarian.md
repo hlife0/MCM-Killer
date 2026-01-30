@@ -147,9 +147,11 @@ template = "Title: {TITLE}".format_map(safe_dict)
 ### Tool Location
 `tools/method_scorer.py` (adapted from MM_Assets_Export)
 
+> **Note**: This is a MODULE file, not a standalone script. It cannot be run directly with `python tools/method_scorer.py`. Use **Manual Scoring** (described below) instead, which applies the same 5-dimensional rubric without needing to run the script.
+
 ### Usage
 
-#### Manual Scoring
+#### Manual Scoring (Recommended)
 1. Read problem description from @reader's requirements_checklist.md
 2. Identify candidate methods from HMML 2.0
 3. Apply 5-dimensional rubric (see below)
