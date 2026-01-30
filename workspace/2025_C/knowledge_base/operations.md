@@ -34,8 +34,7 @@
 | 3 | Data Processing | [phase_details.md#phase-3](phase_details.md#phase-3-data-processing) |
 | 4 | Code Translation | [phase_details.md#phase-4](phase_details.md#phase-4-code-translation) |
 | 4.5 | Implementation Fidelity | [phase_details.md#phase-45](phase_details.md#phase-45-implementation-fidelity-check-gate) |
-| 5A | Quick Training | [phase_details.md#phase-5a](phase_details.md#phase-5a-quick-training) |
-| 5B | Full Training | [phase_details.md#phase-5b](phase_details.md#phase-5b-full-training-parallel-with-paper) |
+| 5 | Model Training | [phase_details.md#phase-5](phase_details.md#phase-5-full-model-training-blocking) |
 | 5.5 | Data Authenticity | [phase_details.md#phase-55](phase_details.md#phase-55-enhanced-data-authenticity-verification-gate) |
 | 5.8 | Insight Extraction | [phase_details.md#phase-58](phase_details.md#phase-58-insight-extraction-narrative-arc) |
 | 6 | Visualization | [phase_details.md#phase-6](phase_details.md#phase-6-visualization) |

@@ -319,17 +319,51 @@ Translate model designs into Python code
 
 ## Phase 5 Special Handling
 
-### Two-Stage Training
+> [!CRITICAL] **Phase 5 is BLOCKING** - Paper writing (Phase 6-7) CANNOT start until ALL models complete training successfully. No parallel workflow.
 
-**Phase 5A (MANDATORY, ≤30 min)**: 10-20% data, reduced iterations, ensure viability → `results_quick_{i}.csv`
-**Phase 5B (MANDATORY, >6 hours, runs in parallel)**: Full dataset, full convergence → `results_{i}.csv`
+### Director Entry Point
 
-**PARALLEL WORKFLOW**: Phase 5A completes → **Proceed to Phase 6 (quick) and Phase 7 (draft) immediately** | Phase 5B runs in **parallel** with paper writing | When Phase 5B completes → Update figures and paper with final results
+**Director MUST call @model_trainer (coordinator) first**:
+```
+@model_trainer: Phase 5 Training Mission Analysis
 
-**Time Expectations**: Minimum: 6 hours per model | Typical: 8-12 hours per model | Maximum: 48 hours (with @director approval)
+Read all model_design_{i}.md files.
+Count models, analyze dependencies, verify code/feature files exist.
+Report: model count, dependencies, execution recommendation.
+```
 
-**❌ FORBIDDEN**: Skip Phase 5A or 5B | Use "time constraints" as excuse
-**✅ REQUIRED**: Complete 5A → Proceed immediately to Phase 6-7 | Execute 5B in parallel with paper writing
+**DO NOT skip the coordinator** - @model_trainer analyzes dependencies before workers are assigned.
+
+### Coordinator-Worker Workflow
+
+1. @director calls @model_trainer (coordinator)
+2. @model_trainer reads model_design_{i}.md, counts models, analyzes dependencies
+3. @model_trainer verifies all files exist:
+   - `output/implementation/code/model_{i}.py` for each model
+   - `output/implementation/data/features_{i}.pkl` for each model
+4. @model_trainer reports to @director with execution recommendation
+5. @director delegates to workers based on dependency analysis:
+   - **INDEPENDENT**: Assign all workers in PARALLEL
+   - **SEQUENTIAL**: Assign workers in dependency order, wait between each
+   - **MIXED**: Execute parallel batches, then sequential dependencies
+6. Each worker trains ONE model → reports completion
+7. @director waits for ALL workers to complete
+8. Verify all results_{i}.csv files exist
+9. ONLY THEN proceed to Phase 5.5
+
+### Time Expectations
+
+- **Minimum**: 6 hours per model
+- **Typical**: 8-12 hours per model
+- **Maximum**: 48 hours (with @director approval)
+
+### Critical Requirements
+
+- ❌ NO partial results (all models must complete)
+- ❌ NO data fabrication (if training fails, fix and retry)
+- ❌ NO early stopping without convergence
+- ❌ NO proceeding with failures
+- ❌ NO skipping @model_trainer coordinator step
 
 ### Sanity Check (Director must verify)
 - [ ] No duplicate NOC/country names | [ ] No dissolved countries
@@ -379,84 +413,95 @@ DO NOT allow training to resume until validation complete.
 
 ---
 
-## Phase 5A: Quick Training
+## Phase 5: Full Model Training (BLOCKING)
+
+> [!CRITICAL] **Phase 5 is BLOCKING** - DO NOT proceed to Phase 6 until ALL models complete training successfully.
 
 ### Purpose
-Generate quick results to enable parallel paper writing
+Train all models with full iterations to completion. No shortcuts, no parallel paper writing.
 
 ### Participants
-- **@model_trainer**
-
-### Tasks
-
-**@model_trainer**:
-1. Read code from `output/implementation/code/model_{i}.py`
-2. Read data from `output/implementation/data/features_{i}.pkl`
-3. Start quick training (reduced iterations): Example: If design specifies 10000 iterations, use 1000
-4. Generate quick results: `results_quick_{i}.csv`
-5. Report completion
-
-### Output
-`output/results/results_quick_{i}.csv`
-
-### Validation Gate
-✅ TRAINING
-
-### Time Estimate
-~30 minutes per model
-
-### Key Decision
-**PROCEED IMMEDIATELY to Phase 6** (don't wait for Phase 5B)
-
----
-
-## Phase 5B: Full Training (Parallel with Paper)
-
-### Purpose
-Train models with full iterations while paper proceeds in parallel
-
-### Participants
-- **@model_trainer** (primary)
-- **@director** (coordination)
+- **@model_trainer** (coordinator - analyzes missions)
+- **@model_trainer1-5** (workers - execute training)
+- **@director** (coordination and delegation)
 - **@modeler** (consultation for errors)
 - **@code_translator** (fix implementation errors)
 
-### Tasks
+### Coordinator-Worker Workflow
 
-**@model_trainer**:
-1. Read code from `output/implementation/code/model_{i}.py`
-2. Read data from `output/implementation/data/features_{i}.pkl`
-3. Start full training in background
-4. Enter "watch mode": Check process status every 60 seconds | Check log file for errors | If error detected → report_to_director() and await_guidance() | If training_complete → report_completion()
-5. Report status every 30 minutes
-6. When complete, report training summary
+1. **@director calls @model_trainer (coordinator)**:
+   ```
+   @model_trainer: Phase 5 Training Mission Analysis
 
-**Watch Mode** (Protocol 10): AI session does NOT exit | Training runs in background | Continuous monitoring for errors | Immediate error notification
+   Read all model_design_{i}.md files.
+   Count models, analyze dependencies, verify code/feature files exist.
+   Report: model count, dependencies, execution recommendation.
+   ```
 
-**Error Resolution**: Detect error → Report to @director | @director delegates fix: Implementation error → @code_translator | Data error → @data_engineer | Design issue → @modeler | Fix applied → Resume training (no restart from scratch)
+2. **@model_trainer (coordinator) reports**:
+   - Total models to train
+   - Dependencies (INDEPENDENT / SEQUENTIAL / MIXED)
+   - File verification (all model_{i}.py and features_{i}.pkl exist)
+   - Execution recommendation
 
-**Emergency Delegation** (Protocol 11):
-**When to Use** (ALL criteria): Error Category: Convergence (Category 4) | Severity: CRITICAL (R-hat > 1.3 OR 12h elapsed OR >10% divergent) | @modeler is available and responsive | Fix is well-understood (parameter adjustment, NOT algorithm change)
+3. **@director delegates to workers**:
+   - INDEPENDENT: Assign @model_trainer1-N in PARALLEL
+   - SEQUENTIAL: Assign in dependency order, wait between each
+   - MIXED: Parallel batches, then sequential dependencies
+
+4. **Each worker (@model_trainer1-5)**:
+   - Read code from `output/implementation/code/model_{i}.py`
+   - Read data from `output/implementation/data/features_{i}.pkl`
+   - Execute full training (complete iterations)
+   - Enter "watch mode": Check process status every 60 seconds
+   - Report completion to @director
+
+5. **@director waits for ALL workers**:
+   - Verify all results_{i}.csv files exist
+   - ONLY THEN proceed to Phase 5.5
+
+### Watch Mode (Protocol 10)
+- AI session does NOT exit
+- Training runs in background
+- Continuous monitoring for errors
+- Immediate error notification
+
+### Error Resolution
+```
+Detect error → Report to @director
+@director delegates fix:
+  Implementation error → @code_translator
+  Data error → @data_engineer
+  Design issue → @modeler
+Fix applied → Resume training (no restart from scratch)
+```
+
+### Emergency Delegation (Protocol 11)
+**When to Use** (ALL criteria):
+- Error Category: Convergence (Category 4)
+- Severity: CRITICAL (R-hat > 1.3 OR 12h elapsed OR >10% divergent)
+- @modeler is available and responsive
+- Fix is well-understood (parameter adjustment, NOT algorithm change)
 
 **Emergency Flow**: @model_trainer → @modeler (direct escalation) | @modeler → @code_translator (direct delegation) | @code_translator → implements fix (within 10 minutes) | @director → retroactive approval (within 1 hour) | @model_trainer → resumes training
 
 ### Output
-- Trained model: `output/implementation/models/model_{i}_full.pkl`
-- Training log: `output/implementation/logs/training_{i}_full.log`
-- Results: `output/results/results_{i}.csv`
+- Results: `output/implementation/data/results_{i}.csv`
+- Training log: `output/implementation/logs/training_{i}.log`
+- Convergence log: `output/implementation/logs/convergence_{i}.log` (if applicable)
 
 ### Validation Gate
 ✅ TRAINING
 
 ### Time Estimate
-- Minimum: 6 hours
-- Typical: 8-12 hours
+- Minimum: 6 hours per model
+- Typical: 8-12 hours per model
 - Maximum: 48 hours (with @director approval)
 
 ### Key Protocols
-- **Protocol 4**: Parallel Workflow - Paper proceeds immediately
 - **Protocol 10**: Watch Mode - AI session does NOT exit
 - **Protocol 11**: Emergency Delegation - 8× faster critical error response
+- **BLOCKING**: NO parallel paper writing until Phase 5 completes
 
 ---
 

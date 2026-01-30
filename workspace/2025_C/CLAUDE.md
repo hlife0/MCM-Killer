@@ -466,18 +466,17 @@ When @time_validator predicts >48 hours training: **ESCALATE_TO_DIRECTOR** for d
 **Workers**: @model_trainer1-5 (execute training)
 **Output**: results_{i}.csv (complete results for ALL models)
 **Time**: Variable (6-48+ hours) - MUST complete successfully
-**Blocking**: Phase 6-7 (paper writing) CANNOT start until Phase 5 completes
+**Blocking**: Phase 6-7 CANNOT start until Phase 5 completes
 
-**Coordinator-Worker Workflow**:
-1. @model_trainer reads model_design_{i}.md, counts models, analyzes dependencies
-2. @model_trainer reports to @director with execution recommendation
-3. @director delegates based on dependency: INDEPENDENT→parallel, SEQUENTIAL→ordered, MIXED→batched
-4. Each worker trains ONE model → reports completion
-5. @director waits for ALL workers → verify results_{i}.csv exists for each → Phase 5.5
+> [!CRITICAL] **Call @model_trainer coordinator first** - DO NOT skip to workers.
 
-**Dynamic Assignment**: 3 models→@model_trainer1-3; 7 models→first round (1-5), then (6-7). Trainer number ≠ model number.
+**Director Entry**: `@model_trainer: Phase 5 Mission Analysis - Read model_design files, count models, analyze dependencies, verify files exist.`
 
-**Critical Requirements**: ALL models must complete | NO data make-up/estimation | NO quick results | NO auto-fallbacks | If training fails: Fix and retry, do NOT proceed
+**Workflow**: 1. @director→@model_trainer (DO NOT SKIP) 2. Coordinator reports 3. @director delegates to workers 4. Workers train 5. Wait for ALL 6. Verify results_{i}.csv → Phase 5.5
+
+**Dynamic Assignment**: 3 models→trainer1-3; 7 models→round 1 (1-5), round 2 (6-7)
+
+**Critical**: ALL must complete | NO data fabrication | NO quick results | Fix and retry on failure
 
 **Details**: knowledge_base/phase_details.md#phase-5
 
