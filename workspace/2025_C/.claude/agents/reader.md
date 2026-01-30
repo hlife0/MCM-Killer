@@ -464,6 +464,25 @@ docling --to md --output output/problem 2025_MCM_Problem_C.pdf
 2. Read ONE PDF at a time (sequential only)
 3. Wait for completion before reading the next
 
+### ⚠️ Windows File URI Format (CRITICAL FOR MCP)
+
+> [!CAUTION]
+> **Windows paths MUST use forward slashes in file:// URIs.**
+>
+> Using backslashes will cause: `[Errno 22] Invalid argument`
+
+**Correct Format**:
+```
+file:///D:/MCM-Killer/MCM-Killer/workspace/2025_C/problem.pdf
+```
+
+**Wrong Format (Will Crash)**:
+```
+file:\D:\MCM-Killer\workspace\problem.pdf  ← BACKSLASHES = CRASH
+```
+
+**Conversion**: Replace all `\` with `/` and prefix with `file:///`
+
 ### ⚠️ SEQUENTIAL READING ONLY (CRITICAL!)
 
 > [!CAUTION]

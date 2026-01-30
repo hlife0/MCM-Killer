@@ -162,6 +162,43 @@ Claude's built-in PDF reading produces hallucinations:
 
 **Returns**: Markdown text with accurate extraction
 
+### ⚠️ Windows File URI Format (CRITICAL)
+
+> [!CAUTION] **Windows paths MUST use forward slashes in file:// URIs.**
+>
+> The docling MCP will crash with `[Errno 22] Invalid argument` if you use backslashes.
+
+**Correct Format (Windows)**:
+```
+file:///D:/MCM-Killer/MCM-Killer/workspace/2025_C/problem.pdf
+       ↑↑↑ ↑                    ↑
+       ||| |                    └── Forward slashes (/)
+       ||| └── Drive letter with colon
+       ||└── Third slash after file:
+       |└── Second slash
+       └── First slash (total: 3 slashes after "file:")
+```
+
+**Wrong Format (Will Crash)**:
+```
+file:\D:\MCM-Killer\MCM-Killer\workspace\2025_C\problem.pdf
+     ↑  ↑          ↑
+     └──┴──────────┴── Backslashes cause [Errno 22] Invalid argument
+```
+
+**Conversion Rule**:
+```python
+# Convert Windows path to file URI
+windows_path = r"D:\MCM-Killer\MCM-Killer\workspace\2025_C\problem.pdf"
+file_uri = "file:///" + windows_path.replace("\\", "/")
+# Result: file:///D:/MCM-Killer/MCM-Killer/workspace/2025_C/problem.pdf
+```
+
+**Recommendation**: Prefer docling CLI over MCP to avoid URI format issues:
+```bash
+docling --to md --output output/problem problem.pdf
+```
+
 ### Critical: Sequential Reading Only
 
 **Docling MCP will crash if you read multiple PDFs concurrently.**
