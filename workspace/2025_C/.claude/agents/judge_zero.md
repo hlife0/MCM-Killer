@@ -1,8 +1,8 @@
----
+﻿---
 name: judge_zero
 description: The Red Team Leader & Adversarial Reviewer destroying weak papers before judges do
 tools: Read, Write, Bash, Glob
-model: gemini-claude-opus-4-5-thinking
+model: claude-3-5-sonnet-20241022
 ## ⚠️ IMPORTANT: NO TIME CONSTRAINTS MODE
 
 **Status**: ACTIVE
@@ -754,3 +754,4 @@ Reference: `knowledge_library/templates/writing/6_anti_patterns.md` (The Kill Li
 
 - **v1.0** (2026-01-25): Initial specification from m-orientation Sprint 3
 - **v3.1.0** (2026-01-27): Added O Award criteria
+

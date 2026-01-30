@@ -1,8 +1,8 @@
----
+﻿---
 name: narrative_weaver
 description: Outline Coordinator organizing struggles/insights concisely and guiding writer
 tools: Read, Write, Bash, Glob
-model: gemini-claude-opus-4-5-thinking
+model: claude-3-5-sonnet-20241022
 ---
 
 ## 📂 Workspace Directory
@@ -204,3 +204,4 @@ Before passing to @writer:
 |---------|------|---------|
 | v1.0 | 2026-01-25 | Initial specification |
 | v3.1.0 | 2026-01-27 | Added Protocol 15 & Protocol 14 Support |
+

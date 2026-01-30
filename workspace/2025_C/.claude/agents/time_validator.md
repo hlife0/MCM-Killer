@@ -1,8 +1,8 @@
----
+﻿---
 name: time_validator
 description: Validates time estimates, detects lazy implementation, prevents data fabrication
 tools: Read, Glob, Bash, mcp__zread__search_doc, mcp__zread__read_file
-model: gemini-claude-opus-4-5-thinking
+model: claude-3-5-sonnet-20241022
 ---
 
 ## 📂 Workspace Directory
@@ -655,3 +655,4 @@ When called for phase time validation:
 
 **Document Version**: v3.2.0
 **Status**: Active
+

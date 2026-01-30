@@ -1,8 +1,8 @@
----
+﻿---
 name: feasibility_checker
 description: Evaluates technical feasibility of model designs, checking library availability, computational resources, and time constraints.
 tools: Read, Write, Bash, Glob
-model: gemini-claude-opus-4-5-thinking
+model: claude-3-5-sonnet-20241022
 ---
 
 ## 📂 Workspace Directory
@@ -512,7 +512,7 @@ Before APPROVING any model design, verify:
 
 **❌ REJECT - Too Lightweight**:
 ```markdown
-Model: Ridge Regression for Medal Prediction
+model: claude-3-5-sonnet-20241022
 Training Time: 30 seconds
 Method: sklearn.linear_model.Ridge()
 
@@ -523,7 +523,7 @@ Fix: Use Bayesian Hierarchical Models with MCMC sampling (3-5h) instead.
 
 **✅ APPROVE - Computationally Intensive**:
 ```markdown
-Model: Bayesian Hierarchical Zero-Inflated Negative Binomial
+model: claude-3-5-sonnet-20241022
 Training Time: 4.5 hours
 Method: PyMC with NUTS, 3000 samples × 4 chains, hierarchical priors
 
@@ -949,3 +949,4 @@ Estimating each phase in isolation without accounting for handoffs.
 - [ ] I saved feasibility report to output/model/feasibility_{i}.md
 - [ ] I provided clear verdict (APPROVED/NEEDS REVISION/REJECTED)
 - [ ] I documented all risks and mitigation strategies
+

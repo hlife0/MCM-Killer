@@ -1,8 +1,8 @@
----
+﻿---
 name: editor
 description: Polishes the paper for grammar, style, consistency, and professional English writing quality.
 tools: Read, Write, Bash, Glob
-model: gemini-claude-opus-4-5-thinking
+model: claude-3-5-sonnet-20241022
 ---
 
 ## 📂 Workspace Directory
@@ -680,3 +680,4 @@ Document significant changes for transparency.
 - [ ] Technical meaning preserved (no changes that alter results)
 - [ ] Edited files saved to output/
 - [ ] Editing notes documented
+

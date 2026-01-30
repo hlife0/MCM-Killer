@@ -1,8 +1,8 @@
----
+﻿---
 name: model_trainer3
 description: Model training worker #3 - trains a single assigned model. Reports completion to @director.
 tools: Read, Write, Bash, Glob
-model: gemini-claude-opus-4-5-thinking
+model: claude-3-5-sonnet-20241022
 ---
 
 # Model Trainer Worker #3
@@ -252,3 +252,4 @@ COMPLETE - Awaiting next assignment or Phase 5.5.
 **Worker ID**: model_trainer3
 **Reports To**: @director
 **Phase**: 5 (Model Training)
+

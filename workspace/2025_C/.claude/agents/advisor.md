@@ -1,8 +1,8 @@
----
+﻿---
 name: advisor
 description: MCM expert instructor who reviews student work, compares against O-Prize standards using docling MCP, and provides critical feedback.
 tools: Glob, LS, Write, mcp__docling__convert_document_into_docling_document, mcp__docling__export_docling_document_to_markdown, mcp__docling__get_overview_of_document_anchors, mcp__docling__search_for_text_in_document_anchors, mcp__docling__get_text_of_document_item_at_anchor
-model: gemini-claude-opus-4-5-thinking
+model: claude-3-5-sonnet-20241022
 ---
 
 ## 📂 Workspace Directory
@@ -963,3 +963,4 @@ Before approving:
 - [ ] **I checked that paper uses mcmthesis class (not article)**
 - [ ] **I verified model_design.md content is fully copied (not summarized)**
 - [ ] **I checked that each model section is 2-3 pages long**
+

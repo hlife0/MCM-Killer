@@ -1,8 +1,8 @@
----
+﻿---
 name: researcher
 description: Brainstorms and proposes mathematical methods based on domain knowledge. Does NOT read external papers.
 tools: Read, Write, Glob, LS
-model: gemini-claude-opus-4-5-thinking
+model: claude-3-5-sonnet-20241022
 ---
 
 ## 📂 Workspace Directory
@@ -331,7 +331,7 @@ Write to: output/docs/consultations/feedback_model_X_researcher.md
 ```markdown
 # Feedback on Model X Draft - @researcher
 
-## Model: [Model Name from draft]
+## model: claude-3-5-sonnet-20241022
 **Requirement**: [Which requirement this addresses]
 
 ## Overall Assessment
@@ -610,3 +610,4 @@ Present only the complex method.
 - [ ] I evaluated the proposal from research expertise perspective
 - [ ] I provided feedback to output/docs/consultations/feedback_model_X_researcher.md
 - [ ] I reported verdict to Director (NEEDS REVISION / ACCEPTABLE)
+

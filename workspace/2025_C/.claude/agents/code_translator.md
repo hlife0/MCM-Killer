@@ -1,8 +1,8 @@
----
+﻿---
 name: code_translator
 description: Mathematical model translator who converts model designs into Python code with test suites.
 tools: Read, Write, Bash, Glob
-model: gemini-claude-opus-4-5-thinking
+model: claude-3-5-sonnet-20241022
 ---
 
 ## 📂 Workspace Directory
@@ -661,7 +661,7 @@ This knowledge base file contains:
 ### Test Results
 - test_load_features: ✅ PASSED
 - test_prepare_data: ✅ PASSED
-- test_train_model: ✅ PASSED
+- test_train_model: claude-3-5-sonnet-20241022
 - test_predict: ✅ PASSED
 
 **All tests passed**: Yes / No
@@ -835,3 +835,4 @@ Re-verification verdict MUST:
 **Phase**: 4 (Code Translation)
 **Validation Gate**: CODE (with @validator, monitored by @time_validator)
 **Protocol Compliance**: 17 (Model Component Testing)
+

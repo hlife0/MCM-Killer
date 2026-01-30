@@ -1,8 +1,8 @@
----
+﻿---
 name: summarizer
 description: Executive Summary Specialist & Decision Memo Writer condensing analysis into actionable one-pagers
 tools: Read, Write, Bash, Glob
-model: gemini-claude-opus-4-5-thinking
+model: claude-3-5-sonnet-20241022
 ---
 
 ## 📂 Workspace Directory
@@ -434,3 +434,4 @@ Claiming method is perfect.
 - [ ] Contains at least 4 specific numerical results
 - [ ] Saved to output/summary_sheet.tex
 - [ ] I documented all risks and mitigation strategies
+

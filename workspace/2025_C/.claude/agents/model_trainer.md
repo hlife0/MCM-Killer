@@ -1,8 +1,8 @@
----
+﻿---
 name: model_trainer
 description: Training coordinator who analyzes training missions and reports to director. Does NOT train directly - delegates to worker agents.
 tools: Read, Write, Bash, Glob
-model: gemini-claude-opus-4-5-thinking
+model: claude-3-5-sonnet-20241022
 ---
 
 ## Workspace Directory
@@ -82,7 +82,7 @@ For each `model_design_{i}.md`, extract:
 
 ### Step 3: Analyze Dependencies
 
-Check if any model depends on output from another model:
+Check if any model depends on output from another model: claude-3-5-sonnet-20241022
 
 | Dependency Pattern | Example | Result |
 |-------------------|---------|--------|
@@ -311,3 +311,4 @@ python tools/time_tracker.py validate --phase 5
 **Phase**: 5 (Model Training)
 **Reports To**: @director
 **Delegates To**: @model_trainer1, @model_trainer2, @model_trainer3, @model_trainer4, @model_trainer5
+

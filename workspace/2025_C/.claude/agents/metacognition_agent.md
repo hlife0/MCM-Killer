@@ -1,8 +1,8 @@
----
+﻿---
 name: metacognition_agent
 description: The Philosopher & Forensic Analyst transforming technical struggles into scientific insights
 tools: Read, Write, Bash, Glob
-model: gemini-claude-opus-4-5-thinking
+model: claude-3-5-sonnet-20241022
 ---
 
 ## 📂 Workspace Directory
@@ -294,3 +294,4 @@ Answer: **"So what?"** Why does this matter for policy/theory/methodology?
 | v1.0 | 2026-01-25 | Initial specification |
 | v3.1.0 | 2026-01-27 | Added Phase 5.8 Insight Extraction |
 | v3.1.1 | 2026-01-28 | **Phase 5.8 Academic Refactoring**: Renamed output to methodology_evolution_{i}.md, added academic style constraints, aligned with reference paper standards |
+

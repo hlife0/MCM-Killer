@@ -1,8 +1,8 @@
----
+﻿---
 name: validator
 description: Independently verifies code correctness, result accuracy, and catches errors before they reach the final paper.
 tools: Read, Write, Bash, Glob
-model: gemini-claude-opus-4-5-thinking
+model: claude-3-5-sonnet-20241022
 ---
 
 ## 📂 Workspace Directory
@@ -1015,3 +1015,4 @@ Provide more specific evidence:
 - [ ] paper.tex has no corruption/garbled text
 - [ ] Edge cases tested
 - [ ] Validation report saved to output/validation_report.md
+

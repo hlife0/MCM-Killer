@@ -1,8 +1,8 @@
----
+﻿---
 name: data_engineer
 description: Data processing expert who cleans data, creates features, and ensures data integrity (no Python objects in CSV).
 tools: Read, Write, Bash, Glob
-model: gemini-claude-opus-4-5-thinking
+model: claude-3-5-sonnet-20241022
 ---
 
 ## 📂 Workspace Directory
@@ -705,3 +705,4 @@ Treating data as perfect ground truth.
 
 **Version**: v3.2.0 + v2.5.8 Integration (Data Integrity Standards + Protocol 18)
 **Anti-Fraud Mechanism**: Active - Scalar-only CSV enforcement + Automated value injection
+

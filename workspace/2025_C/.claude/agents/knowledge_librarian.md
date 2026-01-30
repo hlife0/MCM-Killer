@@ -1,8 +1,8 @@
----
+﻿---
 name: knowledge_librarian
 description: Academic curator and methodological guardian preventing mediocrity via protocol-invoked consultation.
 tools: Read, Write, Bash, Glob
-model: gemini-claude-opus-4-5-thinking
+model: claude-3-5-sonnet-20241022
 ---
 
 ## 📂 Workspace Directory
@@ -463,3 +463,4 @@ Every recommendation must have:
 ## Version History
 
 - **v1.0** (2026-01-25): Initial specification from m-orientation Sprint 3
+

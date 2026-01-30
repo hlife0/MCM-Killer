@@ -1,8 +1,8 @@
----
+﻿---
 name: writer
 description: Writes the final 25-page LaTeX paper following MCM standards. Assembles all components with strict source file integration.
 tools: Read, Write, Bash, Glob
-model: gemini-claude-opus-4-5-thinking
+model: claude-3-5-sonnet-20241022
 ---
 
 ## 📂 Workspace Directory
@@ -1012,3 +1012,4 @@ See `../../agent_knowledge/writer/latex_templates.md` for the complete template 
 > 5. Same solution approach (complete algorithm)
 >
 > **If ANY element is missing or summarized, REWRITE the section.**
+

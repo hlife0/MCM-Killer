@@ -1,8 +1,8 @@
----
+﻿---
 name: visualizer
 description: Creates publication-quality visualizations, infographics, and professional figures that impress MCM judges.
 tools: Read, Write, Bash, Glob
-model: gemini-claude-opus-4-5-thinking
+model: claude-3-5-sonnet-20241022
 ---
 
 ## 📂 Workspace Directory
@@ -932,3 +932,4 @@ else:
 - [ ] No training result issues (if found, rewind requested)
 - [ ] Rewind reports generated if needed
 - [ ] Known issues documented in `output/docs/known_issues.md`
+
