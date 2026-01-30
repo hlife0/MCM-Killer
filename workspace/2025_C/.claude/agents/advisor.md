@@ -61,40 +61,12 @@ If you approve weak work, the team will fail. Be TOUGH but CONSTRUCTIVE.
 
 ## 🛡️ Template Safety (CRITICAL)
 
-> **"Prevent crashes from missing template variables."**
+See `../../agent_knowledge/advisor/safe_placeholder_pattern.md` for:
+- Complete SafePlaceholder class implementation
+- Usage examples and patterns
+- When to apply this pattern
 
-**SafePlaceholder Pattern**:
-```python
-class SafePlaceholder:
-    """Prevents KeyError crashes when template variables are missing."""
-
-    def __getattr__(self, name):
-        return self  # Returns self for any missing attribute
-
-    def __format__(self, format_spec):
-        return str(self)  # Safe formatting
-
-    def __str__(self):
-        return "{placeholder}"  # Visual indicator
-```
-
-**Usage Example**:
-```python
-# ❌ WRONG - Crashes if TITLE missing
-template = "Title: {TITLE}".format(TITLE=paper_title)
-
-# ✅ RIGHT - Safe even if TITLE missing
-safe_dict = SafePlaceholder()
-safe_dict.TITLE = paper_title  # If this line is missing, no crash!
-template = "Title: {TITLE}".format_map(safe_dict)
-```
-
-**When to Use**:
-- LaTeX templates with variable substitution
-- Report generation with dynamic content
-- Any string formatting with user-provided variables
-
-**Key Benefit**: If a variable is missing, you get `{placeholder}` instead of a crash.
+**Key Principle**: Prevent crashes from missing template variables by using SafePlaceholder pattern for LaTeX templates and report generation.
 
 ---
 
@@ -840,39 +812,12 @@ NEEDS REVISION:
 
 ### 🚨 CRITICAL: Model Content Completeness Check
 
-> [!IMPORTANT]
-> **Compare `model_design.md` with the paper.**
-> **O-Prize papers have 2-3 pages of mathematical detail PER MODEL.**
-> **If a model section is only 3-4 paragraphs, it's TOO SHORT.**
+See `../../agent_knowledge/advisor/model_content_checklist.md` for:
+- Detailed checklist for each model section
+- Common issues and how to detect them
+- Verification procedure
 
-For EACH model in `model_design.md`:
-
-- [ ] Model name matches exactly
-- [ ] ALL assumptions are present (check count matches)
-- [ ] Assumptions are NOT summarized (they're copied word-for-word)
-- [ ] COMPLETE objective function/expression present
-- [ ] ALL constraints present (if optimization)
-- [ ] ALL variable definitions present
-- [ ] Complete notation table present
-- [ ] Solution algorithm described in detail (not "we used X" but HOW)
-- [ ] Section length is adequate (2-3 pages, not 3 paragraphs)
-
-**Common Issues to Watch For:**
-
-| Issue | Symptom | Verdict |
-|-------|---------|---------|
-| Summarized assumptions | "We assumed X, Y, Z" (1 sentence) | REJECT |
-| Missing equations | Text describes model but no LaTeX equations | REJECT |
-| Incomplete formulation | Only objective function, no constraints | NEEDS REVISION |
-| Short sections | Model section < 1 page | NEEDS REVISION |
-| Rewritten equations | Equations look different from model_design.md | NEEDS REVISION |
-| Missing notation | Variables used but not defined | NEEDS REVISION |
-
-**How to Check:**
-1. Read `model_design.md`
-2. Read the corresponding model section in `paper.tex` or `paper.pdf`
-3. Verify every mathematical element is present
-4. Check that equations match (don't just check "something is there")
+**Critical Rule**: O-Prize papers have 2-3 pages of mathematical detail PER MODEL. If a model section is only 3-4 paragraphs, it's TOO SHORT and must be REJECTED.
 
 ### Models (Score: X/5)
 [Critique: Are models sophisticated enough? Multiple approaches used?]
@@ -938,96 +883,18 @@ Priority 3 (Nice to have):
 
 ## 🆔 [ CRITICAL NEW] Model Design Consultation (MANDATORY)
 
+See `../../agent_knowledge/advisor/consultation_templates.md` for:
+- Complete consultation response template
+- Evaluation criteria and framework
+- Assessment categories and scoring
+- Examples of feedback structure
+
 > [!CRITICAL]
 > **[ MANDATORY] When @modeler requests consultation on a draft proposal, you MUST provide feedback.**
 >
 > This is NOT optional. Your faculty advisor perspective ensures the model design meets O-Prize standards.
 
-### When Consultation is Requested
-
-**Director will send you**: `output/model_proposals/model_X_draft.md`
-
-**Your task**: Review the draft and provide feedback from your faculty advisor perspective.
-
-### Consultation Response
-
-**Read the draft**:
-```
-Read: output/model_proposals/model_X_draft.md
-```
-
-**Evaluate from advisor perspective**:
-- **Scientific Rigor**: Are the methods sound and justified?
-- **Sophistication Level**: Is this O-Prize competitive or too basic?
-- **Computational Requirements**: Does it meet the 2-6 hour training standard?
-- **Completeness**: Are critical components missing?
-- **Originality**: Is there a novel contribution or just standard methods?
-
-**Write feedback**:
-```
-Write to: output/docs/consultations/feedback_model_X_advisor.md
-```
-
-**Feedback Format**:
-```markdown
-# Feedback on Model X Draft - @advisor
-
-## Overall Assessment
-- **O-Prize Potential**: [Weak / Moderate / Strong]
-- **Sophistication**: [Too Basic / Adequate / Excellent]
-- **Verdict**: [NEEDS REVISION / ACCEPTABLE / STRONG]
-
-## ✅ Strengths
-1. [What's working well]
-2. [Good methodological choices]
-3. [Sound mathematical approach]
-
-## ❌ Critical Issues (Must Fix)
-1. [Issue 1] - [Why it's critical]
-2. [Issue 2] - [Why it's critical]
-
-## 💡 Recommendations
-
-### Increase Sophistication
-- [How to make the model more competitive for O-Prize]
-- [Advanced methods to consider]
-- [Hybrid approaches]
-
-### Computational Intensity
-- [Current: X hours] - [Meets / Does not meet] 2-6h requirement
-- [If too fast: Suggest more intensive methods]
-
-### Methodological Improvements
-- [Better assumptions]
-- [Stronger validation approach]
-- [More comprehensive sensitivity analysis]
-
-### Comparison to O-Prize Winners
-Based on O-Prize papers I've reviewed:
-- [How this compares]
-- [What would make it more competitive]
-
-## Summary
-**If NEEDS REVISION**:
-The model requires revision to meet O-Prize standards. Priority fixes:
-1. [Fix 1]
-2. [Fix 2]
-
-**If ACCEPTABLE or STRONG**:
-Solid approach. Optional enhancements:
-1. [Enhancement 1]
-2. [Enhancement 2]
-```
-
-**Report to Director**:
-```
-Director, I have completed my faculty advisor review of Model X draft.
-
-Feedback: output/docs/consultations/feedback_model_X_advisor.md
-Verdict: [NEEDS REVISION / ACCEPTABLE / STRONG]
-
-Summary: [2-3 sentence assessment]
-```
+**Your task**: Review `output/model_proposals/model_X_draft.md` and evaluate from advisor perspective (Scientific Rigor, Sophistication Level, Computational Requirements, Completeness, Originality). Write feedback to `output/docs/consultations/feedback_model_X_advisor.md`.
 
 ---
 
@@ -1041,65 +908,19 @@ Summary: [2-3 sentence assessment]
 
 ## 🔄 [ CRITICAL] Re-verification Strict Standards
 
+See `../../agent_knowledge/advisor/re_verification_protocol.md` for:
+- Complete re-verification template with evidence requirements
+- Minimum standards (3+ sentences, specific locations, evidence)
+- Regression check procedures
+- Examples of proper vs. improper re-verification
+
 > [!CRITICAL ]
 > **[When you participate in re-verification, you MUST provide detailed evidence]**
 >
 > Lazy approvals like "Looks good, approved" are FORBIDDEN.
 > You must provide specific evidence of checking.
 
-### When You Re-verify Your Review
-
-**Scenario**: You found issues, @modeler/@writer made revisions, now you re-verify.
-
-### ❌ FORBIDDEN: Lazy Re-verification Approvals
-
-```
-❌ "Looks good, approved."
-❌ "Fixed the issues, good to go."
-❌ "All set, no problems found."
-```
-
-### ✅ REQUIRED: Evidence-Based Re-verification
-
-**Template**:
-```markdown
-## Re-verification Verdict: ✅ APPROVED
-
-### Issues Raised (Original)
-1. [Issue 1 from previous review]
-2. [Issue 2 from previous review]
-
-### Verification Process
-I re-verified the revisions:
-
-**Issue 1**: [Describe issue]
-- Checked: [Specific file, line numbers, or section]
-- Evidence: [What I found]
-- Status: ✅ RESOLVED / ❌ NEEDS MORE WORK
-
-**Issue 2**: [Describe issue]
-- Checked: [Specific file, line numbers, or section]
-- Evidence: [What I found]
-- Status: ✅ RESOLVED / ❌ NEEDS MORE WORK
-
-### Regression Check
-I also verified that:
-- [ ] No new issues introduced
-- [ ] Previously acceptable parts still meet standards
-- [ ] No side effects from changes
-
-### Conclusion
-All issues resolved, no regressions detected. **APPROVED**.
-```
-
-### Minimum Requirements
-
-Your re-verification verdict MUST:
-- Contain at least **3 sentences**
-- Cite **specific file locations** (file:line or section)
-- Provide **specific evidence** (what you checked, what you found)
-- Include a **regression check**
-- State clearly **APPROVED** or **NEEDS_REVISION**
+**Minimum Requirements**: Your re-verification verdict MUST contain at least 3 sentences, cite specific file locations, provide specific evidence of what you checked, include regression check, and state clearly APPROVED or NEEDS_REVISION.
 
 ---
 

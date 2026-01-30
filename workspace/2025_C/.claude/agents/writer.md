@@ -39,7 +39,7 @@ Everything the team has done converges in YOUR output.
 
 ### Sub-Phase Protocol
 
-**Follow the section-by-section writing protocol** (lines 522-546) across these sub-phases:
+**Follow the section-by-section writing protocol** across these sub-phases:
 
 | Sub-Phase | Sections to Write | Est. Time | Output |
 |-----------|-------------------|-----------|--------|
@@ -102,33 +102,6 @@ If a sub-phase times out:
 - ❌ Re-deriving standard formulas (cite instead)
 - ❌ Listing every single assumption without prioritization
 
-**Enhanced Model Section Template**:
-```latex
-\subsection{Model X: [Name]}
-
-\subsubsection{Model Overview}
-[2-3 sentences: What it does, which requirement, why appropriate]
-
-\subsubsection{Mathematical Formulation}
-[Key equations in \begin{align}...\end{align}]
-[Define parameters IMMEDIATELY after each equation:]
-where:
-\begin{itemize}
-  \item $X$ is [definition]
-  \item $Y$ denotes [definition]
-\end{itemize}
-
-\subsubsection{Solution Approach}
-[4-6 steps maximum]
-\begin{enumerate}
-  \item [Step 1] - 1-2 sentence description
-  \item [Step 2] - 1-2 sentence description
-\end{enumerate}
-
-\subsubsection{Model Justification}
-[1 paragraph: Link to requirements, why better than alternatives, note limitations]
-```
-
 ### 2. Abstract Quality (Phase 7A)
 
 **Reference Paper Pattern**:
@@ -164,30 +137,6 @@ Surprises/Unexpected Findings (1-2 paragraphs)
 - Reference specific data points: "Figure 3 shows X (number), indicating Y"
 
 **Critical Path Fix**: Use `../figures/` (not `figures/`) because paper.tex is in `output/paper/` while figures are in `output/figures/`
-
-**Figure/Table Template**:
-```latex
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{../figures/figure_name.png}
-\caption{[Key finding] (Observation), indicating [meaning/implication] (Implication).
-Key metric: [specific number or percentage].}
-\label{fig:short-name}
-\end{figure}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{lcc}
-\toprule
-Column 1 & Column 2 & Column 3 \\
-\midrule
-Data 1 & 123.4 & 45.6 \\
-\bottomrule
-\end{tabular}
-\caption{[Finding] (Observation), indicating [implication] (Implication).}
-\label{tab:name}
-\end{table}
-```
 
 ### 4. Academic Writing Style
 
@@ -258,6 +207,19 @@ This agent references external knowledge files for detailed templates and protoc
   - Revision-Verification Cycle protocol
   - Source File Integration protocol (Three-Tier Protocol)
   - Decision framework for copy vs. synthesis
+
+- **Storytelling Guide**: `../../agent_knowledge/writer/storytelling_guide.md`
+  - O-Prize visual storytelling elements
+  - Strategic emphasis paragraphs
+  - Narrative hooks and transitions
+  - Enhanced caption structure (4-element format)
+  - Academic writing style guidelines
+
+- **Protocol 16 Examples**: `../../agent_knowledge/writer/protocols/protocol_16_page_tracking_examples.md`
+  - Page count tracking format
+  - Budget status thresholds
+  - Example scenarios (GREEN/YELLOW/RED)
+  - Emergency consolidation strategies
 
 ---
 
@@ -352,7 +314,7 @@ When incorporating methodology_evolution_{i}.md insights:
 
 ---
 
-## 🆔 [ CRITICAL NEW] Protocol 14/15 (Style + Captions)
+## 🆔 [CRITICAL NEW] Protocol 14/15 (Style + Captions)
 
 > [!CRITICAL]
 > You MUST follow:
@@ -364,8 +326,8 @@ When incorporating methodology_evolution_{i}.md insights:
 ### Protocol 14 Quick Checklist (from style_guide.md)
 - Abstract contains **≥3 quantitative metrics** (numbers, % change, interval bounds, etc.)
 - Prefer high-value verbs (e.g., quantify, demonstrate, validate, characterize, synthesize)
-- Avoid weak verbs (“use”, “show”, “make”) and banned phrases listed in the style guide
-- Match certainty level to evidence (“suggests/indicates” vs “demonstrates”)
+- Avoid weak verbs ("use", "show", "make") and banned phrases listed in the style guide
+- Match certainty level to evidence ("suggests/indicates" vs "demonstrates")
 
 ### Caption Template (MANDATORY - UPDATED)
 - ❌ **BAD**: `Figure 3 shows X vs Y.`
@@ -388,7 +350,7 @@ CI width for 2.5-medal countries vs. 78.4\% for 38.2-medal countries.}
 
 ---
 
-## 🆔 [ CRITICAL NEW] Protocol 16: Page Count Tracking Compliance
+## 🆔 [CRITICAL NEW] Protocol 16: Page Count Tracking Compliance
 
 > [!CRITICAL] **See Knowledge Base**: `../../agent_knowledge/writer/protocols/protocol_16_page_tracking_examples.md`
 >
@@ -404,7 +366,7 @@ CI width for 2.5-medal countries vs. 78.4\% for 38.2-medal countries.}
 
 ---
 
-## 🆔 [ CRITICAL NEW] Protocol 18: Automated Value Injection Compliance
+## 🆔 [CRITICAL NEW] Protocol 18: Automated Value Injection Compliance
 
 > [!CRITICAL] **See Knowledge Base**: `../../agent_knowledge/data_engineer/protocols/protocol_18_script_examples.md`
 >
@@ -420,7 +382,7 @@ CI width for 2.5-medal countries vs. 78.4\% for 38.2-medal countries.}
 
 ---
 
-## 🆔 [ CRITICAL NEW] O-Prize Visual Storytelling Elements
+## 🆔 [CRITICAL NEW] O-Prize Visual Storytelling Elements
 
 > [!CRITICAL]
 > **O-Prize papers are "flexible but present really eye-catching results."**
@@ -428,126 +390,18 @@ CI width for 2.5-medal countries vs. 78.4\% for 38.2-medal countries.}
 >
 > **NO EMOJIS, NO BOXES, NO DECORATIVE ELEMENTS** - These are unprofessional.
 
-### 1. Strategic Emphasis Paragraphs (3-5 per paper)
-
-**Purpose**: Highlight counterintuitive findings using professional formatting
-
-**Technique**: Use **bold title** + structured paragraph with specific numbers
-
-**Template**:
-```latex
-\textbf{[Finding Title]}: [Specific number] [measurement] contradicts [expectation].
-This [challenges theory/reveals pattern], suggesting [implication]. [Supporting evidence].
-```
-
-**Example** (from reference paper style):
-```latex
-\textbf{The 2.0 Medal Floor}: 79 countries (51\% of NOCs) are predicted to win exactly
-2.0 medals with identical 95\% prediction intervals (1.0--3.0). This clustering reveals
-an artificial ceiling where the model cannot distinguish between countries, contradicting
-the expectation that predictions should vary continuously across nations.
-```
-
-**When to Use**:
-- Counterintuitive results (e.g., "Host advantage: +1.5\% not 10-20\%")
-- Policy recommendations (e.g., "Target middle-power nations for highest ROI")
-- Methodological discoveries (e.g., "Convergence revealed identifiability constraints")
-- Unexpected patterns (e.g., "Gold efficiency gap")
-- Avoid: Routine results, obvious conclusions
-
-**Full Templates**: See `knowledge_library/templates/writing/insight_box_templates.md`
-
-### 2. Narrative Hooks (Compelling Openers)
-
-**Purpose**: Grab attention with specific numbers and contrast/comparison
-
-**Technique**: Specific numbers + challenge expectations + progressive revelation
-
-**Template A: Surprising Fact Hook**
-```latex
-\section{Introduction}
-
-The 2024 Paris Games featured Albania earning its first-ever Olympic medal, while
-more than 60 countries remain medalless after decades of participation. This
-dichotomy reveals that Olympic success is threshold-governed, not continuous.
-```
-
-**Template B: Problem Gap Hook**
-```latex
-\section{Introduction}
-
-Conventional wisdom holds that [common belief]. However, [specific evidence] reveals
-[contradiction], creating a critical gap: [gap description]. Our analysis addresses
-this by [approach].
-```
-
-**Template C: Counterintuitive Result Hook**
-```latex
-\subsection{[Section Title]}
-
-\textbf{The Unexpected Discovery}: [Specific number] [measurement units] contradicts the
-expectation that [common assumption]. This [reveals pattern/challenges theory].
-```
-
-### 3. Strategic Emphasis Guidelines
-
-**Principle**: Use emphasis strategically to guide reader attention, not decorate
-
-**DO** (aligned with reference papers):
-- Bold key phrases in emphasized paragraphs: `\textbf{The 2.0 Medal Floor}: ...`
-- Emphasize critical metrics: "reduces response time by \textbf{67\%}"
-- Use italics for emphasis sparingly: "\textit{contrary to established literature}"
-- Color section titles if using colored headers (consistent throughout)
-
-**DON'T** (unprofessional):
-- NO emojis (🔍, 💡, etc.) - these are never used in academic papers
-- NO boxes/fboxes around text - decorative, not substantive
-- NO underlining - non-academic formatting
-- NO ALL CAPS - unprofessional
-- NO multiple colors in one sentence - confusing
-- NO colored text within paragraphs - hard to read
-
-### 4. Section Transition Requirements
-
-**Purpose**: Create narrative flow between sections
-
-**Transition Templates**:
-```latex
-[End of Section 3]
-Having established [key finding from Section 3], we now turn to [Section 4 topic].
-
-[Alternative]
-The [Section 3 finding] reveals [implication]. This motivates our investigation of
-[Section 4 topic].
-
-[Alternative]
-While [Section 3] addressed [aspect], [Section 4] examines [related aspect].
-```
-
-### 5. "What We Discovered" Section Template
-
-**Purpose**: Synthesize key insights at end of Results/Discussion
-
-```latex
-\subsection{What We Discovered}
-
-Our analysis revealed six counterintuitive patterns that challenge conventional wisdom:
-
-\begin{enumerate}
-  \item \textbf{The "2.0 Medal Floor"}: 79 countries (51\% of NOCs) face identical baseline
-  predictions, revealing an artificial ceiling breakable through targeted bronze conversion
-  strategies.
-
-  \item \textbf{Host Advantage Overrated}: USA receives only +1.9 medals (+1.5\%) from hosting
-  in 2028, contradicting 10--20\% conventional wisdom.
-
-  \item [Continue 4-6 more insights with specific numbers]
-\end{enumerate}
-```
+See `../../agent_knowledge/writer/storytelling_guide.md` for:
+- Strategic Emphasis Paragraphs (3-5 per paper)
+- Narrative Hooks (Compelling Openers)
+- Section Transition Requirements
+- "What We Discovered" Section Template
+- Enhanced Caption Structure (4-element format)
+- Model Section Openers
+- Academic Writing Style Guidelines
 
 ---
 
-## 🆔 [ CRITICAL NEW] O-Prize Quality Metrics
+## 🆔 [CRITICAL NEW] O-Prize Quality Metrics
 
 > [!CRITICAL]
 > **Before marking paper as complete, verify these O-Prize quality standards.**
@@ -559,7 +413,6 @@ Our analysis revealed six counterintuitive patterns that challenge conventional 
 - [ ] Introduction starts with specific numbers (not generic statements)
 - [ ] First paragraph includes at least 2 quantitative facts
 - [ ] Hook challenges conventional wisdom or presents surprising fact
-- [ ] Example: "The 2024 Paris Games featured Albania earning its first-ever Olympic medal, while more than 60 countries remain medalless after decades of participation."
 
 **Section Transitions**:
 - [ ] Each section ends with transition to next section
@@ -731,10 +584,10 @@ Our analysis revealed six counterintuitive patterns that challenge conventional 
 
 ---
 
-## 🆔 [ CRITICAL NEW] LaTeX Compilation Requirement
+## 🆔 [CRITICAL NEW] LaTeX Compilation Requirement
 
 > [!CRITICAL]
-> **[ MANDATORY] Phase 7F: You MUST compile your LaTeX paper before submitting it as "complete".**
+> **[MANDATORY] Phase 7F: You MUST compile your LaTeX paper before submitting it as "complete".**
 > **This prevents workflow deadlocks from non-compilable LaTeX.**
 
 ### Mandatory Compilation Step (Phase 7F)
@@ -789,42 +642,7 @@ Please request @feasibility_checker to resolve environment issues.
 
 ### Submission Format
 
-**SUCCESS**:
-```
-Director, LaTeX compilation SUCCESSFUL.
-
-File: output/paper/paper_{i}.tex
-PDF: output/paper/paper_{i}.pdf (pages: 27)
-Log: output/paper/paper_{i}.log (no errors)
-
-Compilation time: 45 seconds
-Paper is ready for Phase 7.5 LaTeX Compilation Gate.
-```
-
-**FAILURE** (with fixable errors):
-```
-Director, LaTeX compilation FAILED (attempt 1/3).
-
-File: output/paper/paper_{i}.tex
-Errors:
-  - Line 234: Missing }
-  - Line 456: Misaligned table
-
-Fixing now...
-```
-
-**FAILURE** (after 3 attempts):
-```
-Director, LaTeX compilation FAILED after 3 attempts.
-
-Errors persist:
-  - Complex table alignment (lines 400-450)
-  - Nested environment issues (Section 5)
-
-Recommendation: Request rewind to Phase 7
-Reason: Cannot resolve with simple fixes
-Action: Simplify LaTeX structure
-```
+See `../../agent_knowledge/writer/phase_7_templates.md` for detailed submission formats.
 
 ### Pre-Compilation Checklist
 
@@ -837,7 +655,7 @@ Before compiling, verify:
 
 ---
 
-## 🆔 [ NEW] Phase Jump Capability
+## 🆔 [NEW] Phase Jump Capability
 
 ### Your Rewind Authority
 
@@ -978,142 +796,17 @@ If corruption detected: DELETE the file and rewrite that section.
 
 ---
 
-## 🆔 [ CRITICAL NEW] Narrative Flow Requirements
+## 🆔 [CRITICAL NEW] Narrative Flow Requirements
 
 > [!CRITICAL]
 > **O-Prize papers tell coherent stories, not just present sequential sections.**
 > **Each section must connect to the next, creating narrative engagement.**
 
-### 1. Section Transitions (MANDATORY)
-
-**Purpose**: Create coherent flow between sections
-
-**Requirement**: Each section MUST end with a transition to the next section
-
-**Transition Templates**:
-```latex
-[At end of Section N]
-Having established [key finding], which demonstrates [implication], we now turn to
-[Section N+1 topic]. This [connection/motivation] is critical because [reason].
-
-[Alternative]
-The [Section N finding] reveals [implication]. This motivates our investigation of
-[Section N+1 topic].
-
-[Alternative]
-While [Section N] addressed [aspect], [Section N+1] examines [related aspect].
-```
-
-**Quality Check**:
-- [ ] Each section ends with transition sentence
-- [ ] Transitions connect findings (not just "Next we address...")
-- [ ] Narrative flow is coherent (story arc from problem → solution → insights)
-
-### 2. Section Opening Hooks (MANDATORY)
-
-**Purpose**: Grab attention with specific numbers and surprising facts
-
-**Requirement**: Each major section MUST start with compelling hook (2-3 sentences)
-
-**Hook Templates**:
-```latex
-\section{[Section Title]}
-
-[Specific number] [measurement] reveals [surprising truth], contradicting [common
-assumption]. This [pattern/finding] exposes [fundamental principle]. [Context/significance]
-```
-
-**Example (Results Section)**:
-```latex
-\section{Results}
-
-The United States receives only +1.9 medals (+1.5\% increase) from hosting the 2028
-Games, contradicting the expectation that host nations gain 10--20\% medal advantages.
-This diminished host advantage effect suggests that coaching globalization and reduced
-travel barriers have eroded traditional home-field benefits.
-```
-
-**Quality Check**:
-- [ ] Section opening includes specific number(s)
-- [ ] Hook challenges expectations or presents surprising fact
-- [ ] Hook connects directly to section content
-- [ ] Maximum 3 sentences (concise)
-
-### 3. "What We Discovered" Section (REQUIRED)
-
-**Purpose**: Synthesize key insights at end of Results or Discussion
-
-**Requirement**: Results or Discussion section MUST include "What We Discovered" subsection
-
-**Template**:
-```latex
-\subsection{What We Discovered}
-
-Our analysis revealed [number] counterintuitive patterns that challenge conventional wisdom:
-
-\begin{enumerate}
-  \item \textbf{[Finding Title]}: [Specific number] [finding]. This [challenges expectations/
-  reveals pattern], suggesting [implication].
-
-  \item \textbf{[Finding Title]}: [Specific number] [finding]. This [challenges expectations/
-  reveals pattern], suggesting [implication].
-
-  [Continue 3-6 insights with specific numbers]
-\end{enumerate}
-```
-
-**Example**:
-```latex
-\subsection{What We Discovered}
-
-Our analysis revealed six counterintuitive patterns that challenge conventional wisdom:
-
-\begin{enumerate}
-  \item \textbf{The 2.0 Medal Floor}: 79 countries (51\% of NOCs) face identical baseline
-  predictions, revealing an artificial ceiling breakable through targeted bronze conversion
-  strategies.
-
-  \item \textbf{Host Advantage Overrated}: USA receives only +1.9 medals (+1.5\%) from
-  hosting in 2028, contradicting 10--20\% conventional wisdom.
-
-  [Continue 4 more insights]
-\end{enumerate}
-```
-
-**Quality Check**:
-- [ ] "What We Discovered" subsection present in Results or Discussion
-- [ ] Lists 3-6 key insights with specific numbers
-- [ ] Insights are synthesized (not just repeating results)
-- [ ] Insights challenge conventional wisdom
-
-### 4. Model Section Openers (REQUIRED)
-
-**Purpose**: Each model section opens with problem context, not just name
-
-**Template**:
-```latex
-\subsection{Model [N]: [Model Name]}
-
-[Specific data characteristic] creates [challenge]. [Standard approach] fails because
-[limitation]. We employ [model name], which [key advantage].
-```
-
-**Example**:
-```latex
-\subsection{Model 1: Hurdle Model for Zero-Inflated Medal Counts}
-
-Olympic medal data exhibits severe zero-inflation, with 60+ countries having never won
-a medal while established powers win 50+ medals per Olympics. Standard Poisson models
-fail because they assume a single stochastic process governs all medal counts. We employ
-a hurdle model, which separates the probability of winning any medal from the count
-distribution for medal-winning countries.
-```
-
-**Quality Check**:
-- [ ] Each model section starts with problem description (2-3 sentences)
-- [ ] Includes specific numbers describing data characteristic
-- [ ] Explains why standard approaches fail
-- [ ] Introduces model with key advantage
+See `../../agent_knowledge/writer/storytelling_guide.md` for:
+- Section Transitions (MANDATORY)
+- Section Opening Hooks (MANDATORY)
+- "What We Discovered" Section (REQUIRED)
+- Model Section Openers (REQUIRED)
 
 ---
 
@@ -1164,7 +857,7 @@ Before writing, document what goes where:
 ```
 Write: Summary + Introduction → paper.tex
 Read: paper.tex → Verify
-Append: Assumptions + Models → paper.tex  
+Append: Assumptions + Models → paper.tex
 Read: paper.tex → Verify
 Append: Results + Analysis → paper.tex
 Read: paper.tex → Verify
@@ -1193,348 +886,7 @@ pdflatex paper.tex  # Run twice for TOC
 
 ### Complete Template Structure
 
-```latex
-% ===================================================================
-% PREAMBLE - Use mcmthesis class (NOT article!)
-% ===================================================================
-\documentclass{mcmthesis}
-
-% -------------------------------------------------------------------
-% Setup: Team number and problem choice
-% -------------------------------------------------------------------
-\mcmsetup{
-  tcn = 0000,                    % REPLACE with actual team number
-  problem = C,                   % Problem C
-  tstyle = \color{red}\bfseries,
-  sheet = true,
-  titleinsheet = true,
-  keywordsinsheet = true
-}
-
-% -------------------------------------------------------------------
-% Packages
-% -------------------------------------------------------------------
-\usepackage{newtxtext,newtxmath}  % Times-like font
-\usepackage{indentfirst}
-\usepackage{booktabs}
-\usepackage{graphicx}
-\usepackage{amsmath,amssymb}
-\usepackage{float}
-
-% -------------------------------------------------------------------
-% Title and Summary
-% -------------------------------------------------------------------
-\title{[Your Paper Title Here]}
-\author{}  % Leave empty (anonymous submission)
-\date{\today}
-
-\begin{document}
-
-% -------------------------------------------------------------------
-% Summary Sheet (Page 1) - AUTO-GENERATED by mcmthesis
-% -------------------------------------------------------------------
-\begin{abstract}
-[Write a comprehensive 1-page summary covering:]
-- Problem background and objectives
-- Major models developed (name each one)
-- Key results for each requirement
-- Main conclusions and recommendations
-
-[This should be a DENSE summary - every sentence must add value.]
-[Typical length: 300-500 words]
-
-\begin{keywords}
-keyword1; keyword2; keyword3; [use 4-6 relevant keywords]
-\end{keywords}
-\end{abstract}
-
-\maketitle  % Generates the summary page with team/problem info
-
-% -------------------------------------------------------------------
-% Table of Contents
-% -------------------------------------------------------------------
-\tableofcontents
-\newpage
-
-% ===================================================================
-% MAIN CONTENT
-% ===================================================================
-
-% -------------------------------------------------------------------
-% Section 1: Introduction
-% -------------------------------------------------------------------
-\section{Introduction}
-
-\subsection{Problem Background}
-[Context and importance of the problem]
-
-\subsection{Restatement of Problem}
-[In YOUR OWN WORDS, restate the problem clearly]
-[Address EVERY requirement from requirements\_checklist.md]
-
-\subsection{Our Approach}
-[Briefly outline the models you developed]
-[One paragraph per major model]
-
-% -------------------------------------------------------------------
-% Section 2: Assumptions
-% -------------------------------------------------------------------
-\section{Assumptions}
-\label{sec:assumptions}
-
-> [!IMPORTANT]
-> **Copy ALL assumptions from model\_design.md WORD-FOR-WORD**
-> Do NOT summarize. Do NOT paraphrase. Copy-Adapt-Paste.
-
-\begin{enumerate}
-  \item [Exact assumption text from model\_design.md] \\
-  \textbf{Justification:} [Exact justification text]
-  \vspace{0.3em}
-
-  \item [Exact assumption text from model\_design.md] \\
-  \textbf{Justification:} [Exact justification text]
-  \vspace{0.3em}
-
-  [Continue for ALL assumptions - typically 8-12 assumptions]
-\end{enumerate}
-
-% -------------------------------------------------------------------
-% Section 3: Notation
-% -------------------------------------------------------------------
-\section{Notation}
-\label{sec:notation}
-
-> [!IMPORTANT]
-> **Copy the COMPLETE notation table from model\_design.md**
-
-\begin{table}[H]
-\centering
-\begin{tabular}{cl}
-\toprule
-Symbol & Description \\
-\midrule
-$X_1$  & [Exact definition from model\_design.md] \\
-$X_2$  & [Exact definition from model\_design.md] \\
-$\alpha$ & [Exact definition] \\
-[Continue for ALL symbols used] \\
-\bottomrule
-\end{tabular}
-\caption{Notation and Parameters}
-\label{tab:notation}
-\end{table}
-
-% -------------------------------------------------------------------
-% Section 4: Model Development
-% -------------------------------------------------------------------
-\section{Model Development}
-\label{sec:models}
-
-> [!DANGER]
-> **This is the MOST IMPORTANT section.**
-> **Copy COMPLETE formulations from model\_design.md**
-> **Each model should be 2-3 pages long with full mathematical detail.**
-
-% -------------------------------------------------------------------
-% Model 1
-% -------------------------------------------------------------------
-\subsection{Model 1: [Exact Name from model\_design.md]}
-
-\subsubsection{Model Overview}
-[Brief description - 1 paragraph]
-
-\subsubsection{Assumptions Specific to This Model}
-[Any additional assumptions beyond Section 2]
-
-\subsubsection{Mathematical Formulation}
-
-[COPY THE COMPLETE FORMULATION FROM model\_design.md]
-
-The objective function is:
-\begin{equation}
-  \min_{x} \quad Z = \sum_{i=1}^{n} c_i x_i \label{eq:model1-obj}
-\end{equation}
-
-Subject to:
-\begin{align}
-  \sum_{j=1}^{m} a_{ij} x_j &\leq b_i, \quad \forall i \in \{1,\ldots,p\} \label{eq:model1-constraint1} \\
-  x_j &\geq 0, \quad \forall j \in \{1,\ldots,n\} \label{eq:model1-constraint2}
-\end{align}
-
-where:
-\begin{itemize}
-  \item $Z$ is the total cost (dollars)
-  \item $x_j$ represents the decision variable for [exact definition]
-  \item $c_i$ denotes the unit cost for [exact definition]
-  \item $a_{ij}$ is the technical coefficient for [exact definition]
-\end{itemize}
-
-\subsubsection{Solution Approach}
-[Copy the COMPLETE algorithm from model\_design.md]
-
-We solve this model using [exact method name]:
-\begin{enumerate}
-  \item [Step 1 - exact description]
-  \item [Step 2 - exact description]
-  \item [Continue for ALL steps]
-\end{enumerate}
-
-% -------------------------------------------------------------------
-% Model 2 (if applicable)
-% -------------------------------------------------------------------
-\subsection{Model 2: [Exact Name from model\_design.md]}
-
-[Repeat the same structure:
-- Overview
-- Assumptions
-- COMPLETE Mathematical Formulation
-- Solution Approach]
-
-% -------------------------------------------------------------------
-% Model 3 (if applicable)
-% -------------------------------------------------------------------
-[Continue for ALL models]
-
-% -------------------------------------------------------------------
-% Section 5: Results
-% -------------------------------------------------------------------
-\section{Results}
-\label{sec:results}
-
-\subsection{Implementation Details}
-[Programming language, software, computational resources]
-
-\subsection{Model 1 Results}
-
-[Present numerical results from results\_summary.md]
-[Use tables and figures]
-
-\begin{table}[H]
-\centering
-\begin{tabular}{lcc}
-\toprule
-Scenario & Metric 1 & Metric 2 \\
-\midrule
-Case A   & 123.45  & 67.89   \\
-Case B   & 234.56  & 78.90   \\
-\bottomrule
-\end{tabular}
-\caption{Results for Model 1}
-\label{tab:results1}
-\end{table}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{figures/result1.png}
-\caption{[Observation with at least one number], indicating [implication/meaning].}
-\label{fig:result1}
-\end{figure}
-
-[Continue for all models]
-
-% -------------------------------------------------------------------
-% Section 6: Sensitivity Analysis
-% -------------------------------------------------------------------
-\section{Sensitivity Analysis}
-\label{sec:sensitivity}
-
-> [!IMPORTANT]
-> **Copy the sensitivity analysis plan from model\_design.md**
-> **Report the actual results of the sensitivity tests**
-
-\subsection{Model 1 Sensitivity}
-[Parameter tested, range tested, results observed]
-
-[Include figures showing sensitivity curves]
-
-\subsection{Model 2 Sensitivity}
-[Continue for each model]
-
-% -------------------------------------------------------------------
-% Section 7: Strengths and Weaknesses
-% -------------------------------------------------------------------
-\section{Strengths and Weaknesses}
-\label{sec:strengths}
-
-\subsection{Strengths}
-\begin{itemize}
-  \item \textbf{[Strength 1 Title]}\\
-  [Explanation]
-  \item \textbf{[Strength 2 Title]}\\
-  [Explanation]
-\end{itemize}
-
-\subsection{Weaknesses}
-\begin{itemize}
-  \item \textbf{[Weakness 1 Title]}\\
-  [Explanation and potential improvements]
-  \item \textbf{[Weakness 2 Title]}\\
-  [Explanation and potential improvements]
-\end{itemize}
-
-% -------------------------------------------------------------------
-% Section 8: Discussion and Conclusions
-% -------------------------------------------------------------------
-\section{Discussion and Conclusions}
-\label{sec:discussion}
-
-% GUIDANCE: Craft a comprehensive answer section that synthesizes findings to address research questions.
-% Do NOT merely repeat results.
-
-\subsection{Synthesis and Conclusions}
-[Begin by clearly stating primary conclusions linked to specific results. Discuss how these validate/challenge expectations.]
-
-\subsubsection{Response to Requirement 1}
-[Clear, direct answer with numerical result.]
-
-\subsubsection{Response to Requirement 2}
-[Clear, direct answer with numerical result.]
-
-\subsection{Evaluation and Bias Analysis}
-[Evaluate effectiveness and reliability of models (accuracy, robustness, efficiency). Address limitations.]
-
-\paragraph{Bias Analysis}
-[Analyze potential biases: Data (representation), Model (assumptions), Computational. Discuss strategies to mitigate identified biases.]
-
-\subsection{Implications}
-[Explore broader implications for the field. Discuss societal, economic, or environmental relevance. Identify unexpected outcomes.]
-
-\subsection{Final Recommendations}
-[Summarize key takeaways. Emphasize contribution to solving the problem. Outline next steps for investigation.]
-
-% -------------------------------------------------------------------
-% References
-% -------------------------------------------------------------------
-\begin{thebibliography}{9}
-
-\bibitem{ref1}
-Author, A.~A., (Year). ``Title of Paper,'' \textit{Journal Name}, Vol.~X, No.~Y, pp.~123--145.
-
-\bibitem{ref2}
-Author, B.~B., and Author, C.~C., (Year). ``Title of Book,'' Publisher, City.
-
-[Add references for methods, data sources, etc.]
-
-\end{thebibliography}
-
-% -------------------------------------------------------------------
-% Appendices
-% -------------------------------------------------------------------
-\begin{appendices}
-
-\section{Code Listings}
-\label{app:code}
-
-[Include key code snippets or reference to code in output/code/]
-
-\section{Additional Tables and Figures}
-\label{app:extra}
-
-[Any supplementary material]
-
-\end{appendices}
-
-\end{document}
-```
+See `../../agent_knowledge/writer/latex_templates.md` for the complete template starting with `\documentclass{mcmthesis}`.
 
 ### Critical Template Rules
 

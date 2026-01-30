@@ -296,405 +296,65 @@ Director, Environment exploration complete:
 ## 🎯 Design Expectations Compliance (v2.5.7 MANDATORY)
 
 > [!CRITICAL] **[v2.5.7 MANDATORY] You MUST read and comply with the Design Expectations Table from model_design.md**
->
-> **@time_validator will create a comparison table (Design vs Actual vs Tolerance vs Verdict) to validate your implementation.**
-> **@director will enforce "one fail = all fail" rule - ANY CRITICAL parameter failure = AUTO-REJECT**
 
-### Step 0: Read Design Expectations Table (MANDATORY - Before ANY coding)
+**See**: `../../agent_knowledge/code_translator/design_expectations_guide.md`
 
-**Before writing ANY code, you MUST:**
+This knowledge base file contains:
+- Step-by-step guide to reading Design Expectations Table
+- Critical rules for samples (ABSOLUTE RED LINE)
+- Code implementation requirements
+- Validation protocol
+- One fail = all fail rule
+- Summary table template
 
-```bash
-Read: output/model_design.md
-```
-
-**Extract the Design Expectations Table**:
-
-```markdown
-## Model {i} Design Expectations
-
-### Category 1: Sampling Algorithm
-| Parameter | Design Specification | Min | Max | Unit | Must Not Simplify |
-|-----------|---------------------|-----|-----|------|-------------------|
-| Sampler | NUTS | NUTS | NUTS | - | YES |
-| Tree Depth | 5-10 | 5 | 10 | layers | YES |
-
-### Category 2: MCMC Parameters (CRITICAL - Samples MUST NOT be simplified)
-| Parameter | Design Specification | Min | Max | Unit | Must Not Simplify |
-|-----------|---------------------|-----|-----|------|-------------------|
-| Chains | 4 | 4 | 4 | chains | YES |
-| Tune | 2000 | 2000 | 2000 | samples | YES |
-| Draws | 20000 | 16000 | 24000 | samples | YES |
-| Total | 88000 | 70400 | 105600 | samples | YES |
-
-### Category 3: Features (CRITICAL - ALL features MUST be present)
-| Parameter | Design Specification | Min | Max | Unit | Must Not Simplify |
-|-----------|---------------------|-----|-----|------|-------------------|
-| Total features | 15 | 15 | 15 | features | YES |
-| Specific features | [list of 15 features] | ALL | ALL | - | YES |
-```
-
-### Critical Rules for Samples (v2.5.7 ABSOLUTE)
-
-**🚨 SAMPLES PROTECTION - ABSOLUTE RED LINE**:
-
-```
-❌ FORBIDDEN (Academic Fraud):
-  Draws: 20000 → 1000 (20× reduction)
-  Tune: 2000 → 100 (20× reduction)
-  Chains: 4 → 2 (50% reduction)
-  Total: 88000 → 3000 (29× reduction)
-
-✅ REQUIRED (Exact Implementation):
-  Draws: 20000 (within ±20%: 16000-24000)
-  Tune: 2000 (exact, no tolerance)
-  Chains: 4 (exact, no tolerance)
-  Total: 88000 (within ±20%: 70400-105600)
-```
-
-**Why Samples Cannot Be Simplified**:
-
-1. **Posterior Convergence**: 20000 samples required for MCMC convergence
-   - Fewer samples → unreliable posterior estimates
-   - R-hat diagnostics unreliable
-   - Effective sample size too low
-
-2. **Uncertainty Quantification**: Bayesian models require sufficient samples
-   - 95% CI requires adequate posterior sampling
-   - <16000 samples → CI too wide/narrow (invalid inference)
-
-3. **Reproducibility**: 4 chains required for convergence verification
-   - <4 chains → Cannot verify convergence
-   - Results may be non-reproducible
-
-## 🔧 Platform-Adaptive Sampling 
-
-> [!CRITICAL]
-> **[MANDATORY] You MUST use platform-adaptive sampling for ALL training code.**
->
-> This ensures the system works efficiently on BOTH Linux and Windows platforms.
-
-### Platform Detection and Configuration
-
-**At the TOP of EVERY model file**, after imports:
-
-```python
-# Platform-adaptive sampling 
-from implementation.code.platform_adaptive_sampling import PlatformAdaptiveSampler
-
-# Get optimal config for current platform
-sampler_config = PlatformAdaptiveSampler().get_optimal_config(n_chains=4)
-
-print(f"Platform: {sampler_config['platform']}")
-print(f"Expected training time: {sampler_config['expected_hours']} hours")
-print(f"Parallel sampling: {sampler_config['parallel']}")
-```
-
-### Conditional Backend Selection
-
-**If NumPyro recommended for Windows** (faster):
-
-```python
-if sampler_config.get('use_numpyro'):
-    # Use NumPyro for Windows (same speed as Linux)
-    import numpyro
-    import numpyro.distributions as dist
-    from jax import random
-    from numpyro.infer import MCMC, NUTS
-
-    def model_func(features, target=None):
-        # Define model using NumPyro API
-        # ... (similar to PyMC but with NumPyro syntax)
-        pass
-
-    # Sample with NumPyro
-    kernel = NUTS(model_func)
-    mcmc = MCMC(kernel, num_warmup=sampler_config['tune'],
-                num_samples=sampler_config['draws'],
-                num_chains=sampler_config['chains'])
-    mcmc.run(random.PRNGKey(0), features, target)
-
-else:
-    # Use PyMC (Linux or optimized Windows)
-    import pymc as pm
-
-    with pm.Model() as model:
-        # Define model using PyMC API
-        # ... (standard PyMC code)
-        pass
-
-        # Sample with platform-optimal config
-        trace = pm.sample(
-            draws=sampler_config['draws'],
-            tune=sampler_config['tune'],
-            chains=sampler_config['chains'],
-            cores=sampler_config['cores'],
-            target_accept=sampler_config['target_accept']
-        )
-```
-
-### Verification
-
-**After implementing platform-adaptive sampling**:
-
-```python
-# Verify config meets constraints
-if sampler_config['platform'] == 'Windows':
-    assert sampler_config['expected_hours'] <= 20.0, "Windows config too slow!"
-    if sampler_config.get('use_numpyro'):
-        assert sampler_config['expected_hours'] == 5.0, "NumPyro should match Linux speed"
-    print("✅ Windows configuration acceptable")
-elif sampler_config['platform'] == 'Linux':
-    assert sampler_config['expected_hours'] == 5.0, "Linux should be fastest"
-    print("✅ Linux configuration optimal")
-```
-
-
-### Mandatory Platform Config Table
-
-You MUST verify your implementation matches this table:
-
-| Platform | Algorithm | Config | Expected Time | Action |
-|----------|-----------|--------|---------------|--------|
-| Linux | PyMC | chains=4, cores=4 | 5h/model | ✅ Proceed |
-| Windows | NumPyro | chains=4, cores=4 | 5h/model | ✅ Proceed |
-| Windows | PyMC | chains=2, cores=1, draws=20000 | 20h/model | ⚠️ Accept if ≤2 models |
-| macOS (M1/M2) | PyMC | chains=4, cores=4 | 4h/model | ✅ Proceed |
-| macOS (Intel) | PyMC | chains=2, cores=1 | 20h/model | ⚠️ Accept if ≤2 models |
-
-**If your config doesn't match**: Report to @director immediately.
+**Key Points**:
+- Read Design Expectations Table BEFORE writing ANY code
+- Samples CANNOT be simplified (20000 draws ± 20%, 2000 tune exact, 4 chains exact)
+- ALL designed features MUST be present (no "use available columns" workaround)
+- @time_validator will create comparison table (Design vs Actual vs Tolerance vs Verdict)
+- @director enforces "one fail = all fail" - ANY CRITICAL parameter failure = AUTO-REJECT
 
 ---
 
-### Code Implementation Requirements
+## 🔧 Platform-Adaptive Sampling
 
-**When implementing model_{i}.py, you MUST**:
+> [!CRITICAL] **[MANDATORY] You MUST use platform-adaptive sampling for ALL training code.**
 
-```python
-# CORRECT: Exact implementation of design specifications
-import pymc as pm
+**See**: `../../agent_knowledge/code_translator/platform_adaptive_sampling.md`
 
-with pm.Model() as model:
-    # ... define model ...
+This knowledge base file contains:
+- Platform detection and configuration
+- Conditional backend selection (PyMC vs NumPyro)
+- Verification protocols
+- Mandatory platform config table
 
-    # CRITICAL: Use EXACT parameters from design
-    trace = pm.sample(
-        draws=20000,        # ← From design: 20000 (min 16000, max 24000)
-        tune=2000,          # ← From design: 2000 (exact)
-        chains=4,           # ← From design: 4 (exact)
-        cores=4,
-        target_accept=0.95  # ← From design if specified
-    )
-
-    # Total samples: 20000 × 4 = 80000 + 2000×4 = 8000 = 88000
-```
-
-**❌ FORBIDDEN**:
-
-```python
-# WRONG: Unauthorized simplification
-trace = pm.sample(
-    draws=1000,      # ← 20× below minimum (16000) - AUTO-REJECT
-    tune=100,        # ← 20× below design (2000) - AUTO-REJECT
-    chains=2,        # ← 50% below design (4) - AUTO-REJECT
-)
-
-# WRONG: "Use available columns" workaround
-features = df.columns  # ← Only uses available columns, missing features
-# Instead, raise error if designed features missing
-```
-
-**✅ CORRECT**:
-
-```python
-# Verify ALL designed features are present
-designed_features = ['GDP', 'host_advantage', 'years_participated', ...]
-actual_features = features.columns.tolist()
-
-missing = set(designed_features) - set(actual_features)
-if missing:
-    raise ValueError(
-        f"Missing {len(missing)} required features: {missing}\n"
-        f"DO NOT use 'available columns' workaround.\n"
-        f"Report to @director to fix data structure."
-    )
-
-# Use EXACT parameters from design
-trace = pm.sample(
-    draws=20000,
-    tune=2000,
-    chains=4,
-    cores=4
-)
-```
-
-### Validation Protocol
-
-**@time_validator will check**:
-
-```markdown
-## Design vs Actual Comparison
-
-### Category 2: MCMC Parameters (CRITICAL)
-| Parameter | Design | Actual | Diff | Tolerance | Verdict |
-|-----------|--------|--------|------|-----------|---------|
-| Chains | 4 | 2 | -50% | Exact | ❌ FAIL |
-| Tune | 2000 | 1000 | -50% | Exact | ❌ FAIL |
-| Draws | 20000 | 10000 | -50% | ±20% | ❌ FAIL |
-| Total | 88000 | 22000 | -75% | ±20% | ❌ FAIL |
-
-**Overall Score**: 0/4 (0%)
-**Final Verdict**: ❌ AUTO-REJECT (All parameters simplified beyond tolerance)
-
-Action Required: @code_translator must rework implementation to match design exactly.
-```
-
-### One Fail = All Fail Rule
-
-**@director enforcement**:
-
-```python
-if ANY critical_param_FAIL:
-    return "❌ REJECT"
-elif overall_score < 0.8:  # 80%
-    return "❌ REJECT"
-else:
-    return "✅ APPROVE"
-```
-
-**Examples**:
-
-**Example 1: One Critical Fail = REJECT**
-```
-Chains: 4 ✅ PASS
-Tune: 2000 ✅ PASS
-Draws: 10000 ❌ FAIL (50% below design)
-Features: 15 ✅ PASS
-
-@director: ❌ REJECT (Draws failed - one fail rule engaged)
-```
-
-**Example 2: All Pass = APPROVE**
-```
-Chains: 4 ✅ PASS
-Tune: 2000 ✅ PASS
-Draws: 19000 ✅ PASS (within ±20%)
-Features: 15 ✅ PASS
-
-@director: ✅ APPROVE (All critical passed)
-```
-
-### Summary Table
-
-| Parameter | Design | Min Acceptable | Max Acceptable | Your Code | Verdict |
-|-----------|--------|----------------|----------------|-----------|---------|
-| Sampler | NUTS | NUTS | NUTS | [your code] | ⬜ PASS / ❌ FAIL |
-| Chains | 4 | 4 | 4 | [your code] | ⬜ PASS / ❌ FAIL |
-| Tune | 2000 | 2000 | 2000 | [your code] | ⬜ PASS / ❌ FAIL |
-| Draws | 20000 | 16000 | 24000 | [your code] | ⬜ PASS / ❌ FAIL |
-| Features | 15 | 15 | 15 | [your code] | ⬜ PASS / ❌ FAIL |
-
-**CRITICAL**: Fill out this table in your implementation report before claiming completion.
+**Key Points**:
+- Use `PlatformAdaptiveSampler().get_optimal_config()` at top of every model file
+- Conditional backend: NumPyro for Windows (faster), PyMC for Linux
+- Verify config meets constraints (expected_hours ≤ 20.0 for Windows)
+- Report to @director if config doesn't match table
 
 ---
 
 ## 🚨 Emergency Protocol Compliance (v2.5.8)
 
 > [!IMPORTANT] **[v2.5.8] You have a special role in emergency delegation protocol.**
->
-> **When @modeler delegates emergency fix, you must implement immediately WITHOUT questioning.**
 
-### When You Receive Emergency Delegation
+**See**: `../../agent_knowledge/code_translator/emergency_protocol.md`
 
-**From @modeler**:
-```
-@code_translator: 🚨 EMERGENCY FIX AUTHORIZED (v2.5.8)
+This knowledge base file contains:
+- Emergency delegation triggers and flow
+- Your response requirements (implement immediately within 10 minutes)
+- Example responses
+- Emergency vs standard protocol comparison
+- Key principle and why it works
 
-Model: {i}
-Issue: {diagnosis}
-Root Cause: {analysis}
-
-Fix Required:
-{specific parameter changes}
-
-Implementation:
-- File: model_{i}.py
-- Line: {line_number}
-- Change: {before} → {after}
-
-Implement IMMEDIATELY.
-Copy @director on completion.
-```
-
-### Your Response Requirements
-
-**DO**:
-1. ✅ Implement fix **immediately** (within 10 minutes)
-2. ✅ Copy @director on completion
-3. ✅ Provide clear summary of changes
-4. ✅ Include file paths and line numbers
-5. ✅ Do NOT question @modeler's emergency authorization
-
-**DO NOT**:
-1. ❌ Question the fix (implement first, review later)
-2. ❌ Ask for @director approval before implementing
-3. ❌ Delay implementation for verification
-4. ❌ Suggest alternative approaches (implement what @modeler specified)
-
-### Example Response
-
-```
-@code_translator: "🚨 Emergency fix implemented (v2.5.8)
-
-Model: 1
-Changes Applied:
-- tune: 2000 → 4000 (line 45)
-- target_accept: 0.95 → 0.99 (line 46)
-
-Files Modified:
-- output/implementation/code/model_1.py (lines 45-46)
-
-Authorization: @modeler ({timestamp})
-@dicator: Retroactive approval requested.
-Training resumed: {timestamp}"
-```
-
-### After Implementation
-
-**@director reviews retroactively**:
-- If ✅ **APPROVED**: Training continues, fix stands
-- If ❌ **REJECTED**: Changes reverted, training restarted
-
-**Your role**:
-- Implement what @modeler specifies
-- Document changes clearly
+**Key Points**:
+- When @modeler delegates emergency fix, implement immediately WITHOUT questioning
+- Copy @director on completion
+- Provide clear summary of changes (file paths, line numbers)
 - Trust retroactive approval process
-
-### Emergency vs Standard Protocol
-
-**Emergency Protocol** (v2.5.8):
-- Trigger: R-hat > 1.3 OR 12+ hours elapsed
-- Delegation: @modeler → @code_translator (direct)
-- Response time: <10 minutes
-- Approval: Retroactive (@director reviews after)
-
-**Standard Protocol** (v2.5.7):
-- Trigger: All other errors
-- Delegation: @director → @code_translator
-- Response time: 30-60 minutes
-- Approval: Real-time (@director approves before)
-
-### Key Principle
-
-**v2.5.8 Philosophy**: Trust @modeler's emergency authorization for critical convergence failures. @modeler is the domain expert. If @modeler says "fix this now," you fix it now. Questions and verification happen retroactively through @director's review.
-
-**Why this works**:
-- Critical errors (R-hat > 1.3) waste hours if not fixed immediately
-- @modeler understands the model geometry better than anyone
-- @director oversight maintained through retroactive approval
-- Single-use limit prevents abuse
-
-**See**: model_trainer.md lines 264-476 for complete emergency protocol
+- Emergency protocol: R-hat > 1.3 OR 12+ hours elapsed
 
 ---
 
@@ -744,87 +404,6 @@ Recommendation: Resume training from checkpoint (if available) or restart"
 - If ✅ APPROVE → Training resumes
 - If ❌ REJECT → Full rework required
 
-### Parameter Change Examples
-
-**Example 1: Simple Bug Fix (NO re-validation needed)**:
-```python
-# Before (error)
-logp = pm.logp(var)
-# After (fixed)
-logp = pm.logp(var, data)
-
-CHANGES SUMMARY:
-- Files modified: model_1.py (line 89)
-- Parameters changed: NONE (API fix only)
-- Algorithm changed: NO
-- Features added/removed: NO
-- Design expectations compliance: N/A (bug fix, no parameter changes)
-```
-
-**Example 2: Parameter Change (RE-VALIDATION needed)**:
-```python
-# Before
-trace = pm.sample(draws=20000, tune=2000, chains=4)
-# After
-trace = pm.sample(draws=21000, tune=2100, chains=4)
-
-CHANGES SUMMARY:
-- Files modified: model_1.py (line 145)
-- Parameters changed:
-  - draws: 20000 → 21000 (+5%)
-  - tune: 2000 → 2100 (+5%)
-- Algorithm changed: NO
-- Features added/removed: NO
-- Design expectations compliance: Within ±20% tolerance
-```
-
-**Example 3: UNAUTHORIZED Simplification (REJECT)**:
-```python
-# Before
-trace = pm.sample(draws=20000, tune=2000, chains=4)
-# After
-trace = pm.sample(draws=1000, tune=1000, chains=2)
-
-CHANGES SUMMARY:
-- Files modified: model_1.py (line 145)
-- Parameters changed:
-  - draws: 20000 → 1000 (-95%)
-  - tune: 2000 → 1000 (-50%)
-  - chains: 4 → 2 (-50%)
-- Algorithm changed: NO
-- Features added/removed: NO
-- Design expectations compliance: ❌ VIOLATES design (exceeds ±20% tolerance)
-
-# @time_validator will REJECT this
-# Full rework required to match design exactly
-```
-
-### Emergency Protocol Changes Summary
-
-When @modeler delegates emergency fix, include the same MANDATORY summary:
-
-```markdown
-@code_translator: "🚨 Emergency fix implemented (v2.5.8)
-
-Model: 1
-Changes Applied:
-- tune: 2000 → 4000 (line 45)
-- target_accept: 0.95 → 0.99 (line 46)
-
-📋 CHANGES SUMMARY (MANDATORY):
-- Files modified: model_1.py (lines 45-46)
-- Parameters changed:
-  - tune: 2000 → 4000 (+100%, emergency authorization)
-  - target_accept: 0.95 → 0.99 (parameter added)
-- Algorithm changed: NO
-- Features added/removed: NO
-- Design expectations compliance: Emergency fix, exceeds tolerance but authorized by @modeler
-
-Authorization: @modeler ({timestamp})
-@dicator: Retroactive approval requested.
-Training resumed: {timestamp}"
-```
-
 ### Compliance Scope
 
 **What CAN Be Modified During Fix**:
@@ -861,7 +440,7 @@ See `../../agent_knowledge/code_translator/workflow.md` for the complete step-by
 
 ## 🆔 Model Design Consultation (MANDATORY)
 
-> [!CRITICAL] **[ MANDATORY] When @modeler requests consultation, you MUST provide feedback.**
+> [!CRITICAL] **[MANDATORY] When @modeler requests consultation, you MUST provide feedback.**
 
 ### Consultation Process
 
@@ -955,7 +534,7 @@ if hasattr(torch, 'manual_seed'):
 
 ## 🚨 CRITICAL: Simplification = Academic Fraud (v2.5.7 MANDATORY)
 
-> [!CAUTION] **[ ABSOLUTE FORBIDDEN] Simplifying implementation without @director approval**
+> [!CAUTION] **[ABSOLUTE FORBIDDEN] Simplifying implementation without @director approval**
 >
 > **Simplification = Academic Fraud = Immediate Rejection**
 >
@@ -1005,351 +584,48 @@ Implementation error encountered
 
 ## 🚨 REAL-WORLD ANTI-PATTERNS (v2.5.7 MANDATORY STUDY)
 
-> [!CAUTION] **[ MANDATORY] Study these real examples of lazy implementation.**
->
-> These are **FORBIDDEN PATTERNS** detected by @time_validator. DO NOT repeat these mistakes.
+> [!CAUTION] **[MANDATORY] Study these real examples of lazy implementation.**
 
-### Anti-Pattern 1: Algorithm Substitution (sklearn vs PyMC)
+**See**: `../../agent_knowledge/code_translator/anti_patterns_examples.md`
 
-**❌ FORBIDDEN: sklearn When Design Specifies Bayesian**
+This knowledge base file contains:
+- Anti-Pattern 1: Algorithm Substitution (sklearn vs PyMC)
+- Anti-Pattern 2: Training Duration Red Line Violation
+- Anti-Pattern 3: Massive Iteration Reduction
+- Anti-Pattern 4: Feature Workarounds ("Use Available Columns")
+- Anti-Pattern 5: Silent Fallback Mechanisms
+- Summary table of anti-patterns detected
+- How to avoid these anti-patterns
 
-```python
-# REAL EXAMPLE FROM Model 5 (model_5_changepoint.py:139-142)
-# Design: "Bayesian change point detection with PyMC"
-# Implementation: Used sklearn.linear_model.PoissonRegressor
-
-from sklearn.linear_model import PoissonRegressor  # ← WRONG!
-model = PoissonRegressor(alpha=0, max_iter=1000)
-model.fit(X, medals)
-mu_pred = model.predict(X)
-```
-
-**Why Wrong**: Design specified Bayesian inference, sklearn is frequentist (no posterior distributions), algorithm fundamentally changed, no approval
-
-**v2.5.7 Verdict**: ❌ **AUTO-REJECT** (Algorithm mismatch)
-
-**✅ CORRECT Approach**:
-```python
-import pymc as pm
-with pm.Model() as model:
-    tau = pm.DiscreteUniform('tau', lower=0, upper=T)
-    pm.Poisson('y', mu=mu, observed=medals)
-    trace = pm.sample(5000, tune=2000, chains=4)
-```
-
-**What To Do When PyMC Fails**:
-```
-Director, PyMC API incompatibility detected in Model 5.
-Error: [specific error message]
-Options:
-1. Fix PyMC version/installation
-2. Update model design to use compatible PyMC API
-3. DO NOT switch to sklearn (simplification = fraud)
-Awaiting guidance.
-```
-
----
-
-### Anti-Pattern 2: Training Duration Red Line Violation
-
-**❌ FORBIDDEN: Training Time < 30% of Expected**
-
-```python
-# REAL EXAMPLE FROM Model 1
-# Design: "Expected training time: 3-5 hours"
-# Actual: "Training completed in 0.31 hours (18.7 minutes)"
-
-trace = pm.sample(tune=5000, draws=5000, chains=4)
-# But training finished in 18.7 minutes instead of 3-5 hours!
-```
-
-**Why Suspicious**: Expected 3-5 hours (180-300 min), Actual 18.7 min, **10× below minimum**, **3× below red line** (30% threshold = 54 min)
-
-**v2.5.7 Verdict**: ❌ **AUTO-REJECT** (Training < 30% of expected)
-
-**What To Do**:
-1. **Verify**: Check actual algorithm used (not just parameters)
-2. **Report**: If training is suspiciously fast, tell @director BEFORE reporting completion
-3. **Do NOT**: Claim "all good" when training is 10× faster than expected
-
----
-
-### Anti-Pattern 3: Massive Iteration Reduction
-
-**❌ FORBIDDEN: Reduce Iterations Beyond ±20% Tolerance**
-
-```python
-# REAL EXAMPLE FROM Quick Training 5A
-# Design: "5000 tune + 5000 draws, 4 chains"
-# Quick training: "100 tune + 100 draws, 2 chains"
-
-trace = pm.sample(tune=100, draws=100, chains=2)  # ← 50× reduction!
-```
-
-**v2.5.7 Tolerance**: ±20% maximum, **Actual**: 2000-10000% beyond tolerance
-
-| Model | Expected | Quick Training | Reduction | Verdict |
-|-------|----------|----------------|-----------|---------|
-| Model 1 | 5000+5000 | 100+100 | **50×** | ❌ EXCEEDS |
-| Model 2 | 10,000 MC | 100 | **100×** | ❌ EXCEEDS |
-| Model 3 | 3000+1000 | 100+50 | **30×/20×** | ❌ EXCEEDS |
-| Model 4 | 50,000 VI | 1000 | **50×** | ❌ EXCEEDS |
-| Model 6 | 1000 bootstrap | 10 | **100×** | ❌ EXCEEDS |
-
-**Rule**: ±10% OK, ±20% max, **>±20% ❌ FORBIDDEN** (requires @director approval)
-
----
-
-### Anti-Pattern 4: Feature Workarounds ("Use Available Columns")
-
-**❌ FORBIDDEN: Hardcoded Columns Instead of All Features**
-
-```python
-# REAL EXAMPLE FROM Model 6
-# Design: "15 features including Gold, Silver, Bronze, ..."
-# Implementation: Hardcoded 3 columns
-
-inputs_cols = ['AthleteCount', 'EventCount', 'YearsParticipated']
-outputs_cols = ['Gold', 'Silver', 'Bronze']  # ← Only 3 features!
-```
-
-**Why Wrong**: Design specified 15 features, code only uses 6 hardcoded columns, missing 9 features
-
-**v2.5.7 Verdict**: ❌ **INCOMPLETE** (Only 6/15 features)
-
-**✅ CORRECT**:
-```python
-available_features = [col for col in designed_features if col in dea_df.columns]
-if len(available_features) < len(designed_features):
-    missing = set(designed_features) - set(available_features)
-    raise ValueError(f"Missing {len(missing)} required features: {missing}\nDO NOT use 'available columns' workaround.\nReport to @director.")
-inputs_cols = designed_features  # All 15 features
-```
-
----
-
-### Anti-Pattern 5: Silent Fallback Mechanisms
-
-**❌ FORBIDDEN: Catch All Errors and Hide with Simple Fallback**
-
-```python
-# REAL EXAMPLE FROM Model 5
-try:
-    model = PoissonRegressor(alpha=0, max_iter=1000)
-    model.fit(X, medals)
-except:
-    mu_pred = np.full_like(medals, medals.mean())  # ← BARE except!
-```
-
-**Why Wrong**: Bare `except:` catches ALL errors, falls back to trivial implementation, no error reported, silent degradation
-
-**v2.5.7 Verdict**: ❌ **HIDDEN SIMPLIFICATION**
-
-**✅ CORRECT**:
-```python
-try:
-    model = PoissonRegressor(alpha=0, max_iter=1000)
-    model.fit(X, medals)
-except (ValueError, ConvergenceWarning) as e:
-    logger.error(f"Model fitting failed: {e}")
-    raise RuntimeError(f"DO NOT use simple mean fallback.\nRequires @director coordination.")
-except Exception as e:
-    logger.error(f"Unexpected error: {e}")
-    raise  # Re-raise, DO NOT hide
-```
-
-**Rules**: ✅ Catch specific exceptions, ✅ Log errors, ✅ Report to @director, ❌ NEVER bare except, ❌ NEVER silent fallback
-
----
-
-### Summary Table: Anti-Patterns Detected
-
-| Anti-Pattern | Real Example | v2.5.7 Verdict | Correct Action |
-|--------------|--------------|----------------|----------------|
-| **Algorithm substitution** | sklearn vs PyMC (Model 5, 6) | ❌ AUTO-REJECT | Report to @director, do not simplify |
-| **Training < 30%** | 18.7 min vs 3-5h (Model 1) | ❌ AUTO-REJECT | Verify actual algorithm, report discrepancy |
-| **Iterations >20%** | 50-100× reduction (Quick Train) | ❌ EXCEEDS | Use ±20% tolerance, get approval |
-| **Feature workaround** | 6/15 features (Model 6) | ❌ INCOMPLETE | Report missing features, do not skip |
-| **Silent fallback** | Bare except + mean (Model 5) | ❌ HIDDEN | Catch specific errors, report |
-
----
-
-### How To Avoid These Anti-Patterns
-
-**Before Writing Code**:
-1. Read model_design.md carefully (all equations, parameters, features)
-2. Verify computational requirements (2-6 hours)
-3. Check required libraries installed
-
-**When Writing Code**:
-1. Implement EXACTLY what design specifies (no shortcuts)
-2. Use exact parameters (iterations, chains, samples)
-3. Include ALL designed features (no "available columns")
-
-**When Errors Occur**:
-- Simple bug → Fix yourself
-- Algorithm/complexity affected → **STOP, report to @director**
-- Missing features → **STOP, report to @director**
-- Library incompatibility → **STOP, report to @director**
-
-**Before Reporting Completion**:
-1. Verify training time reasonable (not 10× faster)
-2. Verify all features from design present
-3. Verify algorithm matches design (PyMC not sklearn)
-4. Verify parameters within ±20%
-
-**Remember**: These anti-patterns caused **AUTO-REJECT** by @time_validator. Learn from mistakes.
+**Key Points**:
+- These are FORBIDDEN PATTERNS detected by @time_validator
+- Algorithm substitution (sklearn when PyMC specified) = AUTO-REJECT
+- Training < 30% of expected = AUTO-REJECT
+- Iterations >20% reduction = EXCEEDS tolerance
+- Feature workarounds (hardcoded columns) = INCOMPLETE
+- Silent fallback (bare except) = HIDDEN SIMPLIFICATION
 
 ---
 
 ## 🆔 Computational Requirements Enforcement (MANDATORY)
 
-> [!CRITICAL] **[ MANDATORY] You MUST implement computationally intensive methods (2-6 hours training).**
+> [!CRITICAL] **[MANDATORY] You MUST implement computationally intensive methods (2-6 hours training).**
 
-### Pre-Implementation Check
+**See**: `../../agent_knowledge/code_translator/computational_requirements.md`
 
-Verify **Computational Requirements** in `model_design.md`: **Required Training Time**: 2-6 hours per model
+This knowledge base file contains:
+- Pre-implementation check
+- Pattern A: Bayesian Hierarchical Models (RECOMMENDED)
+- Pattern B: Deep Neural Networks
+- Pattern C: Large-Scale Ensemble Methods
+- FORBIDDEN implementation patterns
+- Implementation verification
 
-### ✅ Approved Implementation Patterns
-
-#### Pattern A: Bayesian Hierarchical Models (RECOMMENDED)
-
-```python
-import pymc as pm
-
-def train_model(X_train, y_train, **kwargs):
-    """Train Bayesian Hierarchical Model. Expected: 3-5 hours"""
-    with pm.Model() as hierarchical_model:
-        # Hyperpriors
-        mu_alpha = pm.Normal('mu_alpha', mu=0, sigma=10)
-        sigma_alpha = pm.HalfCauchy('sigma_alpha', beta=2)
-        alpha = pm.Normal('alpha', mu=mu_alpha, sigma=sigma_alpha, shape=n_countries)
-        beta = pm.Normal('beta', mu=0, sigma=10, shape=n_features)
-        sigma = pm.HalfCauchy('sigma', beta=2)
-        mu = alpha[country_idx] + pm.math.dot(X_train, beta)
-        pm.Normal('y', mu=mu, sigma=sigma, observed=y_train)
-
-        # MCMC sampling (COMPUTATIONALLY INTENSIVE)
-        trace = pm.sample(draws=2000, tune=1000, chains=4, cores=4, target_accept=0.95)
-    return {'model': hierarchical_model, 'trace': trace}
-```
-
-**Expected**: 3-5 hours (2000 samples × 4 chains with NUTS)
-
-#### Pattern B: Deep Neural Networks
-
-```python
-import torch
-import torch.nn as nn
-from torch.utils.data import DataLoader, TensorDataset
-
-class DeepModel(nn.Module):
-    def __init__(self, input_dim):
-        super().__init__()
-        self.network = nn.Sequential(
-            nn.Linear(input_dim, 256), nn.BatchNorm1d(256), nn.ReLU(), nn.Dropout(0.3),
-            nn.Linear(256, 128), nn.BatchNorm1d(128), nn.ReLU(), nn.Dropout(0.3),
-            nn.Linear(128, 64), nn.BatchNorm1d(64), nn.ReLU(), nn.Dropout(0.2),
-            nn.Linear(64, 1)
-        )
-    def forward(self, x):
-        return self.network(x)
-
-def train_model(X_train, y_train, **kwargs):
-    """Train deep neural network. Expected: 2-4 hours"""
-    X_tensor = torch.FloatTensor(X_train.values)
-    y_tensor = torch.FloatTensor(y_train.values)
-    dataset = TensorDataset(X_tensor, y_tensor)
-    dataloader = DataLoader(dataset, batch_size=32, shuffle=True)
-
-    model = DeepModel(input_dim=X_train.shape[1])
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-    criterion = nn.MSELoss()
-
-    n_epochs = 5000  # 5000+ epochs
-    for epoch in range(n_epochs):
-        model.train()
-        for X_batch, y_batch in dataloader:
-            optimizer.zero_grad()
-            predictions = model(X_batch).squeeze()
-            loss = criterion(predictions, y_batch)
-            loss.backward()
-            optimizer.step()
-    return {'model': model}
-```
-
-**Expected**: 2-4 hours (5000+ epochs with backpropagation)
-
-#### Pattern C: Large-Scale Ensemble Methods
-
-```python
-from sklearn.ensemble import GradientBoostingRegressor
-from sklearn.model_selection import GridSearchCV
-
-def train_model(X_train, y_train, **kwargs):
-    """Train large-scale ensemble. Expected: 2-3 hours"""
-    param_grid = {
-        'n_estimators': [500, 1000, 2000],
-        'max_depth': [10, 20, 30, None],
-        'min_samples_split': [2, 5, 10],
-        'min_samples_leaf': [1, 2, 4],
-        'learning_rate': [0.01, 0.05, 0.1]
-    }
-
-    model = GradientBoostingRegressor(random_state=42, warm_start=True)
-    grid_search = GridSearchCV(estimator=model, param_grid=param_grid, cv=5, n_jobs=-1, verbose=2)
-    grid_search.fit(X_train, y_train)
-
-    # Bootstrap ensemble
-    n_bootstrap = 1000
-    bootstrap_models = []
-    for i in range(n_bootstrap):
-        from sklearn.utils import resample
-        X_boot, y_boot = resample(X_train, y_train, random_state=i)
-        model = GradientBoostingRegressor(**grid_search.best_params_)
-        model.fit(X_boot, y_boot)
-        bootstrap_models.append(model)
-    return {'best_model': grid_search.best_estimator_, 'bootstrap_models': bootstrap_models}
-```
-
-**Expected**: 2-3 hours (grid search + 1000 bootstrap models)
-
-### ❌ FORBIDDEN Implementation Patterns
-
-**DO NOT implement lightweight methods**:
-```python
-# ❌ FORBIDDEN: Ridge/Lasso (trains in seconds)
-from sklearn.linear_model import Ridge
-model = Ridge(alpha=1.0)
-model.fit(X_train, y_train)  # < 1 minute
-
-# ❌ FORBIDDEN: Basic sklearn defaults
-from sklearn.ensemble import RandomForestRegressor
-model = RandomForestRegressor()  # Default parameters
-model.fit(X_train, y_train)  # < 5 minutes
-
-# ❌ FORBIDDEN: Simple analytical solutions
-from sklearn.linear_model import LinearRegression
-model = LinearRegression()
-model.fit(X_train, y_train)  # < 10 seconds
-```
-
-### Implementation Verification
-
-Before reporting completion:
-```python
-import time
-
-def train_model(X_train, y_train, **kwargs):
-    start_time = time.time()
-    # ... implementation ...
-    elapsed_time = time.time() - start_time
-    print(f"Training completed in {elapsed_time/3600:.2f} hours")
-
-    if elapsed_time < 3600:  # Less than 1 hour
-        raise ValueError(f"Training time ({elapsed_time/60:.1f} min) is below 2-6 hour minimum. Use more intensive method.")
-    return model
-```
+**Key Points**:
+- Required training time: 2-6 hours per model
+- Approved patterns: Bayesian (3-5h), Deep NN (2-4h), Ensemble (2-3h)
+- FORBIDDEN: Ridge/Lasso (<1 min), sklearn defaults (<5 min), LinearRegression (<10 sec)
+- Verify training time before reporting completion (raise error if <1 hour)
 
 ---
 
@@ -1539,7 +815,7 @@ Re-verification verdict MUST:
 
 ---
 
-## 🆔 [ CRITICAL NEW] Protocol 17: Model Component Testing Compliance
+## 🆔 [CRITICAL NEW] Protocol 17: Model Component Testing Compliance
 
 > [!CRITICAL] **See Knowledge Base**: `../../agent_knowledge/code_translator/protocols/protocol_17_unit_test_template.py`
 >

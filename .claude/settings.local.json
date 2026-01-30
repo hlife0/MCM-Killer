@@ -31,7 +31,12 @@
       "Bash(mkdir:*)",
       "Bash(while read f)",
       "Bash(do grep:*)",
-      "Bash(echo:*)"
+      "Bash(echo:*)",
+      "Bash(if [ -d \"D:\\\\MCM-Killer\\\\MCM-Killer\\\\workspace\\\\2025_C\\\\knowledge_base\" ])",
+      "Bash(then ls -la \"D:\\\\MCM-Killer\\\\MCM-Killer\\\\workspace\\\\2025_C\\\\knowledge_base\")",
+      "Bash(else echo \"Directory does not exist\")",
+      "Bash(if [ -d \"D:\\\\MCM-Killer\\\\MCM-Killer\\\\workspace\\\\2025_C\\\\agent_knowledge\" ])",
+      "Bash(then ls -la \"D:\\\\MCM-Killer\\\\MCM-Killer\\\\workspace\\\\2025_C\\\\agent_knowledge\")"
     ],
     "deny": [],
     "ask": []

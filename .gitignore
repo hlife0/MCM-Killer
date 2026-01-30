@@ -53,3 +53,4 @@ experiments/*/output/
 # Keep structure but ignore generated content
 !workspace/*/output/.gitkeep
 architectures/v3-1-0 copy/
+.claude/settings.local.json
