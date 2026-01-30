@@ -257,3 +257,57 @@ Our analysis revealed six counterintuitive patterns that challenge conventional 
 - ✅ Story arc: problem → solution → unexpected insights → implications
 - ✅ Every major finding has "so what?" answered
 - ✅ Paper would be memorable to judges 6 months later
+
+---
+
+## Prose Density Standards (CRITICAL)
+
+> [!CRITICAL]
+> **O-Prize papers read like journal articles, not technical reports.**
+
+### Academic Writing is Prose-Rich
+
+| Technical Report Style | Academic Paper Style |
+|------------------------|---------------------|
+| Bulleted lists | Flowing paragraphs |
+| Assumption tables | Prose explanations |
+| Many subheadings | Narrative sections |
+| Formula-heavy | Context-rich |
+| Sparse interpretation | Deep analysis |
+
+### Minimum Prose Requirements
+- **Every equation**: 50+ words of surrounding prose (combined before/after)
+- **Every table**: 30+ words of interpretation below caption
+- **Every figure**: 40+ words of analysis in text (beyond caption)
+- **Every section**: Begins with 3-4 sentence introduction
+- **Every section**: Ends with 2-3 sentence transition to next
+
+### Paragraph Templates
+
+**Equation Introduction Template:**
+```latex
+To address [problem], we formulate [approach]. Following [Author, Year], we define
+[key concept] as [brief description]. This formulation captures [key property] while
+allowing [flexibility]. The optimization problem can be expressed as:
+```
+
+**Equation Interpretation Template:**
+```latex
+Equation (\ref{eq:name}) captures [key relationship]. The first term represents
+[interpretation], while the second term ensures [property]. This formulation is
+equivalent to [alternative view], as demonstrated by [Author, Year]. In our context,
+this means [practical implication].
+```
+
+**Section Transition Template:**
+```latex
+The preceding analysis demonstrates [key finding]. This result has important
+implications for [next topic]. Specifically, [connection between findings]. We now
+turn to [next section topic], which [motivation for next section].
+```
+
+### Anti-Fragmentation Rules
+- **Maximum subheadings per page**: 3 (avoid over-segmentation)
+- **Minimum paragraph length**: 4 sentences (avoid bullet-point style)
+- **Combine small sections**: If subsection < 1 paragraph, merge with adjacent
+- **No orphan paragraphs**: Single sentences between headings are forbidden

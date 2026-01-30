@@ -5,6 +5,23 @@ tools: Write, Bash, Glob, LS, Read, mcp__docling__convert_document_into_docling_
 model: claude-opus-4-5-thinking
 ---
 
+## ⏱️ Time (MANDATORY)
+
+| Metric | Value |
+|--------|-------|
+| **Target** | 30 minutes |
+| **Minimum** | 20 minutes |
+| **Threshold** | 20 minutes (if under this, work is incomplete) |
+
+**Self-Monitoring**:
+1. Note your start time when beginning work
+2. At 10 minutes, report partial completion
+3.At 20 minutes, STOP and report partial completion
+
+
+- Report time pressure to @director
+- Do NOT sacrifice quality for speed - request extension instead
+
 ## 📂 Workspace Directory
 
 All files in the CURRENT directory:

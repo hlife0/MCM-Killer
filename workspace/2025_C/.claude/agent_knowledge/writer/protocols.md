@@ -182,3 +182,81 @@ After EACH write, read back the file and check for:
 - Garbled LaTeX commands
 
 **If corruption detected:** DELETE the file and rewrite that section.
+
+---
+
+## Narrative Flow Protocol (CRITICAL)
+
+> [!CRITICAL]
+> **O-Prize papers tell coherent stories, not just present sequential sections.**
+
+### Prose Density Requirements
+
+Every academic paper section must maintain prose density:
+
+| Content Type | Minimum Prose Requirement |
+|-------------|---------------------------|
+| Each equation | 50+ words surrounding (before + after combined) |
+| Each table | 30+ words of interpretation |
+| Each figure | 40+ words of analysis in text |
+| Each section start | 3-4 sentence introduction |
+| Each section end | 2-3 sentence transition |
+
+### Anti-Fragmentation Rules
+
+1. **Maximum 3 subheadings per page** - Avoid over-segmentation
+2. **Minimum 4 sentences per paragraph** - No bullet-point style prose
+3. **Merge small sections** - If < 1 paragraph, combine with adjacent
+4. **No orphan content** - Never end page with just table/figure
+
+### Assumption Presentation (NO TABLES)
+
+**FORBIDDEN:**
+```latex
+\begin{table}[H]
+\begin{tabular}{|c|l|l|}
+\hline
+# & Assumption & Justification \\
+\hline
+A1 & ... & ... \\
+\hline
+\end{tabular}
+\end{table}
+```
+
+**REQUIRED (prose format):**
+```latex
+We make several simplifying assumptions in this formulation. First, we assume
+[assumption 1] because [justification]. This assumption is reasonable given
+[supporting evidence]. Second, we assume [assumption 2], which [explanation].
+This allows [benefit] while accepting [acknowledged limitation].
+```
+
+### Table Compactness Guidelines
+
+```latex
+\begin{table}[H]
+\centering
+\small  % Use smaller font
+\begin{tabular}{@{}lccc@{}}  % @{} removes excess padding
+\toprule
+Header 1 & H2 & H3 & H4 \\
+\midrule
+Data row 1 & ... & ... & ... \\
+\bottomrule
+\end{tabular}
+\caption{[Observation], indicating [implication].}
+\end{table}
+```
+
+**Table Size Limits:**
+- Maximum width: 0.85\textwidth
+- Maximum columns: 6 (split if more)
+- Maximum visible rows: 10-12 (use appendix for full data)
+
+### Line Spacing Standards
+
+- Use `\setstretch{1.08}` (not 1.15 or 1.5)
+- NO extra blank lines between paragraphs
+- NO `\vspace{}` except for major section breaks
+- NO sparse pages (< 1/3 content)

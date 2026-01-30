@@ -6,42 +6,61 @@
 
 ---
 
-## Model Section Template (1.5-2.5 pages per model, NOT 2-3 pages)
+## Model Section Template (REVISED - 2-3 pages per model)
 
-### Subsection 1: Model Overview (2-3 sentences)
-- What the model does
-- Which requirement(s) it addresses
-- Why this approach is appropriate
+### Structure Rules
+- **Maximum 3 subheadings per model** (not 4-5)
+- Use paragraphs instead of \subsubsection for minor divisions
+- Combine "Model Overview" and "Model Justification" into introductory prose
 
-### Subsection 2: Mathematical Formulation (0.75-1 page)
-- Present key equations in \begin{align}...\end{align}
-- Number all equations: \label{eq:name}
-- Define parameters IMMEDIATELY after each equation:
-  where:
-  \begin{itemize}
-    \item $X$ is [definition]
-    \item $Y$ denotes [definition]
-  \end{itemize}
-- DO NOT create separate notation tables
+### Template Structure
 
-### Subsection 3: Solution Approach (4-6 steps)
-\begin{enumerate}
-  \item [Step 1: Brief title] - 1-2 sentence description
-  \item [Step 2: Brief title] - 1-2 sentence description
-  ...
-\end{enumerate}
+```latex
+\subsection{Model [N]: [Name]}
 
-### Subsection 4: Model Justification (1 paragraph)
-- Link to problem requirements
-- Mention why this approach is better than alternatives
-- Note any limitations (briefly)
+% Opening paragraph: 4-6 sentences introducing what the model does, which requirement
+% it addresses, why this approach is appropriate, and how it relates to prior work.
+% Include 1-2 citations to foundational papers.
 
-**CRITICAL REQUIREMENTS**:
-- Copy equations WORD-FOR-WORD from model_design.md
-- Define ALL parameters inline (after equations), NOT in separate tables
-- Each model: 1.5-2.5 pages TOTAL
-- DO NOT summarize equations
-- DO NOT create separate notation tables
+[Opening paragraph: Model [N] addresses [Requirement X] by [approach]. Following
+\cite{Author1Year} and \cite{Author2Year}, we employ [method] because [justification].
+This approach is particularly suited to [problem characteristic] while maintaining
+[desirable property]. Unlike [alternative approach], our method [key advantage].]
+
+% Mathematical formulation paragraph: Present key equations with inline context.
+% Each equation should have 2-3 sentences before and 1-2 sentences after explaining
+% the intuition. Define parameters inline, not in separate tables.
+
+\subsubsection{Mathematical Formulation}
+
+To capture [phenomenon], we define [key concept] as follows. The [relationship]
+between [variables] can be expressed as:
+
+\begin{align}
+[Equation] \label{eq:name}
+\end{align}
+where $X$ represents [definition] and $Y$ denotes [definition]. This formulation
+captures [key insight] while maintaining [property].
+
+% Solution approach paragraph: Describe the solution approach as flowing prose,
+% not as enumerated steps. Use "First,... Then,... Finally,..." transitions.
+
+\subsubsection{Solution Approach}
+
+We solve [problem] through a [N]-stage process. First, we [step 1], which establishes
+[foundation]. Then, we apply [step 2] to obtain [intermediate result]. This is followed
+by [step 3], where [key computation occurs]. Finally, we [step 4] to produce [final output].
+
+% Closing paragraph: Discuss assumptions (as prose, not tables), limitations,
+% and how this model connects to the next section.
+
+We make several simplifying assumptions in this formulation. First, we assume [assumption 1]
+because [justification]. This is reasonable given [evidence]. Second, [assumption 2], which
+[rationale]. These assumptions allow [benefit] while accepting [limitation]. Having established
+the [model name] framework, we now turn to [next model/section topic].
+```
+
+**CRITICAL**: NO ASSUMPTION TABLES. Write assumptions as prose paragraphs.
 
 ---
 
@@ -173,19 +192,74 @@ For each model (1-2 paragraphs per model):
 
 ## Bibliography (1-1.5 pages)
 
-\begin{thebibliography}{9}
+> [!CRITICAL]
+> **Academic rigor requires 20-30 references, not 8-12.**
 
-\bibitem{ref1}
-Author, A.~A., (Year). ``Title of Paper,'' \textit{Journal Name}, Vol.~X, No.~Y, pp.~123--145.
+### Required Reference Categories
 
-[Add 8-12 references for methods, data sources, etc.]
+```latex
+\begin{thebibliography}{30}  % Note: 30 not 9
+
+% === METHODOLOGY REFERENCES (8-10) ===
+% Include foundational papers for each method used
+\bibitem{mcmc1}
+Hoffman, M.~D., and Gelman, A., (2014). ``The No-U-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo,'' \textit{Journal of Machine Learning Research}, Vol.~15, pp.~1593--1623.
+
+\bibitem{pymc}
+Salvatier, J., Wiecki, T.~V., and Fonnesbeck, C., (2016). ``Probabilistic Programming in Python using PyMC3,'' \textit{PeerJ Computer Science}, Vol.~2, e55.
+
+\bibitem{bayes1}
+Gelman, A., Carlin, J.~B., Stern, H.~S., et al., (2013). \textit{Bayesian Data Analysis}, 3rd ed., Chapman \& Hall/CRC.
+
+\bibitem{rf1}
+Breiman, L., (2001). ``Random Forests,'' \textit{Machine Learning}, Vol.~45, No.~1, pp.~5--32.
+
+\bibitem{shap1}
+Lundberg, S.~M., and Lee, S.~I., (2017). ``A Unified Approach to Interpreting Model Predictions,'' \textit{Advances in Neural Information Processing Systems}, Vol.~30, pp.~4765--4774.
+
+% [Add 3-5 more methodology refs as needed]
+
+% === DOMAIN-SPECIFIC REFERENCES (5-7) ===
+% Prior work in the problem domain
+\bibitem{domain1}
+[Author], ([Year]). ``[Title],'' \textit{[Journal]}, [Volume], pp.~[pages].
+
+% [Add comparable studies, prior analyses]
+
+% === THEORETICAL FOUNDATIONS (3-5) ===
+% Foundational theory papers
+\bibitem{theory1}
+[Foundational theory paper - Arrow, social choice, optimization theory, etc.]
+
+% === DATA SOURCES (3-5) ===
+% Primary and secondary data sources
+\bibitem{data1}
+[Primary data source documentation]
+
+\bibitem{data2}
+[Secondary data source]
 
 \end{thebibliography}
+```
+
+### Citation Style Guide
+- **Journal articles**: Author, A.~A., (Year). ``Title,'' \textit{Journal}, Vol.~X, No.~Y, pp.~XX--YY.
+- **Books**: Author, A.~A., (Year). \textit{Title}, Edition, Publisher.
+- **Conference papers**: Author, A.~A., (Year). ``Title,'' \textit{Proceedings of Conference}, pp.~XX--YY.
+- **Websites/Reports**: Author/Organization, (Year). \textit{Title}. Retrieved from [URL].
+
+### Citation Integration in Text
+- Every method must cite foundational paper: "Following Gelman et al. \cite{bayes1}, we employ..."
+- Every comparison must cite prior work: "Consistent with \cite{domain1} who found..."
+- Every data source must be cited: "Data obtained from \cite{data1}..."
 
 **CRITICAL REQUIREMENTS**:
+- Minimum 20 references, target 25-30
+- Each category must be represented
+- All methods must cite foundational papers
+- Inline citations integrated into prose (not just bibliography)
 - Each requirement response: Start with specific numerical answer
 - Total length: 2.5-3 pages (not 4-5 pages)
-- Include 8-12 references
 - DO NOT repeat results (synthesize, don't restate)
 
 ---

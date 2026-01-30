@@ -185,6 +185,143 @@ Surprises/Unexpected Findings (1-2 paragraphs)
 
 ---
 
+## Reference and Citation Requirements (CRITICAL)
+
+> [!CRITICAL]
+> **Academic papers require substantial citations. 20-30 references is MINIMUM.**
+
+### Mandatory Citation Counts
+- **Model sections**: Each model MUST cite 2-3 foundational papers
+- **Methods**: Every method (Bayesian, MCMC, Random Forest) MUST cite original paper
+- **Results comparison**: Cite 2-3 comparable studies for context
+- **Total minimum**: 20-30 references (not 10-15)
+
+### Citation Integration Rules
+1. **Inline citations**: Use `\citep{}` or `\cite{}` integrated into prose
+2. **Method justification**: "Following [Author et al., Year], we employ..."
+3. **Result comparison**: "Consistent with [Author, Year] who found..."
+4. **Theoretical grounding**: "Building on [Author's] framework..."
+
+### Reference Categories (ensure diversity)
+- Methodology papers (Bayesian, optimization, ML): 8-10 refs
+- Domain-specific prior work: 5-7 refs
+- Data sources and documentation: 3-5 refs
+- Foundational theory (Arrow, social choice): 3-5 refs
+- Comparative studies: 2-3 refs
+
+---
+
+## Prose Density and Narrative Flow (CRITICAL)
+
+> [!CRITICAL]
+> **Academic papers should be prose-rich, not just lists and formulas.**
+
+### Text-to-Formula Ratio
+- Each equation should be preceded by 2-3 sentences of context
+- Each equation should be followed by 1-2 sentences of interpretation
+- **Minimum prose density**: 70% text, 30% formulas/tables/figures
+
+### Anti-Fragmentation Rules
+- **Maximum subheadings per page**: 3 (avoid over-segmentation)
+- **Minimum paragraph length**: 4 sentences (avoid bullet-point style)
+- **Combine small sections**: If subsection < 1 paragraph, merge with adjacent
+
+### Assumption Presentation
+**DO NOT** use tables for assumptions. Instead, write prose paragraphs:
+
+❌ WRONG (table format):
+| # | Assumption | Justification |
+|---|------------|---------------|
+| A1 | X | Y |
+
+✅ CORRECT (prose format):
+"We make several simplifying assumptions. First, we assume [assumption 1] because [justification]. This assumption is reasonable because [evidence]. Second, [assumption 2]..."
+
+### Narrative Connectors (MANDATORY)
+Use transitional phrases between sections:
+- "Building on this foundation..."
+- "This analysis reveals..."
+- "Having established X, we now examine..."
+- "The preceding results suggest..."
+
+---
+
+## Table and Spacing Guidelines (CRITICAL)
+
+> [!CAUTION]
+> **Tables should be compact, not sprawling. Avoid excessive whitespace.**
+
+### Table Size Limits
+- **Maximum width**: 0.85\textwidth (not full page width)
+- **Maximum columns**: 6 columns (split large tables)
+- **Maximum rows visible**: 10-12 rows (use appendix for full data)
+- **Column spacing**: Use `@{}` to remove excess padding
+
+### Compact Table Template
+```latex
+\begin{table}[H]
+\centering
+\small  % Use smaller font for tables
+\begin{tabular}{@{}lccc@{}}  % @{} removes padding
+\toprule
+Header 1 & H2 & H3 & H4 \\
+\midrule
+Data... \\
+\bottomrule
+\end{tabular}
+\caption{...}
+\end{table}
+```
+
+### Line Spacing Rules
+- Use `\setstretch{1.08}` (not 1.15 or 1.5)
+- NO extra blank lines between paragraphs
+- NO `\vspace{}` except for major section breaks
+- Use `\noindent` sparingly
+
+### Avoiding Sparse Pages
+- If section ends with < 1/3 page content, add more prose
+- Never end a page with just a table or figure
+- Fill remaining space with interpretation or context
+
+---
+
+## Appendix Requirements (MANDATORY)
+
+> [!CRITICAL]
+> **Every MCM paper MUST have meaningful appendices. 2-4 pages minimum.**
+
+### Required Appendix Sections
+
+1. **Appendix A: Detailed Data Description** (0.5-1 page)
+   - Data sources with citations
+   - Preprocessing steps
+   - Sample sizes and time periods
+   - Data quality notes
+
+2. **Appendix B: Extended Model Details** (1-1.5 pages)
+   - Full derivations (if lengthy)
+   - Parameter estimation details
+   - Convergence diagnostics (with figures)
+   - Implementation notes
+
+3. **Appendix C: Additional Results** (0.5-1 page)
+   - Supplementary tables
+   - Secondary analyses
+   - Robustness checks not in main text
+
+4. **Appendix D: Code and Reproducibility** (0.5 page)
+   - Algorithm pseudocode
+   - Computational resources used
+   - Software versions
+
+### Appendix Writing Style
+- Appendices should have PROSE, not just tables
+- Each appendix should begin with 2-3 sentences of context
+- Reference main text: "As mentioned in Section 3.2..."
+
+---
+
 ## 📖 External Knowledge Reference
 
 This agent references external knowledge files for detailed templates and protocols:

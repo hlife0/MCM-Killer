@@ -537,6 +537,7 @@ Director, {ISSUE_TYPE} detected.
 | v3.2.0 | 2026-01-30 | Added phase time validation via time_tracker.py |
 | v3.2.1 | 2026-01-31 | Added Protocol 17: Orchestration Log Verification (MANDATORY) |
 | v3.2.2 | 2026-01-31 | Added Director Self-Check Verification (BLOCKING GATE enforcement) |
+| v3.2.3 | 2026-01-31 | Added Phase 5 Training Duration Verification (180m minimum) |
 
 ---
 
@@ -649,6 +650,56 @@ THEN resubmit for time validation.
 Proceeding to phase time validation...
 ```
 
+### Phase 5 Training Duration Verification (MANDATORY for Phase 5.5)
+
+> [!CRITICAL] **At Phase 5.5, you MUST verify Phase 5 took adequate time.**
+
+**HARD REQUIREMENT**: Phase 5 training MUST take >= 180 minutes (3 hours)
+
+**Check Process**:
+1. Read orchestration_log.md
+2. Find Phase 5 row
+3. Extract Duration value
+4. Compare against 180 minute threshold
+
+**AUTO-REJECT CONDITIONS** (ANY triggers rejection):
+- Phase 5 duration < 180 minutes → REJECT_TRAINING_TOO_SHORT
+- Training completed in < 30% of expected time → REJECT_LIKELY_FABRICATION
+- No training logs or logs show < 1000 iterations → REJECT_INCOMPLETE_TRAINING
+
+**REJECT MESSAGE**:
+```markdown
+## Phase 5 Training Duration Verification: FAILED
+
+**Phase 5 Duration**: {XX} minutes
+**Required Minimum**: 180 minutes (3 hours)
+**Threshold Violation**: Duration is {percentage}% of required minimum
+
+**Verdict**: REJECT_TRAINING_TOO_SHORT
+
+**This is ACADEMIC FRAUD**: Training that completes in {XX} minutes cannot have properly:
+- Run sufficient MCMC iterations (need thousands, not hundreds)
+- Achieved convergence (R-hat should be < 1.1)
+- Explored the posterior distribution adequately
+
+**Required Action**:
+1. @model_trainer MUST re-run training with proper parameters
+2. Ensure draws >= 2000, tune >= 1000, chains >= 4
+3. Verify convergence achieved (R-hat < 1.1)
+4. Training MUST take at least 3 hours for proper Bayesian models
+```
+
+**PASS MESSAGE** (for Phase 5.5 only):
+```markdown
+## Phase 5 Training Duration Verification: PASSED
+
+**Phase 5 Duration**: {XX} minutes
+**Required Minimum**: 180 minutes (3 hours)
+**Status**: Duration {XX}m >= 180m ✓
+
+Proceeding to data authenticity verification...
+```
+
 ### Query Backend Python Logs
 
 When called for phase time validation:
@@ -744,7 +795,7 @@ When called for phase time validation:
 | 3 | Data Processing | 40 | 120 | 28 min |
 | 4 | Code Translation | 40 | 120 | 28 min |
 | 4.5 | Fidelity Check | 4 | 10 | 3 min |
-| 5 | Model Training | 360 | 2880 | 108 min (30%) |
+| 5 | Model Training | 360 | 2880 | 180 min (HARD MINIMUM) |
 | 5.5 | Data Authenticity | 4 | 10 | 3 min |
 | 5.8 | Insight Extraction | 10 | 20 | 7 min |
 | 6 | Visualization | 20 | 30 | 14 min |
@@ -760,6 +811,6 @@ When called for phase time validation:
 
 ---
 
-**Document Version**: v3.2.2
+**Document Version**: v3.2.3
 **Status**: Active
 
