@@ -2,7 +2,8 @@
   "mcpServers": {
     "docling": {
       "command": "uvx",
-      "args": ["--from", "docling-mcp", "docling-mcp-server"]
+      "args": ["--from", "docling-mcp", "docling-mcp-server"],
+      "timeout": 300000
     }
   }
 }
