@@ -1,13 +1,17 @@
-# Phase Details: Quality Gates and Procedures
+# Phase Details: Quality Gates and Procedures (v3.3.0 - STRICT TIME ENFORCEMENT)
 
-> **Source**: CLAUDE.md v3.1.0 phase descriptions
+> **Source**: CLAUDE.md v3.3.0 phase descriptions
 > **Purpose**: Detailed reference for quality gate procedures and phase implementation
+> **CRITICAL**: 8-HOUR MINIMUM TOTAL WORKFLOW ENFORCED (480 minutes)
+> **Phase 5 MINIMUM**: 180 minutes (3 hours)
 
 ---
 
 ## Phase 0: Problem Understanding
 
 **Purpose**: Understand the problem, extract requirements, suggest methods
+
+**MINIMUM TIME**: 35 minutes (NO UPPER LIMIT)
 
 **Participants**: @reader (Read PDF, extract requirements) | @researcher (Suggest modeling methods)
 
@@ -29,6 +33,8 @@
 
 **Purpose**: Ensure state-of-the-art mathematical foundations
 
+**MINIMUM TIME**: 20 minutes (NO UPPER LIMIT)
+
 **Implementation**: Call @knowledge_librarian: "Search for advanced methods related to [Problem Keywords]" | Review `output/docs/suggested_methods.md` | Pass to @researcher
 
 **Exit**: `suggested_methods.md` exists with ≥3 advanced papers/methods
@@ -42,6 +48,8 @@
 
 ### Purpose
 Catch weak model methods BEFORE 20+ hours of implementation work.
+
+**MINIMUM TIME**: 25 minutes (NO UPPER LIMIT)
 
 ### Entry Criteria
 - @researcher completed `output/docs/research_notes.md` | Methods proposed for all requirements
@@ -92,6 +100,8 @@ Catch weak model methods BEFORE 20+ hours of implementation work.
 
 ### Purpose
 Design mathematical models based on @researcher's methods
+
+**MINIMUM TIME**: 120 minutes (2 hours) - NO UPPER LIMIT
 
 ### Participants
 - **@modeler** (primary)
@@ -148,6 +158,8 @@ For the full template and examples, see `.claude/agents/modeler.md` and `.claude
 
 > [!CAUTION] **[MANDATORY] After MODEL gate, validate @modeler's time estimates.**
 
+**MINIMUM TIME**: 10 minutes (NO UPPER LIMIT)
+
 **Entry**: 5 agents completed MODEL validation | All verdicts collected | feasibility/model_design exist
 
 **@director Tasks**:
@@ -170,6 +182,8 @@ For the full template and examples, see `.claude/agents/modeler.md` and `.claude
 
 **Purpose**: Assess technical feasibility of proposed models
 
+**MINIMUM TIME**: 35 minutes (NO UPPER LIMIT)
+
 **Participants**: @feasibility_checker
 
 **Tasks**: Read model designs | Assess: algorithms implementable? data requirements realistic? computational requirements feasible? | Identify challenges | Provide assessment
@@ -184,6 +198,8 @@ For the full template and examples, see `.claude/agents/modeler.md` and `.claude
 
 ### Purpose
 Process data, create features, ensure data integrity
+
+**MINIMUM TIME**: 75 minutes (NO UPPER LIMIT)
 
 ### Participants
 - **@data_engineer**
@@ -220,6 +236,8 @@ Process data, create features, ensure data integrity
 
 ### Purpose
 Translate model designs into Python code
+
+**MINIMUM TIME**: 75 minutes (NO UPPER LIMIT)
 
 ### Participants
 - **@code_translator** (primary)
@@ -274,6 +292,8 @@ Translate model designs into Python code
 > [!CAUTION] **[MANDATORY] After CODE gate, check for lazy implementation.**
 > **[STRICT MODE] @time_validator will AUTO-REJECT ALL unauthorized simplifications.**
 
+**MINIMUM TIME**: 10 minutes (NO UPPER LIMIT)
+
 ### Entry Criteria
 - 2 agents (@modeler, @validator) completed CODE gate | model_design + model_{i}.py exist
 
@@ -320,6 +340,7 @@ Translate model designs into Python code
 ## Phase 5 Special Handling
 
 > [!CRITICAL] **Phase 5 is BLOCKING** - Paper writing (Phase 6-7) CANNOT start until ALL models complete training successfully. No parallel workflow.
+> **MINIMUM TIME: 180 minutes (3 hours)** - Model training requires substantial time. NO UPPER LIMIT.
 
 ### Director Entry Point
 
@@ -353,9 +374,12 @@ Report: model count, dependencies, execution recommendation.
 
 ### Time Expectations
 
-- **Minimum**: 6 hours per model
+> [!CRITICAL] **MINIMUM: 180 minutes (3 hours)** - This is the hard floor for Phase 5.
+
+- **MINIMUM**: 180 minutes (3 hours) - **HARD FLOOR, NO EXCEPTIONS**
 - **Typical**: 8-12 hours per model
-- **Maximum**: 48 hours (with @director approval)
+- **NO UPPER LIMIT** - Training takes as long as needed for quality results
+- Duration < 180 minutes = **INSUFFICIENT TIME = ACADEMIC FRAUD**
 
 ### Critical Requirements
 
@@ -416,6 +440,7 @@ DO NOT allow training to resume until validation complete.
 ## Phase 5: Full Model Training (BLOCKING)
 
 > [!CRITICAL] **Phase 5 is BLOCKING** - DO NOT proceed to Phase 6 until ALL models complete training successfully.
+> **MINIMUM TIME: 180 minutes (3 hours)** - NO UPPER LIMIT. Training takes as long as needed.
 
 ### Purpose
 Train all models with full iterations to completion. No shortcuts, no parallel paper writing.
@@ -494,9 +519,13 @@ Fix applied → Resume training (no restart from scratch)
 ✅ TRAINING
 
 ### Time Estimate
-- Minimum: 6 hours per model
-- Typical: 8-12 hours per model
-- Maximum: 48 hours (with @director approval)
+
+> [!CRITICAL] **MINIMUM: 180 minutes (3 hours)** - Hard floor for Phase 5.
+
+- **MINIMUM**: 180 minutes (3 hours) - **NO EXCEPTIONS**
+- **Typical**: 8-12 hours per model
+- **NO UPPER LIMIT** - quality over speed
+- Duration < 180 minutes = **REJECT + FORCE RERUN**
 
 ### Key Protocols
 - **Protocol 10**: Watch Mode - AI session does NOT exit
@@ -509,6 +538,8 @@ Fix applied → Resume training (no restart from scratch)
 
 > [!CAUTION] **[MANDATORY] After TRAINING, comprehensive anti-fraud verification.**
 > **[STRICT MODE] Training Duration Red Line: < 30% of expected = AUTO-REJECT.**
+
+**MINIMUM TIME**: 10 minutes (NO UPPER LIMIT)
 
 ### Entry Criteria
 - 2 agents (@modeler, @validator) completed TRAINING | model_{i}.py + results_{i}.csv + training_{i}.log exist
@@ -577,6 +608,8 @@ Fix applied → Resume training (no restart from scratch)
 
 > [!CAUTION] **[MANDATORY] Convert technical struggles into research insights.**
 
+**MINIMUM TIME**: 25 minutes (NO UPPER LIMIT)
+
 ### Purpose
 Document technical challenges, methodological refinements, and domain insights using academic discourse (not narrative storytelling).
 
@@ -609,6 +642,8 @@ Document technical challenges, methodological refinements, and domain insights u
 
 ### Purpose
 Generate figures from model results
+
+**MINIMUM TIME**: 35 minutes (NO UPPER LIMIT)
 
 ### Participants
 - **@visualizer**
@@ -650,6 +685,8 @@ Examples:
 ## Phase 6.5: Visualization Quality Gate
 
 > [!CAUTION] **[MANDATORY] After @visualizer, verify image quality.**
+
+**MINIMUM TIME**: 10 minutes (NO UPPER LIMIT)
 
 ### Implementation
 
@@ -696,6 +733,7 @@ if corrupted:
 
 > [!CAUTION] **[CRITICAL] Phase 7 is split into 6 sub-phases (7A-7F) to prevent timeouts.**
 > **Each sub-phase is called separately and checkpoints progress.**
+> **MINIMUM TIME for Phase 7: 185 minutes total (NO UPPER LIMIT)**
 
 ### Purpose
 Write complete 25-page LaTeX paper from results using incremental sub-phases
@@ -720,22 +758,24 @@ Write complete 25-page LaTeX paper from results using incremental sub-phases
 
 ### Sub-Phase Overview
 
-| Sub-Phase | Sections | Est. Time | Output | Checkpoint |
-|-----------|----------|-----------|--------|------------|
-| **7A** | Abstract + Introduction + Notation | 10-15 min | paper.tex (framework) | 7A complete |
-| **7B** | Model sections (5 models) | 30-40 min | paper.tex (appended) | 7A-7B complete |
-| **7C** | Results section (data + figures) | 15-20 min | paper.tex (appended) | 7A-7C complete |
-| **7D** | Sensitivity + Strengths/Weaknesses | 10-15 min | paper.tex (appended) | 7A-7D complete |
-| **7E** | Discussion + Conclusions + Bibliography | 10-15 min | paper.tex (complete) | 7A-7E complete |
-| **7F** | LaTeX compilation to PDF | 5-10 min | paper.pdf | 7A-7F complete |
+| Sub-Phase | Sections | MINIMUM Time | Output | Checkpoint |
+|-----------|----------|--------------|--------|------------|
+| **7A** | Abstract + Introduction + Notation | **25 min** | paper.tex (framework) | 7A complete |
+| **7B** | Model sections (5 models) | **60 min** | paper.tex (appended) | 7A-7B complete |
+| **7C** | Results section (data + figures) | **35 min** | paper.tex (appended) | 7A-7C complete |
+| **7D** | Sensitivity + Strengths/Weaknesses | **25 min** | paper.tex (appended) | 7A-7D complete |
+| **7E** | Discussion + Conclusions + Bibliography | **25 min** | paper.tex (complete) | 7A-7E complete |
+| **7F** | LaTeX compilation to PDF | **15 min** | paper.pdf | 7A-7F complete |
 
-**Total Estimated Time**: 80-115 minutes
+**Total MINIMUM Time for Phase 7**: 185 minutes (NO UPPER LIMIT)
 
 ---
 
 ### Phase 7A: Paper Framework
 
 **Purpose**: Write Abstract + Introduction + Notation sections
+
+**MINIMUM TIME**: 25 minutes (NO UPPER LIMIT)
 
 **Input Files**:
 - `output/docs/research_notes.md`
@@ -780,6 +820,8 @@ After completion, report:
 ### Phase 7B: Model Sections
 
 **Purpose**: Write complete model sections (5 models with full mathematical detail)
+
+**MINIMUM TIME**: 60 minutes (NO UPPER LIMIT) - This is the largest sub-phase.
 
 **Input Files**:
 - `output/paper/paper.tex` (from Phase 7A)
@@ -841,6 +883,8 @@ After writing, read back paper.tex to verify no corruption.
 ### Phase 7C: Results Integration
 
 **Purpose**: Integrate results data and figures
+
+**MINIMUM TIME**: 35 minutes (NO UPPER LIMIT)
 
 **Input Files**:
 - `output/paper/paper.tex` (from Phase 7B)
@@ -924,6 +968,8 @@ After writing, read back paper.tex to verify no corruption.
 
 **Purpose**: Write Sensitivity Analysis + Strengths/Weaknesses sections
 
+**MINIMUM TIME**: 25 minutes (NO UPPER LIMIT)
+
 **Input Files**:
 - `output/paper/paper.tex` (from Phase 7C)
 - `output/model/model_design.md` (sensitivity plans)
@@ -981,6 +1027,8 @@ After writing, read back paper.tex to verify no corruption.
 ### Phase 7E: Conclusions
 
 **Purpose**: Write Discussion + Conclusions + Bibliography
+
+**MINIMUM TIME**: 25 minutes (NO UPPER LIMIT)
 
 **Input Files**:
 - `output/paper/paper.tex` (from Phase 7D)
@@ -1054,6 +1102,8 @@ After writing, do final read of entire paper.tex to verify completeness.
 ### Phase 7F: LaTeX Compilation
 
 **Purpose**: Compile LaTeX to PDF and verify
+
+**MINIMUM TIME**: 15 minutes (NO UPPER LIMIT)
 
 **Input Files**:
 - `output/paper/paper.tex` (complete from Phase 7E)
@@ -1166,6 +1216,8 @@ After success, paper.pdf is ready for Phase 7.5 (LaTeX Gate).
 
 > [!CAUTION] **[MANDATORY] After @writer, verify LaTeX compiles.**
 
+**MINIMUM TIME**: 10 minutes (NO UPPER LIMIT)
+
 ### Implementation
 
 1. **Request**: "@writer: Compile paper_{i}.tex, report SUCCESS/FAILURE"
@@ -1183,6 +1235,8 @@ After success, paper.pdf is ready for Phase 7.5 (LaTeX Gate).
 
 ### Purpose
 Create 1-page summary of paper
+
+**MINIMUM TIME**: 35 minutes (NO UPPER LIMIT)
 
 ### Participants
 - **@summarizer** (primary)
@@ -1207,6 +1261,8 @@ Create 1-page summary of paper
 
 ### Purpose
 Polish paper for grammar, style, and consistency
+
+**MINIMUM TIME**: 35 minutes (NO UPPER LIMIT)
 
 ### Participants
 - **@editor** (primary)
@@ -1239,6 +1295,8 @@ Polished `output/paper/paper.pdf`
 
 > [!CAUTION] **[MANDATORY] Subject the paper to adversarial review BEFORE final polish.**
 
+**MINIMUM TIME**: 20 minutes (NO UPPER LIMIT)
+
 ### Implementation
 1. **Call @judge_zero**: "Review output/paper/paper.pdf using 3 personas (O-Prize, Technical, Clarity)."
 2. **Review Report**: `output/docs/judgment_report.md`
@@ -1264,6 +1322,8 @@ In practice:
 ## Phase 9.5: Editor Feedback Enforcement
 
 > [!CAUTION] **[MANDATORY] Enforce appropriate action for @editor verdict.**
+
+**MINIMUM TIME**: 20 minutes (NO UPPER LIMIT)
 
 ### Verdict Categories
 
@@ -1292,6 +1352,8 @@ In practice:
 
 ### Purpose
 Final quality assessment
+
+**MINIMUM TIME**: 35 minutes (NO UPPER LIMIT)
 
 ### Participants
 - **@advisor**
@@ -1344,6 +1406,8 @@ Phase 10: @advisor APPROVED → Submission ready
 
 > [!CAUTION] **[MANDATORY] Capture lessons for the NEXT competition.**
 
+**MINIMUM TIME**: 10 minutes (NO UPPER LIMIT)
+
 ### Implementation
 1. **Director Analysis**: Review `VERSION_MANIFEST.json` and agent logs.
 2. **Identify Patterns**: What worked? What failed? Which agent needs prompting updates?
@@ -1352,4 +1416,4 @@ Phase 10: @advisor APPROVED → Submission ready
 
 ---
 
-*Reference: CLAUDE.md - Main operational documentation*
+*Reference: CLAUDE.md v3.3.0 - Main operational documentation*

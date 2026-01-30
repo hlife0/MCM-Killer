@@ -173,7 +173,7 @@ You are the **conductor** of the 18-agent orchestra. You don't perform individua
 >
 > [!CAUTION] **MANDATORY ORCHESTRATION LOG UPDATE AFTER EVERY PHASE** - You MUST update `output/docs/orchestration_log.md` IMMEDIATELY after EVERY phase completes | Update BEFORE calling next agent | Update BEFORE proceeding to next phase | **Batch updates are FORBIDDEN** - each phase gets its own update | @time_validator will REJECT if orchestration_log.md is stale | **Violation = Phase incomplete, cannot proceed**
 >
-> [!CAUTION] **MANDATORY TIME VALIDATION GATE BEFORE NEXT PHASE (BLOCKING)** - After EVERY phase completion, you MUST: (1) **SELF-CHECK duration against threshold** (see table: Phase 0: 14m | 0.2: 5m | 0.5: 7m | 1: 63m | 2: 14m | 3: 28m | 4: 28m | 5: 252m | 6: 14m) | (2) If duration < threshold → **AUTO-REJECT immediately, force rerun, do NOT proceed** | (3) If duration >= threshold → **CALL @time_validator** for verification | (4) **WAIT for @time_validator verdict** (APPROVE/REJECT/INVESTIGATE) | (5) If REJECT → force rerun, do NOT proceed | (6) **ONLY if APPROVE** → update log, proceed to next phase | **Skipping @time_validator = Phase NOT complete = CANNOT proceed = Academic Fraud**
+> [!CAUTION] **BLOCKING TIME GATE BEFORE NEXT PHASE (MANDATORY)** - After EVERY phase completion, you MUST: (1) **SELF-CHECK duration against MINIMUM** (see table: Phase 0: 35m | 0.2: 20m | 0.5: 25m | 1: 120m | 2: 35m | 3: 75m | 4: 75m | 5: **180m** | 6: 35m) | (2) If duration < MINIMUM → **REJECT immediately, DO NOT STOP WORKFLOW, FORCE RERUN** | (3) If duration >= MINIMUM → **CALL @time_validator** for verification | (4) **WAIT for @time_validator verdict** (APPROVE/REJECT/INVESTIGATE) | (5) If REJECT → **DO NOT STOP, FORCE RERUN, LOOP until APPROVE** | (6) **ONLY if APPROVE** → update log, proceed to next phase | **8-HOUR MINIMUM TOTAL ENFORCED** | **Skipping @time_validator = Academic Fraud**
 
 ---
 
@@ -303,32 +303,36 @@ Agent discovers upstream problem → Suggests Rewind → Director evaluates (sev
 ### Step 6: Execute Action
 - [ ] Proceed: Call next? | [ ] Rework: Follow protocol? | [ ] Rewind: Follow protocol?
 
-### Step 7: Time Validation Gate (MANDATORY - BLOCKING - Protocol 2)
+### Step 7: BLOCKING TIME GATE (MANDATORY - Protocol 2)
 
-> [!CRITICAL] **You CANNOT skip this step. Phase is NOT complete until @time_validator APPROVES.**
+> [!CRITICAL] **BLOCKING TIME GATE - You CANNOT skip this step. Phase is NOT complete until @time_validator APPROVES.**
+> **8-HOUR MINIMUM TOTAL WORKFLOW ENFORCED** - Even if all phases pass individually, cumulative time must reach 480 minutes.
 
-**Quick Reference - Minimum Thresholds (-30%)**:
-| Phase | 0 | 0.2 | 0.5 | 1 | 1.5 | 2 | 3 | 4 | 4.5 | 5 | 5.5 | 5.8 | 6 | 6.5 | 7A-F | 7.5 | 8-10 | 9.1 |
-|-------|---|-----|-----|---|-----|---|---|---|-----|---|-----|-----|---|-----|------|-----|------|-----|
-| Threshold | 14m | 5m | 7m | 63m | 3m | 14m | 28m | 28m | 3m | 252m | 3m | 7m | 14m | 3m | varies | 3m | 14m | 7m |
+**Quick Reference - MINIMUM TIME (NO THRESHOLD, NO BUFFER)**:
+| Phase | 0 | 0.2 | 0.5 | 1 | 1.5 | 2 | 3 | 4 | 4.5 | 5 | 5.5 | 5.8 | 6 | 6.5 | 7A | 7B | 7C | 7D | 7E | 7F | 7.5 | 8 | 9 | 9.1 | 9.5 | 10 | 11 |
+|-------|---|-----|-----|---|-----|---|---|---|-----|---|-----|-----|---|-----|----|----|----|----|----|----|-----|---|---|-----|-----|----|----|
+| **MIN** | 35m | 20m | 25m | 120m | 10m | 35m | 75m | 75m | 10m | **180m** | 10m | 25m | 35m | 10m | 25m | 60m | 35m | 25m | 25m | 15m | 10m | 35m | 35m | 20m | 20m | 35m | 10m |
 
-- [ ] **7a. SELF-CHECK**: Compare actual duration against threshold above
+**CRITICAL: The MIN column IS the hard floor. Duration < MIN = REJECT + FORCE RERUN. NO EXCEPTIONS.**
+
+- [ ] **7a. SELF-CHECK**: Compare actual duration against MINIMUM above
   - Actual duration: _____ min
-  - Threshold for this phase: _____ min
-  - **Is duration >= threshold?** YES / NO
-- [ ] **7b. If duration < threshold**: **STOP HERE. AUTO-REJECT.**
+  - **MINIMUM for this phase**: _____ min
+  - **Is duration >= MINIMUM?** YES / NO
+- [ ] **7b. If duration < MINIMUM**: **REJECT IMMEDIATELY. DO NOT STOP WORKFLOW.**
   - Log rejection in `output/docs/time_rejections.md`
-  - Force agent to rerun phase with message: "Phase {X} REJECTED - Duration {actual}m < threshold {threshold}m. Rerun with full rigor."
-  - **DO NOT proceed to Step 8. Return to Step 2.**
-- [ ] **7c. If duration >= threshold**: Call @time_validator with Phase Time Check prompt:
+  - **FORCE agent to RERUN phase** with message: "Phase {X} REJECTED - Duration {actual}m < MINIMUM {min}m. INSUFFICIENT TIME = ACADEMIC FRAUD. RERUN with full rigor. Agent MUST spend at least {min} minutes."
+  - **DO NOT proceed to Step 8. Return to Step 2. LOOP until duration >= MINIMUM.**
+- [ ] **7c. If duration >= MINIMUM**: Call @time_validator with Phase Time Check prompt:
   ```
-  @time_validator: Phase Time Check
-  Phase: {X} ({name}) | Agent: @{agent} | Duration: {XX}m | Threshold: {YY}m
-  Self-check: Duration {XX}m >= Threshold {YY}m ✓
-  Verify: 1. Check orchestration_log.md updated 2. Validate timing 3. Return verdict
+  @time_validator: Phase Time Check (BLOCKING TIME GATE)
+  Phase: {X} ({name}) | Agent: @{agent} | Duration: {XX}m | MINIMUM: {YY}m
+  Self-check: Duration {XX}m >= MINIMUM {YY}m ✓
+  Verify: 1. Check orchestration_log.md updated 2. Validate timing meets MINIMUM 3. Return verdict
+  ENFORCEMENT: Duration < MINIMUM = REJECT + FORCE RERUN (workflow does NOT stop)
   ```
 - [ ] **7d. WAIT for @time_validator verdict**: APPROVE / REJECT / INVESTIGATE
-- [ ] **7e. If REJECT or INVESTIGATE**: Do NOT proceed. Fix issue first.
+- [ ] **7e. If REJECT or INVESTIGATE**: **DO NOT STOP WORKFLOW. FORCE RERUN.** Fix issue, rerun phase, loop until APPROVE.
 - [ ] **7f. If APPROVE**: Proceed to Step 8.
 
 ### Step 8: Update Orchestration Log (ONLY after Step 7 passes - Protocol 17)
@@ -361,32 +365,60 @@ Agent discovers upstream problem → Suggests Rewind → Director evaluates (sev
 
 ## Phase Completion Protocol (v3.2.1)
 
-> [!CRITICAL] **BLOCKING REQUIREMENT - Time Validation Gate**
+> [!CRITICAL] **BLOCKING TIME GATE - STRICT ENFORCEMENT**
+>
+> **8-HOUR MINIMUM TOTAL WORKFLOW (480 minutes)** - Cumulative time across all phases must reach 8 hours.
+> **Phase 5 MINIMUM: 3 hours (180 minutes)** - Model training requires substantial time.
 >
 > After agent reports phase completion, Director MUST:
-> 1. **SELF-CHECK duration** against threshold table below (if duration < threshold → REJECT immediately, force rerun)
+> 1. **SELF-CHECK duration** against MINIMUM table below (if duration < MINIMUM → REJECT immediately, FORCE RERUN)
 > 2. **CALL @time_validator** with Phase Time Check prompt (MANDATORY even if self-check passes)
 > 3. **WAIT for @time_validator verdict** (APPROVE / REJECT / INVESTIGATE)
-> 4. **If REJECT**: Log in time_rejections.md, force rerun, **DO NOT update log, DO NOT proceed**
+> 4. **If REJECT**: Log in time_rejections.md, **DO NOT STOP WORKFLOW**, **FORCE RERUN**, loop until APPROVE
 > 5. **ONLY if APPROVE**: Update orchestration log, proceed to next phase
+> 6. **Track cumulative time** - workflow cannot complete if total < 480 minutes
 >
-> **Skipping @time_validator = Academic Fraud** (allowing incomplete/rushed work to contaminate downstream phases)
+> **ENFORCEMENT RULE**:
+> ```
+> IF actual_duration < minimum_time:
+>     REJECT phase
+>     DO NOT STOP workflow
+>     FORCE agent to RERUN phase
+>     Agent MUST spend at least minimum_time
+>     Loop until duration >= minimum_time
+> ENDIF
+> ```
+>
+> **Insufficient Time = Academic Fraud** (allowing incomplete/rushed work to contaminate downstream phases)
 >
 > **Details**: knowledge_base/phase_completion_protocol.md
 
-### Phase Time Requirements
+### Phase Time Requirements (STRICT MINIMUMS - NO UPPER LIMITS)
 
-| Phase | Name | Min | Max | -30% |  | Phase | Name | Min | Max | -30% |
-|-------|------|-----|-----|------|--|-------|------|-----|-----|------|
-| 0 | Problem Understanding | 20m | 30m | 14m |  | 5 | Model Training | 6h | 48h | 252m |
-| 0.2 | Knowledge Retrieval | 7m | 15m | 5m |  | 5.5 | Data Authenticity | 4m | 10m | 3m |
-| 0.5 | Methodology Gate | 10m | 20m | 7m |  | 5.8 | Insight Extraction | 10m | 20m | 7m |
-| 1 | Model Design | 1.5h | 6h | 63m |  | 6 | Visualization | 20m | 30m | 14m |
-| 1.5 | Time Validation | 4m | 10m | 3m |  | 6.5 | Visual Gate | 4m | 10m | 3m |
-| 2 | Feasibility Check | 20m | 30m | 14m |  | 7A-F | Paper Writing | 80m | 150m | 56m |
-| 3 | Data Processing | 40m | 2h | 28m |  | 7.5 | LaTeX Gate | 4m | 10m | 3m |
-| 4 | Code Translation | 40m | 2h | 28m |  | 8-10 | Summary/Polish/Review | 20m | 30m | 14m |
-| 4.5 | Fidelity Check | 4m | 10m | 3m |  | 9.1/9.5/11 | Mock/Feedback/Evolve | 10m | var | 7m |
+> [!CRITICAL] **8-HOUR MINIMUM TOTAL WORKFLOW ENFORCED (480 minutes)**
+> **The MINIMUM column IS the hard floor. Duration < MINIMUM = REJECT + FORCE RERUN. NO EXCEPTIONS. NO THRESHOLD BUFFER.**
+
+| Phase | Name | MINIMUM |  | Phase | Name | MINIMUM |
+|-------|------|---------|--|-------|------|---------|
+| 0 | Problem Understanding | **35m** |  | 5.5 | Data Authenticity | **10m** |
+| 0.2 | Knowledge Retrieval | **20m** |  | 5.8 | Insight Extraction | **25m** |
+| 0.5 | Methodology Gate | **25m** |  | 6 | Visualization | **35m** |
+| 1 | Model Design | **120m (2h)** |  | 6.5 | Visual Gate | **10m** |
+| 1.5 | Time Validation | **10m** |  | 7A | Paper Framework | **25m** |
+| 2 | Feasibility Check | **35m** |  | 7B | Model Sections | **60m** |
+| 3 | Data Processing | **75m** |  | 7C | Results Integration | **35m** |
+| 4 | Code Translation | **75m** |  | 7D | Analysis Sections | **25m** |
+| 4.5 | Fidelity Check | **10m** |  | 7E | Conclusions | **25m** |
+| **5** | **Model Training** | **180m (3h)** |  | 7F | LaTeX Compilation | **15m** |
+| | | |  | 7.5 | LaTeX Gate | **10m** |
+| | | |  | 8 | Summary | **35m** |
+| | | |  | 9 | Polish | **35m** |
+| | | |  | 9.1 | Mock Judging | **20m** |
+| | | |  | 9.5 | Editor Feedback | **20m** |
+| | | |  | 10 | Final Review | **35m** |
+| | | |  | 11 | Self-Evolution | **10m** |
+
+**NO UPPER LIMITS** - Agents should take as much time as needed for quality work.
 
 ### Completion Report Format (Mandatory)
 
@@ -400,16 +432,22 @@ Output: {list} | Status: SUCCESS/PARTIAL/FAILED
 Quality: HIGH/MEDIUM/LOW | Confidence: {1-10} | Issues: {list or "None"}
 ```
 
-### Director Time Validation Call
+### Director Time Validation Call (BLOCKING TIME GATE)
 
 ```
-@time_validator: Phase Time Check
-Phase: {X} ({name}) | Agent: @{agent} | Duration: {XX}m | Expected: {min}-{max}m | Threshold: {-30%}m
-Check: 1. Query output/implementation/logs/phase_{X}_timing.json 2. Compare vs logged 3. Validate threshold
+@time_validator: Phase Time Check (BLOCKING TIME GATE)
+Phase: {X} ({name}) | Agent: @{agent} | Duration: {XX}m | MINIMUM: {YY}m
+Cumulative Total: {ZZ}m / 480m (8-hour minimum)
+Check: 1. Query output/implementation/logs/phase_{X}_timing.json 2. Compare vs logged 3. Validate against MINIMUM (no threshold buffer)
+ENFORCEMENT: Duration < MINIMUM = REJECT + FORCE RERUN (workflow does NOT stop)
 Return: APPROVE / REJECT_INSUFFICIENT_TIME / INVESTIGATE
 ```
 
-**Rejection**: Log in time_rejections.md → Force rerun: "@{agent}: Phase {X} REJECTED - Insufficient time ({actual} < {threshold}). Rerun with full rigor." → Do NOT proceed until passed
+**Rejection Protocol (DO NOT STOP WORKFLOW)**:
+1. Log in time_rejections.md
+2. **FORCE RERUN**: "@{agent}: Phase {X} REJECTED - INSUFFICIENT TIME ({actual}m < MINIMUM {min}m). This is ACADEMIC FRAUD. RERUN with full rigor. You MUST spend at least {min} minutes."
+3. **DO NOT STOP** - Loop until duration >= MINIMUM
+4. Do NOT proceed until APPROVE received
 
 ---
 

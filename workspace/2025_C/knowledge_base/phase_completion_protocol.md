@@ -1,91 +1,117 @@
-# Phase Completion Protocol (v3.2.2)
+# Phase Completion Protocol (v3.3.0 - STRICT TIME ENFORCEMENT)
 
-> **Source**: CLAUDE.md v3.2.1 Phase Completion Protocol
-> **Purpose**: Detailed reference for phase timing validation and completion reporting
+> **Source**: CLAUDE.md v3.3.0 Phase Completion Protocol
+> **Purpose**: Detailed reference for STRICT phase timing validation and completion reporting
+> **CRITICAL**: 8-HOUR MINIMUM TOTAL WORKFLOW ENFORCED (480 minutes)
 
 ---
 
 ## Overview
 
 After EVERY phase completion, Director MUST validate time with @time_validator. This protocol ensures:
-1. Agents spend adequate time on each phase
-2. Work is not rushed or shortcuts taken
-3. Quality is maintained through time accountability
+1. Agents spend **adequate time** on each phase (MINIMUM enforced, no threshold buffer)
+2. Work is **NOT rushed** or shortcuts taken
+3. Quality is maintained through **strict time accountability**
+4. **8-hour minimum total workflow** is achieved
+5. **Phase 5 (Model Training) requires 3 hours minimum**
+
+**ENFORCEMENT RULE**:
+```
+IF actual_duration < minimum_time:
+    REJECT phase
+    DO NOT STOP workflow
+    FORCE agent to RERUN phase
+    Agent MUST spend at least minimum_time
+    Loop until duration >= minimum_time
+ENDIF
+```
 
 ---
 
-## Blocking Workflow (MANDATORY)
+## BLOCKING TIME GATE Workflow (MANDATORY)
 
-> [!CRITICAL] **This workflow is BLOCKING. Director CANNOT skip any step.**
+> [!CRITICAL] **This workflow is BLOCKING. Director CANNOT skip any step. Workflow NEVER stops on rejection - FORCE RERUN instead.**
 
 ```
 Agent completes phase → Reports to Director
                 ↓
 ┌─────────────────────────────────────────────────────────────┐
 │ STEP 7a: Director SELF-CHECK                                │
-│ Compare actual duration vs threshold from table             │
-│ Duration >= Threshold?                                      │
+│ Compare actual duration vs MINIMUM from table               │
+│ Duration >= MINIMUM?                                        │
+│ (NO threshold buffer - MINIMUM IS the hard floor)           │
 └─────────────────────────────────────────────────────────────┘
         ↓ NO                              ↓ YES
-┌───────────────────┐         ┌───────────────────────────────┐
-│ STEP 7b: REJECT   │         │ STEP 7c: Call @time_validator │
-│ Log rejection     │         │ Include self-check result     │
-│ Force rerun       │         └───────────────────────────────┘
-│ Return to Step 2  │                     ↓
-│ (do NOT proceed)  │         ┌───────────────────────────────┐
-└───────────────────┘         │ STEP 7d: WAIT for verdict     │
-                              │ APPROVE / REJECT / INVESTIGATE│
-                              └───────────────────────────────┘
-                                          ↓
-                    ┌─────────────────────┴─────────────────────┐
-                    ↓ REJECT/INVESTIGATE                        ↓ APPROVE
-        ┌───────────────────┐                   ┌───────────────────────────┐
-        │ STEP 7e: BLOCK    │                   │ STEP 7f: PROCEED          │
-        │ Log rejection     │                   │ → Step 8: Update log      │
-        │ Force rerun       │                   │ → Step 9: Update manifest │
-        │ (do NOT proceed)  │                   │ → Call next agent         │
-        └───────────────────┘                   └───────────────────────────┘
+┌───────────────────────────┐         ┌───────────────────────────────┐
+│ STEP 7b: REJECT           │         │ STEP 7c: Call @time_validator │
+│ Log rejection             │         │ Include self-check result     │
+│ DO NOT STOP WORKFLOW      │         └───────────────────────────────┘
+│ FORCE RERUN               │                     ↓
+│ Return to Step 2          │         ┌───────────────────────────────┐
+│ LOOP until duration >= MIN│         │ STEP 7d: WAIT for verdict     │
+└───────────────────────────┘         │ APPROVE / REJECT / INVESTIGATE│
+                                      └───────────────────────────────┘
+                                                  ↓
+                    ┌─────────────────────────────┴─────────────────────┐
+                    ↓ REJECT/INVESTIGATE                                ↓ APPROVE
+        ┌───────────────────────────┐               ┌───────────────────────────┐
+        │ STEP 7e: FORCE RERUN      │               │ STEP 7f: PROCEED          │
+        │ Log rejection             │               │ → Step 8: Update log      │
+        │ DO NOT STOP WORKFLOW      │               │ → Step 9: Update manifest │
+        │ Agent MUST rerun phase    │               │ → Update cumulative time  │
+        │ LOOP until APPROVE        │               │ → Call next agent         │
+        └───────────────────────────┘               └───────────────────────────┘
 ```
 
 **Key Points**:
-- @time_validator is the **BLOCKING GATE** - no progression without APPROVE
-- Director self-check catches obvious violations immediately (duration < threshold)
+- @time_validator is the **BLOCKING TIME GATE** - no progression without APPROVE
+- Director self-check catches obvious violations immediately (duration < MINIMUM)
+- **MINIMUM IS the hard floor** - NO threshold buffer (-30% concept REMOVED)
+- **Workflow NEVER stops on rejection** - FORCE RERUN until APPROVE
 - Even if self-check passes, @time_validator must still verify
+- Track **cumulative time** across all phases
 - Skipping @time_validator = Academic Fraud
 
 ---
 
-## Phase Time Requirements Table
+## Phase Time Requirements Table (STRICT MINIMUMS - NO UPPER LIMITS)
 
-| Phase | Name | Min Time | Max Time | -30% Threshold |
-|-------|------|----------|----------|----------------|
-| 0 | Problem Understanding | 20 min | 30 min | 14 min |
-| 0.2 | Knowledge Retrieval | 7 min | 15 min | 5 min |
-| 0.5 | Methodology Gate | 10 min | 20 min | 7 min |
-| 1 | Model Design | 1.5 hours | 6 hours | 63 min |
-| 1.5 | Time Validation | 4 min | 10 min | 3 min |
-| 2 | Feasibility Check | 20 min | 30 min | 14 min |
-| 3 | Data Processing | 40 min | 2 hours | 28 min |
-| 4 | Code Translation | 40 min | 2 hours | 28 min |
-| 4.5 | Fidelity Check | 4 min | 10 min | 3 min |
-| 5 | Model Training | 6 hours | 48 hours | 252 min |
-| 5.5 | Data Authenticity | 4 min | 10 min | 3 min |
-| 5.8 | Insight Extraction | 10 min | 20 min | 7 min |
-| 6 | Visualization | 20 min | 30 min | 14 min |
-| 6.5 | Visual Gate | 4 min | 10 min | 3 min |
-| 7A | Paper Framework | 10 min | 15 min | 7 min |
-| 7B | Model Sections | 30 min | 40 min | 21 min |
-| 7C | Results Integration | 15 min | 20 min | 10 min |
-| 7D | Analysis Sections | 10 min | 15 min | 7 min |
-| 7E | Conclusions | 10 min | 15 min | 7 min |
-| 7F | LaTeX Compilation | 5 min | 10 min | 4 min |
-| 7.5 | LaTeX Gate | 4 min | 10 min | 3 min |
-| 8 | Summary | 20 min | 30 min | 14 min |
-| 9 | Polish | 20 min | 30 min | 14 min |
-| 9.1 | Mock Judging | 10 min | 30 min | 7 min |
-| 9.5 | Editor Feedback | 10 min | Variable | 7 min |
-| 10 | Final Review | 20 min | 30 min | 14 min |
-| 11 | Self-Evolution | 4 min | 10 min | 3 min |
+> [!CRITICAL] **8-HOUR MINIMUM TOTAL WORKFLOW (480 minutes)**
+> **The MINIMUM column IS the hard floor. Duration < MINIMUM = REJECT + FORCE RERUN. NO EXCEPTIONS.**
+> **Phase 5 MINIMUM: 3 hours (180 minutes)** - Model training requires substantial time.
+
+| Phase | Name | MINIMUM TIME |
+|-------|------|--------------|
+| 0 | Problem Understanding | **35 min** |
+| 0.2 | Knowledge Retrieval | **20 min** |
+| 0.5 | Methodology Gate | **25 min** |
+| 1 | Model Design | **120 min (2 hours)** |
+| 1.5 | Time Validation | **10 min** |
+| 2 | Feasibility Check | **35 min** |
+| 3 | Data Processing | **75 min** |
+| 4 | Code Translation | **75 min** |
+| 4.5 | Fidelity Check | **10 min** |
+| **5** | **Model Training** | **180 min (3 hours)** |
+| 5.5 | Data Authenticity | **10 min** |
+| 5.8 | Insight Extraction | **25 min** |
+| 6 | Visualization | **35 min** |
+| 6.5 | Visual Gate | **10 min** |
+| 7A | Paper Framework | **25 min** |
+| 7B | Model Sections | **60 min** |
+| 7C | Results Integration | **35 min** |
+| 7D | Analysis Sections | **25 min** |
+| 7E | Conclusions | **25 min** |
+| 7F | LaTeX Compilation | **15 min** |
+| 7.5 | LaTeX Gate | **10 min** |
+| 8 | Summary | **35 min** |
+| 9 | Polish | **35 min** |
+| 9.1 | Mock Judging | **20 min** |
+| 9.5 | Editor Feedback | **20 min** |
+| 10 | Final Review | **35 min** |
+| 11 | Self-Evolution | **10 min** |
+
+**NO UPPER LIMITS** - Agents should take as much time as needed for quality work.
+**NO THRESHOLD BUFFER** - The MINIMUM is the rejection threshold. No -30% buffer.
 
 ---
 
@@ -101,7 +127,8 @@ Director, Phase {X} COMPLETE.
 - Start: {ISO timestamp, e.g., 2026-01-30T14:30:00}
 - End: {ISO timestamp, e.g., 2026-01-30T15:00:00}
 - Duration: {XX} minutes
-- Expected: {min_time}-{max_time} minutes
+- MINIMUM Required: {min_time} minutes
+- Cumulative Total: {ZZ} minutes / 480 minutes (8-hour minimum)
 
 ## Deliverables
 - Output files: {list of files created/modified}
@@ -125,7 +152,8 @@ Director, Phase 3 COMPLETE.
 - Start: 2026-01-30T10:00:00
 - End: 2026-01-30T11:15:00
 - Duration: 75 minutes
-- Expected: 40-120 minutes
+- MINIMUM Required: 75 minutes ✓
+- Cumulative Total: 255 minutes / 480 minutes
 
 ## Deliverables
 - Output files:
@@ -143,41 +171,47 @@ Director, Phase 3 COMPLETE.
 
 ---
 
-## Director Time Validation Call
+## Director Time Validation Call (BLOCKING TIME GATE)
 
 After receiving a completion report, Director calls @time_validator:
 
 ```
-@time_validator: Phase Time Check
+@time_validator: Phase Time Check (BLOCKING TIME GATE)
 
 Phase: {X} ({phase_name})
 Agent: @{agent_name}
 Reported Duration: {XX} minutes
-Expected Range: {min_time}-{max_time} minutes
-Threshold (-30%): {threshold} minutes
+MINIMUM Required: {min_time} minutes
+Cumulative Total: {ZZ} minutes / 480 minutes (8-hour minimum)
 
 Check:
 1. Query Python backend log at output/implementation/logs/phase_{X}_timing.json
 2. Compare reported duration vs logged duration
-3. Validate against -30% threshold
+3. Validate against MINIMUM (NO threshold buffer - MINIMUM IS the hard floor)
+4. Track cumulative time toward 8-hour minimum
+
+ENFORCEMENT: Duration < MINIMUM = REJECT + FORCE RERUN (workflow does NOT stop)
 
 Return: APPROVE / REJECT_INSUFFICIENT_TIME / INVESTIGATE
 ```
 
-### Validation Decision Rules
+### Validation Decision Rules (STRICT)
 
 | Condition | Verdict | Action |
 |-----------|---------|--------|
-| Duration >= Min Time | APPROVE | Proceed to next phase |
-| Duration >= Threshold AND < Min | APPROVE with NOTE | Proceed, but flag for quality review |
-| Duration < Threshold | REJECT_INSUFFICIENT_TIME | Force phase rerun |
+| Duration >= MINIMUM | APPROVE | Proceed to next phase |
+| **Duration < MINIMUM** | **REJECT_INSUFFICIENT_TIME** | **FORCE RERUN (do NOT stop)** |
 | Logged != Reported (>10% diff) | INVESTIGATE | Verify timestamps, potential fraud |
+
+**NO THRESHOLD BUFFER** - The MINIMUM is the rejection point. No -30% buffer exists.
 
 ---
 
-## Rejection Protocol
+## Rejection Protocol (DO NOT STOP - FORCE RERUN)
 
 When @time_validator returns `REJECT_INSUFFICIENT_TIME`:
+
+> [!CRITICAL] **Workflow NEVER stops on rejection. FORCE agent to RERUN phase.**
 
 ### Step 1: Log Rejection
 Append to `output/docs/time_rejections.md`:
@@ -187,32 +221,70 @@ Append to `output/docs/time_rejections.md`:
 
 - **Agent**: @{agent_name}
 - **Reported Duration**: {XX} minutes
-- **Threshold**: {YY} minutes
-- **Reason**: Duration below -30% threshold
-- **Action**: Forced rerun
+- **MINIMUM Required**: {YY} minutes
+- **Reason**: Duration below MINIMUM (INSUFFICIENT TIME = ACADEMIC FRAUD)
+- **Action**: FORCE RERUN (workflow continues)
+- **Cumulative Total**: {ZZ} minutes / 480 minutes
 ```
 
-### Step 2: Force Phase Rerun
+### Step 2: FORCE Phase Rerun (DO NOT STOP WORKFLOW)
 Send message to agent:
 
 ```
-@{agent}: Phase {X} REJECTED - Insufficient time.
+@{agent}: Phase {X} REJECTED - INSUFFICIENT TIME = ACADEMIC FRAUD
 
-Your reported duration ({actual} min) is below the threshold ({threshold} min).
-This suggests your work may be incomplete or simplified.
+Your reported duration ({actual} min) is below the MINIMUM ({minimum} min).
+This indicates incomplete or rushed work.
 
-Please rerun Phase {X} with full rigor:
+**YOU MUST RERUN Phase {X}**:
 1. Do not rush or skip steps
 2. Complete all required tasks thoroughly
-3. Report accurate timing
+3. Spend at LEAST {minimum} minutes on this phase
+4. Report accurate timing
 
-Expected duration: {min_time}-{max_time} minutes
+MINIMUM required: {minimum} minutes (this is the HARD FLOOR, no buffer)
+
+**WORKFLOW DOES NOT STOP. LOOP UNTIL duration >= MINIMUM.**
 ```
 
-### Step 3: Block Progression
-- Do NOT proceed to next phase until time validation passes
-- Allow maximum 2 reruns before escalation
-- After 2 failed reruns, investigate root cause
+### Step 3: Loop Until APPROVE
+- **DO NOT STOP WORKFLOW** - rejection triggers rerun, not halt
+- Allow maximum 3 reruns before escalation
+- After 3 failed reruns, escalate to @director for investigation
+- **Workflow cannot proceed** until APPROVE received
+
+---
+
+## Cumulative Time Tracking (8-HOUR MINIMUM)
+
+> [!CRITICAL] **Even if all phases pass individually, cumulative time must reach 480 minutes (8 hours).**
+
+### Tracking Protocol
+After each phase approval, update cumulative time:
+
+```markdown
+## Cumulative Time Tracker
+
+| Phase | Duration | Cumulative | % of 8-Hour Minimum |
+|-------|----------|------------|---------------------|
+| 0 | 35m | 35m | 7.3% |
+| 0.2 | 22m | 57m | 11.9% |
+| 0.5 | 28m | 85m | 17.7% |
+| 1 | 135m | 220m | 45.8% |
+| ... | ... | ... | ... |
+| **TOTAL** | **???m** | **???m** | **???%** |
+```
+
+### Final Workflow Gate
+Before Phase 11 (Self-Evolution) completes:
+```
+IF cumulative_total < 480 minutes:
+    REJECT workflow completion
+    Identify underspent phases
+    FORCE additional work on deficient phases
+    Loop until cumulative_total >= 480 minutes
+ENDIF
+```
 
 ---
 
@@ -263,33 +335,36 @@ Path: `output/implementation/logs/phase_{X}_timing.json`
 
 ## Special Cases
 
-### Variable Duration Phases
+### Phase 5: Model Training (3-HOUR MINIMUM)
 
-Some phases have variable expected durations:
-- **Phase 5 (Training)**: 6-48+ hours depending on model complexity
-- **Phase 9.5 (Editor Feedback)**: Depends on number of issues found
+> [!CRITICAL] **Phase 5 requires MINIMUM 180 minutes (3 hours).**
 
-For these phases, use the minimum threshold but allow extended time without penalty.
+- Phase 5 is the most time-intensive phase
+- **MINIMUM: 180 minutes (3 hours)** - this is the hard floor
+- **NO UPPER LIMIT** - training should take as long as needed for quality results
+- Duration < 180 minutes = **AUTO-REJECT + FORCE RERUN**
 
-### Gate Phases
+### Gate Phases (Validation-Focused)
 
-Gate phases (0.5, 1.5, 4.5, 5.5, 6.5, 7.5) have shorter expected times (4-10 min) because they are validation-focused, not implementation-focused.
+Gate phases (0.5, 1.5, 4.5, 5.5, 6.5, 7.5) have shorter minimums (10 min) because they are validation-focused, not implementation-focused. However, the MINIMUM is still enforced strictly.
 
 ### Phase 7 Sub-Phases
 
-Each sub-phase (7A-7F) has its own timing requirements. Track separately:
-- 7A: 10-15 min (Abstract + Intro + Notation)
-- 7B: 30-40 min (Model sections - largest)
-- 7C: 15-20 min (Results integration)
-- 7D: 10-15 min (Analysis sections)
-- 7E: 10-15 min (Conclusions + Bibliography)
-- 7F: 5-10 min (LaTeX compilation)
+Each sub-phase (7A-7F) has its own MINIMUM requirement. Track separately:
+- 7A: **25 min** (Abstract + Intro + Notation)
+- 7B: **60 min** (Model sections - largest)
+- 7C: **35 min** (Results integration)
+- 7D: **25 min** (Analysis sections)
+- 7E: **25 min** (Conclusions + Bibliography)
+- 7F: **15 min** (LaTeX compilation)
+
+**Total Phase 7 MINIMUM: 185 minutes**
 
 ---
 
 ## Integration with VERSION_MANIFEST.json
 
-After successful time validation, update manifest:
+After successful time validation, update manifest with cumulative tracking:
 
 ```json
 {
@@ -297,11 +372,30 @@ After successful time validation, update manifest:
     "status": "completed",
     "timestamp": "2026-01-30T11:15:00",
     "duration_minutes": 75,
-    "time_validated": true
+    "minimum_required": 75,
+    "time_validated": true,
+    "cumulative_total": 255,
+    "cumulative_percentage": 53.1
   }
 }
 ```
 
 ---
 
-*Reference: CLAUDE.md - Phase Completion Protocol (v3.2.2)*
+## 8-Hour Minimum Enforcement Summary
+
+> [!CRITICAL] **NO EXCEPTIONS TO THE 8-HOUR MINIMUM**
+
+| Enforcement Point | Rule |
+|-------------------|------|
+| Each Phase | Duration >= MINIMUM (hard floor) |
+| Rejection | DO NOT STOP workflow, FORCE RERUN |
+| Cumulative | Track total toward 480 minutes |
+| Final Gate | Workflow cannot complete if total < 480 minutes |
+| Phase 5 | MINIMUM 180 minutes (3 hours) |
+
+**INSUFFICIENT TIME = ACADEMIC FRAUD** - Rushing through phases produces low-quality work that contaminates downstream phases.
+
+---
+
+*Reference: CLAUDE.md v3.3.0 - Main operational documentation*
