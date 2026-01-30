@@ -134,6 +134,121 @@ Before reporting completion:
 
 ---
 
+## Self-Timing Protocol (v3.2.0 - Mandatory)
+
+> [!CRITICAL] **You MUST track your own time using time_tracker.py.**
+
+### At Training Start
+
+1. **Record start time via time_tracker.py**:
+   ```bash
+   python tools/time_tracker.py start --phase 5 --agent model_trainer1
+   ```
+
+2. **Also log internally**:
+   ```python
+   import time
+   phase_start = time.time()
+   print(f"[{time.ctime()}] Training started for Model {i}")
+   ```
+
+### At Training End
+
+1. **Record end time via time_tracker.py**:
+   ```bash
+   python tools/time_tracker.py end --phase 5 --agent model_trainer1
+   ```
+
+2. **Include duration in completion report** (see updated format below)
+
+### Minimum Time Awareness
+
+**Know Your Minimum**: Phase 5 minimum is 360 minutes (6 hours), threshold is 108 minutes (30%).
+- If you finish too fast, you likely missed something
+- Use remaining time for: Double-checking work, considering edge cases, improving quality
+- DO NOT rush to completion
+
+---
+
+## Consultation Export (v3.2.0 - Mandatory)
+
+After training completes, you MUST export a consultation document:
+
+### Generate Consultation File
+
+```bash
+# Generate filesystem-safe timestamp
+TIMESTAMP=$(date +%Y-%m-%dT%H-%M-%S)
+
+# Create file at required path
+cat > output/docs/consultations/phase_5_model_trainer1_${TIMESTAMP}.md << 'EOF'
+# Phase 5 Consultation: @model_trainer1
+
+**Timestamp**: {ISO timestamp}
+**Phase**: 5 - Model Training
+**Duration**: {XX} minutes
+
+## Work Summary
+Trained Model {i} using {algorithm/method}.
+
+## Deliverables
+- results_{i}.csv: Training results ({rows} rows, {cols} columns)
+- training_{i}.log: Training log with convergence info
+
+## Key Decisions Made
+1. {Any parameter adjustments and rationale}
+2. {Any convergence handling decisions}
+
+## Issues Encountered
+- {Issue 1}: {Resolution}
+- None (if no issues)
+
+## Recommendations for Next Phase
+{What @time_validator and subsequent agents should know}
+
+## Quality Self-Assessment
+- Confidence: {1-10}
+- Completeness: {percentage}
+- Rigor: HIGH / MEDIUM / LOW
+EOF
+```
+
+### Updated Completion Report Format (v3.2.0)
+
+```markdown
+Director, Model {i} Training Complete.
+
+## Timing
+- Phase: 5 (Model Training)
+- Start: {ISO timestamp}
+- End: {ISO timestamp}
+- Duration: {XX} minutes
+- Expected: 360-2880 minutes
+
+## Model Summary
+- Model ID: {i}
+- Training Time: {X.XX} hours
+- Convergence: ✅ Achieved
+
+## Output Files
+- results_{i}.csv: ✅ Created ({rows} rows)
+- training_{i}.log: ✅ Created
+- Consultation: ✅ Exported to output/docs/consultations/
+
+## Sanity Checks
+- All passed: ✅
+
+## Self-Assessment
+- Quality: HIGH / MEDIUM / LOW
+- Confidence: {1-10}
+- Issues encountered: {list or "None"}
+
+## Status
+COMPLETE - Awaiting next assignment or Phase 5.5.
+```
+
+---
+
 **Worker ID**: model_trainer1
 **Reports To**: @director
 **Phase**: 5 (Model Training)

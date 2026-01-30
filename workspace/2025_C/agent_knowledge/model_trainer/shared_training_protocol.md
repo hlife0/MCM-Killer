@@ -179,3 +179,157 @@ For additional details, consult:
 - `emergency_convergence_fix.md` - Critical failure handling
 - `sanity_checks.md` - Detailed validation logic
 - `o_award_training.md` - O Award documentation guidelines
+
+---
+
+## Enhanced Anti-Fraud Protocol (v3.2.0)
+
+> [!CRITICAL] **All training workers MUST follow this protocol to ensure data authenticity.**
+
+### Pre-Training Verification
+
+Before starting training:
+
+1. **Record phase start time via time_tracker.py**:
+   ```bash
+   python tools/time_tracker.py start --phase 5 --agent model_trainer{N}
+   ```
+
+2. **Verify input integrity**:
+   ```python
+   # Check features file hash
+   import hashlib
+   with open('features_{i}.pkl', 'rb') as f:
+       input_hash = hashlib.md5(f.read()).hexdigest()
+   print(f"Input hash: {input_hash}")
+   ```
+
+3. **Record expected metrics**:
+   - Expected training time (from model_design)
+   - Expected convergence criteria
+   - Expected output dimensions
+
+### During Training
+
+1. **Continuous logging** (every 60 seconds):
+   ```python
+   import time
+   import json
+
+   def log_progress(epoch, loss, elapsed_time, log_file):
+       entry = {
+           "timestamp": time.time(),
+           "epoch": epoch,
+           "loss": loss,
+           "elapsed_seconds": elapsed_time
+       }
+       with open(log_file, 'a', encoding='utf-8') as f:
+           f.write(json.dumps(entry) + '\n')
+   ```
+
+2. **Training markers** (non-fakeable):
+   - GPU/CPU utilization logs
+   - Memory usage over time
+   - Intermediate checkpoint files with timestamps
+
+### Post-Training Verification
+
+1. **Record phase end time**:
+   ```bash
+   python tools/time_tracker.py end --phase 5 --agent model_trainer{N}
+   ```
+
+2. **Time authenticity check**:
+   ```python
+   # Verify log entries are temporally consistent
+   with open('training_log.jsonl', encoding='utf-8') as f:
+       entries = [json.loads(line) for line in f]
+
+   # Check time spacing (should be ~60s between entries)
+   for i in range(1, len(entries)):
+       gap = entries[i]['timestamp'] - entries[i-1]['timestamp']
+       if gap < 30 or gap > 120:
+           print(f"SUSPICIOUS: {gap}s gap at entry {i}")
+   ```
+
+3. **Result consistency check**:
+   ```python
+   # Verify results match expected dimensions and ranges
+   results = pd.read_csv('results_{i}.csv', encoding='utf-8')
+
+   # Check dimensions
+   assert results.shape[0] > 0, "Empty results"
+
+   # Check for synthetic patterns
+   # Real training has noise; fake data is often too clean
+   std_per_column = results.std()
+   if (std_per_column == 0).any():
+       print("SUSPICIOUS: Zero variance columns detected")
+   ```
+
+4. **Checkpoint verification**:
+   - Verify intermediate checkpoints exist
+   - Compare checkpoint timestamps with log timestamps
+   - Verify model weights change between checkpoints
+
+### Red Flags (Automatic Rejection by @time_validator)
+
+| Red Flag | Detection | Action |
+|----------|-----------|--------|
+| Training < 30% expected time | time_tracker.py validation | REJECT, rerun |
+| No intermediate checkpoints | Missing files | REJECT, investigate |
+| Temporal gaps in logs | Log analysis | REJECT, investigate |
+| Zero-variance columns | Stats check | REJECT, investigate |
+| Results before training | Timestamp mismatch | REJECT, investigate |
+| Log entries too close together | <30s gaps | REJECT, investigate |
+
+### Self-Timing Protocol (Mandatory for ALL Workers)
+
+#### At Phase Start
+
+1. Record start time via time_tracker.py:
+   ```bash
+   python tools/time_tracker.py start --phase 5 --agent model_trainer{N}
+   ```
+
+2. Also log internally:
+   ```python
+   import time
+   phase_start = time.time()
+   print(f"[{time.ctime()}] Training started for Model {i}")
+   ```
+
+#### At Phase End
+
+1. Record end time via time_tracker.py:
+   ```bash
+   python tools/time_tracker.py end --phase 5 --agent model_trainer{N}
+   ```
+
+2. Include duration in completion report:
+   ```markdown
+   ## Timing
+   - Start: {ISO timestamp}
+   - End: {ISO timestamp}
+   - Duration: {XX} minutes
+   - Expected: {min}-{max} minutes
+   ```
+
+### Consultation Export (Mandatory)
+
+After training completes, export consultation document:
+
+```bash
+# Generate timestamp
+TIMESTAMP=$(date +%Y-%m-%dT%H-%M-%S)
+
+# Create consultation file
+echo "Creating: output/docs/consultations/phase_5_model_trainer{N}_${TIMESTAMP}.md"
+```
+
+Document must include:
+- Training duration
+- Model type and parameters
+- Convergence status
+- Output files created
+- Any issues encountered

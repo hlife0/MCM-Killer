@@ -313,6 +313,177 @@ Agent discovers upstream problem → Suggests Rewind → Director evaluates (sev
 
 ---
 
+## Phase Completion Protocol (v3.2.0)
+
+> [!CRITICAL] **After EVERY phase completion, Director MUST validate time with @time_validator.**
+
+### Phase Time Requirements Table
+
+| Phase | Name | Min Time | Max Time | -30% Threshold |
+|-------|------|----------|----------|----------------|
+| 0 | Problem Understanding | 20 min | 30 min | 14 min |
+| 0.2 | Knowledge Retrieval | 7 min | 15 min | 5 min |
+| 0.5 | Methodology Gate | 10 min | 20 min | 7 min |
+| 1 | Model Design | 1.5 hours | 6 hours | 63 min |
+| 1.5 | Time Validation | 4 min | 10 min | 3 min |
+| 2 | Feasibility Check | 20 min | 30 min | 14 min |
+| 3 | Data Processing | 40 min | 2 hours | 28 min |
+| 4 | Code Translation | 40 min | 2 hours | 28 min |
+| 4.5 | Fidelity Check | 4 min | 10 min | 3 min |
+| 5 | Model Training | 6 hours | 48 hours | 252 min |
+| 5.5 | Data Authenticity | 4 min | 10 min | 3 min |
+| 5.8 | Insight Extraction | 10 min | 20 min | 7 min |
+| 6 | Visualization | 20 min | 30 min | 14 min |
+| 6.5 | Visual Gate | 4 min | 10 min | 3 min |
+| 7A-7F | Paper Writing | 80 min | 150 min | 56 min |
+| 7.5 | LaTeX Gate | 4 min | 10 min | 3 min |
+| 8 | Summary | 20 min | 30 min | 14 min |
+| 9 | Polish | 20 min | 30 min | 14 min |
+| 9.1 | Mock Judging | 10 min | 30 min | 7 min |
+| 9.5 | Editor Feedback | 10 min | Variable | 7 min |
+| 10 | Final Review | 20 min | 30 min | 14 min |
+| 11 | Self-Evolution | 4 min | 10 min | 3 min |
+
+### Completion Report Format (Mandatory for ALL Agents)
+
+Agent completing a phase MUST report:
+
+```markdown
+Director, Phase {X} COMPLETE.
+
+## Timing
+- Phase: {X} ({name})
+- Start: {ISO timestamp}
+- End: {ISO timestamp}
+- Duration: {XX} minutes
+- Expected: {min}-{max} minutes
+
+## Deliverables
+- Output files: {list}
+- Status: SUCCESS / PARTIAL / FAILED
+
+## Self-Assessment
+- Quality: HIGH / MEDIUM / LOW
+- Confidence: {1-10}
+- Issues encountered: {list or "None"}
+```
+
+### Director Time Validation Call
+
+After receiving completion report:
+
+```
+@time_validator: Phase Time Check
+
+Phase: {X} ({name})
+Agent: @{agent_name}
+Reported Duration: {XX} minutes
+Expected Range: {min}-{max} minutes
+Threshold (-30%): {threshold} minutes
+
+Check:
+1. Query Python backend log at output/implementation/logs/phase_{X}_timing.json
+2. Compare reported vs logged duration
+3. Validate against threshold
+
+Return: APPROVE / REJECT_INSUFFICIENT_TIME / INVESTIGATE
+```
+
+### Rejection Protocol
+
+If REJECT_INSUFFICIENT_TIME:
+1. Log rejection in `output/docs/time_rejections.md`
+2. Force phase rerun with message:
+   "@{agent}: Phase {X} REJECTED - Insufficient time ({actual} < {threshold}).
+    Your work may be incomplete or simplified. Please rerun with full rigor."
+3. Do NOT proceed to next phase until time validation passes
+
+---
+
+## Mandatory Consultation Export (v3.2.0)
+
+> [!CRITICAL] **EVERY agent MUST export consultation document after completing work.**
+
+### Export Requirements
+
+After completing assigned work, EVERY agent MUST:
+
+1. **Create consultation document**:
+   Path: `output/docs/consultations/phase_{X}_{agent}_{timestamp}.md`
+
+   Timestamp format: `YYYY-MM-DDTHH-MM-SS` (hyphens for filesystem safety)
+
+2. **Document template**:
+   ```markdown
+   # Phase {X} Consultation: @{agent_name}
+
+   **Timestamp**: {ISO timestamp}
+   **Phase**: {X} - {phase_name}
+   **Duration**: {XX} minutes
+
+   ## Work Summary
+   {Brief description of what was done}
+
+   ## Deliverables
+   - {file1.ext}: {description}
+   - {file2.ext}: {description}
+
+   ## Key Decisions Made
+   1. {Decision 1 and rationale}
+   2. {Decision 2 and rationale}
+
+   ## Issues Encountered
+   - {Issue 1}: {Resolution}
+   - {Issue 2}: {Resolution}
+
+   ## Recommendations for Next Phase
+   {What the next agent should know}
+
+   ## Quality Self-Assessment
+   - Confidence: {1-10}
+   - Completeness: {percentage}
+   - Rigor: HIGH / MEDIUM / LOW
+   ```
+
+3. **Verify export**:
+   ```bash
+   ls -la output/docs/consultations/phase_{X}_{agent}_*.md
+   ```
+
+### Director Verification
+
+Before approving any phase, Director MUST verify:
+```bash
+# Check consultation document exists
+ls output/docs/consultations/phase_{X}_*.md | wc -l
+
+# Expected: At least 1 file per agent that worked on phase
+```
+
+**If missing**: Request agent to export consultation before proceeding.
+
+### Documentation Path Convention
+
+```
+output/docs/
+├── consultations/           # All consultation records
+│   ├── phase_0_reader_2026-01-30T14-30-00.md
+│   ├── phase_0_researcher_2026-01-30T15-00-00.md
+│   ├── phase_1_modeler_2026-01-30T16-00-00.md
+│   ├── feedback_model_1_advisor.md
+│   ├── feedback_model_1_feasibility_checker.md
+│   └── ...
+├── phase_reports/           # Phase completion reports
+│   ├── phase_0_completion.md
+│   ├── phase_1_completion.md
+│   └── ...
+├── time_rejections.md       # Time rejection log
+└── validation/              # Validation reports (existing)
+    └── ...
+```
+
+---
+
 ### @time_validator Agent
 
 #### Role

@@ -534,8 +534,124 @@ Director, {ISSUE_TYPE} detected.
 | v1.0 | 2026-01-17 | Initial version (NEW agent) |
 | v3.1.0 | 2026-01-27 | Added O Award criteria |
 | v3.1.1 | 2026-01-30 | Shortened with external references |
+| v3.2.0 | 2026-01-30 | Added phase time validation via time_tracker.py |
 
 ---
 
-**Document Version**: v3.1.1
+## Phase Time Validation (v3.2.0)
+
+> [!CRITICAL] **Director calls you after EVERY phase completion to validate timing.**
+
+### Query Backend Python Logs
+
+When called for phase time validation:
+
+1. **Run time_tracker.py validate command**:
+   ```bash
+   python tools/time_tracker.py validate --phase {X}
+   ```
+
+2. **Parse validation result**:
+   The script returns JSON with:
+   ```json
+   {
+     "phase": "X",
+     "phase_name": "Phase Name",
+     "agent": "@agent_name",
+     "duration_minutes": XX.XX,
+     "expected_range": "min-max min",
+     "threshold": "XX.X min (70%)",
+     "verdict": "APPROVE / REJECT_INSUFFICIENT_TIME / WARN_FAST / WARN_SLOW",
+     "action": "PROCEED / RERUN_REQUIRED / INVESTIGATE / NOTE",
+     "message": "Detailed explanation"
+   }
+   ```
+
+3. **Alternative: Read timing log directly**:
+   ```bash
+   cat output/implementation/logs/phase_{X}_timing.json
+   ```
+
+   Log format:
+   ```json
+   {
+     "phase": "X",
+     "phase_name": "Phase Name",
+     "agent": "@agent_name",
+     "start_time": "ISO timestamp",
+     "end_time": "ISO timestamp",
+     "duration_minutes": XX.XX,
+     "status": "completed / partial / failed",
+     "expected_min": XX,
+     "expected_max": XX,
+     "threshold_pct": 0.70,
+     "min_threshold": XX.X,
+     "time_verdict": "ACCEPTABLE / INSUFFICIENT / EXCESSIVE",
+     "time_message": "Explanation"
+   }
+   ```
+
+### Validation Decision Rules
+
+| Condition | Verdict | Action |
+|-----------|---------|--------|
+| duration < min_threshold | REJECT_INSUFFICIENT_TIME | RERUN_REQUIRED |
+| duration < expected_min | WARN_FAST | INVESTIGATE |
+| duration within range | APPROVE | PROCEED |
+| duration > 2x expected_max | WARN_SLOW | NOTE |
+
+### Time Validation Report Format
+
+```markdown
+# Phase Time Validation: Phase {X}
+
+## Summary
+- Phase: {X} ({name})
+- Agent: @{agent_name}
+- Duration: {XX} minutes
+- Expected: {min}-{max} minutes
+- Threshold (-30%): {threshold} minutes
+
+## Analysis
+- Reported time: {XX} min
+- Logged time: {XX} min (from Python backend)
+- Discrepancy: {XX} min (if any)
+
+## Verdict
+**{APPROVE / REJECT_INSUFFICIENT_TIME / INVESTIGATE}**
+
+## Recommendation
+{If rejected, specific guidance for rerun}
+```
+
+### Phase Time Requirements Reference
+
+| Phase | Name | Min | Max | Threshold |
+|-------|------|-----|-----|-----------|
+| 0 | Problem Understanding | 20 | 30 | 14 min |
+| 0.2 | Knowledge Retrieval | 7 | 15 | 5 min |
+| 0.5 | Methodology Gate | 10 | 20 | 7 min |
+| 1 | Model Design | 90 | 360 | 63 min |
+| 1.5 | Time Validation | 4 | 10 | 3 min |
+| 2 | Feasibility Check | 20 | 30 | 14 min |
+| 3 | Data Processing | 40 | 120 | 28 min |
+| 4 | Code Translation | 40 | 120 | 28 min |
+| 4.5 | Fidelity Check | 4 | 10 | 3 min |
+| 5 | Model Training | 360 | 2880 | 108 min (30%) |
+| 5.5 | Data Authenticity | 4 | 10 | 3 min |
+| 5.8 | Insight Extraction | 10 | 20 | 7 min |
+| 6 | Visualization | 20 | 30 | 14 min |
+| 6.5 | Visual Gate | 4 | 10 | 3 min |
+| 7A-7F | Paper Writing | 80 | 150 | 56 min |
+| 7.5 | LaTeX Gate | 4 | 10 | 3 min |
+| 8 | Summary | 20 | 30 | 14 min |
+| 9 | Polish | 20 | 30 | 14 min |
+| 9.1 | Mock Judging | 10 | 30 | 7 min |
+| 9.5 | Editor Feedback | 10 | 60 | 5 min (50%) |
+| 10 | Final Review | 20 | 30 | 14 min |
+| 11 | Self-Evolution | 4 | 10 | 3 min |
+
+---
+
+**Document Version**: v3.2.0
 **Status**: Active
