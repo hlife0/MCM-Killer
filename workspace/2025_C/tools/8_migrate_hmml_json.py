@@ -15,6 +15,7 @@ Usage (from workspace root):
 from __future__ import annotations
 
 import json
+import os
 import shutil
 import sys
 from dataclasses import dataclass
@@ -30,7 +31,8 @@ from typing import Any, Dict, List, Sequence, Tuple
 ROOT = Path(__file__).resolve().parents[1]
 LIB_ROOT = ROOT / "knowledge_library"
 METHODS_ROOT = LIB_ROOT / "methods"
-HMML_JSON_PATH = Path(r"D:\\migration\\clean version\\LLM-MM-Agent\\MMAgent\\HMML\\HMML.json")
+# HMML.json path - check environment variable, then fallback to local path
+HMML_JSON_PATH = Path(os.environ.get("HMML_JSON_PATH", ROOT / "knowledge_library" / "HMML.json"))
 LEGACY_MIGRATOR_PATH = ROOT / "tools" / "5_migrate_hmml.py"
 
 

@@ -75,7 +75,7 @@ def main() -> None:
 
     summary = {
         "version": "2.0",
-        "generated": __import__("datetime").datetime.utcnow().isoformat(),
+        "generated": __import__("datetime").datetime.now(__import__("datetime").timezone.utc).isoformat(),
         "total_methods": len(methods),
         "domains": domains,
         "by_complexity": by_complexity,

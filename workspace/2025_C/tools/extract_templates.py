@@ -2,14 +2,27 @@
 """
 Extract prompt templates from MM_Assets_Export/template.py
 and save to individual .txt files in knowledge_library/
+
+Usage:
+    python extract_templates.py [source_file] [output_base]
+
+    source_file: Path to template.py (default: knowledge_library/templates/template.py)
+    output_base: Output directory (default: knowledge_library/templates/prompts)
 """
 
 import os
 import re
 import json
+import sys
+from pathlib import Path
 
-SOURCE_FILE = "D:/migration/MM_Assets_Export/template.py"
-OUTPUT_BASE = "D:/migration/MCM-Killer/workspace/2025_C/knowledge_library/templates/prompts"
+# Default paths - can be overridden by command line arguments
+ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_SOURCE = ROOT / "knowledge_library" / "templates" / "template.py"
+DEFAULT_OUTPUT = ROOT / "knowledge_library" / "templates" / "prompts"
+
+SOURCE_FILE = os.environ.get("TEMPLATE_SOURCE", str(DEFAULT_SOURCE))
+OUTPUT_BASE = os.environ.get("TEMPLATE_OUTPUT", str(DEFAULT_OUTPUT))
 
 # Template patterns to extract with their output filenames
 # Based on actual constants found in template.py

@@ -73,7 +73,7 @@ STAGE_REFLECTION_MODELING = """Agent just completed/attempted mathematical model
 
 **Style Guide**:
 - Emphasize modeling thinking rather than code implementation
-- Describe models in mathematical language (e.g., $f(x) = \sum_{{i=1}}^{{n}} w_i x_i$)
+- Describe models in mathematical language (e.g., $f(x) = \\sum_{{i=1}}^{{n}} w_i x_i$)
 - Discuss model limitations
 
 Input event stream:

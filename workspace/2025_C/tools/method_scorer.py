@@ -1,7 +1,31 @@
+#!/usr/bin/env python3
+"""
+Method Scorer module for MCM-Killer.
+
+This is a MODULE file, not a standalone script.
+It is designed to be imported by other code, not run directly.
+
+Usage:
+    from tools.method_scorer import MethodScorer, MethodRetriever
+
+If you need CLI functionality, use the knowledge_librarian agent instead.
+"""
+
 import json
+import sys
 from typing import List
 from functools import partial
 from pathlib import Path
+
+# Check if running as a module or standalone
+if __name__ == "__main__":
+    print(__doc__)
+    print("ERROR: This file cannot be run directly.")
+    print("It requires imports from the parent package (base_agent, prompt.template, utils).")
+    print("\nTo use method scoring, invoke the @knowledge_librarian agent instead.")
+    sys.exit(1)
+
+# These imports only work when used as a module
 from .base_agent import BaseAgent
 from prompt.template import METHOD_CRITIQUE_PROMPT
 from utils.convert_format import markdown_to_json_method

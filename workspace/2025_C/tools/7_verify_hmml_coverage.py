@@ -8,6 +8,7 @@
 """
 
 import json
+import os
 import sys
 from pathlib import Path
 from typing import Dict, List, Set, Tuple
@@ -15,7 +16,8 @@ from typing import Dict, List, Set, Tuple
 ROOT = Path(__file__).resolve().parents[1]
 LIB_ROOT = ROOT / "knowledge_library"
 SUMMARY_PATH = LIB_ROOT / "hmml_summary.json"
-HMML_JSON_PATH = Path(r"D:\\migration\\clean version\\LLM-MM-Agent\\MMAgent\\HMML\\HMML.json")
+# HMML.json path - check environment variable, then fallback to local path
+HMML_JSON_PATH = Path(os.environ.get("HMML_JSON_PATH", ROOT / "knowledge_library" / "HMML.json"))
 
 
 def normalize_name(name: str) -> str:
