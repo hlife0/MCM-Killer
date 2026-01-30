@@ -599,16 +599,48 @@ print('PDF text extracted successfully')
 
 **If ALL methods fail, STOP and report to Director. DO NOT use Claude's Read tool on PDF.**
 
-### Step 4: Read the converted/extracted text file
+### Step 4: Read the converted/extracted text file (HANDLE LARGE FILES)
+
+> [!CRITICAL]
+> **Converted files are often 250-400KB and exceed the 256KB Read limit.**
+> **YOU MUST read in chunks. DO NOT try to read the whole file at once.**
+
+**For large files (>200KB), read in chunks of 500-800 lines:**
+
 ```bash
-# Read based on which method succeeded:
-# - If Method 1 (docling CLI): output/problem/2025_MCM_Problem_C.md
-# - If Method 3 (PyMuPDF): output/problem/2025_MCM_Problem_C.txt
-# - If Method 2 (docling MCP): use the returned content directly
-Use Read tool to read the appropriate file
+# Check file size first
+ls -la output/problem/
+
+# Read in chunks (MANDATORY for files > 200KB):
+# Chunk 1: Lines 1-600 (Problem statement, background)
+Read(file_path="output/problem/2026_MCM_Problem_C.md", offset=1, limit=600)
+
+# Chunk 2: Lines 601-1200 (Requirements, questions)
+Read(file_path="output/problem/2026_MCM_Problem_C.md", offset=601, limit=600)
+
+# Chunk 3: Lines 1201-1800 (Data descriptions, constraints)
+Read(file_path="output/problem/2026_MCM_Problem_C.md", offset=1201, limit=600)
+
+# Continue until you've read the entire file
+# Typical MCM problem PDFs convert to 1500-2500 lines
 ```
 
-**Note:** The converted file may be large (300-400KB). Read in sections if needed using offset/limit parameters.
+**Alternative: Use grep to find specific sections:**
+```bash
+# Find all questions
+grep -n "?" output/problem/2026_MCM_Problem_C.md | head -50
+
+# Find requirements keywords
+grep -n -i "must\|should\|require\|deliver" output/problem/2026_MCM_Problem_C.md
+
+# Find data descriptions
+grep -n -i "data\|csv\|file\|column" output/problem/2026_MCM_Problem_C.md
+```
+
+**Which method succeeded determines the file path:**
+- If Method 1 (docling CLI): `output/problem/2026_MCM_Problem_C.md`
+- If Method 3 (PyMuPDF): `output/problem/2026_MCM_Problem_C.txt`
+- If Method 2 (docling MCP): use the returned content directly
 
 ### Step 3: Perform Comprehensive Analysis
 
@@ -831,4 +863,22 @@ print('Shape:', df.shape)
 print('Sample:', df.head())
 "
 ```
+
+### Issue 9: "File content exceeds maximum allowed size (256KB)"
+**Solution:** This is the MOST COMMON error. YOU MUST read in chunks.
+```bash
+# WRONG - will fail for files > 256KB:
+Read(file_path="output/problem/file.md")
+
+# CORRECT - read in chunks:
+Read(file_path="output/problem/file.md", offset=1, limit=600)
+Read(file_path="output/problem/file.md", offset=601, limit=600)
+Read(file_path="output/problem/file.md", offset=1201, limit=600)
+# ... continue until done
+```
+
+**Chunk size guidelines:**
+- 600 lines per chunk is safe (usually under 100KB)
+- Check total lines: `wc -l output/problem/file.md`
+- Calculate chunks needed: total_lines / 600
 
