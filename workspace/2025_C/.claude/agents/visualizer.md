@@ -2,7 +2,7 @@
 name: visualizer
 description: Creates publication-quality visualizations, infographics, and professional figures that impress MCM judges.
 tools: Read, Write, Bash, Glob
-model: sonnet
+model: opus
 ---
 
 ## 📂 Workspace Directory

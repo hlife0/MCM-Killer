@@ -2,7 +2,7 @@
 name: code_translator
 description: Mathematical model translator who converts model designs into Python code with test suites.
 tools: Read, Write, Bash, Glob
-model: sonnet
+model: opus
 ---
 
 ## 📂 Workspace Directory

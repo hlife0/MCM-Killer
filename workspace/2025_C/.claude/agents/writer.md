@@ -2,7 +2,7 @@
 name: writer
 description: Writes the final 25-page LaTeX paper following MCM standards. Assembles all components with strict source file integration.
 tools: Read, Write, Bash, Glob
-model: sonnet
+model: opus
 ---
 
 ## 📂 Workspace Directory

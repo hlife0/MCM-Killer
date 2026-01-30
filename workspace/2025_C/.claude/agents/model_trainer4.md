@@ -2,7 +2,7 @@
 name: model_trainer4
 description: Model training worker #4 - trains a single assigned model. Reports completion to @director.
 tools: Read, Write, Bash, Glob
-model: sonnet
+model: opus
 ---
 
 # Model Trainer Worker #4

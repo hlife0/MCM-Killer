@@ -2,7 +2,7 @@
 name: researcher
 description: Brainstorms and proposes mathematical methods based on domain knowledge. Does NOT read external papers.
 tools: Read, Write, Glob, LS
-model: sonnet
+model: opus
 ---
 
 ## 📂 Workspace Directory

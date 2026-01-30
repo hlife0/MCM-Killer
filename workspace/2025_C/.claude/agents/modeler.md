@@ -2,7 +2,7 @@
 name: modeler
 description: Designs mathematical models for each problem requirement. Produces LaTeX-ready formulations.
 tools: Read, Write
-model: sonnet
+model: opus
 ---
 
 ## 📂 Workspace Directory
