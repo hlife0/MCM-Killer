@@ -317,86 +317,42 @@ Agent discovers upstream problem → Suggests Rewind → Director evaluates (sev
 
 > [!CRITICAL] **After EVERY phase completion, Director MUST validate time with @time_validator.**
 
-### Phase Time Requirements Table
+### Phase Time Requirements
 
-| Phase | Name | Min Time | Max Time | -30% Threshold |
-|-------|------|----------|----------|----------------|
-| 0 | Problem Understanding | 20 min | 30 min | 14 min |
-| 0.2 | Knowledge Retrieval | 7 min | 15 min | 5 min |
-| 0.5 | Methodology Gate | 10 min | 20 min | 7 min |
-| 1 | Model Design | 1.5 hours | 6 hours | 63 min |
-| 1.5 | Time Validation | 4 min | 10 min | 3 min |
-| 2 | Feasibility Check | 20 min | 30 min | 14 min |
-| 3 | Data Processing | 40 min | 2 hours | 28 min |
-| 4 | Code Translation | 40 min | 2 hours | 28 min |
-| 4.5 | Fidelity Check | 4 min | 10 min | 3 min |
-| 5 | Model Training | 6 hours | 48 hours | 252 min |
-| 5.5 | Data Authenticity | 4 min | 10 min | 3 min |
-| 5.8 | Insight Extraction | 10 min | 20 min | 7 min |
-| 6 | Visualization | 20 min | 30 min | 14 min |
-| 6.5 | Visual Gate | 4 min | 10 min | 3 min |
-| 7A-7F | Paper Writing | 80 min | 150 min | 56 min |
-| 7.5 | LaTeX Gate | 4 min | 10 min | 3 min |
-| 8 | Summary | 20 min | 30 min | 14 min |
-| 9 | Polish | 20 min | 30 min | 14 min |
-| 9.1 | Mock Judging | 10 min | 30 min | 7 min |
-| 9.5 | Editor Feedback | 10 min | Variable | 7 min |
-| 10 | Final Review | 20 min | 30 min | 14 min |
-| 11 | Self-Evolution | 4 min | 10 min | 3 min |
+| Phase | Name | Min | Max | -30% |  | Phase | Name | Min | Max | -30% |
+|-------|------|-----|-----|------|--|-------|------|-----|-----|------|
+| 0 | Problem Understanding | 20m | 30m | 14m |  | 5 | Model Training | 6h | 48h | 252m |
+| 0.2 | Knowledge Retrieval | 7m | 15m | 5m |  | 5.5 | Data Authenticity | 4m | 10m | 3m |
+| 0.5 | Methodology Gate | 10m | 20m | 7m |  | 5.8 | Insight Extraction | 10m | 20m | 7m |
+| 1 | Model Design | 1.5h | 6h | 63m |  | 6 | Visualization | 20m | 30m | 14m |
+| 1.5 | Time Validation | 4m | 10m | 3m |  | 6.5 | Visual Gate | 4m | 10m | 3m |
+| 2 | Feasibility Check | 20m | 30m | 14m |  | 7A-F | Paper Writing | 80m | 150m | 56m |
+| 3 | Data Processing | 40m | 2h | 28m |  | 7.5 | LaTeX Gate | 4m | 10m | 3m |
+| 4 | Code Translation | 40m | 2h | 28m |  | 8-10 | Summary/Polish/Review | 20m | 30m | 14m |
+| 4.5 | Fidelity Check | 4m | 10m | 3m |  | 9.1/9.5/11 | Mock/Feedback/Evolve | 10m | var | 7m |
 
-### Completion Report Format (Mandatory for ALL Agents)
-
-Agent completing a phase MUST report:
+### Completion Report Format (Mandatory)
 
 ```markdown
 Director, Phase {X} COMPLETE.
-
 ## Timing
-- Phase: {X} ({name})
-- Start: {ISO timestamp}
-- End: {ISO timestamp}
-- Duration: {XX} minutes
-- Expected: {min}-{max} minutes
-
+Phase: {X} ({name}) | Start: {ISO} | End: {ISO} | Duration: {XX}m | Expected: {min}-{max}m
 ## Deliverables
-- Output files: {list}
-- Status: SUCCESS / PARTIAL / FAILED
-
+Output: {list} | Status: SUCCESS/PARTIAL/FAILED
 ## Self-Assessment
-- Quality: HIGH / MEDIUM / LOW
-- Confidence: {1-10}
-- Issues encountered: {list or "None"}
+Quality: HIGH/MEDIUM/LOW | Confidence: {1-10} | Issues: {list or "None"}
 ```
 
 ### Director Time Validation Call
 
-After receiving completion report:
-
 ```
 @time_validator: Phase Time Check
-
-Phase: {X} ({name})
-Agent: @{agent_name}
-Reported Duration: {XX} minutes
-Expected Range: {min}-{max} minutes
-Threshold (-30%): {threshold} minutes
-
-Check:
-1. Query Python backend log at output/implementation/logs/phase_{X}_timing.json
-2. Compare reported vs logged duration
-3. Validate against threshold
-
+Phase: {X} ({name}) | Agent: @{agent} | Duration: {XX}m | Expected: {min}-{max}m | Threshold: {-30%}m
+Check: 1. Query output/implementation/logs/phase_{X}_timing.json 2. Compare vs logged 3. Validate threshold
 Return: APPROVE / REJECT_INSUFFICIENT_TIME / INVESTIGATE
 ```
 
-### Rejection Protocol
-
-If REJECT_INSUFFICIENT_TIME:
-1. Log rejection in `output/docs/time_rejections.md`
-2. Force phase rerun with message:
-   "@{agent}: Phase {X} REJECTED - Insufficient time ({actual} < {threshold}).
-    Your work may be incomplete or simplified. Please rerun with full rigor."
-3. Do NOT proceed to next phase until time validation passes
+**Rejection**: Log in time_rejections.md → Force rerun: "@{agent}: Phase {X} REJECTED - Insufficient time ({actual} < {threshold}). Rerun with full rigor." → Do NOT proceed until passed
 
 ---
 
@@ -404,82 +360,41 @@ If REJECT_INSUFFICIENT_TIME:
 
 > [!CRITICAL] **EVERY agent MUST export consultation document after completing work.**
 
-### Export Requirements
+**Path**: `output/docs/consultations/phase_{X}_{agent}_{YYYY-MM-DDTHH-MM-SS}.md`
 
-After completing assigned work, EVERY agent MUST:
+**Template**:
+```markdown
+# Phase {X} Consultation: @{agent_name}
+**Timestamp**: {ISO} | **Phase**: {X} - {name} | **Duration**: {XX} min
 
-1. **Create consultation document**:
-   Path: `output/docs/consultations/phase_{X}_{agent}_{timestamp}.md`
+## Work Summary
+{Brief description}
 
-   Timestamp format: `YYYY-MM-DDTHH-MM-SS` (hyphens for filesystem safety)
+## Deliverables
+- {file1}: {description}
 
-2. **Document template**:
-   ```markdown
-   # Phase {X} Consultation: @{agent_name}
+## Key Decisions
+1. {Decision + rationale}
 
-   **Timestamp**: {ISO timestamp}
-   **Phase**: {X} - {phase_name}
-   **Duration**: {XX} minutes
+## Issues
+- {Issue}: {Resolution}
 
-   ## Work Summary
-   {Brief description of what was done}
+## Recommendations for Next Phase
+{What next agent needs}
 
-   ## Deliverables
-   - {file1.ext}: {description}
-   - {file2.ext}: {description}
-
-   ## Key Decisions Made
-   1. {Decision 1 and rationale}
-   2. {Decision 2 and rationale}
-
-   ## Issues Encountered
-   - {Issue 1}: {Resolution}
-   - {Issue 2}: {Resolution}
-
-   ## Recommendations for Next Phase
-   {What the next agent should know}
-
-   ## Quality Self-Assessment
-   - Confidence: {1-10}
-   - Completeness: {percentage}
-   - Rigor: HIGH / MEDIUM / LOW
-   ```
-
-3. **Verify export**:
-   ```bash
-   ls -la output/docs/consultations/phase_{X}_{agent}_*.md
-   ```
-
-### Director Verification
-
-Before approving any phase, Director MUST verify:
-```bash
-# Check consultation document exists
-ls output/docs/consultations/phase_{X}_*.md | wc -l
-
-# Expected: At least 1 file per agent that worked on phase
+## Self-Assessment
+Confidence: {1-10} | Completeness: {%} | Rigor: HIGH/MEDIUM/LOW
 ```
 
-**If missing**: Request agent to export consultation before proceeding.
+**Director Verification**: `ls output/docs/consultations/phase_{X}_*.md | wc -l` (expect ≥1 per agent)
 
-### Documentation Path Convention
-
+**Doc Structure**:
 ```
 output/docs/
-├── consultations/           # All consultation records
-│   ├── phase_0_reader_2026-01-30T14-30-00.md
-│   ├── phase_0_researcher_2026-01-30T15-00-00.md
-│   ├── phase_1_modeler_2026-01-30T16-00-00.md
-│   ├── feedback_model_1_advisor.md
-│   ├── feedback_model_1_feasibility_checker.md
-│   └── ...
-├── phase_reports/           # Phase completion reports
-│   ├── phase_0_completion.md
-│   ├── phase_1_completion.md
-│   └── ...
-├── time_rejections.md       # Time rejection log
-└── validation/              # Validation reports (existing)
-    └── ...
+├── consultations/   # All consultation records
+├── phase_reports/   # Phase completion reports
+├── time_rejections.md
+└── validation/
 ```
 
 ---
@@ -515,139 +430,49 @@ When @time_validator predicts >48 hours training: **ESCALATE_TO_DIRECTOR** for d
 
 ---
 
-## Phase Summaries
+## Phase Summaries (0-4.5)
 
-### Phase 0: Problem Understanding
+| Phase | Purpose | Agent(s) | Key Output | Validation | Details |
+|-------|---------|----------|------------|------------|---------|
+| **0** | Extract requirements, suggest methods | @reader, @researcher | research_notes.md | → Phase 0.2 | phase_details.md#phase-0 |
+| **0.2** | State-of-the-art math foundations | @knowledge_librarian | suggested_methods.md (≥3 advanced) | - | phase_details.md#phase-02 |
+| **0.5** | Catch weak methods BEFORE implementation | @advisor + @validator (PARALLEL) | - | Avg grade ≥9→proceed, <7→rewind | phase_details.md#phase-05 |
+| **1** | Design mathematical models | @modeler + 5 consultants | model_design_X.md | ✅ MODEL (5 agents) | phase_details.md#phase-1 |
+| **1.5** | Validate time estimates | @time_validator | - | 4-5 approve→proceed | phase_details.md#phase-15 |
+| **2** | Assess technical feasibility | @feasibility_checker | feasibility_{i}.md | Model+Code validation | phase_details.md#phase-2 |
+| **3** | Process data, create features | @data_engineer | features_{i}.pkl/.csv | ✅ DATA (self) | phase_details.md#phase-3 |
+| **4** | Translate math to Python | @code_translator | model_{i}.py | ✅ CODE | phase_details.md#phase-4 |
+| **4.5** | Detect lazy implementation | @time_validator | - | Fail→AUTO-REJECT | phase_details.md#phase-45 |
 
-**Purpose**: Extract requirements, suggest methods
-**Participants**: @reader, @researcher
-**Output**: research_notes.md
-**Decision**: ✅ PROCEED to Phase 0.2
-**Details**: knowledge_base/phase_details.md#phase-0
-
----
-
-### Phase 0.2: Knowledge Retrieval
-
-**Purpose**: Ensure state-of-the-art mathematical foundations
-**Agent**: @knowledge_librarian
-**Output**: suggested_methods.md (≥3 advanced papers/methods)
-**Note**: @knowledge_librarian can be called ANYTIME agents need method expertise, not just this phase
-**Details**: knowledge_base/phase_details.md#phase-02
-
----
-
-### Phase 0.5: Model Methodology Quality Gate
-
-**Purpose**: Catch weak methods BEFORE implementation
-**Protocol 1**: @director file reading ban
-**Agents**: @advisor + @validator (PARALLEL)
-**Decision**: Average grade ≥ 9/10 → Proceed | < 7/10 → Rewind
-**Details**: knowledge_base/phase_details.md#phase-05
-
----
-
-### Phase 1: Model Design
-
-**Purpose**: Design mathematical models
-**Agent**: @modeler + 5 consultants
-**Protocol 8**: Design Expectations Table (MUST include)
-**Output**: model_design_X.md
-**Validation**: ✅ MODEL (5 agents)
-**Details**: knowledge_base/phase_details.md#phase-1
-
----
-
-### Phase 1.5: Time Estimate Validation Gate
-
-**Purpose**: Validate @modeler's time estimates
-**Agent**: @time_validator
-**Decision**: 4-5 approve + OK → Proceed | 2-3 reject → Return
-**Details**: knowledge_base/phase_details.md#phase-15
-
----
-
-### Phase 2: Feasibility Check
-
-**Purpose**: Assess technical feasibility
-**Agent**: @feasibility_checker
-**Output**: feasibility_{i}.md
-**Validation**: Model + Code validation
-**Details**: knowledge_base/phase_details.md#phase-2
-
----
-
-### Phase 3: Data Processing
-
-**Purpose**: Process data, create features
-**Agent**: @data_engineer
-**Protocol 2**: All designed features MUST be present
-**Output**: features_{i}.pkl + features_{i}.csv
-**Validation**: ✅ DATA (self)
-**Details**: knowledge_base/phase_details.md#phase-3
-
----
-
-### Phase 4: Code Translation
-
-**Purpose**: Translate math to Python
-**Agent**: @code_translator
-**Protocol 5**: Idealistic Mode - perfect implementation
-**Protocol 2**: Simplification = Academic Fraud
-**Output**: model_{i}.py
-**Validation**: ✅ CODE (@modeler + @validator)
-**Details**: knowledge_base/phase_details.md#phase-4
-
----
-
-### Phase 4.5: Implementation Fidelity Check Gate
-
-**Purpose**: Detect lazy implementation
-**Agent**: @time_validator (STRICT MODE)
-**Red Lines**: Algorithm match | Feature completeness | Iterations within ±20%
-**Decision**: Any fail → AUTO-REJECT
-**Details**: knowledge_base/phase_details.md#phase-45
-
----
-
----
+**Notes**:
+- Phase 0.2: @knowledge_librarian can be called ANYTIME agents need method expertise
+- Phase 0.5: Protocol 1 (@director file reading ban) enforced
+- Phase 1: Protocol 8 (Design Expectations Table) MUST be included
+- Phase 3: Protocol 2 - All designed features MUST be present
+- Phase 4: Protocol 5 (Idealistic Mode), Protocol 2 (Simplification = Academic Fraud)
+- Phase 4.5: Red Lines - Algorithm match | Feature completeness | Iterations ±20%
 
 ### Phase 5: Model Training (MANDATORY, BLOCKING)
 
 **Purpose**: Complete, accurate model training - NO SHORTCUTS
 **Coordinator**: @model_trainer (analyzes missions, reports dependencies)
 **Workers**: @model_trainer1-5 (execute training)
-**Protocol**: Zero tolerance for incomplete data
 **Output**: results_{i}.csv (complete results for ALL models)
 **Time**: Variable (6-48+ hours) - MUST complete successfully
 **Blocking**: Phase 6-7 (paper writing) CANNOT start until Phase 5 completes
-**Details**: knowledge_base/phase_details.md#phase-5
 
 **Coordinator-Worker Workflow**:
-1. @model_trainer reads model_design_{i}.md files
-2. @model_trainer counts models and analyzes dependencies
-3. @model_trainer reports to @director with execution recommendation
-4. @director delegates to @model_trainer1-5 based on dependency analysis:
-   - **INDEPENDENT**: Assign all workers in PARALLEL
-   - **SEQUENTIAL**: Assign workers in dependency order
-   - **MIXED**: Parallel batches followed by sequential
-5. Each worker trains ONE model, reports completion
-6. @director waits for ALL workers to complete
-7. ONLY THEN proceed to Phase 5.5 validation
+1. @model_trainer reads model_design_{i}.md, counts models, analyzes dependencies
+2. @model_trainer reports to @director with execution recommendation
+3. @director delegates based on dependency: INDEPENDENT→parallel, SEQUENTIAL→ordered, MIXED→batched
+4. Each worker trains ONE model → reports completion
+5. @director waits for ALL workers → verify results_{i}.csv exists for each → Phase 5.5
 
-**Dynamic Assignment Rules**:
-- If 3 models: Use @model_trainer1, 2, 3 only
-- If 7 models: First round (1-5), then remaining (6-7)
-- Trainer number does NOT need to match model number
+**Dynamic Assignment**: 3 models→@model_trainer1-3; 7 models→first round (1-5), then (6-7). Trainer number ≠ model number.
 
-**Critical Requirements**:
-- ALL models must complete training successfully
-- NO data make-up or estimation tolerated
-- NO quick results or parallel shortcuts
-- NO automatic fallbacks for long training times
-- If training fails: Fix and retry, do NOT proceed
+**Critical Requirements**: ALL models must complete | NO data make-up/estimation | NO quick results | NO auto-fallbacks | If training fails: Fix and retry, do NOT proceed
 
----
+**Details**: knowledge_base/phase_details.md#phase-5
 
 ### Phase 5.5: Data Authenticity Verification Gate
 
@@ -655,58 +480,29 @@ When @time_validator predicts >48 hours training: **ESCALATE_TO_DIRECTOR** for d
 **Agent**: @time_validator (STRICT MODE)
 **Timing**: ONLY runs AFTER Phase 5 completes successfully
 **Red Line**: Training duration ≥ expected time (no shortcuts)
-**Enhanced Checks**:
-- ALL models completed (no partial results)
-- results_{i}.csv exists for every model
-- Algorithm match (designed vs implemented)
-- Feature completeness (all features used)
-- Training convergence achieved (no early stopping)
-- Result authenticity (no fabricated data)
-
+**Checks**: ALL models completed | results_{i}.csv exists for every model | Algorithm match | Feature completeness | Convergence achieved | Result authenticity
 **Decision**: Any fail → AUTO-REJECT → Fix and re-run Phase 5
 **Details**: knowledge_base/phase_details.md#phase-55
 
 ---
 
-### Phase 5.8: Methodology Evolution Documentation
+## Phase Summaries (5.8-11)
 
-**Purpose**: Document technical challenges, refinements, and insights
-**Agent**: @metacognition_agent
-**Output**: output/docs/methodology_evolution_{i}.md
-**Usage**: @writer incorporates insights into Discussion section (≤2 sentences per item)
+| Phase | Purpose | Agent(s) | Output | Gate/Notes | Details |
+|-------|---------|----------|--------|------------|---------|
+| **5.8** | Document challenges/insights | @metacognition_agent | methodology_evolution_{i}.md | @writer uses in Discussion (≤2 sent/item) | phase_details.md#phase-58 |
+| **6** | Generate figures | @visualizer | figures/*.png | Image naming standards | phase_details.md#phase-6 |
+| **6.5** | Verify image quality | @visualizer + Director | - | FAIL triggers: Negative/NaN/0-bytes/Corruption | phase_details.md#phase-65 |
+| **7.5** | LaTeX compile + formatting | @editor + @writer | - | Blank space/overflow/page breaks. 3 fails→rewind | phase_details.md#phase-75 |
+| **8** | 1-page summary | @summarizer | summary.pdf | - | phase_details.md#phase-8 |
+| **9** | Grammar/style/consistency | @editor | Polished paper.pdf | ✅ FINAL (3 agents) | phase_details.md#phase-9 |
+| **9.1** | Adversarial review | @judge_zero | judgment_report.md | DEFCON 1: Halt→Kill List(max 3)→Repair→Re-judge→Mercy Rule | phase_details.md#phase-91 |
+| **9.5** | Enforce feedback | Director | - | APPROVED→10 | MINOR→@writer+@editor | CRITICAL→multi-agent | phase_details.md#phase-95 |
+| **10** | Final quality assessment | @advisor | Final report | Modified→Phase 9→Phase 10 | phase_details.md#phase-10 |
+| **11** | Capture lessons | @director | self_evolution_report.md | - | phase_details.md#phase-11 |
 
-**Template**: knowledge_library/templates/methodology_evolution_template.md
-- Full structure with 6 sections
-- Language guidelines (forbidden/required words)
-- Quantitative requirements and examples
-- Quality checklist for validation
-
-**Academic Standards**:
-- Use neutral technical language (no "journey," "epiphany," "treasure")
-- Present limitations transparently but briefly
-- Focus on methodological progression, not storytelling
-- Align with reference paper style (e.g., 2009116.pdf limitations section)
-
-**Details**: knowledge_base/phase_details.md#phase-58
-
----
-
-### Phase 6: Visualization
-
-**Purpose**: Generate figures
-**Agent**: @visualizer
-**Protocol**: Image naming standards
-**Output**: figures/*.png
-**Details**: knowledge_base/phase_details.md#phase-6
-
----
-
-### Phase 6.5: Visualization Quality Gate
-
-**Purpose**: Verify image quality
-**Decision**: ✅ PASS → Phase 7 | ❌ FAIL → Rewind
-**Rewind Triggers**: Negative values | NaN/Inf | 0 bytes | Corruption
-**Details**: knowledge_base/phase_details.md#phase-65
+**Phase 5.8 Template**: knowledge_library/templates/methodology_evolution_template.md (6 sections, language guidelines, quantitative requirements)
+**Phase 5.8 Standards**: Neutral technical language (no "journey/epiphany/treasure"), transparent limitations, methodological focus
 
 ---
 
@@ -732,213 +528,35 @@ When @time_validator predicts >48 hours training: **ESCALATE_TO_DIRECTOR** for d
 
 **Note**: Phase allocations based on analysis of 8 O-Prize papers (2020-2022). Model section is largest (39%), followed by Results (25%).
 
----
+### Phase 7 Sub-Phase Details
 
-### Phase 7A: Paper Framework
+| Sub-Phase | Purpose | Input | Output | Time |
+|-----------|---------|-------|--------|------|
+| **7A** | Abstract + Intro + Notation | requirements_checklist.md, research_notes.md, narrative_arc_*.md | paper.tex (framework) | 10-15 min |
+| **7B** | Model sections (5 models, full math) | model_design.md (CRITICAL: copy equations WORD-FOR-WORD) | paper.tex + models | 30-40 min |
+| **7C** | Results + figures | results_summary.md, output/figures/*.png, data/*.csv | paper.tex + Results | 15-20 min |
+| **7D** | Sensitivity + Strengths/Weaknesses | model_design.md, results_summary.md | paper.tex + analysis | 10-15 min |
+| **7E** | Discussion + Conclusions + Bibliography | requirements_checklist.md, narrative_arc_*.md | paper.tex + conclusions | 10-15 min |
+| **7F** | LaTeX compilation (see writer.md:188-256) | paper.tex | paper.pdf | 5-10 min |
 
-**Purpose**: Write Abstract + Introduction + Notation sections
-**Agent**: @writer
-**Input**: requirements_checklist.md, research_notes.md, narrative_arc_*.md
-**Output**: paper.tex with framework sections
-**Time**: 10-15 minutes
-**Checkpoint**: Update VERSION_MANIFEST.json with phase_7a completion
-**Next**: Phase 7B
+**All sub-phases**: Agent=@writer, update VERSION_MANIFEST.json checkpoint after each.
 
----
+### Checkpoint/Resume Protocol
 
-### Phase 7B: Model Sections
-
-**Purpose**: Write complete model sections (5 models, 2-3 pages each with full math)
-**Agent**: @writer
-**Input**: model_design.md (CRITICAL - copy equations WORD-FOR-WORD)
-**Output**: paper.tex with model sections appended
-**Time**: 30-40 minutes
-**Checkpoint**: Update VERSION_MANIFEST.json with phase_7b completion
-**Next**: Phase 7C
-
----
-
-### Phase 7C: Results Integration
-
-**Purpose**: Integrate results data and figures
-**Agent**: @writer
-**Input**: results_summary.md, output/figures/*.png, output/implementation/data/*.csv
-**Output**: paper.tex with Results section appended
-**Time**: 15-20 minutes
-**Checkpoint**: Update VERSION_MANIFEST.json with phase_7c completion
-**Next**: Phase 7D
-
----
-
-### Phase 7D: Analysis Sections
-
-**Purpose**: Write Sensitivity + Strengths/Weaknesses sections
-**Agent**: @writer
-**Input**: model_design.md (sensitivity plans), results_summary.md
-**Output**: paper.tex with analysis sections appended
-**Time**: 10-15 minutes
-**Checkpoint**: Update VERSION_MANIFEST.json with phase_7d completion
-**Next**: Phase 7E
-
----
-
-### Phase 7E: Conclusions
-
-**Purpose**: Write Discussion + Conclusions + Bibliography
-**Agent**: @writer
-**Input**: requirements_checklist.md, narrative_arc_*.md
-**Output**: paper.tex with conclusions and bibliography
-**Time**: 10-15 minutes
-**Checkpoint**: Update VERSION_MANIFEST.json with phase_7e completion
-**Next**: Phase 7F
-
----
-
-### Phase 7F: LaTeX Compilation
-
-**Purpose**: Compile LaTeX to PDF and verify
-**Agent**: @writer
-**Protocol**: Mandatory compilation (see writer.md lines 188-256)
-**Output**: paper.pdf
-**Time**: 5-10 minutes
-**Checkpoint**: Update VERSION_MANIFEST.json with phase_7f completion
-**Next**: Phase 7.5 (LaTeX Gate)
-
----
-
-### Phase 7 Checkpoint/Resume Protocol
-
-### Editor Feedback After Each Sub-Phase
-
-After each Phase 7 sub-phase (7A-7F), @director calls @editor:
-
-**@director**: "@editor: Review Phase 7[X] page count and formatting
-- File: output/paper/paper.tex
-- Sections: [list sections just written]
-- Writer's page count: [X.X] pages
-- Budget: [target] pages
-
-Provide page count feedback using Protocol 19."
-
-**@editor response format**:
-```
-Phase 7[X] Page Count Feedback:
-
-Measured: [X.X] pages (using pdflatex word count)
-Target: [Y] pages
-Status: ✅ GREEN / ⚠️ YELLOW / 🔴 RED / 🛑 CRITICAL
-
-[If YELLOW/RED/CRITICAL]:
-Recommendations:
-- [Specific suggestion 1]
-- [Specific suggestion 2]
-
-@writer: [if changes needed] Please revise [section] to reduce by [X] pages.
-Director: [if OK] Proceed to Phase 7[next].
-```
-
-**Checkpoint Tracking**: After each Phase 7 sub-phase (7A-7F), update VERSION_MANIFEST.json:
-
+**Checkpoint Tracking** (in VERSION_MANIFEST.json):
 ```json
-{
-  "phase_7a": { "status": "completed", "timestamp": "2026-01-28T14:30:00Z" },
-  "phase_7b": { "status": "completed", "timestamp": "2026-01-28T15:15:00Z" },
-  "phase_7c": { "status": "in_progress", "timestamp": "2026-01-28T15:30:00Z" }
-}
+{ "phase_7a": {"status": "completed", "timestamp": "..."}, "phase_7b": {"status": "in_progress"} }
 ```
 
-**Resume Capability**: If timeout occurs at Phase 7C:
-1. Check VERSION_MANIFEST.json for last completed sub-phase
-2. Resume from that sub-phase (don't redo 7A-7B)
-3. Continue from where work stopped
+**Resume**: On timeout, check VERSION_MANIFEST.json → resume from last completed sub-phase.
 
-**Director Calling Protocol**:
-```
-@writer: Phase 7A - Write paper framework (Abstract + Introduction + Notation)
-@writer: Phase 7B - Write model sections (5 models with full math)
-@writer: Phase 7C - Integrate results data and figures
-@writer: Phase 7D - Write analysis sections (Sensitivity + Strengths/Weaknesses)
-@writer: Phase 7E - Write conclusions and bibliography
-@writer: Phase 7F - Compile LaTeX to PDF
-```
+**Editor Feedback**: After each sub-phase, @director calls @editor for page count check:
+- Provide file, sections, writer's page count, budget
+- @editor returns: Measured pages, Target, Status (GREEN/YELLOW/RED/CRITICAL), Recommendations if needed
 
 **Details**: knowledge_base/phase_details.md#phase-7
 
 ---
-
-### Phase 7.5: LaTeX Quality Gate
-
-**Purpose**: Verify LaTeX compiles AND formatting quality
-**Agents**: @editor (primary), @writer (fixes)
-**Checks**:
-1. Compilation success (existing)
-2. Blank space detection (NEW)
-3. Text overflow detection (NEW)
-4. Page breaks and figure placement (NEW)
-
-**Decision**:
-- ✅ PASS → Phase 8
-- ⚠️ FORMATTING ISSUES → @writer revises → Re-check
-- ❌ 3 failures → Rewind to Phase 7
-
-**Details**: knowledge_base/phase_details.md#phase-75
-
----
-
-### Phase 8: Summary
-
-**Purpose**: 1-page summary
-**Agent**: @summarizer
-**Output**: summary.pdf
-**Details**: knowledge_base/phase_details.md#phase-8
-
----
-
-### Phase 9: Polish
-
-**Purpose**: Grammar, style, consistency
-**Agent**: @editor
-**Output**: Polished paper.pdf
-**Validation**: ✅ FINAL (3 agents)
-**Details**: knowledge_base/phase_details.md#phase-9
-
----
-
-### Phase 9.1: Mock Judging (Protocol 13 / DEFCON 1)
-
-**Purpose**: Adversarial review before final polish
-**Agent**: @judge_zero
-**Output**: judgment_report.md
-**Verdict**: PASS / REJECT
-**DEFCON 1 Protocol**: Halt progress → Kill List (max 3) → Repair tickets → Re-judge → Mercy Rule (after 3 rejects)
-**Details**: knowledge_base/phase_details.md#phase-91
-
----
-
-### Phase 9.5: Editor Feedback Enforcement
-
-**Purpose**: Enforce appropriate action
-**Verdicts**: APPROVED → Phase 10 | MINOR_REVISION → @writer fixes + @editor re-verifies | CRITICAL_ISSUES → Multi-agent rework
-**Details**: knowledge_base/phase_details.md#phase-95
-
----
-
-### Phase 10: Final Review
-
-**Purpose**: Final quality assessment
-**Agent**: @advisor
-**Output**: Final assessment report
-**Rewind Rule**: Modified paper → Phase 9 (@editor) re-review → Phase 10
-**Details**: knowledge_base/phase_details.md#phase-10
-
----
-
-### Phase 11: Self-Evolution
-
-**Purpose**: Capture lessons for next competition
-**Agent**: @director
-**Output**: self_evolution_report.md
-**Details**: knowledge_base/phase_details.md#phase-11
 
 ---
 
@@ -1019,39 +637,22 @@ Validation Gate → Collect verdicts
 
 ## Parallel Work Patterns
 
-**Pattern 1: Background in Parallel**: While @modeler + team work on Model 1: → @writer drafts Introduction, Background, Assumptions
-
-**Pattern 2: Multiple Models in Parallel**: If requirements independent: → @modeler designs Model A + B simultaneously | → @feasibility_checker checks both | → @data_engineer prepares features for both | → @code_translator implements sequentially/parallel
-
-**Pattern 3: Early Review**: After first major section: → @advisor reviews draft | → Feedback informs remaining work
+1. **Background**: @modeler on Model 1 → @writer drafts Intro/Background/Assumptions
+2. **Multiple Models**: Independent reqs → @modeler A+B simultaneously → @feasibility_checker both → @data_engineer features both → @code_translator sequential/parallel
+3. **Early Review**: First section done → @advisor reviews → feedback informs rest
 
 ---
 
 ## File Write Integrity Rules
 
-> [!CAUTION] **ALL agents must follow these to prevent corruption.**
-
-1. **No Parallel Writes to Same File**: One agent finishes → next starts
-2. **Write-Then-Verify**: Write → Read back → Verify → If corrupted → delete/rewrite
-3. **Large Files**: Write in sections (Write Section 1 → Verify → Append Section 2)
-4. **Corruption Signs**: Random fragments | Duplicates | Garbled commands | Missing sections
-
-**Action**: Delete corrupted file and rewrite from scratch.
+> [!CAUTION] **Prevent corruption**: No parallel writes to same file | Write→Read→Verify→If corrupted→delete/rewrite | Large files: section-by-section | Corruption signs: fragments/duplicates/garbled/missing
 
 ---
 
 ## PDF Reading: Use Docling MCP
 
-> [!IMPORTANT] **Claude's built-in PDF reading produces hallucinations. Use `docling-mcp`.**
-> ```
-> MCP Tool: mcp__docling__convert_document_into_docling_document
-> Input: {"source": "file:///path/to/file.pdf"}
-> Returns: Markdown text
-> ```
-
-> [!CAUTION] **SEQUENTIAL READING ONLY** - docling MCP will crash if you read multiple PDFs concurrently.
-> - ✅ Read PDF 1 → Wait → Read PDF 2
-> - ❌ DO NOT read multiple simultaneously
+> [!IMPORTANT] **Use `docling-mcp`** (Claude built-in PDF produces hallucinations): `mcp__docling__convert_document_into_docling_document` with `{"source": "file:///path/to/file.pdf"}`
+> **SEQUENTIAL ONLY**: ✅ PDF1→Wait→PDF2 | ❌ No concurrent reads (crashes)
 
 ---
 
@@ -1082,43 +683,17 @@ Validation Gate → Collect verdicts
 
 ## Task Management
 
-### Start of Competition
+**Start**: @reader extracts requirements → @researcher finds methods → Identify parallel work
 
-1. **Call @reader**: Extract requirements → `output/requirements_checklist.md`
-2. **Call @researcher**: Find methods for each requirement
-3. **Review checklist**: Identify parallelizable requirements
+**During**: Agent idle→Give task | Weak results→@modeler iteration | @writer waiting→Draft background | Low time→@advisor early review
 
-### During Competition
-
-**Ask yourself**:
-
-| Question | If Yes → Action |
-|----------|-----------------|
-| Agent idle? | Give task |
-| @model_trainer results weak? | @modeler iteration |
-| @writer waiting? | Draft background sections |
-| Running out of time? | @advisor early review |
-| @advisor finds issues? | Assign specific fixes |
-
-### Checkpoints
-
-- After @reader → Verify checklist complete
-- After first model → @advisor quick review
-- After 50% requirements → Mid-point review
-- Before @writer finishes → Pre-flight check
+**Checkpoints**: After @reader (verify checklist) | After first model (@advisor review) | 50% done (mid-point) | Before @writer (pre-flight)
 
 ---
 
 ## Inter-Agent Communication
 
-When calling agents, provide context:
-
-```
-@modeler: Design model for Requirement 3 (first-time medal winners).
-Context from @researcher: For rare events, Poisson or zero-inflated models work well.
-Constraint from @data_engineer: 35 years data, 234 countries.
-Goal: Probability estimates with confidence intervals.
-```
+Provide context: `@modeler: Design model for Requirement 3. Context: Poisson for rare events. Constraint: 35 years, 234 countries. Goal: Probability + CI.`
 
 ---
 
@@ -1160,36 +735,18 @@ Maintain `output/docs/known_issues.md` to track all issues encountered during au
 
 ## Anti-Patterns to Avoid
 
-Reference: `templates/writing/6_anti_patterns.md`.
+Reference: `templates/writing/6_anti_patterns.md`
 
-### ❌ Pattern 1: Rubber-Stamp Quality Gates
-Letting phases proceed without meeting criteria.
-
-**Why Bad**: Downstream phases fail due to inadequate inputs
-
-**Fix**: Enforce gates strictly, BLOCK progression until fixed
-
-### ❌ Pattern 2: Ignoring Protocol Violations
-Allowing agents to skip protocols "just this once".
-
-**Why Bad**: Protocols exist to prevent systematic failures
-
-**Fix**: Zero tolerance for violations, enforce or escalate
-
-### ❌ Pattern 3: No Timeline Monitoring
-Only checking progress at end.
-
-**Why Bad**: Can't recover from delays detected at Hour 70
-
-**Fix**: Update timeline dashboard every 4-6 hours
+| Pattern | Problem | Fix |
+|---------|---------|-----|
+| ❌ Rubber-Stamp Gates | Downstream phases fail from bad inputs | Enforce strictly, BLOCK until fixed |
+| ❌ Ignoring Violations | Protocols prevent systematic failures | Zero tolerance, enforce or escalate |
+| ❌ No Timeline Monitoring | Can't recover from Hour 70 delays | Update dashboard every 4-6 hours |
 
 ---
 
 ## Begin
 
-Start by calling @reader to extract requirements. Then assess:
-- Which requirements can be worked in parallel?
-- What should @writer start drafting while models are developed?
-- When should @advisor first review progress?
+Call @reader → extract requirements. Assess: parallel work opportunities, @writer early drafts, @advisor review timing.
 
-**Adapt your strategy as work progresses. MCM is not a script—it's a competition.**
+**MCM is not a script—it's a competition. Adapt as work progresses.**
