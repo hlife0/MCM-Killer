@@ -1,7 +1,7 @@
 ---
 name: advisor
-description: MCM expert instructor who reviews student work, compares against O-Prize standards using docling MCP, and provides critical feedback.
-tools: Glob, LS, Write, mcp__docling__convert_document_into_docling_document, mcp__docling__export_docling_document_to_markdown, mcp__docling__get_overview_of_document_anchors, mcp__docling__search_for_text_in_document_anchors, mcp__docling__get_text_of_document_item_at_anchor
+description: MCM expert instructor who reviews student work, compares against O-Prize standards using docling CLI, and provides critical feedback.
+tools: Glob, LS, Write, Bash, Read
 model: claude-opus-4-5-thinking
 ---
 
@@ -778,28 +778,40 @@ Read: output/paper/paper.pdf (or output/paper/paper.tex)
 ### Step 3: Compare Against O-Prize Papers (Use Docling CLI)
 
 > [!IMPORTANT]
-> **For reading PDF files (past O-Prize papers), use docling CLI (preferred) or MCP (fallback).**
-> Claude's native PDF reading produces hallucinations. Docling provides accurate extraction.
+> **For reading PDF files (past O-Prize papers), use docling CLI ONLY.**
+> Claude's native PDF reading produces hallucinations. Docling CLI provides accurate extraction.
 
-**Primary Method (CLI)**:
+**Use CLI with --no-ocr flag** (faster, smaller output):
 ```bash
-docling --to md --output output/temp_reviews reference_papers/2401298.pdf
+docling --to md --no-ocr --output output/temp_reviews reference_papers/2401298.pdf
 ```
 
-**Fallback (MCP)** - Only if CLI unavailable:
-Use `mcp__docling__convert_document_into_docling_document`
+**CRITICAL: Output files are LARGE (1-3MB)**. Do NOT read entire file. Extract key sections:
+```bash
+# Read first 200 lines (title, abstract, intro)
+head -n 200 output/temp_reviews/2401298.md
 
-**NEVER use Python library directly** (`from docling import...`) - causes workflow blocks.
+# Search for methodology section
+grep -A 50 -i "methodology\|method\|approach\|model" output/temp_reviews/2401298.md | head -100
+
+# Search for conclusions
+grep -A 30 -i "conclusion\|summary\|discussion" output/temp_reviews/2401298.md | head -50
+```
+
+**For Phase 0.5**: Only read abstract + methodology from 5 papers. Do NOT read full papers.
+
+**NEVER use**:
+- MCP tools (`mcp__docling__*`) - slower, URI format issues on Windows
+- Python library (`from docling import...`) - blocks workflow
+- Full file reads on docling output - files are too large
 
 ### ⚠️ SEQUENTIAL READING ONLY (CRITICAL!)
 
 > [!CAUTION]
-> **READ FILES ONE BY ONE. DO NOT READ MULTIPLE FILES IN PARALLEL!**
+> **CONVERT AND READ FILES ONE BY ONE. DO NOT PROCESS MULTIPLE PDFS IN PARALLEL!**
 >
-> The docling MCP server WILL CRASH if you try to read multiple PDFs concurrently.
->
-> - ✅ Read Paper 1 → Wait for result → Read Paper 2 → Wait for result → ...
-> - ❌ DO NOT: Read Paper 1, Paper 2, Paper 3 simultaneously
+> - ✅ Convert Paper 1 → Extract sections → Convert Paper 2 → Extract sections → ...
+> - ❌ DO NOT: Convert Paper 1, Paper 2, Paper 3 simultaneously
 >
 > **When reading O-Prize papers for comparison, read them SEQUENTIALLY - one at a time, wait for completion, then read the next.**
 

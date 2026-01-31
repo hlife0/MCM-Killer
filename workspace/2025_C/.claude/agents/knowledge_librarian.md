@@ -109,22 +109,28 @@ template = "Title: {TITLE}".format_map(safe_dict)
 
 ## 📄 Reading O-Prize Papers (Use Docling CLI)
 
-> [!CRITICAL] **Use docling CLI to read PDFs. Do NOT use Python library directly.**
+> [!CRITICAL] **Use docling CLI to read PDFs. Do NOT use Python library or MCP.**
 
-**Primary Method (CLI)**:
+**Use CLI with --no-ocr flag** (faster, smaller output):
 ```bash
-docling --to md --output output/reference_papers reference_papers/2401298.pdf
+docling --to md --no-ocr --output output/reference_papers reference_papers/2401298.pdf
 ```
 
-**Read exactly 5 papers** for calibration. Each takes 3-5 minutes via CLI.
+**Read exactly 5 papers** for calibration. Each takes 2-3 minutes via CLI.
 
-**Fallback (MCP)** - Only if CLI fails:
-```
-mcp__docling__convert_document_into_docling_document
-source: "file:///D:/path/to/paper.pdf"
+**CRITICAL: Output files are LARGE (1-3MB)**. Do NOT read entire file. Extract key sections:
+```bash
+# Read first 200 lines (title, abstract, intro)
+head -n 200 output/reference_papers/2401298.md
+
+# Search for methodology section
+grep -A 50 -i "methodology\|method\|approach" output/reference_papers/2401298.md | head -100
 ```
 
-**NEVER use Python library directly** (`from docling import...`) - it's slow and blocks workflow.
+**NEVER use**:
+- MCP tools (`mcp__docling__*`) - slower, URI issues
+- Python library (`from docling import...`) - blocks workflow
+- Full file reads on docling output - files too large
 
 ---
 
