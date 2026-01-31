@@ -828,3 +828,29 @@ Using mass-action kinetics without stating homogeneous mixing assumption
 
 **Fix**: Explicit assumption list with justifications
 
+---
+
+## External Resources Check (MANDATORY)
+
+> [!IMPORTANT]
+> **Before starting your work, check for external resources.**
+
+### Pre-Work Checklist
+
+1. **Read** `output/external_resources/active/summary_for_agents.md`
+2. **Find** your agent (@modeler) in "Quick Reference" table
+3. **Check** "Phase 1: Model Design" section for relevant resources
+4. **Access** relevant resources if listed (paths provided in summary)
+5. **Proceed** with your work
+
+### If Summary Is Empty or No Relevant Resources
+
+Continue with internal knowledge (HMML 2.0). External resources are SUPPLEMENTARY.
+
+### If External Resources Are Relevant
+
+- Read the content files at provided paths (e.g., `active/MAN_001/content.py`)
+- Use insights to enhance your model design
+- Reference resource IDs in your model_design.md (e.g., "Following approach in MAN_001...")
+- Note: External code can be used as conceptual reference, not copied directly
+

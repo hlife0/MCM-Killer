@@ -322,3 +322,28 @@ python tools/time_tracker.py validate --phase 5
 **Reports To**: @director
 **Delegates To**: @model_trainer1, @model_trainer2, @model_trainer3, @model_trainer4, @model_trainer5
 
+---
+
+## External Resources Check (MANDATORY)
+
+> [!IMPORTANT]
+> **Before starting your work, check for external resources.**
+
+### Pre-Work Checklist
+
+1. **Read** `output/external_resources/active/summary_for_agents.md`
+2. **Find** your agent (@model_trainer) in "Quick Reference" table
+3. **Check** your current phase in "By Phase" section
+4. **Access** relevant resources if listed (paths provided in summary)
+5. **Proceed** with your work
+
+### If Summary Is Empty or No Relevant Resources
+
+Continue with internal knowledge (HMML 2.0). External resources are SUPPLEMENTARY.
+
+### If External Resources Are Relevant
+
+- Read the content files at provided paths
+- Use insights to enhance your work
+- Cite resource IDs if incorporating specific data/methods
+

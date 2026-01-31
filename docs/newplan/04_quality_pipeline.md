@@ -8,28 +8,41 @@
 ## Pipeline Overview
 
 ```
-┌─────────────────┐
-│  @web_crawler   │
-│  fetches to     │
-│  staging/       │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────────────────────────────────────────────┐
-│                  QUALITY GATEWAY                         │
-│  ┌───────────────────────────────────────────────────┐  │
-│  │              @quality_checker                      │  │
-│  │                                                    │  │
-│  │  1. Source Credibility (25%)                      │  │
-│  │  2. Content Relevance (30%)                       │  │
-│  │  3. Content Quality (25%)                         │  │
-│  │  4. Actionability (20%)                           │  │
-│  │                                                    │  │
-│  │  Total = Weighted Sum                             │  │
-│  └───────────────────────────────────────────────────┘  │
-└────────┬──────────────────┬──────────────────┬──────────┘
+┌─────────────────────┐
+│ User drops files in │
+│      inbox/         │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│ @resource_ingestor  │
+│  processes to       │
+│  staging/           │
+│  + SHA-256 hash     │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────────────────────────────────────────────┐
+│                     QUALITY GATEWAY                          │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │              @quality_checker                          │  │
+│  │                                                        │  │
+│  │  FOR CODE FILES (.py, .m, .cpp):                      │  │
+│  │  ⚠️ SYNTAX CHECK FIRST (HARD CONSTRAINT)              │  │
+│  │  If syntax fails → AUTO-REJECT (skip scoring)         │  │
+│  │                                                        │  │
+│  │  DOCUMENTS:                  CODE:                     │  │
+│  │  1. Credibility (25%)       1. Credibility (15%)      │  │
+│  │  2. Relevance (30%)         2. Relevance (25%)        │  │
+│  │  3. Quality (25%)           3. Quality (20%)          │  │
+│  │  4. Actionability (20%)     4. Actionability (40%)    │  │
+│  │                                                        │  │
+│  │  Total = Weighted Sum                                  │  │
+│  └───────────────────────────────────────────────────────┘  │
+└────────┬──────────────────┬──────────────────┬──────────────┘
          │                  │                  │
-    >= 7.0             5.0-6.9              < 5.0
+    >= 7.0             5.0-6.9              < 5.0 OR
+    + syntax OK        + syntax OK          syntax FAIL
          │                  │                  │
          ▼                  ▼                  ▼
    ┌──────────┐      ┌──────────────┐    ┌──────────┐
@@ -38,6 +51,83 @@
    │          │      │ (warnings)   │    │          │
    └──────────┘      └──────────────┘    └──────────┘
 ```
+
+---
+
+## Code Syntax Check (HARD CONSTRAINT)
+
+**For code files (.py, .m, .cpp, .c, .java, .r, .jl), syntax must pass BEFORE scoring.**
+
+```python
+import ast
+import subprocess
+
+def check_syntax(filepath: str, language: str) -> tuple[bool, str]:
+    """Check syntax of code file. Returns (passed, error_message)."""
+
+    if language == "python":
+        try:
+            with open(filepath, encoding='utf-8') as f:
+                ast.parse(f.read())
+            return True, "Syntax OK"
+        except SyntaxError as e:
+            return False, f"Python SyntaxError: {e.msg} at line {e.lineno}"
+
+    elif language == "matlab":
+        # MATLAB syntax check via mlint if available
+        try:
+            result = subprocess.run(
+                ["mlint", "-id", filepath],
+                capture_output=True, text=True, timeout=30
+            )
+            if "Error" in result.stdout or result.returncode != 0:
+                return False, f"MATLAB errors: {result.stdout[:200]}"
+            return True, "MATLAB syntax OK"
+        except FileNotFoundError:
+            return True, "MATLAB mlint not available, syntax check skipped"
+
+    elif language in ["cpp", "c"]:
+        # C/C++ syntax check via gcc -fsyntax-only
+        try:
+            result = subprocess.run(
+                ["gcc", "-fsyntax-only", filepath],
+                capture_output=True, text=True, timeout=30
+            )
+            if result.returncode != 0:
+                return False, f"C/C++ errors: {result.stderr[:200]}"
+            return True, "C/C++ syntax OK"
+        except FileNotFoundError:
+            return True, "GCC not available, syntax check skipped"
+
+    else:
+        return True, f"Syntax check not implemented for {language}"
+```
+
+**AUTO-REJECT on Syntax Failure**: If syntax check fails, resource is REJECTED without scoring.
+
+---
+
+## Scoring Weights
+
+### Standard Weights (Documents)
+
+| Criterion | Weight | Description |
+|-----------|--------|-------------|
+| Source Credibility | 25% | Academic rigor, institutional backing |
+| Content Relevance | 30% | Direct applicability to problem |
+| Content Quality | 25% | Completeness, readability |
+| Actionability | 20% | Practical utility |
+
+### Code Weights (.py, .m, .cpp, etc.)
+
+| Criterion | Weight | Description |
+|-----------|--------|-------------|
+| Source Credibility | **15%** | Less important for code |
+| Content Relevance | **25%** | Applicable to our problem |
+| Content Quality | **20%** | Readability, documentation |
+| **Actionability** | **40%** | **Can it run? Does it work?** |
+
+**Rationale**: Code that doesn't run is useless regardless of other qualities.
 
 ---
 
@@ -136,28 +226,47 @@ Measures practical utility for implementation.
 ## Score Calculation
 
 ```python
-def calculate_quality_score(scores: dict) -> float:
-    """Calculate weighted quality score."""
-    weights = {
-        "credibility": 0.25,
-        "relevance": 0.30,
-        "quality": 0.25,
-        "actionability": 0.20
-    }
+def calculate_quality_score(scores: dict, is_code: bool = False) -> float:
+    """Calculate weighted quality score based on resource type."""
+
+    # Select weights based on resource type
+    if is_code:
+        weights = {
+            "credibility": 0.15,
+            "relevance": 0.25,
+            "quality": 0.20,
+            "actionability": 0.40
+        }
+    else:
+        weights = {
+            "credibility": 0.25,
+            "relevance": 0.30,
+            "quality": 0.25,
+            "actionability": 0.20
+        }
 
     total = sum(scores[k] * weights[k] for k in weights)
     return round(total, 1)
 
-# Example
-scores = {
+# Example - Document
+doc_scores = {
     "credibility": 8,      # arXiv preprint
     "relevance": 9,        # directly addresses our approach
     "quality": 7,          # good extraction, minor issues
     "actionability": 8     # clear methodology
 }
-
-total = (8 * 0.25) + (9 * 0.30) + (7 * 0.25) + (8 * 0.20)
+# = (8 * 0.25) + (9 * 0.30) + (7 * 0.25) + (8 * 0.20)
 # = 2.0 + 2.7 + 1.75 + 1.6 = 8.05 → APPROVED
+
+# Example - Code
+code_scores = {
+    "credibility": 7,      # GitHub repo
+    "relevance": 9,        # directly applicable
+    "quality": 8,          # well-documented
+    "actionability": 9     # runs, has tests
+}
+# = (7 * 0.15) + (9 * 0.25) + (8 * 0.20) + (9 * 0.40)
+# = 1.05 + 2.25 + 1.6 + 3.6 = 8.5 → APPROVED
 ```
 
 ---
@@ -166,9 +275,12 @@ total = (8 * 0.25) + (9 * 0.30) + (7 * 0.25) + (8 * 0.20)
 
 | Score Range | Verdict | Action | Notification |
 |-------------|---------|--------|--------------|
-| **>= 7.0** | APPROVED | Migrate to `active/` | "Resource approved and available" |
-| **5.0 - 6.9** | CONDITIONAL | Migrate with warnings | "Resource approved with cautions" |
+| **>= 7.0** + syntax OK | APPROVED | Migrate to `active/` | "Resource approved and available" |
+| **5.0 - 6.9** + syntax OK | CONDITIONAL | Migrate with warnings | "Resource approved with cautions" |
 | **< 5.0** | REJECTED | Move to `rejected/` | "Resource rejected, see reasons" |
+| **Syntax FAIL** | **AUTO-REJECT** | Move to `rejected/` | "SYNTAX FAILURE: {error}" |
+
+**Code Hard Constraint**: Syntax failure = AUTO-REJECT regardless of other scores.
 
 ---
 
@@ -176,19 +288,21 @@ total = (8 * 0.25) + (9 * 0.30) + (7 * 0.25) + (8 * 0.20)
 
 Each reviewed resource gets a quality report:
 
+### Document Report Example
+
 ```markdown
-# Quality Report: WEB_20260131_abc123
+# Quality Report: MAN_20260131_abc123
 
 ## Resource Information
 - **Title**: Network-Based SIR Models for Epidemic Prediction
-- **Source**: https://arxiv.org/abs/2401.12345
-- **Type**: Academic Paper
+- **Source**: local://inbox/network_sir.md
+- **Type**: Document
 - **Reviewed By**: @quality_checker
 - **Review Date**: 2026-01-31T14:00:00Z
 
 ---
 
-## Scoring
+## Scoring (Document Weights)
 
 | Criterion | Weight | Raw Score | Weighted | Justification |
 |-----------|--------|-----------|----------|---------------|
@@ -202,34 +316,83 @@ Each reviewed resource gets a quality report:
 ---
 
 ## Verdict: ✅ APPROVED
+```
+
+### Code Report Example
+
+```markdown
+# Quality Report: MAN_20260131_def456
+
+## Resource Information
+- **Title**: bayesian_sir_model
+- **Source**: local://inbox/bayesian_sir_model.py
+- **Type**: Code (Python)
+- **Reviewed By**: @quality_checker
+- **Review Date**: 2026-01-31T14:00:00Z
 
 ---
 
-## Detailed Assessment
-
-### Strengths
-1. Peer-reviewed equivalent (arXiv with citations)
-2. Directly applicable to our epidemic modeling approach
-3. Includes implementation guidance in Appendix A
-4. Recent publication (2024)
-
-### Weaknesses
-1. Some LaTeX formulas not fully rendered
-2. Missing convergence analysis details
-3. Code is pseudocode, not complete implementation
-
-### Recommendations for Consumers
-- @modeler: Focus on Section 3 for mathematical formulation
-- @code_translator: Appendix A has pseudocode (needs adaptation)
-- Verify formula in Equation 12 (rendering issue)
+## Syntax Check (HARD CONSTRAINT)
+- **Status**: ✅ PASSED
+- **Message**: Python syntax OK
 
 ---
 
-## Migration Details
-- **Source**: output/external_resources/staging/WEB_20260131_abc123/
-- **Target**: output/external_resources/active/WEB_20260131_abc123/
-- **Index Updated**: Yes
-- **Consumers Notified**: Yes
+## Scoring (Code Weights - 40% Actionability)
+
+| Criterion | Weight | Raw Score | Weighted | Justification |
+|-----------|--------|-----------|----------|---------------|
+| Source Credibility | 15% | 7/10 | 1.05 | User-provided, assumed relevant |
+| Content Relevance | 25% | 9/10 | 2.25 | Directly applicable to our model |
+| Content Quality | 20% | 8/10 | 1.60 | Well-documented, has docstrings |
+| Actionability | 40% | 9/10 | 3.60 | Runs, has main entry point, imports work |
+
+## **Total Score: 8.5/10**
+
+---
+
+## Verdict: ✅ APPROVED
+
+---
+
+## Code Analysis
+- **Lines**: 245
+- **Functions**: fit_model, predict, plot_results, validate
+- **Imports**: numpy, scipy, pymc
+- **Has Entry Point**: Yes (if __name__ == "__main__")
+```
+
+### Syntax Failure Report Example
+
+```markdown
+# Quality Report: MAN_20260131_xyz789
+
+## Resource Information
+- **Title**: broken_model
+- **Source**: local://inbox/broken_model.py
+- **Type**: Code (Python)
+- **Reviewed By**: @quality_checker
+- **Review Date**: 2026-01-31T14:00:00Z
+
+---
+
+## Syntax Check (HARD CONSTRAINT)
+- **Status**: ❌ FAILED
+- **Message**: SyntaxError: invalid syntax at line 45
+
+---
+
+## Scoring
+**SKIPPED** - Syntax check failed (auto-reject)
+
+---
+
+## Verdict: ❌ REJECTED (SYNTAX FAILURE)
+
+---
+
+## Required Fix
+Fix syntax error at line 45 before resubmitting.
 ```
 
 ---
@@ -350,9 +513,12 @@ When multiple resources are in staging:
 
 | Scenario | Action |
 |----------|--------|
+| **Syntax check fails (code)** | **Auto-reject, skip scoring, log error** |
 | Content extraction failed | Score Content Quality as 0, likely REJECTED |
 | Metadata missing | Auto-reject, log error |
 | Duplicate detected | Auto-reject with "DUPLICATE" reason |
 | Blocked domain | Auto-reject with "BLOCKED_DOMAIN" reason |
 | Score exactly 5.0 | Treat as CONDITIONAL (lower bound) |
 | Reviewer uncertain | Default to lower score, add note |
+| Empty file | Generate warning, score quality as 0 |
+| Encoding error | Try UTF-8, then latin-1, then reject |

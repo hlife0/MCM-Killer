@@ -16,88 +16,100 @@ Insert after the "22-Phase Workflow" section:
 
 ### Overview
 
-The external resources pipeline fetches, validates, and integrates internet resources into the workflow. External resources are SUPPLEMENTARY - they enhance but don't replace internal knowledge (HMML 2.0).
+The external resources pipeline processes manual file uploads, validates them, and integrates them into the workflow. External resources are SUPPLEMENTARY - they enhance but don't replace internal knowledge (HMML 2.0).
+
+**Key Features**:
+- Resources provided manually (dropped in `inbox/`)
+- Folder is gitignored (SHA-256 hashes ensure integrity)
+- Code files get 40% actionability weight + syntax validation
+- Passive consultation via `summary_for_agents.md`
 
 ### New Agents
 
 | Agent | Role | Phase |
 |-------|------|-------|
-| @web_crawler | Fetch external resources from internet | 0.1 (parallel) |
-| @quality_checker | Validate resource quality | 0.1 (parallel) |
-| @knowledge_curator | Index and recommend resources | All phases (on-demand) |
-| @resource_manager | Folder structure and lifecycle | All phases (background) |
+| @resource_ingestor | Monitor inbox, process manual uploads | 0.1 (parallel) |
+| @quality_checker | Validate quality, syntax check code | 0.1 (parallel) |
+| @knowledge_curator | Index, tag, maintain summary_for_agents.md | All phases (on-demand) |
+| @resource_manager | Folder structure, lifecycle, hash verification | All phases (background) |
 
 ### Folder Structure
 
 ```
-output/external_resources/
+output/external_resources/      # GITIGNORED
+├── inbox/        # User drops files here
 ├── staging/      # Awaiting quality review
 ├── active/       # Approved for agent use
+│   └── summary_for_agents.md  # Context overlay (READ THIS)
 ├── rejected/     # Failed quality check
 ├── archived/     # Historical, unused
-├── index.json    # Master searchable index
+├── index.json    # Master index (with SHA-256 hashes)
 └── config.json   # Pipeline configuration
 ```
 
 ### Quality Gateway
 
-All fetched resources must pass quality review before reaching agents:
+All resources must pass quality review before reaching agents:
 
 | Score | Verdict | Action |
 |-------|---------|--------|
-| >= 7.0 | APPROVED | Migrate to active/, available to agents |
-| 5.0-6.9 | CONDITIONAL | Migrate with warnings |
-| < 5.0 | REJECTED | Move to rejected/, not available |
+| >= 7.0 + syntax OK | APPROVED | Migrate to active/, available to agents |
+| 5.0-6.9 + syntax OK | CONDITIONAL | Migrate with warnings |
+| < 5.0 OR syntax FAIL | REJECTED | Move to rejected/, not available |
 
-**Scoring Criteria**:
+**Scoring Criteria (Documents)**:
 - Source Credibility (25%)
 - Content Relevance (30%)
 - Content Quality (25%)
 - Actionability (20%)
 
+**Scoring Criteria (Code)**: Credibility 15%, Relevance 25%, Quality 20%, **Actionability 40%**
+
+**Code Hard Constraint**: Syntax must pass (`ast.parse` for Python, `mlint` for MATLAB, `gcc -fsyntax-only` for C/C++).
+
+### Context Injection (MANDATORY)
+
+**All agents MUST read `output/external_resources/active/summary_for_agents.md` before starting their tasks.**
+
+This replaces active agent-to-agent queries. The summary provides:
+- Quick Reference by agent (which resources are relevant to you)
+- Resources by phase
+- High-value resources (score >= 8.0)
+- Usage recommendations
+
 ### Integration Points
 
 | Phase | Integration |
 |-------|-------------|
-| 0.1 (NEW) | Parallel resource gathering |
-| 0.2 | Include external in method suggestions |
+| 0.1 (NEW) | Process manual uploads from inbox/ |
+| 0.2 | Include external in method suggestions (read summary) |
 | 0.5 | Reference external in methodology review |
-| 1 | Consult external for formulations |
-| 3 | Query external datasets |
-| 4 | Reference external implementations |
+| 1 | Read summary before model design |
+| 3 | Check summary for external datasets |
+| 4 | Check summary for code references |
 | 7+ | Cite external resources, apply Protocol 21 |
-
-### Consultation Protocol
-
-**To request external resources**:
-```
-Director, I need external resource consultation.
-**Query**: {specific question}
-**Urgency**: HIGH/MEDIUM/LOW
-```
-
-**Response from @knowledge_curator**:
-- Matching resources with relevance scores
-- Access paths and recommended sections
-- Usage guidance
 
 ### Protocol 21: External Resource Data Consistency
 
 Applied during Phase 7+ validation:
+- **SHA-256 hash verification** (file integrity)
 - All citations must have valid resource in active/
 - Quoted data must match source content
 - Methodology attribution must be accurate
+
+**Verify command**: `python docs/newplan/10_tools/indexer.py verify`
 
 **Auto-Reject**:
 - Missing resource references
 - Data mismatch > 5%
 - Methodology misattribution
+- Hash verification failure
 
 ### Rules
 
 1. External resources are OPTIONAL reference, not mandatory
 2. HMML 2.0 internal methods take priority
-3. Only APPROVED resources (score >= 7.0) reach agents
+3. Only APPROVED resources (score >= 7.0 + syntax OK for code) reach agents
 4. All citations must be verifiable via Protocol 21
 5. Phase 0.1 runs PARALLEL - never blocks critical path
 
@@ -105,8 +117,8 @@ Applied during Phase 7+ validation:
 
 | Metric | Value |
 |--------|-------|
-| Minimum | 15 minutes |
-| Expected | 15-30 minutes |
+| Minimum | 10 minutes |
+| Expected | 10-30 minutes |
 | Maximum | 45 minutes |
 | Parallel with | Phase 0.2 |
 
@@ -125,7 +137,7 @@ Update the existing 22-Phase Workflow table to include Phase 0.1:
 | Phase | Name | Agent | Gate | Time |
 |-------|------|-------|------|------|
 | 0 | Problem Understanding | reader, researcher | - | 30m |
-| **0.1** | **External Resource Gathering** | **web_crawler, quality_checker** | **-** | **15-30m (parallel)** |
+| **0.1** | **External Resource Processing** | **resource_ingestor, quality_checker** | **-** | **10-30m (parallel)** |
 | 0.2 | Knowledge Retrieval | knowledge_librarian | - | 10-15m |
 | 0.5 | Methodology Gate | @advisor + @validator | ✅ METHODOLOGY | 15-20m |
 | 1 | Model Design | modeler | - | 2-6h |
@@ -146,7 +158,7 @@ Update "Your Team" section:
 | @reader | Problem Analyst | Selective reqs = MANDATORY |
 | @researcher | Strategy Advisor | - |
 | @knowledge_librarian | Method Curator | On-demand anytime |
-| **@web_crawler** | **External Resource Collector** | **Phase 0.1** |
+| **@resource_ingestor** | **Manual Resource Processor** | **Phase 0.1** |
 | **@quality_checker** | **Resource Quality Gate** | **Phase 0.1** |
 | **@knowledge_curator** | **External Resource Librarian** | **On-demand** |
 | **@resource_manager** | **Resource Infrastructure** | **Background** |
@@ -161,13 +173,13 @@ Update "Your Team" section:
 Update "Protocol Enforcement" section:
 
 ```markdown
-## Protocol Enforcement (21 Protocols)
+## Protocol Enforcement (18 Protocols)
 
 | # | Description | Point | Status |
 |---|-------------|-------|--------|
 | 1 | File Reading Ban (@director) | Phase 0.5 | ✅ |
 ... (existing protocols)
-| 20 | Orchestration Log | ALL phases | ✅ |
+| 17 | Orchestration Log | ALL phases | ✅ |
 | **21** | **External Resource Data Consistency** | **Phase 7+** | **✅** |
 ```
 
@@ -178,9 +190,9 @@ Update "Protocol Enforcement" section:
 Add to existing CRITICAL RULES section:
 
 ```markdown
-> [!CAUTION] **EXTERNAL RESOURCES**: Phase 0.1 runs PARALLEL with Phase 0.2. Never wait for external resources to proceed. They are SUPPLEMENTARY, not blocking.
+> [!CAUTION] **EXTERNAL RESOURCES CONTEXT**: ALL agents MUST read `output/external_resources/active/summary_for_agents.md` before starting their tasks. Resources are SUPPLEMENTARY.
 
-> [!CAUTION] **PROTOCOL 21**: All external resource citations must be verified. Data from WEB_xxx sources must match content.md. Auto-reject on mismatch.
+> [!CAUTION] **PROTOCOL 21**: All external resource citations must be verified. Data from MAN_xxx sources must match content. SHA-256 hashes must verify. Auto-reject on mismatch.
 ```
 
 ---
@@ -192,8 +204,8 @@ Add to existing rules:
 ```markdown
 | Rule | Trigger | Action |
 |------|---------|--------|
-| **6. External Resource Query** | Agent needs external reference | Route to @knowledge_curator, return matches, continue |
-| **7. No External Resources** | Phase 0.1 produces nothing | Log and continue with HMML 2.0 only, acceptable |
+| **6. External Resource Check** | Any agent starts | Read summary_for_agents.md, note relevant resources, continue |
+| **7. No External Resources** | inbox/ empty at Phase 0.1 | Log and continue with HMML 2.0 only, acceptable |
 ```
 
 ---
@@ -206,7 +218,7 @@ Add Phase 0.1 to phase summaries:
 | Phase | Purpose | Agent | Output | Gate |
 |-------|---------|-------|--------|------|
 | 0 | Extract requirements | @reader, @researcher | research_notes.md | → 0.1/0.2 |
-| **0.1** | **Fetch external resources** | **@web_crawler, @quality_checker** | **external_resources/active/** | **- (parallel)** |
+| **0.1** | **Process manual resources** | **@resource_ingestor, @quality_checker** | **external_resources/active/**, **summary_for_agents.md** | **- (parallel)** |
 | 0.2 | State-of-art methods | @knowledge_librarian | suggested_methods.md (≥3) | - |
 ... (rest unchanged)
 ```
@@ -223,7 +235,7 @@ Add Phase 0.1 handling:
 Phase 0.1 is PARALLEL - special rules apply:
 
 1. **After Phase 0**:
-   - Extract problem keywords
+   - Check if user has dropped files in inbox/
    - Start Phase 0.1 AND Phase 0.2 simultaneously
    - Do NOT wait for 0.1 to complete
 
@@ -234,11 +246,11 @@ Phase 0.1 is PARALLEL - special rules apply:
 
 3. **Before Phase 0.5**:
    - Check if Phase 0.1 completed
-   - If yes: @knowledge_curator has recommendations
+   - If yes: summary_for_agents.md has recommendations
    - If no: Proceed anyway, resources will become available later
 
 4. **Phase 0.1 Time Gate**:
-   - Minimum: 15 minutes
+   - Minimum: 10 minutes
    - Maximum: 45 minutes (timeout if exceeds)
    - Does NOT count toward 8-hour minimum
 ```
@@ -256,61 +268,4 @@ Add to Quick Reference table:
 | External Agents | docs/newplan/02_agents/*.md |
 | Quality Pipeline | docs/newplan/04_quality_pipeline.md |
 | Protocol 21 | .claude/protocols/protocol_21_external_resource_consistency.md |
-```
-
----
-
-## Full Updated CLAUDE.md Section
-
-The complete new section to insert:
-
-```markdown
----
-
-## External Resources Pipeline (v3.2.0)
-
-### Overview
-Fetches, validates, and integrates internet resources. SUPPLEMENTARY to HMML 2.0.
-
-### New Agents
-| Agent | Role |
-|-------|------|
-| @web_crawler | Fetch from internet |
-| @quality_checker | Quality gateway |
-| @knowledge_curator | Index and recommend |
-| @resource_manager | Infrastructure |
-
-### Folder
-```
-output/external_resources/
-├── staging/   # Awaiting review
-├── active/    # Approved (>= 7.0)
-├── rejected/  # Failed (< 5.0)
-└── index.json # Master index
-```
-
-### Quality Thresholds
-- APPROVED: >= 7.0/10
-- CONDITIONAL: 5.0-6.9/10
-- REJECTED: < 5.0/10
-
-### Consultation
-```
-Director, I need external resource consultation.
-**Query**: {question}
-**Urgency**: HIGH/MEDIUM/LOW
-```
-
-### Protocol 21 (Phase 7+)
-- Citations verified against active/
-- Data matches source
-- Auto-reject on mismatch
-
-### Rules
-1. SUPPLEMENTARY, not blocking
-2. Phase 0.1 runs PARALLEL
-3. HMML 2.0 takes priority
-4. Only approved resources to agents
-
----
 ```

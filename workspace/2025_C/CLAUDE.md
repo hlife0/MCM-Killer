@@ -29,11 +29,12 @@ You are the **conductor** ensuring: 1. **Sequencing**: Correct phase order | 2. 
 
 ---
 
-## 22-Phase Workflow (v3.1.0)
+## 22-Phase Workflow (v3.2.0)
 
 | Phase | Name | Agent | Gate | Time |
 |-------|------|-------|------|------|
 | 0 | Problem Understanding | reader, researcher | - | 30m |
+| **0.1** | **External Resource Processing** | **resource_ingestor, quality_checker** | **-** | **10-30m** |
 | 0.2 | Knowledge Retrieval | knowledge_librarian | - | 10-15m |
 | 0.5 | Methodology Gate | @advisor + @validator | ✅ METHODOLOGY | 15-20m |
 | 1 | Model Design | modeler | - | 2-6h |
@@ -80,9 +81,12 @@ You are the **conductor** ensuring: 1. **Sequencing**: Correct phase order | 2. 
 
 ## CRITICAL RULES
 
-> [!CAUTION] **STRICT SEQUENTIAL ORDER**: 0→0.2→0.5→1→1.5→2→3→4→4.5→5→5.5→5.8→6→6.5→7A→7B→7C→7D→7E→7F→7.5→8→9→9.1→9.5→10→11
+> [!CAUTION] **STRICT SEQUENTIAL ORDER**: 0→0.1→0.2→0.5→1→1.5→2→3→4→4.5→5→5.5→5.8→6→6.5→7A→7B→7C→7D→7E→7F→7.5→8→9→9.1→9.5→10→11
 > - Phase complete = files exist + gate passed + verdicts collected + Director approved
 > - VIOLATION = cascading failures, unusable results
+> - **Phase 0.1 runs PARALLEL with 0.2** (non-blocking)
+
+> [!CAUTION] **EXTERNAL RESOURCES CONTEXT**: ALL agents MUST read `output/external_resources/active/summary_for_agents.md` before starting their tasks. Resources are SUPPLEMENTARY.
 
 > [!CAUTION] **Phase 7**: 7A→7B→7C→7D→7E→7F in order. Each updates VERSION_MANIFEST.json. Resume from checkpoint on timeout.
 
@@ -110,7 +114,7 @@ You are the **conductor** ensuring: 1. **Sequencing**: Correct phase order | 2. 
 
 ---
 
-## Protocol Enforcement (17 Protocols)
+## Protocol Enforcement (18 Protocols)
 
 | # | Description | Point | Status |
 |---|-------------|-------|--------|
@@ -131,6 +135,7 @@ You are the **conductor** ensuring: 1. **Sequencing**: Correct phase order | 2. 
 | 15 | Observation-Implication | Phase 7-9 | ✅ |
 | 16 | Page Count Tracking | Phase 7 | ✅ |
 | 17 | Orchestration Log | ALL phases | ✅ |
+| **21** | **External Resource Data Consistency** | **Phase 7+** | **✅** |
 
 **Full Details**: .claude/protocols/README.md
 
@@ -138,7 +143,94 @@ You are the **conductor** ensuring: 1. **Sequencing**: Correct phase order | 2. 
 
 ---
 
-## Your Team (22 Members)
+## External Resources Pipeline (v3.2.0)
+
+> [!IMPORTANT] **External resources are SUPPLEMENTARY. Internal knowledge (HMML 2.0) takes priority.**
+
+### New Agents
+
+| Agent | Role | Phase |
+|-------|------|-------|
+| `@resource_ingestor` | Monitor inbox/, process manual uploads | 0.1 (parallel) |
+| `@quality_checker` | Validate quality, syntax check code | 0.1 (parallel) |
+| `@knowledge_curator` | Index, tag, maintain summary_for_agents.md | On-demand |
+| `@resource_manager` | Folder structure, lifecycle, hash verification | Background |
+
+### Context Injection (MANDATORY)
+
+> [!CAUTION] **ALL agents MUST read `output/external_resources/active/summary_for_agents.md` before starting their tasks.**
+
+This file provides:
+- Quick Reference by agent (which resources are relevant to you)
+- Resources by phase
+- High-value resources (score >= 8.0)
+- Usage recommendations
+
+**Read command**: `cat output/external_resources/active/summary_for_agents.md`
+
+### Folder Structure
+
+```
+output/external_resources/       # GITIGNORED
+├── inbox/             # User drops files here
+├── staging/           # Awaiting quality check
+├── active/            # Approved for use
+│   └── summary_for_agents.md  # Context overlay (READ THIS)
+├── rejected/          # Failed quality check
+├── archived/          # Historical
+├── index.json         # Master index (with SHA-256 hashes)
+```
+
+### Quality Scoring
+
+| Resource Type | Scoring | Threshold |
+|---------------|---------|-----------|
+| Documents | Credibility 25%, Relevance 30%, Quality 25%, Actionability 20% | >= 7.0 |
+| Code (.py, .m, .cpp) | Credibility 15%, Relevance 25%, Quality 20%, **Actionability 40%** | >= 7.0 + **syntax pass** |
+
+**Code Hard Constraint**: Syntax must pass (`ast.parse` for Python). Syntax failure = AUTO-REJECT.
+
+### Protocol 21: External Resource Data Consistency
+
+Added to validation phases. Ensures:
+- **SHA-256 hash verification** (file integrity)
+- Citation accuracy (data matches source)
+- Citation completeness (all used resources cited)
+
+**Verification command**: `python docs/newplan/10_tools/indexer.py verify`
+
+### Phase 0.1 (NEW - Parallel with 0.2)
+
+| Phase | Name | Agent | Time |
+|-------|------|-------|------|
+| 0 | Problem Understanding | reader, researcher | 30m |
+| **0.1** | **External Resource Processing** | **resource_ingestor, quality_checker** | **10-30m** |
+| 0.2 | Knowledge Retrieval | knowledge_librarian | 10-15m |
+
+**Note**: Phase 0.1 runs in parallel with 0.2. Non-blocking.
+
+### Workflow
+
+1. User drops files in `output/external_resources/inbox/`
+2. @resource_ingestor processes → staging/
+3. @quality_checker validates → active/ or rejected/
+4. @knowledge_curator updates summary_for_agents.md
+5. All agents read summary before starting work
+
+### Agent Specs
+
+- `.claude/agents/resource_ingestor.md`
+- `.claude/agents/quality_checker.md`
+- `.claude/agents/knowledge_curator.md`
+- `.claude/agents/resource_manager.md`
+
+### Protocol 21 Spec
+
+- `.claude/protocols/protocol_21_external_resource_consistency.md`
+
+---
+
+## Your Team (26 Members)
 
 | Agent | Role | Notes |
 |-------|------|-------|
@@ -161,6 +253,10 @@ You are the **conductor** ensuring: 1. **Sequencing**: Correct phase order | 2. 
 | @advisor | Faculty Advisor | - |
 | @judge_zero | Adversarial Judge | Phase 9.1 |
 | @time_validator | Time & Quality | Line-by-line review |
+| **@resource_ingestor** | **Manual Resource Processor** | **Phase 0.1** |
+| **@quality_checker** | **Resource Quality Gatekeeper** | **Phase 0.1** |
+| **@knowledge_curator** | **External Resource Librarian** | **On-demand** |
+| **@resource_manager** | **Infrastructure Manager** | **Background** |
 
 ---
 

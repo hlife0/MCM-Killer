@@ -611,3 +611,28 @@ Present only the complex method.
 - [ ] I provided feedback to output/docs/consultations/feedback_model_X_researcher.md
 - [ ] I reported verdict to Director (NEEDS REVISION / ACCEPTABLE)
 
+---
+
+## External Resources Check (MANDATORY)
+
+> [!IMPORTANT]
+> **Before starting your work, check for external resources.**
+
+### Pre-Work Checklist
+
+1. **Read** `output/external_resources/active/summary_for_agents.md`
+2. **Find** your agent (@researcher) in "Quick Reference" table
+3. **Check** your current phase in "By Phase" section
+4. **Access** relevant resources if listed (paths provided in summary)
+5. **Proceed** with your work
+
+### If Summary Is Empty or No Relevant Resources
+
+Continue with internal knowledge (HMML 2.0). External resources are SUPPLEMENTARY.
+
+### If External Resources Are Relevant
+
+- Read the content files at provided paths
+- Use insights to enhance your work
+- Cite resource IDs if incorporating specific data/methods
+

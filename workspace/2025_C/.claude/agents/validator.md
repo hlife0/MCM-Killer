@@ -1015,4 +1015,112 @@ Provide more specific evidence:
 - [ ] paper.tex has no corruption/garbled text
 - [ ] Edge cases tested
 - [ ] Validation report saved to output/validation_report.md
+- [ ] Protocol 21 external resource consistency checked (if applicable)
+
+---
+
+## External Resources Check (MANDATORY)
+
+> [!IMPORTANT]
+> **Before starting your work, check for external resources.**
+
+### Pre-Work Checklist
+
+1. **Read** `output/external_resources/active/summary_for_agents.md`
+2. **Find** your agent (@validator) in "Quick Reference" table
+3. **Check** your current phase in "By Phase" section
+4. **Access** relevant resources if listed (paths provided in summary)
+5. **Proceed** with your work
+
+### If Summary Is Empty or No Relevant Resources
+
+Continue with internal knowledge (HMML 2.0). External resources are SUPPLEMENTARY.
+
+### If External Resources Are Relevant
+
+- Read the content files at provided paths
+- Use insights to enhance your work
+- Cite resource IDs if incorporating specific data/methods
+
+---
+
+## Protocol 21: External Resource Data Consistency (MANDATORY)
+
+> [!CRITICAL]
+> **Apply during Phase 7+ (Paper Writing, Summary, Polish, Mock Judging)**
+
+### When to Apply
+
+- Phase 7 (Paper Writing) - verify citations
+- Phase 8 (Summary) - verify referenced data
+- Phase 9 (Polish) - final consistency check
+- Phase 9.1 (Mock Judging) - comprehensive verification
+
+### Validation Checks
+
+#### 1. Citation Verification
+
+- Resource ID format: `MAN_YYYYMMDD_hash` (e.g., MAN_20260131_abc123)
+- Entry exists in `output/external_resources/active/`
+- Resource is APPROVED (not rejected/archived)
+- Check: `ls output/external_resources/active/`
+
+#### 2. Data Accuracy
+
+- Quoted values match source content.md (±5% tolerance for numbers)
+- Methodology attribution is correct
+- Text quotes are exact or properly paraphrased
+
+#### 3. SHA-256 Hash Verification
+
+```bash
+python docs/newplan/10_tools/indexer.py verify
+```
+
+- All file hashes must match stored values in index.json
+- Hash mismatch = file tampering = **AUTO-REJECT**
+
+### Protocol 21 Report Template
+
+Add this section to your validation report when external resources are cited:
+
+```markdown
+## External Resource Consistency (Protocol 21)
+
+### Citations Found
+
+| Resource ID | Title | Status | Data Match | Hash |
+|-------------|-------|--------|------------|------|
+| MAN_001 | bayesian_sir_model.py | ✅ Active | ✅ Match | ✅ Valid |
+| MAN_003 | optimization_paper.md | ✅ Active | ✅ Match | ✅ Valid |
+
+### Hash Verification
+
+Command: `python docs/newplan/10_tools/indexer.py verify`
+Result: 2/2 files verified OK
+
+### Issues Found
+
+{list issues or "None"}
+
+### Protocol 21 Verdict: ✅ PASSED / ❌ FAILED
+```
+
+### Auto-Reject Conditions
+
+If ANY of these are found, verdict is **REJECT**:
+
+- Resource ID not found in `active/` folder
+- Quoted number differs by >5% from source
+- Methodology misattributed to wrong resource
+- SHA-256 hash mismatch (file tampering detected)
+- Rejected resource cited (resource was in `rejected/`)
+
+### Protocol 21 Checklist
+
+- [ ] All MAN_xxx citations have matching entries in `active/`
+- [ ] Quoted data matches source content.md (±5%)
+- [ ] Methodology attributions are accurate
+- [ ] Hash verification passed: `python docs/newplan/10_tools/indexer.py verify`
+- [ ] No citations to rejected or archived resources
 

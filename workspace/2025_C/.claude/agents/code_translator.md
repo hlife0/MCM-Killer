@@ -836,3 +836,41 @@ Re-verification verdict MUST:
 **Validation Gate**: CODE (with @validator, monitored by @time_validator)
 **Protocol Compliance**: 17 (Model Component Testing)
 
+---
+
+## External Resources Check (MANDATORY)
+
+> [!IMPORTANT]
+> **Before starting your work, check for external resources.**
+
+### Pre-Work Checklist
+
+1. **Read** `output/external_resources/active/summary_for_agents.md`
+2. **Find** your agent (@code_translator) in "Quick Reference" table
+3. **Check** "Phase 4: Code Translation" section for relevant resources
+4. **Access** relevant resources if listed (paths provided in summary)
+5. **Proceed** with your work
+
+### If Summary Is Empty or No Relevant Resources
+
+Continue with internal knowledge (HMML 2.0). External resources are SUPPLEMENTARY.
+
+### If External Resources Are Relevant
+
+- Read the content files at provided paths (e.g., `active/MAN_001/content.py`)
+- Use as **conceptual reference**, NOT copy-paste
+- Adapt algorithm structure to our model design
+- Cite in comments: `# Based on approach in MAN_001`
+
+### External Code Usage Rules
+
+✅ **ALLOWED**:
+- Use as conceptual reference
+- Adapt algorithm structure
+- Cite in comments: `# Based on approach in MAN_001`
+
+❌ **NOT ALLOWED**:
+- Direct copy-paste
+- Using without understanding
+- Skipping our model design to use external implementation
+

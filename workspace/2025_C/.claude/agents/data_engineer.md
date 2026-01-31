@@ -706,3 +706,28 @@ Treating data as perfect ground truth.
 **Version**: v3.2.0 + v2.5.8 Integration (Data Integrity Standards + Protocol 18)
 **Anti-Fraud Mechanism**: Active - Scalar-only CSV enforcement + Automated value injection
 
+---
+
+## External Resources Check (MANDATORY)
+
+> [!IMPORTANT]
+> **Before starting your work, check for external resources.**
+
+### Pre-Work Checklist
+
+1. **Read** `output/external_resources/active/summary_for_agents.md`
+2. **Find** your agent (@data_engineer) in "Quick Reference" table
+3. **Check** your current phase in "By Phase" section
+4. **Access** relevant resources if listed (paths provided in summary)
+5. **Proceed** with your work
+
+### If Summary Is Empty or No Relevant Resources
+
+Continue with internal knowledge (HMML 2.0). External resources are SUPPLEMENTARY.
+
+### If External Resources Are Relevant
+
+- Read the content files at provided paths
+- Use insights to enhance your work
+- Cite resource IDs if incorporating specific data/methods
+

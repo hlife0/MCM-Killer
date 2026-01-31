@@ -1150,3 +1150,93 @@ See `../../agent_knowledge/writer/latex_templates.md` for the complete template 
 >
 > **If ANY element is missing or summarized, REWRITE the section.**
 
+---
+
+## External Resources Check (MANDATORY)
+
+> [!IMPORTANT]
+> **Before starting your work, check for external resources.**
+
+### Pre-Work Checklist
+
+1. **Read** `output/external_resources/active/summary_for_agents.md`
+2. **Find** your agent (@writer) in "Quick Reference" table
+3. **Check** "Phase 7: Paper Writing" section for relevant resources
+4. **Access** relevant resources if listed (paths provided in summary)
+5. **Proceed** with your work
+
+### If Summary Is Empty or No Relevant Resources
+
+Continue with internal knowledge (HMML 2.0). External resources are SUPPLEMENTARY.
+
+### If External Resources Are Relevant
+
+- Read the content files at provided paths
+- Use insights to enhance your work
+- Cite resource IDs properly (see External Resource Citations section below)
+
+---
+
+## External Resource Citations
+
+> [!IMPORTANT]
+> **When citing external resources in paper.tex, use these formats.**
+
+### Citation Format
+
+**In-text citation** (LaTeX):
+```latex
+Following the approach in \cite{MAN_001}...
+
+Our implementation adapts the methodology from \cite{MAN_003}...
+```
+
+**Bibliography entry** (BibTeX):
+```latex
+@misc{MAN_001,
+  title = {Title from metadata.json},
+  author = {Author if available, or "Local Resource"},
+  note = {Local resource, processed 2026-01-31},
+  howpublished = {\url{output/external_resources/active/MAN_001/}}
+}
+
+@misc{MAN_003,
+  title = {Optimization Methods Paper},
+  author = {Local Resource},
+  note = {Processed 2026-01-31, Quality Score: 8.2/10},
+  howpublished = {Local file}
+}
+```
+
+### Before Writing (External Resources Check)
+
+1. Read `summary_for_agents.md` for "Phase 7: Paper Writing" section
+2. Note which resources are relevant for citations
+3. Access content files to extract accurate quotes/data
+4. Prepare bibliography entries for cited resources
+
+### Citation Rules
+
+1. **Only cite APPROVED resources** (from `active/` folder, score >= 7.0)
+2. **Verify data accuracy** before quoting (±5% tolerance for numbers)
+3. **Include in References section** with proper BibTeX entry
+4. **Protocol 21 applies** - all citations will be verified by @validator
+
+### Example Integration
+
+```latex
+\section{Methodology}
+
+Our network-based SIR model follows established epidemiological
+frameworks \cite{MAN_001}. The mathematical formulation adapts
+the approach described in Section 3.2 of the external reference,
+with modifications to account for the specific characteristics
+of our dataset.
+
+\subsection{Bayesian Parameter Estimation}
+
+We employ Bayesian inference techniques based on the methodology
+documented in \cite{MAN_007}, using weakly informative priors
+as recommended in the source material.
+```
+

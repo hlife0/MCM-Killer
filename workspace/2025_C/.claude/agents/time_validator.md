@@ -827,6 +827,7 @@ When called for phase time validation:
 | Phase | Name | Min | Max | Threshold |
 |-------|------|-----|-----|-----------|
 | 0 | Problem Understanding | 20 | 30 | 14 min |
+| **0.1** | **External Resource Processing** | **10** | **30** | **7 min** |
 | 0.2 | Knowledge Retrieval | 7 | 15 | 5 min |
 | 0.5 | Methodology Gate | 10 | 20 | 7 min |
 | 1 | Model Design | 90 | 360 | 63 min |
@@ -851,6 +852,82 @@ When called for phase time validation:
 
 ---
 
-**Document Version**: v3.2.4
+## Phase 0.1 Timing Requirements (v3.2.0 - External Resources)
+
+> [!IMPORTANT]
+> **Phase 0.1 runs in PARALLEL with Phase 0.2. Special timing rules apply.**
+
+### Phase 0.1 Specifications
+
+| Metric | Value |
+|--------|-------|
+| **Minimum** | 10 minutes |
+| **Expected** | 10-30 minutes |
+| **Maximum** | 45 minutes |
+| **Threshold (70%)** | 7 minutes |
+| **Parallel with** | Phase 0.2 |
+
+### Special Rules for Phase 0.1
+
+1. **NON-BLOCKING**: Phase 0.1 does NOT block Phase 0.2 or 0.5
+2. **DOES NOT count toward 8-hour minimum total** (it's parallel work)
+3. **May complete after Phase 0.2** (this is acceptable)
+4. **If inbox is empty**: Phase 0.1 may complete in < 10 min (ACCEPTABLE)
+
+### Phase 0.1 Validation
+
+When called to validate Phase 0.1:
+
+```markdown
+## Phase 0.1 Time Validation
+
+**Phase**: 0.1 (External Resource Processing)
+**Agents**: @resource_ingestor, @quality_checker
+**Duration**: {XX} minutes
+**Expected**: 10-30 minutes
+**Threshold**: 7 minutes
+
+### Special Conditions
+
+- [ ] inbox/ was empty at start (allows fast completion)
+- [ ] Phase ran parallel with Phase 0.2
+- [ ] Resources processed: {N} files
+- [ ] Resources approved: {N} files
+
+### Verdict
+
+**{APPROVE / WARN_FAST / REJECT}**
+
+If inbox/ was empty, APPROVE even if duration < 10 min.
+```
+
+---
+
+## External Resources Check (MANDATORY)
+
+> [!IMPORTANT]
+> **Before starting your work, check for external resources.**
+
+### Pre-Work Checklist
+
+1. **Read** `output/external_resources/active/summary_for_agents.md`
+2. **Find** your agent (@time_validator) in "Quick Reference" table
+3. **Check** your current phase in "By Phase" section
+4. **Access** relevant resources if listed (paths provided in summary)
+5. **Proceed** with your work
+
+### If Summary Is Empty or No Relevant Resources
+
+Continue with internal knowledge (HMML 2.0). External resources are SUPPLEMENTARY.
+
+### If External Resources Are Relevant
+
+- Read the content files at provided paths
+- Use insights to enhance your validation
+- Note resource IDs if they affect time estimates
+
+---
+
+**Document Version**: v3.2.5
 **Status**: Active
 

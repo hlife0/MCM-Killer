@@ -50,6 +50,9 @@ workspace/*/data/
 workspace/*/2025_Problem_C_Data/
 experiments/*/output/
 
+# External resources (manual uploads, gitignored for SHA-256 integrity)
+workspace/*/output/external_resources/
+
 # Keep structure but ignore generated content
 !workspace/*/output/.gitkeep
 architectures/v3-1-0 copy/

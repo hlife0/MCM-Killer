@@ -14,7 +14,7 @@ Insert between Phase 0 and Phase 0.2:
 | Phase | Name | Agent | Gate | Time | Notes |
 |-------|------|-------|------|------|-------|
 | 0 | Problem Understanding | reader, researcher | - | 30m | Unchanged |
-| **0.1** | **External Resource Gathering** | **web_crawler, quality_checker** | **-** | **15-30m** | **NEW (parallel)** |
+| **0.1** | **External Resource Processing** | **resource_ingestor, quality_checker** | **-** | **10-30m** | **NEW (parallel)** |
 | 0.2 | Knowledge Retrieval | knowledge_librarian | - | 10-15m | Now includes external resources |
 | 0.5 | Methodology Gate | advisor, validator | ✅ METHODOLOGY | 15-20m | Can reference external resources |
 
@@ -41,34 +41,35 @@ Insert between Phase 0 and Phase 0.2:
 
 ---
 
-### Phase 0.1: External Resource Gathering (NEW)
+### Phase 0.1: External Resource Processing (NEW)
 
 **Runs parallel to Phase 0.2**
 
 **Workflow**:
 ```
-Director triggers @resource_manager
-    └── Initialize folder structure
-    └── Load config
+User drops files in inbox/
+    └── .py, .m, .cpp, .md, .pdf, .csv, etc.
 
-Director triggers @web_crawler
-    └── Receive keywords from Phase 0
-    └── Execute search queries
-    └── Fetch and stage resources
+Director triggers @resource_ingestor
+    └── Monitor inbox/ folder
+    └── Process manual uploads
+    └── Generate metadata + SHA-256 hash
+    └── Move to staging/
 
 @quality_checker reviews staging/
-    └── Score each resource
+    └── Syntax check for code (HARD CONSTRAINT)
+    └── Score each resource (40% actionability for code)
     └── Migrate approved to active/
-    └── Reject low-quality
+    └── Reject low-quality or syntax failures
 
 @knowledge_curator updates index
     └── Index new resources
-    └── Prepare recommendations for Phase 0.5
+    └── Update summary_for_agents.md (context overlay)
 ```
 
 **Timing**:
 - Start: Immediately after Phase 0 completes
-- Duration: 15-30 minutes
+- Duration: 10-30 minutes
 - Parallel with: Phase 0.2
 - Does NOT gate: Phase 0.2 or Phase 0.5
 
@@ -77,8 +78,9 @@ Director triggers @web_crawler
 ### Phase 0.2: Knowledge Retrieval
 
 **Integration**:
-- @knowledge_librarian now also consults external resources
-- Merge internal (HMML 2.0) with external recommendations
+- @knowledge_librarian reads `summary_for_agents.md` before starting
+- Merge internal (HMML 2.0) with approved external resources
+- External resources are SUPPLEMENTARY - internal takes priority
 
 **Updated Output**:
 ```markdown
@@ -88,14 +90,16 @@ Director triggers @web_crawler
 1. SIR Model - from knowledge_library/methods/
 2. Network Analysis - from knowledge_library/methods/
 
-## External Resources
-1. WEB_001 - Network SIR paper (8.5/10)
+## External Resources (from summary_for_agents.md)
+1. MAN_001 - Network SIR implementation (8.5/10)
    - Enhances our SIR approach with hub identification
-2. WEB_007 - Bayesian inference guide (8.1/10)
+   - Path: active/MAN_001/content.py
+2. MAN_007 - Bayesian inference guide (8.1/10)
    - Provides uncertainty quantification framework
+   - Path: active/MAN_007/content.md
 
 ## Recommended Combination
-Use internal SIR foundation + WEB_001 network extension + WEB_007 UQ framework
+Use internal SIR foundation + MAN_001 network extension + MAN_007 UQ framework
 ```
 
 ---
@@ -103,52 +107,57 @@ Use internal SIR foundation + WEB_001 network extension + WEB_007 UQ framework
 ### Phase 0.5: Methodology Gate
 
 **Integration**:
-- @advisor and @validator can reference external resources
-- @knowledge_curator provides proactive recommendations
+- @advisor and @validator read `summary_for_agents.md` before starting
+- External resources inform methodology validation
 
-**Proactive Notification**:
+**Context from summary_for_agents.md**:
 ```
-Director, external resources relevant for methodology review:
-
-HIGH PRIORITY:
-- WEB_001: Validates our network approach (8.5/10)
-- WEB_003: Methodology comparison study (7.8/10)
-
-Recommend @advisor review WEB_001 Section 3 when evaluating methodology depth.
+From summary_for_agents.md Quick Reference:
+| Agent | Recommended Resources | Priority |
+|-------|----------------------|----------|
+| @advisor | MAN_001, MAN_003 | HIGH |
+| @validator | MAN_002 | MEDIUM |
 ```
 
 **Validator Check Addition**:
 - If external resources support methodology → note as strength
 - If methodology contradicts external resources → note as concern
+- Verify SHA-256 hashes if citing specific data
 
 ---
 
 ### Phase 1: Model Design
 
 **Integration**:
-- @modeler can query @knowledge_curator for relevant resources
-- Proactive recommendations provided at phase start
+- @modeler reads `summary_for_agents.md` before starting (MANDATORY)
+- Check "Quick Reference" for recommended resources
+- Resources are SUPPLEMENTARY - internal HMML 2.0 takes priority
 
-**Consultation Example**:
-```
-Director, I need external resource consultation.
+**Before Starting Work**:
+```markdown
+## @modeler Pre-Work Checklist
 
-**Requester**: @modeler
-**Query**: Mathematical formulation for network-based SIR
-**Urgency**: HIGH
+1. Read `output/external_resources/active/summary_for_agents.md`
+2. Check "Quick Reference" for @modeler resources
+3. If relevant resources exist:
+   - Read the summary for Phase 1
+   - Access content files if needed (paths provided)
+4. Proceed with model design
 ```
 
 **In Model Design Output**:
 ```markdown
 ## Model Foundation
 
-Our network-based SIR model builds on established formulations (see WEB_001, Section 3).
+Our network-based SIR model builds on established formulations.
 
 ### Mathematical Formulation
-Following the approach in [WEB_001], we define...
+Following the approach documented in [MAN_001], we define...
+(See: active/MAN_001/content.py for implementation reference)
 
 ### Uncertainty Quantification
-We adopt the Bayesian framework from [WEB_007] with priors...
+We adopt the Bayesian framework from [MAN_007] with priors...
+(See: active/MAN_007/content.md for methodology details)
 ```
 
 ---
@@ -156,7 +165,7 @@ We adopt the Bayesian framework from [WEB_007] with priors...
 ### Phase 1.5: Time Validation
 
 **Integration**:
-- @time_validator considers complexity of external references
+- @time_validator reads `summary_for_agents.md` to understand external references
 - If model incorporates complex external methods → adjust time estimates
 
 **New Check**:
@@ -164,10 +173,14 @@ We adopt the Bayesian framework from [WEB_007] with priors...
 ## External Resource Complexity Check
 
 Referenced external resources:
-- WEB_001: Network SIR (adds ~30 min implementation time)
-- WEB_007: Bayesian framework (adds ~60 min for MCMC setup)
+- MAN_001: Network SIR (adds ~30 min implementation time)
+- MAN_007: Bayesian framework (adds ~60 min for MCMC setup)
 
 Total external resource overhead: ~90 minutes
+
+## Hash Verification
+Run: python docs/newplan/10_tools/indexer.py verify
+All file hashes: VALID
 ```
 
 ---
@@ -175,46 +188,54 @@ Total external resource overhead: ~90 minutes
 ### Phase 3: Data Processing
 
 **Integration**:
-- @data_engineer can query for external datasets
+- @data_engineer reads `summary_for_agents.md` before starting
+- Check for external datasets in "By Phase" section
 - External data sources may supplement problem data
 
-**Query Example**:
-```
-Director, I need external resource consultation.
+**Before Starting**:
+```markdown
+## @data_engineer Pre-Work Checklist
 
-**Requester**: @data_engineer
-**Query**: External datasets for epidemic validation
-**Urgency**: MEDIUM
+1. Read `output/external_resources/active/summary_for_agents.md`
+2. Check "Phase 3: Data Processing" section for relevant resources
+3. If external datasets exist:
+   - Verify hash integrity before use
+   - Document source in data_prep_1.py
+4. Proceed with data processing
 ```
 
 **Usage**:
 - External datasets used for validation (not primary)
 - Must document source in data_prep_1.py
+- Verify hash: `python docs/newplan/10_tools/indexer.py verify-one <resource_id>`
 
 ---
 
 ### Phase 4: Code Translation
 
 **Integration**:
-- @code_translator can reference external implementations
+- @code_translator reads `summary_for_agents.md` before starting
+- Check for code resources in "Phase 4: Code Translation" section
 - External code is REFERENCE, not copy-paste
 
 **Usage Guidelines**:
 ```markdown
 ## External Implementation References
 
-When referencing external code (e.g., WEB_012 PyMC3 tutorial):
+When referencing external code (e.g., MAN_001 Python implementation):
 
 ✅ ALLOWED:
 - Use as conceptual reference
 - Adapt algorithm structure
-- Cite in comments: "# Based on approach in WEB_012"
+- Cite in comments: "# Based on approach in MAN_001"
 
 ❌ NOT ALLOWED:
 - Direct copy-paste
 - Using without understanding
 - Skipping our model design to use external implementation
 ```
+
+**Code Resource Note**: External code files (.py, .m, .cpp) have been syntax-validated before approval. Actionability weight is 40%.
 
 ---
 
@@ -264,24 +285,27 @@ If external resources contain comparable data:
 ### Phase 7: Paper Writing
 
 **Integration**:
-- @writer cites external resources appropriately
-- @knowledge_curator provides citation guidance
+- @writer reads `summary_for_agents.md` before starting
+- Check "Phase 7: Paper Writing" section for citation resources
+- @knowledge_curator has tagged resources by phase
 
 **Citation Format**:
 ```markdown
 ## References Section
 
 ### External Resources
-[WEB_001] Author, "Title," arXiv:2401.12345, 2024.
-[WEB_007] Author, "Title," Journal Name, 2023.
+[MAN_001] bayesian_sir_model.py, local resource, 2026.
+[MAN_007] optimization_paper.md, local resource, 2026.
 
 ### In-Text Citations
-"Our network formulation follows established approaches [WEB_001]..."
+"Our network formulation follows established approaches [MAN_001]..."
 ```
 
 **Protocol 21 Applies**:
 - All external resource citations must be accurate
-- Data quoted from external sources must match
+- Data quoted from external sources must match original content
+- **SHA-256 hash verification** ensures file integrity
+- Run: `python docs/newplan/10_tools/indexer.py verify`
 
 ---
 
@@ -292,9 +316,11 @@ If external resources contain comparable data:
 - @validator checks Protocol 21 (data consistency)
 
 **Protocol 21 Checklist**:
-- [ ] All WEB_xxx citations have matching entries in references
+- [ ] All MAN_xxx citations have matching entries in references
 - [ ] Data quoted from external sources matches content.md
 - [ ] No broken/stale resource references
+- [ ] **SHA-256 hashes verified**: `python docs/newplan/10_tools/indexer.py verify`
+- [ ] File integrity maintained after any manual edits
 
 ---
 
@@ -303,8 +329,8 @@ If external resources contain comparable data:
 ### Phase 0 Completion
 ```
 # After Phase 0 completes:
-1. Extract problem keywords for @web_crawler
-2. Start Phase 0.1 (external resources) in PARALLEL with Phase 0.2
+1. Check if user has dropped files in inbox/
+2. Start Phase 0.1 (@resource_ingestor) in PARALLEL with Phase 0.2
 3. Do NOT wait for Phase 0.1 to complete before proceeding
 ```
 
@@ -315,7 +341,7 @@ Timeline:
 00:01 - Start Phase 0.1 AND Phase 0.2 simultaneously
 00:15 - Phase 0.2 completes
 00:25 - Phase 0.1 completes (may be after 0.2)
-00:26 - Start Phase 0.5 (has external resources available)
+00:26 - Start Phase 0.5 (has external resources available via summary_for_agents.md)
 ```
 
 ### Resource Availability Check
@@ -332,32 +358,29 @@ def check_resources_available():
 
 ---
 
-## Consultation Triggers
+## Consultation Triggers (Passive Model)
 
 | Phase | Trigger | Action |
 |-------|---------|--------|
-| 0 → 0.1 | Problem keywords extracted | @web_crawler begins search |
-| 0.1 → 0.5 | Resources approved | @knowledge_curator generates Phase 0.5 recommendations |
-| 0.5 → 1 | Methodology passed | @knowledge_curator generates Phase 1 recommendations |
-| 1 start | @modeler needs reference | Query @knowledge_curator |
-| 3 start | @data_engineer needs data | Query @knowledge_curator |
-| 4 start | @code_translator needs example | Query @knowledge_curator |
-| 7 start | @writer needs citations | @knowledge_curator provides citation list |
-| 9 | @validator checks consistency | Apply Protocol 21 |
+| 0 → 0.1 | User drops files in inbox/ | @resource_ingestor processes them |
+| 0.1 → All | Resources approved | @knowledge_curator updates summary_for_agents.md |
+| Any phase start | Agent begins work | Agent reads summary_for_agents.md (MANDATORY) |
+| 7 start | @writer needs citations | Check summary_for_agents.md "Phase 7" section |
+| 9 | @validator checks consistency | Apply Protocol 21, run hash verification |
 
 ---
 
 ## Fallback: No External Resources
 
-If Phase 0.1 produces no resources:
+If Phase 0.1 produces no resources (no files in inbox/):
 
 ```markdown
 ## Fallback Procedure
 
-1. @web_crawler reports: "No relevant resources found"
+1. @resource_ingestor reports: "inbox/ is empty, no resources to process"
 2. Director logs: "Proceeding without external resources"
 3. All subsequent phases use internal HMML 2.0 only
-4. @knowledge_curator responds to queries with: "No external resources available"
+4. summary_for_agents.md shows: "No external resources available"
 5. Paper writing: No external citations (internal references only)
 ```
 
