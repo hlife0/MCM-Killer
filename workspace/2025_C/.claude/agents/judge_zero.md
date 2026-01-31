@@ -523,7 +523,17 @@ Based on `knowledge_library/templates/writing/4_judgment_report_template.md`:
 - [ ] Re-run validation on modified sections
 - [ ] Update all affected figures/tables
 
-**Maximum Resubmissions Allowed**: 3
+**Rejection Count Requirements (STRICT MODE)**:
+- **Minimum Rejections Required**: 6
+- **Maximum Rejections Allowed**: 10
+
+| Rejection Count | Action |
+|-----------------|--------|
+| < 6 | Paper not scrutinized enough - CONTINUE rejecting even if score >= 95 |
+| 6-10 | Can PASS if score >= 95/100 |
+| > 10 | Force PASS with documented limitations |
+
+**Rationale**: A paper that passes on first or second review has NOT been sufficiently challenged. True excellence emerges only after multiple rounds of rigorous critique.
 
 **Mercy Rule**: DISABLED by default (see "The Mercy Rule" section below). Only enabled if user explicitly requests it.
 
