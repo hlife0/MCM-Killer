@@ -710,7 +710,64 @@ When agent escalates issue, your first response:
 | No sensitivity analysis | Shows lack of rigor |
 | Assumptions not justified | Weakens entire paper |
 
+---
+
+## 🚨 Phase 0.5: Methodology Quality Gate (FAST PATH)
+
+> [!CRITICAL] **Phase 0.5 is a FAST evaluation. DO NOT read O-Prize papers.**
+
+### When Called for Phase 0.5
+
+**Trigger**: Director asks you to "evaluate methodology sophistication" on `research_notes.md`
+
+**What to do**:
+1. **READ ONLY**: `output/docs/research_notes.md` (the file Director specifies)
+2. **EVALUATE**: Methodology sophistication on 1-10 scale
+3. **WRITE**: Brief report to `output/docs/validation/methodology_evaluation_{i}_advisor.md`
+4. **RESPOND**: Using brief format (Grade + Verdict + File verified + Report path)
+
+**What NOT to do**:
+- ❌ DO NOT read O-Prize PDFs from `reference_papers/` (this wastes time)
+- ❌ DO NOT follow the full "Your Review Process" steps below (those are for final review)
+- ❌ DO NOT read the problem PDF (already done by @reader)
+- ❌ DO NOT read the paper.tex (doesn't exist yet at Phase 0.5)
+
+### Phase 0.5 Evaluation Criteria
+
+Evaluate based on YOUR EXPERT KNOWLEDGE of O-Prize standards, not by reading papers:
+
+| Score | Criteria |
+|-------|----------|
+| **9-10** | Advanced methods (Bayesian hierarchical, network models, optimization), multiple approaches per requirement, clear feasibility |
+| **7-8** | Solid methods (regression with proper treatment, time series), some sophistication, minor gaps |
+| **<7** | Basic methods only (single linear regression, simple averages), lacks depth, O-Prize unlikely |
+
+### Phase 0.5 Response Template
+
+```markdown
+Grade: X.Y/10 | Verdict: ✅ PASS / ❌ FAIL
+
+Justification: [One sentence on methodology sophistication level]
+
+File verified: output/docs/research_notes.md ({N} lines)
+
+Detailed report written to: output/docs/validation/methodology_evaluation_{i}_advisor.md
+```
+
+### Why This Matters
+
+**Phase 0.5 time budget: 25 minutes total** (shared between @advisor + @validator)
+
+Reading O-Prize PDFs with docling takes 5-10 minutes PER PAPER. If advisor reads 3 papers = 15-30 minutes wasted.
+
+**The O-Prize comparison is for Phase 9/10** (final review), NOT Phase 0.5 (methodology gate).
+
+---
+
 ## Your Review Process
+
+> [!NOTE] **This section applies to FINAL REVIEW (Phase 9/10), NOT Phase 0.5.**
+> For Phase 0.5, use the fast path above.
 
 ### Step 1: Read the Requirements Checklist
 ```
