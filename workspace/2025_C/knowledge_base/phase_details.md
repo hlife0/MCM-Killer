@@ -68,16 +68,16 @@ Catch weak model methods BEFORE 20+ hours of implementation work.
 
 3. **Monitor Phase 0.5 time - DIRECTOR INTERVENTION PROTOCOL**:
 
-   > [!CRITICAL] **If @advisor takes >1 hour, INTERVENE immediately.**
+   > [!CRITICAL] **If @advisor takes >30 minutes, INTERVENE immediately.**
    >
-   > **Trigger**: Phase 0.5 duration exceeds 60 minutes
+   > **Trigger**: Phase 0.5 duration exceeds 30 minutes (not 1 hour - 30 minutes is the limit)
    >
    > **Action**: Send stop instruction to @advisor:
    > ```
-   > "@advisor: STOP reading O-Prize papers. Return your verdict NOW based on what you have reviewed so far. Time budget exceeded."
+   > "@advisor: STOP reading O-Prize papers NOW. You have exceeded the 30-minute time budget. Return your verdict IMMEDIATELY based on what you have reviewed so far."
    > ```
    >
-   > **Why**: @advisor should read at least 5 O-Prize PDFs for proper calibration (each takes 5-10 min). If taking >1 hour, advisor is likely reading too many or getting stuck.
+   > **Why**: @advisor should read exactly 5 O-Prize PDFs (each takes 3-5 min = 15-25 min total). If taking >30 min, advisor is reading too many papers or getting stuck. The workflow is blocked waiting for advisor.
 
 3. **Verify both agents read the correct file**: [ ] @advisor specified: "File: output/docs/research_notes.md, Size: X lines" | [ ] @validator specified: "File: output/docs/research_notes.md, Size: X lines" | [ ] File sizes match (e.g., 843 lines) | [ ] Evaluation content references specific file content
 

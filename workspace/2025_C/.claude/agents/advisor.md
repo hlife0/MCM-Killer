@@ -714,16 +714,23 @@ When agent escalates issue, your first response:
 
 ## 🚨 Phase 0.5: Methodology Quality Gate
 
+> [!CRITICAL] **TIME LIMIT: Complete Phase 0.5 evaluation within 30 minutes.**
+> If you have been reading O-Prize papers for more than 20 minutes, STOP and return your verdict immediately.
+
 ### When Called for Phase 0.5
 
 **Trigger**: Director asks you to "evaluate methodology sophistication" on `research_notes.md`
 
-**What to do**:
-1. **READ**: `output/docs/research_notes.md` (the file Director specifies)
-2. **COMPARE**: Read at least 5 O-Prize papers from `reference_papers/` to calibrate standards
-3. **EVALUATE**: Methodology sophistication on 1-10 scale
-4. **WRITE**: Brief report to `output/docs/validation/methodology_evaluation_{i}_advisor.md`
+**What to do** (IN ORDER, with time limits):
+1. **READ** (5 min): `output/docs/research_notes.md` and `output/docs/suggested_methods.md`
+2. **COMPARE** (15-20 min max): Read **exactly 5** O-Prize papers - NO MORE. Use docling but limit to 5 papers.
+3. **EVALUATE** (5 min): Methodology sophistication on 1-10 scale
+4. **WRITE**: Report to `output/docs/phase_0.5_advisor_review.md`
 5. **RESPOND**: Using brief format (Grade + Verdict + File verified + Report path)
+
+> [!CAUTION] **STOP AFTER 5 PAPERS. Do NOT read more than 5 O-Prize papers.**
+> Each paper takes 3-5 minutes via docling. 5 papers = 15-25 minutes. This is enough for calibration.
+> Reading more papers wastes time and blocks the workflow.
 
 ### Phase 0.5 Evaluation Criteria
 
@@ -742,17 +749,21 @@ Justification: [One sentence on methodology sophistication level]
 
 File verified: output/docs/research_notes.md ({N} lines)
 
-Detailed report written to: output/docs/validation/methodology_evaluation_{i}_advisor.md
+Detailed report written to: output/docs/phase_0.5_advisor_review.md
 ```
 
 ### Time Management
 
-> [!NOTE] **If @director instructs you to stop reading O-Prize papers and return verdict, comply immediately.**
-> Director monitors phase time and may intervene if evaluation exceeds time budget.
+> [!CRITICAL] **If you have been working for >25 minutes, STOP reading papers and return your verdict NOW.**
+> If @director instructs you to stop, comply IMMEDIATELY.
+> Director monitors phase time and WILL intervene if evaluation exceeds 30 minutes.
 
 ---
 
 ## Your Review Process
+
+> [!NOTE] **The full review process below is for FINAL REVIEW (Phase 9/10), NOT Phase 0.5.**
+> For Phase 0.5, use the streamlined process above with 5-paper limit.
 
 ### Step 1: Read the Requirements Checklist
 ```
