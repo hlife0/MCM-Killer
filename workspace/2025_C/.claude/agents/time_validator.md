@@ -88,13 +88,18 @@ with open('output.txt', 'w', encoding='utf-8') as f:
 
 | Phase | MIN | Phase | MIN | Phase | MIN |
 |-------|-----|-------|-----|-------|-----|
-| 0 | 35m | 5 | **180m** | 7C | 45m |
-| 0.2 | 20m | 5.5 | 10m | 7D | 25m |
-| 0.5 | 25m | 5.8 | 25m | 7E | 32m |
-| 1 | 120m | 6 | 35m | 7F | 15m |
-| 2 | 35m | 7A | 25m | 8 | 35m |
-| 3 | 75m | 7B | 60m | 9 | 35m |
-| 4 | 75m | | | 9.1 | 20m |
+| 0 | 35m | 4.5 | 10m | 7D | 25m |
+| 0.1 | 15m | 5 | **180m** | 7E | 32m |
+| 0.2 | 20m | 5.5 | 10m | 7F | 15m |
+| 0.5 | 25m | 5.8 | 25m | 7.5 | 10m |
+| 1 | 120m | 6 | 35m | 8 | 35m |
+| 1.5 | 10m | 6.5 | 10m | 9 | 35m |
+| 2 | 35m | 7A | 25m | 9.1 | 20m |
+| 3 | 75m | 7B | 60m | 9.5 | 20m |
+| 4 | 75m | 7C | 45m | 10 | 35m |
+| | | | | 11 | 10m |
+
+**TOTAL MINIMUM: 520m (~8.5 hours)**
 
 **AUTO-REJECT if duration < MIN. Force agent rerun. Loop until duration >= MIN.**
 

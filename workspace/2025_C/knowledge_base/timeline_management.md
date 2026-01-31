@@ -1,11 +1,11 @@
 # Timeline Management (v3.3.0 - STRICT TIME ENFORCEMENT)
 
 > **Source**: Extracted from CLAUDE.md v3.3.0
-> **Purpose**: Timeline tracking, escalation, and 8-HOUR MINIMUM enforcement
+> **Purpose**: Timeline tracking, escalation, and 8.5-HOUR MINIMUM enforcement
 
-## 8-HOUR MINIMUM WORKFLOW REQUIREMENT
+## 8.5-HOUR MINIMUM WORKFLOW REQUIREMENT
 
-> [!CRITICAL] **Total workflow duration MUST reach 480 minutes (8 hours) minimum.**
+> [!CRITICAL] **Total workflow duration MUST reach 520 minutes (~8.5 hours) minimum.**
 > **Phase 5 (Model Training) MINIMUM: 180 minutes (3 hours)**
 
 ### Time Allocation Breakdown
@@ -21,7 +21,7 @@
 | Final Polish | 8, 9, 9.1, 9.5, 10, 11 | 175 min |
 | **TOTAL MINIMUM** | **All phases** | **~1035 min (~17 hours)** |
 
-**Note**: Individual phase minimums sum to ~17 hours. The 8-hour floor is an absolute minimum - actual work should far exceed this.
+**Note**: Individual phase minimums sum to ~17 hours. The 8.5-hour floor is an absolute minimum - actual work should far exceed this.
 
 ---
 
@@ -36,11 +36,11 @@
 | 0 | 35m | ???m | ???m | ???% |
 | 0.2 | 20m | ???m | ???m | ???% |
 | ... | ... | ... | ... | ... |
-| TOTAL | 480m | ???m | ???m | ???% |
+| TOTAL | 520m | ???m | ???m | ???% |
 ```
 
 **Use it to**:
-- Track cumulative time toward 8-hour minimum
+- Track cumulative time toward 8.5-hour minimum
 - Detect phases that are underspent
 - Decide when to FORCE RERUN on underspent phases
 - Ensure Phase 5 reaches 3-hour minimum
@@ -53,7 +53,7 @@
 |-----------|----------|--------|
 | **Any phase duration < MINIMUM** | ❌ CRITICAL | **REJECT + FORCE RERUN** (do NOT stop workflow) |
 | **Phase 5 < 180 minutes** | ❌ CRITICAL | **REJECT + FORCE RERUN** (3-hour minimum required) |
-| **Cumulative < 480 minutes at Phase 11** | ❌ CRITICAL | **CANNOT complete workflow** - add time to deficient phases |
+| **Cumulative < 520 minutes at Phase 11** | ❌ CRITICAL | **CANNOT complete workflow** - add time to deficient phases |
 | Buffer drops below 5% (<3.6 hours) | ⚠️ WARNING | Activate emergency protocols |
 | Any phase exceeds allocated time by >50% | ✅ OK | No penalty - quality over speed |
 

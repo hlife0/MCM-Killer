@@ -448,7 +448,7 @@ Quality: HIGH/MEDIUM/LOW | Confidence: {1-10} | Issues: {list or "None"}
 ```
 @time_validator: Phase Time Check (BLOCKING TIME GATE)
 Phase: {X} ({name}) | Agent: @{agent} | Duration: {XX}m | MINIMUM: {YY}m
-Cumulative Total: {ZZ}m / 480m (8-hour minimum)
+Cumulative Total: {ZZ}m / 520m (8.5-hour minimum)
 Check: 1. Query output/implementation/logs/phase_{X}_timing.json 2. Compare vs logged 3. Validate against MINIMUM (no threshold buffer)
 ENFORCEMENT: Duration < MINIMUM = REJECT + FORCE RERUN (workflow does NOT stop)
 Return: APPROVE / REJECT_INSUFFICIENT_TIME / INVESTIGATE

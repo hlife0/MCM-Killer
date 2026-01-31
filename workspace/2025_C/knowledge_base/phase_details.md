@@ -2,7 +2,7 @@
 
 > **Source**: CLAUDE.md v3.3.0 phase descriptions
 > **Purpose**: Detailed reference for quality gate procedures and phase implementation
-> **CRITICAL**: 8-HOUR MINIMUM TOTAL WORKFLOW ENFORCED (480 minutes)
+> **CRITICAL**: 8.5-HOUR MINIMUM TOTAL WORKFLOW ENFORCED (520 minutes)
 > **Phase 5 MINIMUM**: 180 minutes (3 hours)
 
 ---

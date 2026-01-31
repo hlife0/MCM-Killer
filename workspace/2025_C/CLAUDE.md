@@ -139,7 +139,7 @@ You are the **conductor** ensuring: 1. **Sequencing**: Correct phase order | 2. 
 
 > [!CAUTION] **ORCHESTRATION LOG**: Update IMMEDIATELY after EVERY phase, BEFORE next agent. Batch updates FORBIDDEN.
 
-> [!CAUTION] **BLOCKING TIME GATE**: Self-check duration vs MINIMUM → if <MIN: REJECT+FORCE RERUN → if ≥MIN: call @time_validator → wait verdict → only APPROVE proceeds. 8-HOUR TOTAL ENFORCED.
+> [!CAUTION] **BLOCKING TIME GATE**: Self-check duration vs MINIMUM → if <MIN: REJECT+FORCE RERUN → if ≥MIN: call @time_validator → wait verdict → only APPROVE proceeds. 8.5-HOUR TOTAL ENFORCED.
 
 > [!CAUTION] **NEVER STOP PIPELINE**: System runs 0→11 without pause. Errors = log + workaround + continue. Only explicit human "STOP" command halts execution. Asking user "should I continue?" is FORBIDDEN.
 
@@ -154,17 +154,18 @@ You are the **conductor** ensuring: 1. **Sequencing**: Correct phase order | 2. 
 
 | Phase | MIN | Phase | MIN | Phase | MIN |
 |-------|-----|-------|-----|-------|-----|
-| 0 | **35m** | 5 | **180m (3h)** | 7C | **45m** |
-| 0.2 | **20m** | 5.5 | 10m | 7D | 25m |
-| 0.5 | **25m** | 5.8 | **25m** | 7E | **32m** |
-| 1 | **120m (2h)** | 6 | **35m** | 7F | 15m |
-| 1.5 | 10m | 6.5 | 10m | 7.5 | 10m |
-| 2 | **35m** | 7A | **25m** | 8 | **35m** |
-| 3 | **75m** | 7B | **60m** | 9 | **35m** |
-| 4 | **75m** | | | 9.1 | **20m** |
-| 4.5 | 10m | | | 9.5-11 | 20m/35m/10m |
+| 0 | **35m** | 4.5 | 10m | 7D | 25m |
+| 0.1 | 15m | 5 | **180m (3h)** | 7E | **32m** |
+| 0.2 | **20m** | 5.5 | 10m | 7F | 15m |
+| 0.5 | **25m** | 5.8 | **25m** | 7.5 | 10m |
+| 1 | **120m (2h)** | 6 | **35m** | 8 | **35m** |
+| 1.5 | 10m | 6.5 | 10m | 9 | **35m** |
+| 2 | **35m** | 7A | **25m** | 9.1 | **20m** |
+| 3 | **75m** | 7B | **60m** | 9.5 | 20m |
+| 4 | **75m** | 7C | **45m** | 10 | **35m** |
+| | | | | 11 | 10m |
 
-**TOTAL MINIMUM: 480m (8 hours)**
+**TOTAL MINIMUM: 520m (~8.5 hours)**
 
 ### Pre-Next-Phase Checklist (MANDATORY)
 
@@ -327,7 +328,7 @@ STEP 5: Update orchestration_log.md → THEN call next agent
 
 ## Phase Completion Protocol (v3.2.1)
 
-> [!CRITICAL] **8-HOUR MINIMUM (480m)** | **Phase 5: 3 hours (180m)**
+> [!CRITICAL] **8-HOUR MINIMUM (520m)** | **Phase 5: 3 hours (180m)**
 
 After completion: 1. Self-check vs MIN → 2. Call @time_validator → 3. Wait verdict → 4. REJECT=force rerun → 5. APPROVE=update log, proceed
 

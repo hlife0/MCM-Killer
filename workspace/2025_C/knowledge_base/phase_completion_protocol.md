@@ -2,7 +2,7 @@
 
 > **Source**: CLAUDE.md v3.3.0 Phase Completion Protocol
 > **Purpose**: Detailed reference for STRICT phase timing validation and completion reporting
-> **CRITICAL**: 8-HOUR MINIMUM TOTAL WORKFLOW ENFORCED (480 minutes)
+> **CRITICAL**: 8.5-HOUR MINIMUM TOTAL WORKFLOW ENFORCED (520 minutes)
 
 ---
 
@@ -26,7 +26,7 @@
 | 7B | 5.8m | 60m | **54.2m short** |
 | 8 | 2.8m | 35m | **32.2m short** |
 
-**Total workflow: 414m actual vs 480m MINIMUM (66m short)**
+**Total workflow: 414m actual vs 520m MINIMUM (66m short)**
 
 ### Root Cause
 
@@ -50,7 +50,7 @@ After EVERY phase completion, Director MUST validate time with @time_validator. 
 1. Agents spend **adequate time** on each phase (MINIMUM enforced, no threshold buffer)
 2. Work is **NOT rushed** or shortcuts taken
 3. Quality is maintained through **strict time accountability**
-4. **8-hour minimum total workflow** is achieved
+4. **8.5-hour minimum total workflow** is achieved
 5. **Phase 5 (Model Training) requires 3 hours minimum**
 
 **ENFORCEMENT RULE**:
@@ -114,13 +114,14 @@ Agent completes phase → Reports to Director
 
 ## Phase Time Requirements Table (STRICT MINIMUMS - NO UPPER LIMITS)
 
-> [!CRITICAL] **8-HOUR MINIMUM TOTAL WORKFLOW (480 minutes)**
+> [!CRITICAL] **8.5-HOUR MINIMUM TOTAL WORKFLOW (520 minutes)**
 > **The MINIMUM column IS the hard floor. Duration < MINIMUM = REJECT + FORCE RERUN. NO EXCEPTIONS.**
 > **Phase 5 MINIMUM: 3 hours (180 minutes)** - Model training requires substantial time.
 
 | Phase | Name | MINIMUM TIME |
 |-------|------|--------------|
 | 0 | Problem Understanding | **35 min** |
+| 0.1 | External Resource Processing | **15 min** |
 | 0.2 | Knowledge Retrieval | **20 min** |
 | 0.5 | Methodology Gate | **25 min** |
 | 1 | Model Design | **120 min (2 hours)** |
@@ -136,19 +137,19 @@ Agent completes phase → Reports to Director
 | 6.5 | Visual Gate | **10 min** |
 | 7A | Paper Framework | **25 min** |
 | 7B | Model Sections | **60 min** |
-| 7C | Results Integration | **35 min** |
+| 7C | Results Integration | **45 min** |
 | 7D | Analysis Sections | **25 min** |
-| 7E | Conclusions | **25 min** |
+| 7E | Conclusions | **32 min** |
 | 7F | LaTeX Compilation | **15 min** |
 | 7.5 | LaTeX Gate | **10 min** |
 | 8 | Summary | **35 min** |
 | 9 | Polish | **35 min** |
-| 9.1 | Mock Judging | **20 min** |
+| 9.1 | Mock Judging (6-10 rejections) | **20 min** |
 | 9.5 | Editor Feedback | **20 min** |
 | 10 | Final Review | **35 min** |
 | 11 | Self-Evolution | **10 min** |
 
-**NO UPPER LIMITS** - Agents should take as much time as needed for quality work.
+**TOTAL MINIMUM: 520 min (~8.5 hours)**
 **NO THRESHOLD BUFFER** - The MINIMUM is the rejection threshold. No -30% buffer.
 
 ---
@@ -166,7 +167,7 @@ Director, Phase {X} COMPLETE.
 - End: {ISO timestamp, e.g., 2026-01-30T15:00:00}
 - Duration: {XX} minutes
 - MINIMUM Required: {min_time} minutes
-- Cumulative Total: {ZZ} minutes / 480 minutes (8-hour minimum)
+- Cumulative Total: {ZZ} minutes / 520 minutes (8.5-hour minimum)
 
 ## Deliverables
 - Output files: {list of files created/modified}
@@ -191,7 +192,7 @@ Director, Phase 3 COMPLETE.
 - End: 2026-01-30T11:15:00
 - Duration: 75 minutes
 - MINIMUM Required: 75 minutes ✓
-- Cumulative Total: 255 minutes / 480 minutes
+- Cumulative Total: 255 minutes / 520 minutes
 
 ## Deliverables
 - Output files:
@@ -220,13 +221,13 @@ Phase: {X} ({phase_name})
 Agent: @{agent_name}
 Reported Duration: {XX} minutes
 MINIMUM Required: {min_time} minutes
-Cumulative Total: {ZZ} minutes / 480 minutes (8-hour minimum)
+Cumulative Total: {ZZ} minutes / 520 minutes (8.5-hour minimum)
 
 Check:
 1. Query Python backend log at output/implementation/logs/phase_{X}_timing.json
 2. Compare reported duration vs logged duration
 3. Validate against MINIMUM (NO threshold buffer - MINIMUM IS the hard floor)
-4. Track cumulative time toward 8-hour minimum
+4. Track cumulative time toward 8.5-hour minimum
 
 ENFORCEMENT: Duration < MINIMUM = REJECT + FORCE RERUN (workflow does NOT stop)
 
@@ -262,7 +263,7 @@ Append to `output/docs/time_rejections.md`:
 - **MINIMUM Required**: {YY} minutes
 - **Reason**: Duration below MINIMUM (INSUFFICIENT TIME = ACADEMIC FRAUD)
 - **Action**: FORCE RERUN (workflow continues)
-- **Cumulative Total**: {ZZ} minutes / 480 minutes
+- **Cumulative Total**: {ZZ} minutes / 520 minutes
 ```
 
 ### Step 2: FORCE Phase Rerun (DO NOT STOP WORKFLOW)
@@ -293,9 +294,9 @@ MINIMUM required: {minimum} minutes (this is the HARD FLOOR, no buffer)
 
 ---
 
-## Cumulative Time Tracking (8-HOUR MINIMUM)
+## Cumulative Time Tracking (8.5-HOUR MINIMUM)
 
-> [!CRITICAL] **Even if all phases pass individually, cumulative time must reach 480 minutes (8 hours).**
+> [!CRITICAL] **Even if all phases pass individually, cumulative time must reach 520 minutes (~8.5 hours).**
 
 ### Tracking Protocol
 After each phase approval, update cumulative time:
@@ -316,11 +317,11 @@ After each phase approval, update cumulative time:
 ### Final Workflow Gate
 Before Phase 11 (Self-Evolution) completes:
 ```
-IF cumulative_total < 480 minutes:
+IF cumulative_total < 520 minutes:
     REJECT workflow completion
     Identify underspent phases
     FORCE additional work on deficient phases
-    Loop until cumulative_total >= 480 minutes
+    Loop until cumulative_total >= 520 minutes
 ENDIF
 ```
 
@@ -458,14 +459,14 @@ After successful time validation, update manifest with cumulative tracking:
 
 ## 8-Hour Minimum Enforcement Summary
 
-> [!CRITICAL] **NO EXCEPTIONS TO THE 8-HOUR MINIMUM**
+> [!CRITICAL] **NO EXCEPTIONS TO THE 8.5-HOUR MINIMUM**
 
 | Enforcement Point | Rule |
 |-------------------|------|
 | Each Phase | Duration >= MINIMUM (hard floor) |
 | Rejection | DO NOT STOP workflow, FORCE RERUN |
-| Cumulative | Track total toward 480 minutes |
-| Final Gate | Workflow cannot complete if total < 480 minutes |
+| Cumulative | Track total toward 520 minutes |
+| Final Gate | Workflow cannot complete if total < 520 minutes |
 | Phase 5 | MINIMUM 180 minutes (3 hours) |
 
 **INSUFFICIENT TIME = ACADEMIC FRAUD** - Rushing through phases produces low-quality work that contaminates downstream phases.
