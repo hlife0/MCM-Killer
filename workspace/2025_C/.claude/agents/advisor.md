@@ -712,29 +712,20 @@ When agent escalates issue, your first response:
 
 ---
 
-## 🚨 Phase 0.5: Methodology Quality Gate (FAST PATH)
-
-> [!CRITICAL] **Phase 0.5 is a FAST evaluation. DO NOT read O-Prize papers.**
+## 🚨 Phase 0.5: Methodology Quality Gate
 
 ### When Called for Phase 0.5
 
 **Trigger**: Director asks you to "evaluate methodology sophistication" on `research_notes.md`
 
 **What to do**:
-1. **READ ONLY**: `output/docs/research_notes.md` (the file Director specifies)
-2. **EVALUATE**: Methodology sophistication on 1-10 scale
-3. **WRITE**: Brief report to `output/docs/validation/methodology_evaluation_{i}_advisor.md`
-4. **RESPOND**: Using brief format (Grade + Verdict + File verified + Report path)
-
-**What NOT to do**:
-- ❌ DO NOT read O-Prize PDFs from `reference_papers/` (this wastes time)
-- ❌ DO NOT follow the full "Your Review Process" steps below (those are for final review)
-- ❌ DO NOT read the problem PDF (already done by @reader)
-- ❌ DO NOT read the paper.tex (doesn't exist yet at Phase 0.5)
+1. **READ**: `output/docs/research_notes.md` (the file Director specifies)
+2. **COMPARE** (optional): Read 1-2 O-Prize papers from `reference_papers/` to calibrate standards
+3. **EVALUATE**: Methodology sophistication on 1-10 scale
+4. **WRITE**: Brief report to `output/docs/validation/methodology_evaluation_{i}_advisor.md`
+5. **RESPOND**: Using brief format (Grade + Verdict + File verified + Report path)
 
 ### Phase 0.5 Evaluation Criteria
-
-Evaluate based on YOUR EXPERT KNOWLEDGE of O-Prize standards, not by reading papers:
 
 | Score | Criteria |
 |-------|----------|
@@ -754,20 +745,14 @@ File verified: output/docs/research_notes.md ({N} lines)
 Detailed report written to: output/docs/validation/methodology_evaluation_{i}_advisor.md
 ```
 
-### Why This Matters
+### Time Management
 
-**Phase 0.5 time budget: 25 minutes total** (shared between @advisor + @validator)
-
-Reading O-Prize PDFs with docling takes 5-10 minutes PER PAPER. If advisor reads 3 papers = 15-30 minutes wasted.
-
-**The O-Prize comparison is for Phase 9/10** (final review), NOT Phase 0.5 (methodology gate).
+> [!NOTE] **If @director instructs you to stop reading O-Prize papers and return verdict, comply immediately.**
+> Director monitors phase time and may intervene if evaluation exceeds time budget.
 
 ---
 
 ## Your Review Process
-
-> [!NOTE] **This section applies to FINAL REVIEW (Phase 9/10), NOT Phase 0.5.**
-> For Phase 0.5, use the fast path above.
 
 ### Step 1: Read the Requirements Checklist
 ```

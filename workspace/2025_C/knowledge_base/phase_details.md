@@ -62,14 +62,22 @@ Catch weak model methods BEFORE 20+ hours of implementation work.
 
 2. **Call @advisor + @validator in PARALLEL with EXPLICIT file paths**:
    ```
-   "@advisor: Read output/docs/research_notes.md and evaluate methodology sophistication (1-10 grade). Report which file you read at the start of your response. DO NOT read O-Prize papers - use your expert knowledge only."
+   "@advisor: Read output/docs/research_notes.md and evaluate methodology sophistication (1-10 grade). Report which file you read at the start of your response."
    "@validator: Read output/docs/research_notes.md and evaluate technical rigor (1-10 grade). Report which file you read at the start of your response."
    ```
 
-   > [!CRITICAL] **@advisor MUST NOT read O-Prize PDFs during Phase 0.5.**
-   > Reading reference papers with docling takes 5-10 minutes PER PAPER and is unnecessary.
-   > @advisor should evaluate based on expert knowledge of O-Prize standards.
-   > O-Prize PDF comparison is for Phase 9/10 (final review), NOT Phase 0.5.
+3. **Monitor Phase 0.5 time - DIRECTOR INTERVENTION PROTOCOL**:
+
+   > [!CRITICAL] **If @advisor takes >1 hour, INTERVENE immediately.**
+   >
+   > **Trigger**: Phase 0.5 duration exceeds 60 minutes
+   >
+   > **Action**: Send stop instruction to @advisor:
+   > ```
+   > "@advisor: STOP reading O-Prize papers. Return your verdict NOW based on what you have reviewed so far. Time budget exceeded."
+   > ```
+   >
+   > **Why**: @advisor may be reading too many O-Prize PDFs via docling (each takes 5-10 min). 1-2 papers is sufficient for calibration.
 
 3. **Verify both agents read the correct file**: [ ] @advisor specified: "File: output/docs/research_notes.md, Size: X lines" | [ ] @validator specified: "File: output/docs/research_notes.md, Size: X lines" | [ ] File sizes match (e.g., 843 lines) | [ ] Evaluation content references specific file content
 
