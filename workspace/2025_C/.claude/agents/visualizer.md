@@ -656,6 +656,70 @@ Every diagram needs a **Protocol 15 compliant caption** (Observation → Implica
 
 ---
 
+## 🆔 [CRITICAL NEW] Chart Diversity Enforcement (MANDATORY - V2.0)
+
+> [!CRITICAL]
+> **"Visualization Enhancement" Protocol**
+> You MUST ensure chart diversity. Monotonous visualization sets are REJECTED.
+
+### Diversity Rule
+
+- **MAXIMUM 2 consecutive charts of the same type**
+- If you have 3+ bar charts in a row → Replace middle one with alternative
+- If all figures are line charts → Introduce variety
+
+### Chart Type Diversity Table
+
+| Data Purpose | Primary Type | Alternative 1 | Alternative 2 |
+|--------------|--------------|---------------|---------------|
+| Correlation | Scatter | Heatmap | Pair Plot |
+| Distribution | Histogram | Violin Plot | Box Plot |
+| Comparison | Bar Chart | Radar Chart | Lollipop Chart |
+| Trend/Time | Line Chart | Area Chart | Streamgraph |
+| Composition | Pie Chart | Stacked Bar | Treemap |
+| Flow/Change | Line | Sankey Diagram | Alluvial Plot |
+| Multi-dimensional | Scatter | Parallel Coordinates | Radar Chart |
+| Relationship | Scatter | Network Graph | Chord Diagram |
+
+### Advanced Chart Library (Encourage Usage)
+
+| Chart Type | When to Use | Import |
+|------------|-------------|--------|
+| Heatmap | Correlation matrix, confusion matrix | `seaborn.heatmap()` |
+| Violin Plot | Distribution comparison across categories | `seaborn.violinplot()` |
+| Radar Chart | Multi-dimensional comparison | `matplotlib.pyplot.polar()` |
+| Parallel Coordinates | High-dimensional data patterns | `pandas.plotting.parallel_coordinates()` |
+| Sankey Diagram | Flow/transition visualization | `plotly.graph_objects.Sankey()` |
+| Alluvial Plot | Category changes over time | `pyalluvial` or custom |
+
+### Diversity Verification Checklist
+
+Before finalizing Phase 6, count chart types:
+
+```markdown
+## Chart Diversity Report
+
+| Chart Type | Count | Max Consecutive |
+|------------|-------|-----------------|
+| Line | 3 | 2 ✅ |
+| Bar | 4 | 3 ❌ (NEEDS FIX) |
+| Scatter | 2 | 1 ✅ |
+| Heatmap | 1 | 1 ✅ |
+| Diagram | 2 | 1 ✅ |
+
+**Diversity Score**: 5 different types out of 12 figures
+**Consecutive Violation**: Bar charts (3 in a row) → Replace figure 7 with Radar Chart
+```
+
+### Verification
+
+- [ ] No more than 2 consecutive charts of same type
+- [ ] At least 4 different chart types used
+- [ ] Advanced charts (heatmap, violin, radar) included where appropriate
+- [ ] Chart diversity report generated
+
+---
+
 ## Step-by-Step Instructions
 
 ### Step 1: Review Coder's raw figures

@@ -6,6 +6,44 @@
 
 ---
 
+## FAILURE MODE ANALYSIS (V2.0)
+
+> [!CRITICAL]
+> **IDENTIFIED FAILURE**: In previous competition runs, phases completed in 2-10 minutes when MINIMUM was 25-120 minutes.
+> This completely undermined system integrity and produced low-quality output.
+
+### Evidence from Failed Run (output3_success1)
+
+| Phase | Actual | MINIMUM | Violation |
+|-------|--------|---------|-----------|
+| 0 | 9.4m | 35m | **26m short** |
+| 0.2 | 5.0m | 20m | **15m short** |
+| 0.5 | 2.5m | 25m | **22.5m short** |
+| 1 | 17.6m | 120m | **102.4m short** |
+| 3 | 6.3m | 75m | **68.7m short** |
+| 5 | 77.9m | 180m | **102.1m short** |
+| 7A | 3.7m | 25m | **21.3m short** |
+| 7B | 5.8m | 60m | **54.2m short** |
+| 8 | 2.8m | 35m | **32.2m short** |
+
+**Total workflow: 414m actual vs 480m MINIMUM (66m short)**
+
+### Root Cause
+
+1. **Director did not enforce SELF-CHECK** before calling next agent
+2. **Director did not call @time_validator** for each phase
+3. **Director proceeded immediately** despite duration < MINIMUM
+4. **time_tracker.py was not used** to track actual timing
+
+### Fix Applied (V2.0)
+
+1. **MANDATORY Pre-Next-Phase Checklist** added to CLAUDE.md
+2. **Protocol 22: Strict Time Enforcement** added as BLOCKING protocol
+3. **Automatic Decision Rule 6** added for time enforcement
+4. **Explicit examples** of WRONG vs CORRECT behavior added
+
+---
+
 ## Overview
 
 After EVERY phase completion, Director MUST validate time with @time_validator. This protocol ensures:

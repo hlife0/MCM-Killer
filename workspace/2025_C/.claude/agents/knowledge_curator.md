@@ -1,4 +1,4 @@
----
+a---
 name: knowledge_curator
 description: Maintains the external resources index, provides context injection via summary_for_agents.md, and handles passive consultation.
 tools: Read, Write, Bash, Glob

@@ -9,227 +9,71 @@
 
 | Step | Description | Duration | Dependencies |
 |------|-------------|----------|--------------|
-| 1 | Create folder structure | 5 min | None |
-| 2 | Create configuration files | 10 min | Step 1 |
-| 3 | Create agent files | 30 min | Step 1 |
-| 4 | Create tool scripts | 20 min | Step 1 |
-| 5 | Create Protocol 21 | 10 min | Step 3 |
-| 6 | Update existing agents | 15 min | Step 5 |
-| 7 | Update CLAUDE.md | 15 min | Step 3-6 |
-| 8 | Update protocol index | 5 min | Step 5 |
-| 9 | Update .gitignore | 2 min | Step 1 |
-| 10 | Test pipeline | 20 min | Step 1-9 |
-| 11 | Verify integration | 10 min | Step 10 |
-
-**Total Estimated Time**: ~2.5 hours
+| 1 | Folder structure (auto-created) | 0 min | None |
+| 2 | Create agent files | 30 min | None |
+| 3 | Create tool scripts | 20 min | None |
+| 4 | Create Protocol 21 | 10 min | Step 2 |
+| 5 | Update existing agents | 15 min | Step 4 |
+| 6 | Update CLAUDE.md | 15 min | Step 2-5 |
+| 7 | Update protocol index | 5 min | Step 4 |
+| 8 | Update .gitignore | 2 min | None |
+| 9 | Test pipeline | 20 min | Step 1-8 |
+| 10 | Verify integration | 10 min | Step 9 |
 
 ---
 
-## Step 1: Create Folder Structure
+## Step 1: Folder Structure (Dynamic Creation)
 
-### 1.1 Create main directories
+> [!IMPORTANT]
+> **The folder structure is NOT pre-created.**
+> It is created dynamically by @resource_manager during Phase 0.1 when the model starts working.
 
-```bash
-BASE="D:/mcmkiller/MCM-Killer/workspace/2025_C/output/external_resources"
+### 1.1 Dynamic Creation by @resource_manager
 
-mkdir -p "$BASE/inbox"
-mkdir -p "$BASE/staging"
-mkdir -p "$BASE/active"
-mkdir -p "$BASE/rejected"
-mkdir -p "$BASE/archived"
+During Phase 0.1, @resource_manager automatically creates the folder structure:
+
+```
+output/external_resources/
+├── inbox/             # Manual drop zone
+├── staging/           # Awaiting quality check
+├── active/            # Approved resources
+│   └── summary_for_agents.md
+├── rejected/          # Failed quality check
+├── archived/          # Historical
+├── by_domain/         # Symlinks by domain
+├── by_phase/          # Symlinks by phase
+├── index.json         # Master index
+├── config.json        # Configuration
+├── statistics.json    # Usage stats
+└── README.md          # Usage instructions
 ```
 
-### 1.2 Create index directories
+### 1.2 When Folder is Created
 
-```bash
-mkdir -p "$BASE/by_domain/epidemiology"
-mkdir -p "$BASE/by_domain/optimization"
-mkdir -p "$BASE/by_domain/statistics"
-mkdir -p "$BASE/by_domain/machine_learning"
-mkdir -p "$BASE/by_domain/network_science"
+The folder structure is created:
+- **Trigger**: When user first drops files into the (not yet existing) inbox/ area
+- **Alternative**: When @resource_manager is explicitly invoked during Phase 0.1
+- **Initialization**: @resource_manager creates all directories and config files
 
-mkdir -p "$BASE/by_phase/phase_0"
-mkdir -p "$BASE/by_phase/phase_1"
-mkdir -p "$BASE/by_phase/phase_3"
-mkdir -p "$BASE/by_phase/phase_4"
-mkdir -p "$BASE/by_phase/phase_7"
-```
+### 1.3 Initialization Responsibility
 
-### 1.3 Verify structure
+@resource_manager handles:
+1. Create all directories (inbox, staging, active, rejected, archived, by_domain, by_phase)
+2. Initialize index.json with version 3.2.0
+3. Initialize config.json with default thresholds
+4. Initialize statistics.json
+5. Create summary_for_agents.md template in active/
+6. Create README.md with usage instructions
 
-```bash
-ls -la "$BASE"
-# Should show: inbox, staging, active, rejected, archived, by_domain, by_phase
-```
+### 1.4 If Folder Doesn't Exist
+
+When any agent checks `output/external_resources/active/summary_for_agents.md`:
+- If folder doesn't exist → No external resources available → Proceed with internal knowledge
+- This is expected during Phase 0 (before Phase 0.1 runs)
 
 ---
 
-## Step 2: Create Configuration Files
-
-### 2.1 Create index.json
-
-**Path**: `output/external_resources/index.json`
-
-```json
-{
-  "version": "3.2.0",
-  "last_updated": "",
-  "total_resources": 0,
-  "by_domain": {},
-  "by_type": {},
-  "by_consumer": {},
-  "by_phase": {},
-  "resources": {}
-}
-```
-
-### 2.2 Create config.json
-
-**Path**: `output/external_resources/config.json`
-
-```json
-{
-  "version": "3.2.0",
-  "created_at": "2026-01-31T00:00:00Z",
-  "lifecycle": {
-    "max_staging_age_hours": 24,
-    "max_active_resources": 50,
-    "auto_archive_after_days": 7,
-    "auto_delete_rejected_after_days": 30
-  },
-  "quality": {
-    "threshold_approve": 7.0,
-    "threshold_conditional": 5.0
-  },
-  "code_extensions": [".py", ".m", ".cpp", ".c", ".java", ".r", ".jl"],
-  "code_weights": {
-    "credibility": 0.15,
-    "relevance": 0.25,
-    "quality": 0.20,
-    "actionability": 0.40
-  },
-  "document_weights": {
-    "credibility": 0.25,
-    "relevance": 0.30,
-    "quality": 0.25,
-    "actionability": 0.20
-  },
-  "limits": {
-    "max_content_size_kb": 500
-  }
-}
-```
-
-### 2.3 Create statistics.json
-
-**Path**: `output/external_resources/statistics.json`
-
-```json
-{
-  "generated_at": "",
-  "totals": {
-    "active": 0,
-    "rejected": 0,
-    "archived": 0
-  },
-  "by_phase": {},
-  "by_domain": {},
-  "by_type": {},
-  "quality_distribution": {
-    "excellent_8_10": 0,
-    "good_7_8": 0,
-    "conditional_5_7": 0
-  },
-  "most_accessed": []
-}
-```
-
-### 2.4 Create summary_for_agents.md
-
-**Path**: `output/external_resources/active/summary_for_agents.md`
-
-```markdown
-# External Resources Summary for Agents
-
-> **Last Updated**: (none yet)
-> **Total Resources**: 0
-> **Generated By**: @knowledge_curator
-
----
-
-## Quick Reference
-
-| Agent | Recommended Resources | Priority |
-|-------|----------------------|----------|
-| (none yet) | - | - |
-
----
-
-## By Phase
-
-(No resources available yet)
-
----
-
-## High-Value Resources (Score >= 8.0)
-
-(None yet)
-
----
-
-## How to Use
-
-1. **Check relevance**: Find your agent in "Quick Reference"
-2. **Read summary**: Go to your phase section
-3. **Access resource**: Use the path provided
-4. **If helpful**: Use insights in your work
-5. **If not helpful**: Ignore and proceed
-
-**Note**: Resources are SUPPLEMENTARY. Internal knowledge (HMML 2.0) takes priority.
-```
-
-### 2.5 Create README.md
-
-**Path**: `output/external_resources/README.md`
-
-```markdown
-# External Resources
-
-This folder contains external resources provided manually via inbox/.
-
-**GITIGNORED**: This folder is not tracked by git. SHA-256 hashes ensure data integrity.
-
-## Structure
-- `inbox/` - Drop files here for processing
-- `staging/` - Awaiting quality review
-- `active/` - Approved for agent use
-  - `summary_for_agents.md` - Context overlay (ALL AGENTS READ THIS)
-- `rejected/` - Failed quality check
-- `archived/` - No longer active
-
-## Quality Thresholds
-- APPROVED: >= 7.0/10 (+ syntax OK for code)
-- CONDITIONAL: 5.0-6.9/10 (+ syntax OK for code)
-- REJECTED: < 5.0/10 OR syntax FAIL
-
-## Code Scoring
-Code files (.py, .m, .cpp) get 40% actionability weight and must pass syntax check.
-
-## Usage
-ALL agents read `active/summary_for_agents.md` before starting their tasks.
-
-## Verification
-Run: `python docs/newplan/10_tools/indexer.py verify` to check SHA-256 hashes.
-
-## Files
-- `index.json` - Master searchable index (with SHA-256 hashes)
-- `config.json` - Pipeline configuration
-- `statistics.json` - Usage analytics
-```
-
----
-
-## Step 3: Create Agent Files
+## Step 2: Create Agent Files
 
 ### 3.1 Copy agent templates
 
@@ -397,16 +241,20 @@ workspace/*/output/external_resources/
 
 ---
 
-## Step 10: Test Pipeline
+## Step 9: Test Pipeline
 
-### 10.1 Test folder structure
+### 9.1 Test @resource_manager initialization
+
+Before testing, invoke @resource_manager to create folder structure:
 
 ```bash
+# @resource_manager creates this when invoked during Phase 0.1
+# After initialization, verify:
 ls -la output/external_resources/
-# Verify all directories and files exist
+# Should show: inbox, staging, active, rejected, archived, by_domain, by_phase
 ```
 
-### 10.2 Test config loading
+### 9.2 Test config loading (after initialization)
 
 ```python
 import json
@@ -415,14 +263,14 @@ with open("output/external_resources/config.json") as f:
 print(config["quality"]["threshold_approve"])  # Should print 7.0
 ```
 
-### 10.3 Test index operations
+### 9.3 Test index operations
 
 ```bash
 python docs/newplan/10_tools/indexer.py stats
 # Should return current statistics
 ```
 
-### 10.4 Test hash verification
+### 9.4 Test hash verification
 
 ```bash
 python docs/newplan/10_tools/indexer.py verify
@@ -431,29 +279,30 @@ python docs/newplan/10_tools/indexer.py verify
 
 ---
 
-## Step 11: Verify Integration
+## Step 10: Verify Integration
 
-### 11.1 Checklist
+### 10.1 Checklist
 
 - [ ] All 4 agent files in `.claude/agents/`
-- [ ] Folder structure at `output/external_resources/`
-- [ ] inbox/ folder exists for manual uploads
-- [ ] summary_for_agents.md in active/
+- [ ] @resource_manager can create folder structure dynamically
 - [ ] Protocol 21 in `.claude/protocols/`
 - [ ] CLAUDE.md updated with new section
 - [ ] Validator includes Protocol 21 checks
+- [ ] All 23 existing agents have "External Resources Check" section
 - [ ] Tool scripts in `docs/newplan/10_tools/`
-- [ ] Config files initialized
 - [ ] .gitignore updated
 
-### 11.2 Smoke test
+### 10.2 Smoke test
 
-1. Manually drop a test file in inbox/
-2. Run @resource_ingestor to process
-3. Run @quality_checker to validate
-4. Verify migration to active/ works
-5. Check index update with SHA-256 hash
-6. Verify summary_for_agents.md updated
+1. Invoke @resource_manager to initialize folder structure
+2. Verify folder structure created at `output/external_resources/`
+3. Verify inbox/ and active/summary_for_agents.md exist
+4. Manually drop a test file in inbox/
+5. Run @resource_ingestor to process
+6. Run @quality_checker to validate
+7. Verify migration to active/ works
+8. Check index update with SHA-256 hash
+9. Verify summary_for_agents.md updated
 
 ---
 

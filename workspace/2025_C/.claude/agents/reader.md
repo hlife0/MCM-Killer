@@ -360,6 +360,51 @@ For each provided dataset:
 - Can construct weighted adjacency matrix for network model
 ```
 
+### 3.5 Complete Variable List (MANDATORY - V2.0)
+
+> [!CRITICAL]
+> **"No Data Left Behind" Protocol**
+> You MUST output a complete variable list for EVERY dataset. No column may be omitted.
+
+**For each CSV/data file, create a table**:
+
+| Column Name | Data Type | Missing Rate | Use Case Proposed |
+|-------------|-----------|--------------|-------------------|
+| {column1}   | {int/float/str/datetime} | {X.X%} | {Initial suggestion} |
+| {column2}   | ... | ... | ... |
+
+**Example**:
+```markdown
+## Complete Variable List
+
+### Dataset: summerOly_athletes.csv
+
+| Column Name | Data Type | Missing Rate | Use Case Proposed |
+|-------------|-----------|--------------|-------------------|
+| athlete_id | int | 0.0% | Primary key |
+| name | str | 0.0% | Display only |
+| sex | str (M/F) | 0.0% | Gender analysis |
+| age | int | 2.3% | Age cohort features |
+| height | float | 15.2% | Physical attributes model |
+| weight | float | 18.7% | Physical attributes model |
+| team | str | 0.0% | Country grouping |
+| noc | str | 0.0% | NOC standardization |
+| games | str | 0.0% | Temporal indexing |
+| year | int | 0.0% | Time series |
+| season | str | 0.0% | Filter (Summer only) |
+| city | str | 0.0% | Host city analysis |
+| sport | str | 0.0% | Sport categorization |
+| event | str | 0.0% | Event-level analysis |
+| medal | str | 68.5% | Target variable |
+| region | str | 0.3% | Geographic/spatial analysis |
+```
+
+**Verification**:
+- [ ] Every CSV file has a Complete Variable List table
+- [ ] Every column in the CSV appears in the table
+- [ ] Missing rate is calculated and documented
+- [ ] Initial use case is proposed for each column
+
 ### 4. Flag Ambiguities and Assumptions
 
 **Identify**:
@@ -784,6 +829,9 @@ Your output must follow this structure exactly to support the entire team.
 - **File 1**: [Variables, Quality, Use Case]
 - **File 2**: [Variables, Quality, Use Case]
 
+### Complete Variable List (V2.0 MANDATORY)
+[Include Complete Variable List table for EVERY dataset - see Section 3.5]
+
 ### Missing Data (Needs Research)
 - ⚠️ [Data type]: [Potential source] -> Action: Request @researcher
 - ❌ [Data type]: [Reason impossible] -> Action: Flag for @advisor
@@ -820,6 +868,9 @@ Before finishing, confirm:
 - [ ] I did NOT use Claude's built-in Read tool directly on the PDF file
 - [ ] I extracted requirements from the REAL problem, not made up
 - [ ] I included Strategic Framing and Data Inventory sections
+- [ ] I created Complete Variable List for EVERY CSV file (V2.0 MANDATORY)
+- [ ] Every column in each CSV appears in the Complete Variable List table
+- [ ] Missing rates are calculated and documented for all columns
 - [ ] I saved output to output/requirements_checklist.md using Write tool
 - [ ] I can cite specific page numbers or sections from the PDF for all requirements
 - [ ] For large CSV files, I used Read with limit or Python pandas to understand structure

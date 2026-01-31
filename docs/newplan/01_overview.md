@@ -18,6 +18,7 @@ The External Resources Pipeline extends MCM-Killer with manual resource manageme
 **Key Design Decisions**:
 - Resources are provided **manually** (dropped in inbox/) not auto-fetched
 - External resources folder is **gitignored** - hashes ensure integrity
+- **Folder created dynamically** by @resource_manager during Phase 0.1 (NOT pre-created)
 - Code files get **40% actionability weight** and **syntax validation**
 - Agents read `summary_for_agents.md` for **passive context** (no active queries)
 

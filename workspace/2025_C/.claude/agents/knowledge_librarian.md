@@ -271,6 +271,61 @@ Read the problem requirements and classify the domain.
 
 ---
 
+### Step 1.5: Feature-Method Mapping (MANDATORY - V2.0)
+
+> [!CRITICAL]
+> **"Data-Shape Driven Innovation" Protocol**
+> You MUST identify innovation points based on Data Shape and Data Type, not just problem keywords.
+> Construct retrieval queries based on data features present in @reader's Complete Variable List.
+
+**Feature-Method Mapping Table**:
+
+| Data Feature Detected | MUST Retrieve Methods | Justification |
+|-----------------------|----------------------|---------------|
+| Lat/Lon/Region/Country/City | Spatial Statistics, Gravity Model, GNN, Geographically Weighted Regression | Geographic data enables spatial modeling - judges expect this |
+| Time Series + Multivariate (>3 vars) | Tensor Decomposition, VAR, Dynamic Factor Models | Multi-dimensional time data requires advanced methods |
+| Network/Graph Structure | GNN, Community Detection, Network Centrality, Link Prediction | Graph data demands graph-aware methods |
+| Text/Categorical with many levels | NLP embeddings, Topic Modeling, Sentiment Analysis | Text data is often underutilized - innovation opportunity |
+| Hierarchical (Country→Region→City) | Hierarchical/Multilevel Models, Random Effects | Nested structure requires hierarchical treatment |
+| Panel Data (Entity + Time) | Fixed/Random Effects, Difference-in-Differences, Synthetic Control | Panel structure enables causal inference methods |
+| High Cardinality Categorical | Target Encoding, Entity Embeddings, Clustering-based encoding | Many categories need specialized encoding |
+| Missing Data Pattern (>10%) | Multiple Imputation, EM Algorithm, Pattern-Mixture Models | Systematic missingness is information, not noise |
+
+**Retrieval Action Protocol**:
+
+1. **Read @reader's Complete Variable List**
+2. **Identify data features present** (check each row in mapping table)
+3. **For EACH detected feature**: Add corresponding methods to retrieval query
+4. **Log feature-method triggers** in suggested_methods.md:
+
+```markdown
+## Data-Shape Triggered Methods (V2.0)
+
+| Feature Detected | Columns | Methods Retrieved |
+|------------------|---------|-------------------|
+| Spatial (Lat/Lon) | latitude, longitude, region | Gravity Model, GWR |
+| Time + Multivariate | year, gdp, population, medals | Tensor Decomposition, VAR |
+```
+
+**Example**:
+```
+@reader reports: region (234 unique), latitude (float), longitude (float), year (1896-2024), medals (int)
+
+→ DETECTED: Spatial data (region, lat, lon)
+→ DETECTED: Time series + multivariate (year + multiple numeric columns)
+
+→ MUST RETRIEVE: Spatial Statistics, Gravity Model, GNN, Tensor Decomposition, VAR
+→ CANNOT IGNORE: These methods MUST appear in suggested_methods.md
+```
+
+**Verification**:
+- [ ] @reader's Complete Variable List was read
+- [ ] All data features identified and logged
+- [ ] Feature-triggered methods included in retrieval
+- [ ] suggested_methods.md contains "Data-Shape Triggered Methods" section
+
+---
+
 ### Step 2: Ban Mediocrity
 
 **Forbid Simple Methods** (unless strongly justified):

@@ -111,6 +111,132 @@ Many O Award problems span multiple domains. Flag these early.
 3. Add Optimization → facility_location.md (for intervention placement)
 ```
 
+### 1.5 Variable-Model Mapping (MANDATORY - V2.0)
+
+> [!CRITICAL]
+> **"No Data Left Behind" Protocol**
+> You MUST explicitly map EVERY variable from @reader's Complete Variable List to a model component.
+> It is STRICTLY FORBIDDEN to ignore any column without documented justification.
+
+**After reading @reader's Complete Variable List**:
+
+Create a Variable-Model Mapping table:
+
+```markdown
+## Variable-Model Mapping
+
+| Variable | Dataset | Model Component | Usage | Justification |
+|----------|---------|-----------------|-------|---------------|
+| age | athletes.csv | Feature Engineering | Age cohort buckets | Performance varies by age |
+| height | athletes.csv | Physical Model | Normalized height feature | Sport-specific advantage |
+| weight | athletes.csv | Physical Model | BMI calculation | Combined with height |
+| region | athletes.csv | Spatial Model | Regional grouping | Geographic performance patterns |
+| city | hosts.csv | Host Effect Model | Home advantage indicator | Proven host nation effect |
+| ... | ... | ... | ... | ... |
+```
+
+**For Variables NOT Used**:
+
+| Variable | Dataset | Reason Not Used | Approved |
+|----------|---------|-----------------|----------|
+| athlete_id | athletes.csv | Primary key only, no predictive value | ✅ |
+| name | athletes.csv | PII, no modeling value | ✅ |
+
+**Rules**:
+1. Every column from Complete Variable List MUST appear in one of the two tables
+2. "Text" or "categorical" data is NOT a valid excuse for exclusion
+3. Regional/spatial data MUST be considered (not automatically ignored)
+4. If a variable seems useless, propose how it COULD be useful, then justify why it won't be
+
+**Example Justification for Spatial Data**:
+```
+Variable: region (234 unique values)
+Could be used for: Regional performance clustering, continental modeling, economic grouping
+Why not used: [MUST HAVE SPECIFIC REASON]
+  ❌ INVALID: "Too many categories"
+  ❌ INVALID: "Not relevant"
+  ✅ VALID: "Replaced by 'continent' (5 values) which captures same geographic signal with less sparsity"
+  ✅ VALID: "Analysis shows no significant regional variance after controlling for GDP (p=0.82)"
+```
+
+**Verification**:
+- [ ] All variables from Complete Variable List are mapped
+- [ ] Unused variables have documented justification
+- [ ] Regional/spatial variables specifically addressed
+- [ ] No "too complex" or "not relevant" lazy excuses
+
+---
+
+### 1.6 Innovative Data Perspective (MANDATORY - V2.0)
+
+> [!CRITICAL]
+> **"Data-Shape Driven Innovation" Protocol**
+> You MUST include an "Innovative Data Perspective" section in your output.
+> Articulate how non-traditional variables can impress judges.
+
+**After reviewing @knowledge_librarian's Feature-Triggered Methods**:
+
+Create an "Innovative Data Perspective" section:
+
+```markdown
+## Innovative Data Perspective
+
+### Non-Traditional Variables Identified
+
+| Variable | Traditional Use | Innovative Use | Judge Appeal |
+|----------|-----------------|----------------|--------------|
+| region | Filtering/grouping | Spatial clustering, gravity effects | HIGH - Shows geographic awareness |
+| city | Display/filtering | Host advantage modeling | MEDIUM - Domain insight |
+| text_field | Ignored | Sentiment features, topic extraction | VERY HIGH - Underutilized data |
+| timestamp | Time indexing | Seasonality, event detection | MEDIUM - Temporal patterns |
+
+### Innovation Opportunities
+
+1. **Spatial Innovation**: [How to leverage lat/lon/region data beyond simple grouping]
+   - Example: "Use Gravity Model to capture distance decay in Olympic participation patterns"
+   - Judge Appeal: Shows understanding of spatial economics
+
+2. **Text Innovation**: [How to extract signal from text/categorical fields]
+   - Example: "Extract sentiment from athlete biography text to predict performance"
+   - Judge Appeal: Demonstrates modern NLP awareness
+
+3. **Network Innovation**: [How to construct implicit networks from data]
+   - Example: "Build athlete-event network to identify versatile athletes"
+   - Judge Appeal: Shows creative data construction
+
+### High-Level Model Applicability Check
+
+For each method from @knowledge_librarian's Feature-Triggered list:
+
+| Method | Applicable? | Justification | Recommendation |
+|--------|-------------|---------------|----------------|
+| Gravity Model | ✅ Yes | Have region, can compute distances | Use for spatial effects |
+| GNN | ⚠️ Partial | Need to construct graph from data | Consider if network evident |
+| Tensor Decomposition | ✅ Yes | Have time × country × sport structure | Use for multivariate patterns |
+```
+
+**Rules**:
+1. MUST identify at least 2 non-traditional variable uses
+2. MUST explain judge appeal for each innovation
+3. MUST validate each of @knowledge_librarian's high-level methods
+4. "Not applicable" requires specific justification (not just "doesn't fit")
+
+**Invalid Justifications**:
+- ❌ "Too complex for this problem"
+- ❌ "We don't have enough time"
+- ❌ "Not relevant"
+
+**Valid Justifications**:
+- ✅ "GNN requires explicit edge data; our data only has node attributes without connections"
+- ✅ "Tensor Decomposition requires 3+ dimensions; we only have 2 (time × country)"
+- ✅ "Sentiment analysis requires text; all our variables are numeric"
+
+**Verification**:
+- [ ] "Innovative Data Perspective" section included in research_notes.md
+- [ ] At least 2 non-traditional variable uses identified
+- [ ] Judge appeal explained for each innovation
+- [ ] All @knowledge_librarian methods validated with specific justification
+
 ---
 
 ### 2. Method Retrieval from HMML 2.0
@@ -601,6 +727,14 @@ Present only the complex method.
 
 ### Initial Research Verification
 - [ ] I read requirements_checklist.md
+- [ ] I read @reader's Complete Variable List (V2.0 MANDATORY)
+- [ ] I created Variable-Model Mapping table for ALL variables (V2.0 MANDATORY)
+- [ ] All unused variables have documented justification with specific reasons
+- [ ] Regional/spatial variables are specifically addressed (not auto-ignored)
+- [ ] I read @knowledge_librarian's Feature-Triggered Methods (V2.0 MANDATORY)
+- [ ] I created "Innovative Data Perspective" section in research_notes.md (V2.0 MANDATORY)
+- [ ] I identified at least 2 non-traditional variable uses with judge appeal
+- [ ] I validated ALL @knowledge_librarian methods with specific justifications
 - [ ] I proposed at least 2 methods per requirement
 - [ ] I justified my recommendations
 - [ ] I saved output to output/research_notes.md

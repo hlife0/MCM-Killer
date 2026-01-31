@@ -5,6 +5,25 @@
 
 ---
 
+## Dynamic Creation
+
+> **This folder structure is NOT pre-created.**
+> It is created dynamically by @resource_manager during Phase 0.1 when the model starts working.
+
+**Why dynamic creation?**
+- Output folders should only exist when needed
+- Prevents empty folder pollution in the codebase
+- @resource_manager initializes all directories and config files
+
+
+- Or when user first drops files and @resource_ingestor is invoked
+
+**What if folder doesn't exist?**
+- Agents checking `active/summary_for_agents.md` should gracefully handle missing folder
+- No external resources = proceed with internal knowledge (HMML 2.0)
+
+---
+
 ## Root Structure
 
 ```

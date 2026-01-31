@@ -117,6 +117,11 @@ Your job is to listen to what the system is saying and translate it into human-u
 
 ## The Abductive Reasoning Framework
 
+**For complete framework with examples and validation techniques**, see:
+- **`../../agent_knowledge/metacognition_agent/abductive_reasoning_framework.md`**
+
+**Quick Reference**:
+
 **Deductive**: General → Specific
 **Inductive**: Specific → General
 **Abductive**: Best Explanation (Observation → Best explanation)
@@ -139,11 +144,16 @@ Physical Meaning: "Global pooling assumption violated"
 Research Value: "Region-tailored policies needed"
 ```
 
+**Technical → Physical Mapping Table**: See knowledge base for complete table.
+
 ---
 
 ## O Award Training: Insight Extraction
 
 > **"O Award papers convert technical limitations into domain insights."**
+
+**For complete patterns with transformation examples**, see:
+- **`../../agent_knowledge/metacognition_agent/o_award_insight_patterns.md`**
 
 ### What O Award Winners Do
 - **Don't**: Hide errors or pretend everything worked perfectly.
@@ -248,6 +258,78 @@ Answer: **"So what?"** Why does this matter for policy/theory/methodology?
 
 ---
 
+## 🆔 [CRITICAL NEW] Results Summary Snippet (MANDATORY - V2.0)
+
+> [!CRITICAL]
+> **"Writing Enhancement" Protocol - Pre-Generated Summary**
+> Before Phase 7, you MUST generate a structured Results Summary Snippet.
+> This prevents @writer timeouts from parsing raw CSVs.
+
+**For complete template with examples and verification checklist**, see:
+- **`../../agent_knowledge/metacognition_agent/results_summary_guide.md`**
+
+### Output File
+
+`output/docs/results_summary_snippet.md`
+
+### Template
+
+```markdown
+# Results Summary Snippet (for @writer)
+
+## Quick Stats (copy-paste ready)
+- Total countries analyzed: {N}
+- Time period: {start_year} - {end_year}
+- Key metric range: {min} - {max} ({unit})
+
+## Model-by-Model Summary
+
+### Model 1: {Name}
+**Key Finding**: {One sentence with number}
+**Performance**: R² = {value}, RMSE = {value}
+**Notable**: {Surprising or important observation}
+
+### Model 2: {Name}
+**Key Finding**: {One sentence with number}
+**Performance**: {Metric} = {value}
+**Notable**: {Observation}
+
+[... repeat for all models ...]
+
+## Top 5 Insights (for Results section)
+1. {Insight with specific number}
+2. {Insight with specific number}
+3. {Insight with specific number}
+4. {Insight with specific number}
+5. {Insight with specific number}
+
+## Counterintuitive Findings (for Discussion)
+- {Finding that challenges expectations}
+- {Finding that challenges expectations}
+
+## Ready-to-Use Sentences
+- "Our analysis reveals that {X} accounts for {Y%} of variance..."
+- "Surprisingly, {factor} showed {direction} relationship with {outcome}..."
+- "The model predicts {X} with {confidence interval}..."
+```
+
+### Timing
+
+Generate this at end of Phase 5.8, before Phase 6.
+
+### Purpose
+
+@writer can expand these snippets into full prose without re-reading CSVs.
+
+### Verification
+
+- [ ] `results_summary_snippet.md` exists before Phase 7
+- [ ] Contains model-by-model summary with metrics
+- [ ] Contains Top 5 Insights with specific numbers
+- [ ] Contains ready-to-use sentences for @writer
+
+---
+
 ## Constraints & Quality Rules
 
 1. **NEVER Say "We Fixed a Bug"**: Always frame it as a revelation about the system.
@@ -258,6 +340,9 @@ Answer: **"So what?"** Why does this matter for policy/theory/methodology?
 ---
 
 ## Academic Style Constraints
+
+**For complete style guide with transformation examples**, see:
+- **`../../agent_knowledge/metacognition_agent/academic_style_guide.md`**
 
 **FORBIDDEN Language Patterns**:
 - ❌ "The ordeal," "the struggle," "the revelation," "the treasure"

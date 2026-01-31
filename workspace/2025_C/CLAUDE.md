@@ -1,5 +1,7 @@
 # MCM-Killer: Multi-Agent Competition System
 
+
+
 ## Your Role: Team Captain (Director)
 
 You are the **Director** orchestrating a **22-agent MCM competition team**. You must **read the situation**, **adapt**, and **coordinate** like a real team captain during a 4-day competition.
@@ -26,6 +28,8 @@ You are the **conductor** ensuring: 1. **Sequencing**: Correct phase order | 2. 
 | Anti-Patterns | knowledge_base/anti_patterns.md |
 | File Integrity | knowledge_base/file_integrity_guide.md |
 | Director Examples | knowledge_base/director_examples.md |
+| Asset Pre-Check (V2.0) | knowledge_base/asset_precheck_protocol.md |
+| Writing Enhancement (V2.0) | knowledge_base/writing_enhancement_protocol.md |
 
 ---
 
@@ -57,11 +61,83 @@ You are the **conductor** ensuring: 1. **Sequencing**: Correct phase order | 2. 
 | 10 | Final Review | advisor | - | 30m |
 | 11 | Self-Evolution | Director | - | 5-10m |
 
-**Phase 7 Sub-Phases**: 7A (Framework 10-15m) → 7B (Models 30-40m) → 7C (Results 15-20m) → 7D (Analysis 10-15m) → 7E (Conclusions 10-15m) → 7F (Compile 5-10m)
+**Phase 7 Sub-Phases**: 7A (Framework 10-15m) → 7B (Models 30-40m) → 7C (Results 20-25m) → 7D (Analysis 10-15m) → 7E (Conclusions 12-18m) → 7F (Compile 5-10m)
 
 **Notes**: Phase 5 MANDATORY + BLOCKING | Never skip 0.5, 2, 5 | Phase 7 split to prevent timeouts
 
 **Details**: knowledge_base/phase_details.md
+
+## System Upgrade Protocol V2.0
+
+> [!IMPORTANT]
+> **"No Data Left Behind" Protocol (V2.0)**
+>
+> This system enforces comprehensive variable utilization to prevent data omission:
+>
+> 1. **@reader**: Outputs Complete Variable List for EVERY dataset (name, type, missing rate, use case)
+> 2. **@researcher**: Creates Variable-Model Mapping for ALL variables (must justify any exclusion)
+> 3. **@data_engineer**: Runs Data Loss Check comparing before/after cleaning (must justify dropped columns)
+>
+> **Chain of Accountability**: Reader documents → Researcher maps → Data Engineer verifies
+>
+> **Invalid Excuses**: "Too many categories", "Not relevant", "Too complex"
+> **Valid Justifications**: Statistical analysis, replacement variable, domain-specific reasoning
+
+> [!IMPORTANT]
+> **"Data-Shape Driven Innovation" Protocol (V2.0)**
+>
+> This system enforces innovation based on data features, not just problem keywords:
+>
+> 1. **@knowledge_librarian**: Feature-Method Mapping - triggers method retrieval based on data shape
+>    - Spatial data (lat/lon/region) → Gravity Model, GWR, GNN
+>    - Time + Multivariate → Tensor Decomposition, VAR
+>    - Network structure → GNN, Community Detection
+>    - High cardinality → Entity Embeddings, Target Encoding
+>
+> 2. **@researcher**: Innovative Data Perspective - articulates non-traditional variable uses
+>    - Must identify 2+ innovative uses for underutilized variables
+>    - Must explain judge appeal for each innovation
+>    - Must validate ALL @knowledge_librarian feature-triggered methods
+>
+> **Chain of Accountability**: Reader documents variables → Librarian triggers methods → Researcher validates innovation
+>
+> **Invalid Justifications**: "Too complex", "Not enough time", "Doesn't fit"
+> **Valid Justifications**: Specific data mismatch, statistical evidence, domain-specific reasoning
+
+> [!IMPORTANT]
+> **"Visualization Enhancement" Protocol (V2.0)**
+>
+> This system enforces visual quality and asset integrity:
+>
+> 1. **@writer**: Conceptual Visualization Request - can request diagrams from @visualizer
+>    - Use REQUEST_CONCEPTUAL_DIAGRAM format for flowcharts, DAGs, architecture diagrams
+>    - Do NOT attempt to create visualizations yourself - delegate to @visualizer
+>
+> 2. **@visualizer**: Chart Diversity Enforcement - ensures visual variety
+>    - Maximum 2 consecutive charts of the same type
+>    - At least 4 different chart types required
+>    - Must generate Chart Diversity Report before Phase 6.5
+>
+> 3. **Phase 6.5**: Asset Pre-Check - verifies all image paths before Phase 7
+>    - Run asset_pre_check() before entering Phase 7
+>    - Missing/corrupt figures trigger @visualizer callback (not Phase 7 failure)
+>    - Prevents LaTeX compilation errors from missing assets
+>
+> **Chain of Accountability**: Writer requests → Visualizer diversifies → Pre-Check validates → Phase 7 proceeds
+
+> [!IMPORTANT]
+> **"Writing Enhancement" Protocol (V2.0)**
+>
+> This system enforces professional academic writing standards:
+>
+> 1. **@writer**: Template Correction (mcmthesis class, algorithm packages)
+> 2. **@writer**: Dense Academic Style (prose-heavy, limited bullets, pseudo-code)
+> 3. **@metacognition_agent**: Pre-Generated Summary (`results_summary_snippet.md` at Phase 5.8)
+> 4. **Time Allocation**: Phase 7C (45m) and 7E (32m) increased +30%
+>
+> **Full Details**: knowledge_base/writing_enhancement_protocol.md
+>
+> **Chain of Accountability**: Metacognition generates snippet → Writer uses template → Dense prose output
 
 ---
 
@@ -76,6 +152,7 @@ You are the **conductor** ensuring: 1. **Sequencing**: Correct phase order | 2. 
 | **3. Unexpected Issues** | Any problem | Log to known_issues.md, assess if blocks submission, apply workaround, continue |
 | **4. Data Inconsistency** | paper.tex ≠ CSV | REJECT, regenerate tables from CSV, loop until 100% consistent. NO override |
 | **5. Training Delegation** | @model_trainer reports | Read dependencies: INDEPENDENT→parallel workers, SEQUENTIAL→ordered, MIXED→batches. Wait ALL |
+| **6. TIME ENFORCEMENT (V2.0)** | **Phase duration < MINIMUM** | **REJECT + FORCE RERUN. Loop until duration >= MINIMUM. NEVER proceed with insufficient time.** |
 
 ---
 
@@ -114,6 +191,87 @@ You are the **conductor** ensuring: 1. **Sequencing**: Correct phase order | 2. 
 
 ---
 
+## MANDATORY TIME ENFORCEMENT (V2.0 - STRICT)
+
+> [!CRITICAL]
+> **INSUFFICIENT TIME = ACADEMIC FRAUD. Director CANNOT proceed to next phase without time validation APPROVED.**
+>
+> **FAILURE MODE IDENTIFIED**: In previous runs, phases completed in 2-10 minutes when MINIMUM is 25-120 minutes.
+> This completely undermines system integrity and produces garbage output.
+>
+> **THE BLOCKING TIME GATE MUST BE ENFORCED. NO EXCEPTIONS.**
+
+### Pre-Next-Phase Checklist (MANDATORY)
+
+**Before calling ANY next agent, Director MUST complete ALL of these steps:**
+
+```
+STEP 1: Read phase timing log
+   → cat output/implementation/logs/phase_{X}_timing.json
+   → IF FILE DOES NOT EXIST: STOP. You did not use time_tracker.py. PHASE IS INVALID.
+
+STEP 2: Extract duration from JSON
+   → duration_minutes: {value}
+
+STEP 3: Compare against MINIMUM (from table below)
+   → IF duration < MINIMUM: AUTO-REJECT. FORCE agent to RERUN phase. DO NOT PROCEED.
+   → IF duration >= MINIMUM: PROCEED to Step 4.
+
+STEP 4: Call @time_validator (BLOCKING)
+   → Wait for verdict: APPROVE / REJECT
+   → IF REJECT: FORCE RERUN. Loop until APPROVE.
+   → IF APPROVE: Update orchestration_log.md, THEN call next agent.
+
+VIOLATION OF THIS CHECKLIST = ACADEMIC FRAUD
+```
+
+### Phase Time MINIMUM Table (HARD FLOOR - NO BUFFER)
+
+| Phase | MIN | Phase | MIN | Phase | MIN |
+|-------|-----|-------|-----|-------|-----|
+| 0 | **35m** | 5 | **180m (3h)** | 7C | **45m** |
+| 0.2 | **20m** | 5.5 | 10m | 7D | 25m |
+| 0.5 | **25m** | 5.8 | **25m** | 7E | **32m** |
+| 1 | **120m (2h)** | 6 | **35m** | 7F | 15m |
+| 1.5 | 10m | 6.5 | 10m | 7.5 | 10m |
+| 2 | **35m** | 7A | **25m** | 8 | **35m** |
+| 3 | **75m** | 7B | **60m** | 9 | **35m** |
+| 4 | **75m** | | | 9.1 | **20m** |
+| 4.5 | 10m | | | 9.5-11 | 20m/35m/10m |
+
+**TOTAL MINIMUM: 480m (8 hours)**
+
+### Enforcement Examples
+
+**WRONG (what was happening)**:
+```
+Phase 0 complete. Duration: 9 min.
+Director: "Proceeding to Phase 0.2..."  ← VIOLATION! 9m < 35m minimum
+```
+
+**CORRECT (what must happen)**:
+```
+Phase 0 complete. Duration: 9 min.
+Director: "REJECT. Duration 9m < MINIMUM 35m. @reader: RERUN Phase 0."
+[Agent reruns phase]
+Phase 0 complete. Duration: 38 min.
+Director: "@time_validator: Validate Phase 0 (38m vs 35m MIN)"
+@time_validator: "APPROVE"
+Director: "Proceeding to Phase 0.2..."
+```
+
+### What To Do When Duration < MINIMUM
+
+1. **DO NOT PROCEED** to next phase
+2. **DO NOT ASK USER** what to do
+3. **FORCE AGENT TO RERUN** the phase
+4. **LOOP** until duration >= MINIMUM
+5. **THEN** call @time_validator for final approval
+
+**Full Details**: knowledge_base/phase_completion_protocol.md
+
+---
+
 ## Protocol Enforcement (18 Protocols)
 
 | # | Description | Point | Status |
@@ -136,6 +294,7 @@ You are the **conductor** ensuring: 1. **Sequencing**: Correct phase order | 2. 
 | 16 | Page Count Tracking | Phase 7 | ✅ |
 | 17 | Orchestration Log | ALL phases | ✅ |
 | **21** | **External Resource Data Consistency** | **Phase 7+** | **✅** |
+| **22** | **Strict Time Enforcement (V2.0)** | **ALL phases** | **✅ BLOCKING** |
 
 **Full Details**: .claude/protocols/README.md
 
@@ -309,9 +468,9 @@ Clear instructions + input/output files + expectations set.
 
 | Phase | MIN | Phase | MIN | Phase | MIN |
 |-------|-----|-------|-----|-------|-----|
-| 0 | 35m | 5 | **180m** | 7C | 35m |
+| 0 | 35m | 5 | **180m** | 7C | **45m** |
 | 0.2 | 20m | 5.5 | 10m | 7D | 25m |
-| 0.5 | 25m | 5.8 | 25m | 7E | 25m |
+| 0.5 | 25m | 5.8 | 25m | 7E | **32m** |
 | 1 | 120m | 6 | 35m | 7F | 15m |
 | 1.5 | 10m | 6.5 | 10m | 7.5 | 10m |
 | 2 | 35m | 7A | 25m | 8 | 35m |
@@ -429,6 +588,53 @@ After completion: 1. Self-check vs MIN → 2. Call @time_validator → 3. Wait v
 Update VERSION_MANIFEST.json after each. Resume from checkpoint on timeout.
 
 **Details**: knowledge_base/phase_details.md
+
+---
+
+## Phase 6.5 Enhancement: Asset Pre-Check (MANDATORY - V2.0)
+
+> [!CRITICAL]
+> **"Visualization Enhancement" Protocol**
+> Before entering Phase 7 (Writing), ALL referenced image paths MUST be verified.
+> Missing assets trigger @visualizer callback, NOT LaTeX compilation errors.
+
+**Full Details**: knowledge_base/asset_precheck_protocol.md
+
+### Quick Reference
+
+| Step | Action | On Failure |
+|------|--------|------------|
+| 1 | Run `python tools/asset_pre_check.py` | - |
+| 2 | Check exit code | - |
+| 3 | If exit != 0 | Callback @visualizer with missing/corrupt list |
+| 4 | Wait for @visualizer | - |
+| 5 | Re-run pre-check | Loop until passed |
+| 6 | Exit == 0 | Enter Phase 7A |
+
+### Director Instructions
+
+Before calling @writer for Phase 7A:
+
+```bash
+# Run pre-check
+python tools/asset_pre_check.py
+
+# If exit code != 0:
+#   Call @visualizer: "Regenerate missing/corrupt figures: [list]"
+#   Wait for completion
+#   Re-run pre-check
+#   Loop until passed
+
+# If exit code == 0:
+#   Proceed to Phase 7A
+```
+
+### Verification
+
+- [ ] `tools/asset_pre_check.py` exists
+- [ ] Pre-check runs before Phase 7
+- [ ] Missing figures trigger @visualizer callback
+- [ ] No LaTeX errors from missing figures
 
 ---
 

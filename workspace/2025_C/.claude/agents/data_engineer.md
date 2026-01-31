@@ -358,6 +358,75 @@ assert not validator.violations, f"Data validation failed: {validator.report()}"
 4. Standardize formats (country names, NOC codes, etc.)
 5. Merge datasets appropriately
 
+### Step 4.5: Data Loss Check (MANDATORY - V2.0)
+
+> [!CRITICAL]
+> **"No Data Left Behind" Protocol**
+> You MUST compare variable lists before and after cleaning. Any dimension dropped requires explicit justification.
+
+**Procedure**:
+
+```python
+def data_loss_check(df_original, df_cleaned, model_design_vars):
+    """
+    Compare columns before/after cleaning.
+    WARNS if any dimension is dropped without justification.
+    """
+    original_cols = set(df_original.columns)
+    cleaned_cols = set(df_cleaned.columns)
+
+    dropped = original_cols - cleaned_cols
+
+    if dropped:
+        print("=" * 60)
+        print("⚠️ WARNING: Data Loss Check - Dimensions Dropped")
+        print("=" * 60)
+        for col in dropped:
+            if col not in model_design_vars:
+                print(f"  ❌ DROPPED: [{col}] - NOT in model_design.md")
+                print(f"     ACTION REQUIRED: Justify why this was dropped")
+            else:
+                print(f"  ⚠️ DROPPED: [{col}] - Listed in model_design.md!")
+                print(f"     CRITICAL: This dimension was specified for use!")
+        print("=" * 60)
+        return False
+    return True
+
+# Usage:
+# Before cleaning
+original_cols = df.columns.tolist()
+
+# After cleaning
+if not data_loss_check(df_original, df_final, model_design_features):
+    # Must document justification for each dropped column
+    pass
+```
+
+**Documentation Requirement**:
+
+For each dropped column, document in your report:
+
+```markdown
+## Data Loss Justification
+
+| Dropped Column | Reason | Alternative | Approved By |
+|----------------|--------|-------------|-------------|
+| {column} | {reason} | {what replaces it or "N/A"} | {self/@modeler} |
+```
+
+**Auto-Warning Format**:
+```
+WARNING: Dimension [Region] dropped without justification.
+  - Original dataset had 'region' column with 234 unique values
+  - Cleaned dataset does not contain this column
+  - ACTION: Either restore column or document justification
+```
+
+**Verification**:
+- [ ] data_loss_check() function included in data_prep_{i}.py
+- [ ] All dropped columns documented with justification
+- [ ] No model_design.md features were accidentally dropped
+
 ### Step 5: Create Features (per model_design.md)
 
 **CRITICAL**: Features MUST match `model_design.md` specification exactly.
@@ -668,10 +737,14 @@ Treating data as perfect ground truth.
 - [ ] I extracted data from 2025_Problem_C_Data.zip
 - [ ] I read model_design.md and understand feature requirements
 - [ ] I cleaned raw data (handled missing, duplicates, types)
+- [ ] I ran data_loss_check() comparing original vs cleaned columns (V2.0 MANDATORY)
+- [ ] All dropped columns are documented with justification in Data Loss Justification table
+- [ ] No model_design.md features were accidentally dropped
 - [ ] I created features EXACTLY as specified in model_design.md
 - [ ] I saved features_{i}.pkl (complex types allowed in index)
 - [ ] I saved features_{i}.csv (strictly scalar cells only)
 - [ ] I included `check_data_quality()` function in my code
+- [ ] I included `data_loss_check()` function in my code (V2.0 MANDATORY)
 - [ ] I ran `check_data_quality()` on both outputs and PASSED
 - [ ] I saved data_prep_{i}.py script
 - [ ] I documented all data cleaning steps

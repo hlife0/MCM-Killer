@@ -76,6 +76,43 @@ If a sub-phase times out:
 
 ---
 
+## 🆔 [CRITICAL NEW] Phase 7A Initialization (MANDATORY - V2.0)
+
+> [!CRITICAL]
+> **"Writing Enhancement" Protocol - Template Correction**
+> Upon initializing Phase 7A, you MUST enforce the correct document class and preload required packages.
+
+### Hardcoded Document Class
+
+```latex
+\documentclass{mcmthesis}
+```
+- ❌ NEVER use `\documentclass{article}`
+- ❌ NEVER use `\documentclass[10pt]{article}`
+- ✅ ALWAYS use `\documentclass{mcmthesis}`
+
+### Required Package Preload
+
+Add these to your preamble (MANDATORY):
+
+```latex
+% Algorithm support (MANDATORY - V2.0)
+\usepackage{algorithm}
+\usepackage{algorithmic}
+% Alternative: algorithmicx with algpseudocode
+% \usepackage{algorithm}
+% \usepackage{algpseudocode}
+```
+
+### Verification at Phase 7A Start
+
+- [ ] Document class is `mcmthesis` (not `article`)
+- [ ] `algorithm` package is loaded
+- [ ] `algorithmic` or `algpseudocode` package is loaded
+- [ ] `mcmthesis.cls` copied to `output/paper/`
+
+---
+
 ## 📚 Best Practices from Reference Papers (ENHANCED)
 
 > [!IMPORTANT]
@@ -243,6 +280,81 @@ Use transitional phrases between sections:
 - "This analysis reveals..."
 - "Having established X, we now examine..."
 - "The preceding results suggest..."
+
+---
+
+## 🆔 [CRITICAL NEW] Dense Academic Writing (MANDATORY - V2.0)
+
+> [!CRITICAL]
+> **"Writing Enhancement" Protocol - Academic Density**
+> Results and Discussion sections MUST use prose-heavy writing.
+> Excessive bullet points are REJECTED.
+
+### Anti-List-Abuse Rules
+
+| Section | Max Bullets Allowed | Prose Requirement |
+|---------|---------------------|-------------------|
+| Results | 5 per subsection | Each bullet must be preceded/followed by explanatory paragraph |
+| Discussion | 3 per subsection | Prefer prose paragraphs over lists |
+| Conclusions | 6 total | Final takeaways only, not findings |
+| Model Sections | 0 | NO bullets in model descriptions |
+
+### Information Density Guidelines
+
+1. **Reduce Paragraph Breaks**: Consolidate related sentences
+   - ❌ WRONG: New paragraph for each point
+   - ✅ RIGHT: Group related findings in flowing paragraphs
+
+2. **Remove Unnecessary Spacing**:
+   ```latex
+   % ❌ REMOVE these from your LaTeX:
+   \setlength{\parindent}{0pt}  % Unless strictly required
+   \vspace{1cm}                  % Unless major section break
+   ```
+
+3. **Minimum Paragraph Density**:
+   - Each paragraph: 4-6 sentences minimum
+   - Each page: 70% text, 30% figures/tables/equations
+
+### Pseudo-code Requirement (MANDATORY for Complex Algorithms)
+
+> [!CRITICAL]
+> For Mechanism Design, Optimization, or Multi-step Algorithms:
+> You MUST include a pseudo-code block to demonstrate logical depth.
+
+**When Pseudo-code is Required**:
+- Mechanism design models (game theory, auction design)
+- Iterative optimization algorithms
+- Multi-step decision processes
+- Any algorithm with conditional branching
+
+**Pseudo-code Template**:
+```latex
+\begin{algorithm}
+\caption{Algorithm Name}
+\begin{algorithmic}[1]
+\REQUIRE Input parameters
+\ENSURE Output description
+\STATE Initialize variables
+\FOR{each iteration}
+    \IF{condition}
+        \STATE Action A
+    \ELSE
+        \STATE Action B
+    \ENDIF
+\ENDFOR
+\RETURN Result
+\end{algorithmic}
+\end{algorithm}
+```
+
+### Verification
+
+- [ ] Results section has ≤5 bullets per subsection
+- [ ] Discussion section uses prose paragraphs
+- [ ] No `\setlength{\parindent}{0pt}` unless justified
+- [ ] Mechanism Design model includes pseudo-code block
+- [ ] Each paragraph has 4+ sentences
 
 ---
 
@@ -561,6 +673,77 @@ See `../../agent_knowledge/writer/storytelling_guide.md` for:
 - Enhanced Caption Structure (4-element format)
 - Model Section Openers
 - Academic Writing Style Guidelines
+
+---
+
+## 🆔 [CRITICAL NEW] Conceptual Visualization Request (MANDATORY - V2.0)
+
+> [!CRITICAL]
+> **"Visualization Enhancement" Protocol**
+> You CAN and SHOULD request conceptual diagrams from @visualizer when explaining complex model logic.
+> Do NOT attempt to create visualizations yourself - delegate to @visualizer.
+
+### Request Format
+
+When you need a conceptual diagram (not data-driven), use this format:
+
+```
+@visualizer: REQUEST_CONCEPTUAL_DIAGRAM
+
+Type: [Flowchart / Architecture / DAG / Hierarchy / Timeline]
+Description: [What the diagram should show]
+Context: [Which section/model this is for]
+Key Elements: [List of nodes/steps to include]
+Suggested Filename: model_X_diagram_[description].png
+```
+
+### Supported Diagram Types
+
+| Type | Use Case | Example |
+|------|----------|---------|
+| Flowchart | Sequential process/workflow | Data preprocessing pipeline |
+| Architecture | Model structure overview | Hierarchical Bayesian layers |
+| DAG (Causal Graph) | Cause-effect relationships | Variable dependencies |
+| Hierarchy | Nested structure | Country → Region → City |
+| Timeline | Temporal progression | Competition phases, historical events |
+| Decision Tree | Branching logic | Classification rules |
+
+### Example Request
+
+```
+@visualizer: REQUEST_CONCEPTUAL_DIAGRAM
+
+Type: DAG
+Description: Causal graph showing factors affecting Olympic medal counts
+Context: Model 1 - Bayesian Hierarchical Model (Section 3.1)
+Key Elements:
+  - GDP → Investment in Sports → Medal Count
+  - Population → Athlete Pool → Medal Count
+  - Host Country Effect → Medal Count
+  - Historical Performance → Medal Count
+Suggested Filename: model_1_diagram_causal_dag.png
+```
+
+### When to Request
+
+- Model architecture needs visual explanation
+- Complex decision logic requires flowchart
+- Causal relationships should be explicit
+- Hierarchical structure is non-obvious
+- Paper has too much text, needs visual break
+
+### Benefits
+
+- Reduces textual burden in paper
+- Clarifies model logic for judges
+- Adds visual diversity (not just data plots)
+- Professional diagrams via Mermaid rendering
+
+### Verification
+
+- [ ] Conceptual diagrams requested for each major model
+- [ ] Diagram type appropriate for content
+- [ ] @visualizer generated diagram before Phase 7 writing
 
 ---
 
