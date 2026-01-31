@@ -286,6 +286,10 @@ Agent discovers upstream problem → Suggests Rewind → Director evaluates (sev
 - **If ANY NO**: Fix first, do NOT proceed.
 
 ### Step 2: Call Agent
+- [ ] **2a. START TIME TRACKING** (MANDATORY):
+  ```bash
+  python tools/time_tracker.py start --phase {X} --agent {agent_name}
+  ```
 - [ ] Clear instructions? | [ ] Input files specified? | [ ] Output files specified? | [ ] Expectations set?
 
 ### Step 3: Review Output
@@ -315,15 +319,26 @@ Agent discovers upstream problem → Suggests Rewind → Director evaluates (sev
 
 **CRITICAL: The MIN column IS the hard floor. Duration < MIN = REJECT + FORCE RERUN. NO EXCEPTIONS.**
 
-- [ ] **7a. SELF-CHECK**: Compare actual duration against MINIMUM above
-  - Actual duration: _____ min
+- [ ] **7a. END TIME TRACKING** (MANDATORY - before self-check):
+  ```bash
+  python tools/time_tracker.py end --phase {X} --agent {agent_name}
+  ```
+- [ ] **7b. READ ACTUAL TIME from timing log** (MANDATORY):
+  ```bash
+  cat output/implementation/logs/phase_{X}_timing.json
+  ```
+  Extract: `start_time`, `end_time`, `duration_minutes` from the JSON file.
+  **TIMESTAMPS FOR ORCHESTRATION LOG MUST COME FROM THIS FILE.**
+- [ ] **7c. SELF-CHECK**: Compare `duration_minutes` from JSON against MINIMUM above
+  - Actual duration (from JSON): _____ min
   - **MINIMUM for this phase**: _____ min
   - **Is duration >= MINIMUM?** YES / NO
-- [ ] **7b. If duration < MINIMUM**: **REJECT IMMEDIATELY. DO NOT STOP WORKFLOW.**
+  - **REJECT if timing log doesn't exist** (NO_DATA = PROTOCOL VIOLATION)
+- [ ] **7d. If duration < MINIMUM**: **REJECT IMMEDIATELY. DO NOT STOP WORKFLOW.**
   - Log rejection in `output/docs/time_rejections.md`
   - **FORCE agent to RERUN phase** with message: "Phase {X} REJECTED - Duration {actual}m < MINIMUM {min}m. INSUFFICIENT TIME = ACADEMIC FRAUD. RERUN with full rigor. Agent MUST spend at least {min} minutes."
   - **DO NOT proceed to Step 8. Return to Step 2. LOOP until duration >= MINIMUM.**
-- [ ] **7c. If duration >= MINIMUM**: Call @time_validator with Phase Time Check prompt:
+- [ ] **7e. If duration >= MINIMUM**: Call @time_validator with Phase Time Check prompt:
   ```
   @time_validator: Phase Time Check (BLOCKING TIME GATE)
   Phase: {X} ({name}) | Agent: @{agent} | Duration: {XX}m | MINIMUM: {YY}m
@@ -331,9 +346,9 @@ Agent discovers upstream problem → Suggests Rewind → Director evaluates (sev
   Verify: 1. Check orchestration_log.md updated 2. Validate timing meets MINIMUM 3. Return verdict
   ENFORCEMENT: Duration < MINIMUM = REJECT + FORCE RERUN (workflow does NOT stop)
   ```
-- [ ] **7d. WAIT for @time_validator verdict**: APPROVE / REJECT / INVESTIGATE
-- [ ] **7e. If REJECT or INVESTIGATE**: **DO NOT STOP WORKFLOW. FORCE RERUN.** Fix issue, rerun phase, loop until APPROVE.
-- [ ] **7f. If APPROVE**: Proceed to Step 8.
+- [ ] **7f. WAIT for @time_validator verdict**: APPROVE / REJECT / INVESTIGATE
+- [ ] **7g. If REJECT or INVESTIGATE**: **DO NOT STOP WORKFLOW. FORCE RERUN.** Fix issue, rerun phase, loop until APPROVE.
+- [ ] **7h. If APPROVE**: Proceed to Step 8.
 
 ### Step 8: Update Orchestration Log (ONLY after Step 7 passes - Protocol 17)
 - [ ] Read current orchestration_log.md?
@@ -836,6 +851,27 @@ Provide context: `@modeler: Design model for Requirement 3. Context: Poisson for
 > Phase 0 completes → Phase 0.2 completes → Phase 0.5 completes → Director batch updates all three
 > ❌ REJECTED: Phases 0, 0.2, 0.5 were not individually logged
 > ```
+
+> [!CRITICAL] **TIMESTAMPS MUST COME FROM TIMING LOGS, NOT BE MANUALLY TYPED**
+>
+> When updating the Phase Execution Table, you MUST:
+> 1. Read `output/implementation/logs/phase_{X}_timing.json`
+> 2. Use the `start_time` and `end_time` values from that JSON file
+> 3. Calculate duration from the JSON's `duration_minutes` field
+> 4. **NEVER manually type a timestamp** - this is ACADEMIC FRAUD
+>
+> **Example Correct Flow**:
+> ```bash
+> # After phase ends, read the timing log
+> cat output/implementation/logs/phase_0_timing.json
+> # Output: {"start_time": "2026-01-31T08:00:12", "end_time": "2026-01-31T08:35:47", "duration_minutes": 35.58, ...}
+> # Use THESE values in orchestration_log.md
+> ```
+>
+> **REJECT CONDITIONS**:
+> - Timestamps in orchestration_log.md that don't match timing JSON = FRAUD
+> - Timing JSON doesn't exist = PROTOCOL VIOLATION (Director skipped time_tracker.py)
+> - Manually typed timestamps (e.g., `2026-01-31T08:00:00` round numbers) = SUSPICIOUS
 
 Maintain `output/docs/orchestration_log.md` to track the competition.
 

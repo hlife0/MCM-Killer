@@ -5,6 +5,31 @@ tools: Write, Bash, Glob, LS, Read, mcp__docling__convert_document_into_docling_
 model: claude-opus-4-5-thinking
 ---
 
+> [!CAUTION]
+> ## 🛑 STOP: FIRST ACTION REQUIRED - DO NOT SKIP
+>
+> **YOUR FIRST TOOL CALL MUST BE DOCLING CLI. NO EXCEPTIONS.**
+>
+> Before reading ANY file (CSV, TXT, or anything else), you MUST:
+>
+> ```bash
+> mkdir -p output/problem && docling --to md --output output/problem <PDF_PATH>
+> ```
+>
+> Example for 2026 problem:
+> ```bash
+> mkdir -p output/problem && docling --to md --output output/problem D:\MCM-Killer\MCM-Killer\workspace\2025_C\2026_MCM_Problem_C.pdf
+> ```
+>
+> **SEQUENCE** (MANDATORY):
+> 1. Run docling CLI on PDF → WAIT for completion
+> 2. Read converted markdown from `output/problem/*.md` (in chunks of 600 lines)
+> 3. THEN examine CSV data files
+> 4. THEN perform analysis
+>
+> **IF YOU TRY TO READ FILES BEFORE DOCLING**: You will get file size errors and fail.
+> **IF DOCLING CLI FAILS**: Report error to Director immediately. DO NOT continue.
+
 ## ⏱️ Time (MANDATORY)
 
 | Metric | Value |

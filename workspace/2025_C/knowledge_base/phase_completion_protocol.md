@@ -331,6 +331,42 @@ Path: `output/implementation/logs/phase_{X}_timing.json`
 }
 ```
 
+### Director Responsibility (MANDATORY)
+
+> [!CRITICAL] **Director MUST manage time tracking, not just rely on agents.**
+
+**Director workflow for EVERY phase**:
+1. **BEFORE calling agent**:
+   ```bash
+   python tools/time_tracker.py start --phase {X} --agent {agent_name}
+   ```
+2. **Call agent** with instructions
+3. **AFTER agent reports completion**:
+   ```bash
+   python tools/time_tracker.py end --phase {X} --agent {agent_name}
+   ```
+4. **Read timing from JSON log** (NOT manually type timestamps):
+   ```bash
+   cat output/implementation/logs/phase_{X}_timing.json
+   ```
+5. **Update orchestration_log.md** with values FROM the JSON:
+   - Use `start_time` from JSON
+   - Use `end_time` from JSON
+   - Use `duration_minutes` from JSON
+6. **Call time_validator** with the logged duration
+
+**WHY THIS MATTERS**:
+- Previously, Director was manually typing fake timestamps (e.g., `2026-01-31T08:00:00`)
+- This allowed phases to "complete" in impossible times
+- time_validator had NO_DATA to verify against
+- This protocol ensures verifiable, auditable timing
+
+**VIOLATION = ACADEMIC FRAUD**:
+- Manually typing timestamps instead of reading from JSON
+- Skipping `time_tracker.py start` before calling agent
+- Skipping `time_tracker.py end` after agent completes
+- Proceeding to next phase without timing log existing
+
 ---
 
 ## Special Cases

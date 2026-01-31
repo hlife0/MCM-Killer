@@ -538,6 +538,7 @@ Director, {ISSUE_TYPE} detected.
 | v3.2.1 | 2026-01-31 | Added Protocol 17: Orchestration Log Verification (MANDATORY) |
 | v3.2.2 | 2026-01-31 | Added Director Self-Check Verification (BLOCKING GATE enforcement) |
 | v3.2.3 | 2026-01-31 | Added Phase 5 Training Duration Verification (180m minimum) |
+| v3.2.4 | 2026-01-31 | Added Timing Log Existence Check (MANDATORY before validation) |
 
 ---
 
@@ -588,6 +589,45 @@ If Duration < Threshold: Director should have AUTO-REJECTED without calling me.
 **Evidence**: Duration {XX}m < Threshold {YY}m should trigger immediate rejection.
 **Action**: Phase {X} is REJECTED. Director must force agent rerun.
 ```
+
+### Timing Log Existence Check (MANDATORY - v3.2.4)
+
+> [!CRITICAL] **BEFORE validating phase time, verify timing log EXISTS.**
+
+**MANDATORY CHECK** (run FIRST, before Orchestration Log Verification):
+
+```bash
+# Check if timing log exists for this phase
+ls output/implementation/logs/phase_{X}_timing.json
+```
+
+**REJECT CONDITIONS**:
+1. **Timing log does not exist**: Phase timing was not tracked properly
+2. **Status is "in_progress"**: Phase end was not called
+
+**REJECT MESSAGE (NO TIMING LOG)**:
+```markdown
+## Phase Time Validation: REJECTED - NO TIMING LOG
+
+**Phase**: {X}
+**Issue**: No timing log found at output/implementation/logs/phase_{X}_timing.json
+
+**Verdict**: REJECT_NO_TIMING_LOG
+
+This means the Director did NOT use time_tracker.py to track this phase.
+Manually typed timestamps in orchestration_log.md are NOT acceptable.
+
+**Required Action**:
+1. Director MUST rerun Phase {X}
+2. Director MUST call `python tools/time_tracker.py start --phase {X} --agent {agent}` BEFORE calling agent
+3. Director MUST call `python tools/time_tracker.py end --phase {X} --agent {agent}` AFTER agent completes
+4. Then resubmit for time validation
+```
+
+**TIMESTAMP VERIFICATION** (if timing log exists):
+After reading the timing log JSON, compare timestamps with orchestration_log.md:
+- If timestamps don't match → **REJECT_TIMESTAMP_MISMATCH** (fraud detection)
+- If timestamps match → Proceed to orchestration log verification
 
 ### Orchestration Log Verification (Protocol 17 - v3.2.1)
 
@@ -811,6 +851,6 @@ When called for phase time validation:
 
 ---
 
-**Document Version**: v3.2.3
+**Document Version**: v3.2.4
 **Status**: Active
 
