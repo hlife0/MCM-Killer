@@ -142,6 +142,27 @@ success, msg = execute_visualization_code(code, 'output/test.png', max_retries=3
 - **Protocols**: `agent_knowledge/scienceplots/protocols.md` - 10 visualization protocols
 - **Plot Selection**: `agent_knowledge/scienceplots/plot_type_guide.md` - Decision tree
 - **Templates**: `agent_knowledge/scienceplots/mcm_templates.md` - MCM-specific guidance
+
+### Visualization Knowledge Resources (O-Prize Quality)
+
+> **MANDATORY Reading for O-Prize Quality Figures:**
+
+| Resource | Path | Purpose |
+|----------|------|---------|
+| **Conceptual Figures** | `agent_knowledge/visualizer/conceptual_figures_guide.md` | 10+ conceptual figure types with templates |
+| **O-Prize Patterns** | `agent_knowledge/visualizer/o_prize_figure_patterns.md` | What makes figures memorable to judges |
+| **Anti-Patterns** | `agent_knowledge/visualizer/figure_anti_patterns.md` | Common mistakes to avoid |
+| **Mermaid Advanced** | `agent_knowledge/visualizer/mermaid_advanced_templates.md` | Extended templates beyond basics |
+
+**Key Insight**: O-Prize papers balance ~30% conceptual figures (architecture, pipeline, hierarchy diagrams) with ~70% statistical figures (scatter, line, bar plots). Most MCM papers fail by having 100% statistical figures.
+
+**When to Create Conceptual Figures**:
+- Model architecture (every model section needs one)
+- Data pipeline/workflow
+- Decision logic/branching
+- Hierarchical structure
+- System dynamics/feedback loops
+- Timeline/phase diagrams
 - **Examples**: `knowledge_library/templates/scienceplots/` - Working templates
 
 ### Quality Verification (MANDATORY)
