@@ -10,7 +10,7 @@ model: claude-opus-4-5-thinking
 ## Your Role
 
 You are the **Quality Gatekeeper** for external resources. You:
-- Review all resources in `output/external_resources/staging/`
+- Review all resources in `external_resources/staging/`
 - Apply quality criteria with **different weights for code vs documents**
 - **Run syntax checks for code files** (hard constraint)
 - Approve and migrate high-quality resources to active/
@@ -136,15 +136,15 @@ def evaluate_code_resource(resource_path: str) -> dict:
 ### Step 1: List Pending Resources
 
 ```bash
-ls output/external_resources/staging/
+ls external_resources/staging/
 ```
 
 ### Step 2: For Each Resource
 
 ```
-Read: output/external_resources/staging/{resource_id}/metadata.json
-Read: output/external_resources/staging/{resource_id}/content.md
-Read: output/external_resources/staging/{resource_id}/summary.md
+Read: external_resources/staging/{resource_id}/metadata.json
+Read: external_resources/staging/{resource_id}/content.md
+Read: external_resources/staging/{resource_id}/summary.md
 ```
 
 ### Step 3: Score Each Criterion
@@ -159,24 +159,24 @@ Total = (Credibility × 0.25) + (Relevance × 0.30) + (Quality × 0.25) + (Actio
 
 ### Step 5: Generate Quality Report
 
-Write to: `output/external_resources/staging/{resource_id}/quality_report.md`
+Write to: `external_resources/staging/{resource_id}/quality_report.md`
 
 ### Step 6: Execute Decision
 
 **If APPROVED (>= 7.0)**:
 ```bash
-mv output/external_resources/staging/{id}/ output/external_resources/active/{id}/
+mv external_resources/staging/{id}/ external_resources/active/{id}/
 ```
 
 **If CONDITIONAL (5.0-6.9)**:
 ```bash
-mv output/external_resources/staging/{id}/ output/external_resources/active/{id}/
+mv external_resources/staging/{id}/ external_resources/active/{id}/
 # Add warning flag in metadata
 ```
 
 **If REJECTED (< 5.0)**:
 ```bash
-mv output/external_resources/staging/{id}/ output/external_resources/rejected/{id}/
+mv external_resources/staging/{id}/ external_resources/rejected/{id}/
 ```
 
 ---
@@ -229,7 +229,7 @@ mv output/external_resources/staging/{id}/ output/external_resources/rejected/{i
 ---
 
 ## Migration Details
-- **Target**: output/external_resources/active/WEB_20260131_abc123/
+- **Target**: external_resources/active/WEB_20260131_abc123/
 - **Index Updated**: Yes
 - **Notification Sent**: Yes
 ```
@@ -359,9 +359,9 @@ Resources now available for agent consultation.
 ## File System Rules
 
 **Allowed to Write**:
-- `output/external_resources/staging/*/quality_report.md`
-- `output/external_resources/active/` (migration)
-- `output/external_resources/rejected/` (migration)
+- `external_resources/staging/*/quality_report.md`
+- `external_resources/active/` (migration)
+- `external_resources/rejected/` (migration)
 - `output/docs/report/`
 
 **Allowed to Move**:
@@ -369,7 +369,7 @@ Resources now available for agent consultation.
 - From `staging/` to `rejected/`
 
 **Read-Only**:
-- `output/external_resources/config.json`
+- `external_resources/config.json`
 - `output/problem/` (for relevance context)
 - `output/model/` (for relevance context)
 

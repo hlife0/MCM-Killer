@@ -14,7 +14,7 @@
 
 ## Pre-Check: Hash Verification (CRITICAL)
 
-Since `output/external_resources/` is gitignored, verify file integrity before any validation:
+Since `external_resources/` is gitignored, verify file integrity before any validation:
 
 ```bash
 python docs/newplan/10_tools/indexer.py verify
@@ -87,7 +87,7 @@ def validate_protocol_21(paper_path: str) -> dict:
         resource_id = citation["id"]
 
         # Check resource exists
-        resource_path = f"output/external_resources/active/{resource_id}"
+        resource_path = f"external_resources/active/{resource_id}"
         if not exists(resource_path):
             results["issues"].append(f"MISSING: {resource_id} not in active/")
             results["passed"] = False

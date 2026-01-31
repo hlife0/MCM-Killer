@@ -1026,7 +1026,7 @@ Provide more specific evidence:
 
 ### Pre-Work Checklist
 
-1. **Read** `output/external_resources/active/summary_for_agents.md`
+1. **Read** `external_resources/active/summary_for_agents.md`
 2. **Find** your agent (@validator) in "Quick Reference" table
 3. **Check** your current phase in "By Phase" section
 4. **Access** relevant resources if listed (paths provided in summary)
@@ -1061,9 +1061,9 @@ Continue with internal knowledge (HMML 2.0). External resources are SUPPLEMENTAR
 #### 1. Citation Verification
 
 - Resource ID format: `MAN_YYYYMMDD_hash` (e.g., MAN_20260131_abc123)
-- Entry exists in `output/external_resources/active/`
+- Entry exists in `external_resources/active/`
 - Resource is APPROVED (not rejected/archived)
-- Check: `ls output/external_resources/active/`
+- Check: `ls external_resources/active/`
 
 #### 2. Data Accuracy
 

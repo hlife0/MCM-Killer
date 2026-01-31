@@ -774,7 +774,7 @@ Reference: `knowledge_library/templates/writing/6_anti_patterns.md` (The Kill Li
 
 ### Pre-Work Checklist
 
-1. **Read** `output/external_resources/active/summary_for_agents.md`
+1. **Read** `external_resources/active/summary_for_agents.md`
 2. **Find** your agent (@judge_zero) in "Quick Reference" table
 3. **Check** your current phase in "By Phase" section
 4. **Access** relevant resources if listed (paths provided in summary)

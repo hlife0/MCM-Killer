@@ -984,7 +984,7 @@ Read(file_path="output/problem/file.md", offset=1201, limit=600)
 
 ### Pre-Work Checklist
 
-1. **Read** `output/external_resources/active/summary_for_agents.md`
+1. **Read** `external_resources/active/summary_for_agents.md`
 2. **Find** your agent (@reader) in "Quick Reference" table
 3. **Check** your current phase in "By Phase" section
 4. **Access** relevant resources if listed (paths provided in summary)

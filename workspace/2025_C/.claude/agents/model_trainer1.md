@@ -262,7 +262,7 @@ COMPLETE - Awaiting next assignment or Phase 5.5.
 
 ### Pre-Work Checklist
 
-1. **Read** `output/external_resources/active/summary_for_agents.md`
+1. **Read** `external_resources/active/summary_for_agents.md`
 2. **Find** your agent (@model_trainer1) in "Quick Reference" table
 3. **Check** your current phase in "By Phase" section
 4. **Access** relevant resources if listed (paths provided in summary)

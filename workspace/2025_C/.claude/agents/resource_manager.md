@@ -30,7 +30,7 @@ You are the **Infrastructure Manager** for external resources. You:
 ### Complete Structure
 
 ```
-output/external_resources/           # ADD TO .gitignore
+external_resources/                  # At workspace root (ADD TO .gitignore)
 │
 ├── inbox/                           # Drop zone for manual file uploads
 │   └── my_model.py                  # User drops files here
@@ -89,7 +89,7 @@ output/external_resources/           # ADD TO .gitignore
 
 ## Configuration Settings
 
-`output/external_resources/config.json`:
+`external_resources/config.json`:
 
 ```json
 {
@@ -157,7 +157,7 @@ At Phase 0.1 start:
 #!/bin/bash
 # Initialize external resources folder structure
 
-BASE="output/external_resources"
+BASE="external_resources"
 
 # Create main directories
 mkdir -p "$BASE/staging"
@@ -224,8 +224,8 @@ Called by @quality_checker after approval:
 
 ```bash
 RESOURCE_ID=$1
-SOURCE="output/external_resources/staging/$RESOURCE_ID"
-TARGET="output/external_resources/active/$RESOURCE_ID"
+SOURCE="external_resources/staging/$RESOURCE_ID"
+TARGET="external_resources/active/$RESOURCE_ID"
 
 # Move folder
 mv "$SOURCE" "$TARGET"
@@ -251,8 +251,8 @@ For unused resources:
 
 ```bash
 RESOURCE_ID=$1
-SOURCE="output/external_resources/active/$RESOURCE_ID"
-TARGET="output/external_resources/archived/$RESOURCE_ID"
+SOURCE="external_resources/active/$RESOURCE_ID"
+TARGET="external_resources/archived/$RESOURCE_ID"
 
 # Check access count
 ACCESS_COUNT=$(jq '.access_log | length' "$SOURCE/usage_log.json")
@@ -280,7 +280,7 @@ def cleanup_stale_resources():
     now = datetime.now()
 
     # Cleanup staging (> 24 hours old)
-    staging_dir = "output/external_resources/staging"
+    staging_dir = "external_resources/staging"
     max_age = timedelta(hours=config["lifecycle"]["max_staging_age_hours"])
 
     for resource_id in os.listdir(staging_dir):
@@ -294,7 +294,7 @@ def cleanup_stale_resources():
                 move_to_rejected(resource_id, "Stale - exceeded 24 hour staging limit")
 
     # Archive unused active resources (> 7 days, < 5 accesses)
-    active_dir = "output/external_resources/active"
+    active_dir = "external_resources/active"
     archive_after = timedelta(days=config["lifecycle"]["auto_archive_after_days"])
 
     for resource_id in os.listdir(active_dir):
@@ -442,7 +442,7 @@ def generate_statistics():
     stats["least_accessed"] = [r for r in resources_access if r["access_count"] == 0][:5]
 
     # Write statistics
-    with open("output/external_resources/statistics.json", "w") as f:
+    with open("external_resources/statistics.json", "w") as f:
         json.dump(stats, f, indent=2)
 
     return stats
@@ -466,7 +466,7 @@ Director, external resources infrastructure initialized.
 **Ready for manual file uploads in inbox/.**
 **@resource_ingestor will monitor for new files.**
 
-Location: output/external_resources/
+Location: external_resources/
 Note: This folder is gitignored - SHA-256 hashes used for integrity.
 ```
 
@@ -485,7 +485,7 @@ Director, periodic cleanup completed.
 - Rejected total: 5
 - Archived total: 5
 
-Statistics updated: output/external_resources/statistics.json
+Statistics updated: external_resources/statistics.json
 ```
 
 ### On Hash Verification Failure
@@ -520,7 +520,7 @@ Director, resource usage statistics generated.
 **Underutilized** (candidates for archival):
 - MAN_012 - Old Tutorial (0 accesses)
 
-Full report: output/external_resources/statistics.json
+Full report: external_resources/statistics.json
 ```
 
 ---
@@ -528,7 +528,7 @@ Full report: output/external_resources/statistics.json
 ## File System Rules
 
 **Allowed to Write**:
-- `output/external_resources/` (all subdirectories)
+- `external_resources/` (all subdirectories)
 - `output/docs/report/`
 
 **Operations**:
@@ -554,7 +554,7 @@ Full report: output/external_resources/statistics.json
 
 ## Protocol 21: Hash Verification
 
-Since `output/external_resources/` is gitignored, data integrity must be ensured via SHA-256 hashing.
+Since `external_resources/` is gitignored, data integrity must be ensured via SHA-256 hashing.
 
 ### Verification Command
 

@@ -837,7 +837,7 @@ Using mass-action kinetics without stating homogeneous mixing assumption
 
 ### Pre-Work Checklist
 
-1. **Read** `output/external_resources/active/summary_for_agents.md`
+1. **Read** `external_resources/active/summary_for_agents.md`
 2. **Find** your agent (@modeler) in "Quick Reference" table
 3. **Check** "Phase 1: Model Design" section for relevant resources
 4. **Access** relevant resources if listed (paths provided in summary)

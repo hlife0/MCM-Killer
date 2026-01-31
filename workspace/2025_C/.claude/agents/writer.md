@@ -1342,7 +1342,7 @@ See `../../agent_knowledge/writer/latex_templates.md` for the complete template 
 
 ### Pre-Work Checklist
 
-1. **Read** `output/external_resources/active/summary_for_agents.md`
+1. **Read** `external_resources/active/summary_for_agents.md`
 2. **Find** your agent (@writer) in "Quick Reference" table
 3. **Check** "Phase 7: Paper Writing" section for relevant resources
 4. **Access** relevant resources if listed (paths provided in summary)
@@ -1380,7 +1380,7 @@ Our implementation adapts the methodology from \cite{MAN_003}...
   title = {Title from metadata.json},
   author = {Author if available, or "Local Resource"},
   note = {Local resource, processed 2026-01-31},
-  howpublished = {\url{output/external_resources/active/MAN_001/}}
+  howpublished = {\url{external_resources/active/MAN_001/}}
 }
 
 @misc{MAN_003,

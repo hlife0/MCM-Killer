@@ -115,7 +115,7 @@ You are the **conductor** ensuring: 1. **Sequencing**: Correct phase order | 2. 
 > - VIOLATION = cascading failures, unusable results
 > - **Phase 0.1 runs PARALLEL with 0.2** (non-blocking)
 
-> [!CAUTION] **EXTERNAL RESOURCES CONTEXT**: ALL agents MUST read `output/external_resources/active/summary_for_agents.md` before starting their tasks. Resources are SUPPLEMENTARY.
+> [!CAUTION] **EXTERNAL RESOURCES CONTEXT**: ALL agents MUST read `external_resources/active/summary_for_agents.md` before starting their tasks. Resources are SUPPLEMENTARY.
 
 > [!CAUTION] **Phase 7**: 7A→7B→7C→7D→7E→7F in order. Each updates VERSION_MANIFEST.json. Resume from checkpoint on timeout.
 
@@ -216,7 +216,7 @@ STEP 5: Update orchestration_log.md → THEN call next agent
 
 **Agents**: @resource_ingestor, @quality_checker, @knowledge_curator, @resource_manager
 **Workflow**: inbox/ → staging/ → active/ (or rejected/)
-**Context**: ALL agents read `output/external_resources/active/summary_for_agents.md`
+**Context**: ALL agents read `external_resources/active/summary_for_agents.md`
 
 **Full Details**: knowledge_base/external_resources_pipeline.md
 

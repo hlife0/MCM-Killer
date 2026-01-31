@@ -27,7 +27,7 @@ The pipeline enables users to provide external papers, code, and data that can e
 ## Folder Structure
 
 ```
-output/external_resources/       # GITIGNORED
+external_resources/       # GITIGNORED
 ├── inbox/                       # User drops files here
 │   └── (raw uploads)
 ├── staging/                     # Awaiting quality check
@@ -48,7 +48,7 @@ output/external_resources/       # GITIGNORED
 ## Workflow
 
 ### Step 1: User Upload
-User drops files in `output/external_resources/inbox/`
+User drops files in `external_resources/inbox/`
 
 Supported formats:
 - Documents: `.pdf`, `.md`, `.txt`, `.docx`
@@ -73,7 +73,7 @@ Supported formats:
 - Updates summary_for_agents.md
 
 ### Step 5: Context Injection
-ALL agents read `output/external_resources/active/summary_for_agents.md` before starting their tasks.
+ALL agents read `external_resources/active/summary_for_agents.md` before starting their tasks.
 
 ---
 
@@ -229,7 +229,7 @@ Full agent specs available at:
 ### Before Each Phase
 ```bash
 # Agent startup
-cat output/external_resources/active/summary_for_agents.md
+cat external_resources/active/summary_for_agents.md
 # Check for relevant resources for this phase
 ```
 

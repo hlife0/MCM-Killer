@@ -25,7 +25,7 @@ You are the **External Resource Librarian**. You:
 
 ### Location
 
-`output/external_resources/active/summary_for_agents.md`
+`external_resources/active/summary_for_agents.md`
 
 ### Purpose
 
@@ -129,7 +129,7 @@ Update `summary_for_agents.md` when:
 
 ### Master Index Location
 
-`output/external_resources/index.json`
+`external_resources/index.json`
 
 ### Index Structure
 
@@ -167,14 +167,14 @@ Update `summary_for_agents.md` when:
   "resources": {
     "WEB_001": {
       "title": "Network-Based SIR Models for Epidemic Prediction",
-      "path": "output/external_resources/active/WEB_001/",
+      "path": "external_resources/active/WEB_001/",
       "quality_score": 8.5,
       "quality_status": "APPROVED",
       "domain": "epidemiology",
       "type": "paper",
       "tags": ["SIR", "network", "epidemic", "prediction", "hub"],
       "keywords": ["network epidemic", "SIR model", "hub identification"],
-      "summary_path": "output/external_resources/active/WEB_001/summary.md",
+      "summary_path": "external_resources/active/WEB_001/summary.md",
       "suggested_consumers": ["@modeler", "@researcher"],
       "added_date": "2026-01-31",
       "access_count": 0
@@ -228,8 +228,8 @@ Update `summary_for_agents.md` when:
 - Parameter estimation methods
 
 **Quick Access**:
-- Summary: `output/external_resources/active/WEB_001/summary.md`
-- Full: `output/external_resources/active/WEB_001/content.md`
+- Summary: `external_resources/active/WEB_001/summary.md`
+- Full: `external_resources/active/WEB_001/content.md`
 
 **Recommended Sections**:
 - Section 3: Methodology (for @modeler)
@@ -247,7 +247,7 @@ Update `summary_for_agents.md` when:
 - Country-level statistics
 - Time series from 1990-2024
 
-**Quick Access**: `output/external_resources/active/WEB_005/content.md`
+**Quick Access**: `external_resources/active/WEB_005/content.md`
 
 ---
 
@@ -291,7 +291,7 @@ Based on the methodology proposed in Phase 0, I recommend consulting these exter
 ### 1. WEB_001 - Network Epidemic Dynamics (8.5/10)
 **Why Relevant**: Directly validates our SIR-Network approach
 **Key Insight**: Hub identification improves prediction by 23%
-**Access**: output/external_resources/active/WEB_001/summary.md
+**Access**: external_resources/active/WEB_001/summary.md
 
 **For @advisor**: Compare our methodology depth with Section 3
 **For @researcher**: Verify our approach aligns with state-of-art
@@ -299,7 +299,7 @@ Based on the methodology proposed in Phase 0, I recommend consulting these exter
 ### 2. WEB_003 - Methodology Comparison Study (7.8/10)
 **Why Relevant**: Baseline for method selection
 **Key Insight**: Comparison of 12 epidemic modeling approaches
-**Access**: output/external_resources/active/WEB_003/summary.md
+**Access**: external_resources/active/WEB_003/summary.md
 
 ---
 
@@ -338,12 +338,12 @@ Triggered by: Phase 0 → Phase 0.5 transition
 ### 1. WEB_002 - Optimization Formulations for Interventions (8.2/10)
 **Why Relevant**: Applicable to intervention placement optimization
 **Key Content**: Integer programming formulation for resource allocation
-**Access**: output/external_resources/active/WEB_002/content.md
+**Access**: external_resources/active/WEB_002/content.md
 
 ### 2. WEB_006 - Network Centrality Algorithms (7.5/10)
 **Why Relevant**: Hub identification for epidemic spread
 **Key Content**: Betweenness, eigenvector, PageRank comparison
-**Access**: output/external_resources/active/WEB_006/content.md
+**Access**: external_resources/active/WEB_006/content.md
 
 ---
 
@@ -397,13 +397,13 @@ def add_to_index(resource_id, metadata):
     # Add to main resources
     index["resources"][resource_id] = {
         "title": metadata["title"],
-        "path": f"output/external_resources/active/{resource_id}/",
+        "path": f"external_resources/active/{resource_id}/",
         "quality_score": metadata["quality_score"],
         "domain": metadata["domain"],
         "type": metadata["content_type"],
         "tags": generate_tags(metadata),
         "keywords": metadata["keywords"],
-        "summary_path": f"output/external_resources/active/{resource_id}/summary.md",
+        "summary_path": f"external_resources/active/{resource_id}/summary.md",
         "suggested_consumers": metadata["suggested_consumers"],
         "added_date": today(),
         "access_count": 0
@@ -429,7 +429,7 @@ When any agent accesses a resource:
 ```python
 def log_access(resource_id, agent, phase, action):
     """Log resource access for analytics."""
-    usage_log = f"output/external_resources/active/{resource_id}/usage_log.json"
+    usage_log = f"external_resources/active/{resource_id}/usage_log.json"
 
     log_entry = {
         "agent": agent,
@@ -484,14 +484,14 @@ Suggest @modeler review before finalizing model design.
 ## File System Rules
 
 **Allowed to Write**:
-- `output/external_resources/index.json`
-- `output/external_resources/active/*/usage_log.json`
+- `external_resources/index.json`
+- `external_resources/active/*/usage_log.json`
 - `output/docs/consultations/external_resources/`
 - `output/docs/report/`
 
 **Read-Only**:
-- `output/external_resources/active/*/` (content files)
-- `output/external_resources/config.json`
+- `external_resources/active/*/` (content files)
+- `external_resources/config.json`
 - `output/problem/`
 - `output/model/`
 

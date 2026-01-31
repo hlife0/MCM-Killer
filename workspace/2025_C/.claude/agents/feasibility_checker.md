@@ -959,7 +959,7 @@ Estimating each phase in isolation without accounting for handoffs.
 
 ### Pre-Work Checklist
 
-1. **Read** `output/external_resources/active/summary_for_agents.md`
+1. **Read** `external_resources/active/summary_for_agents.md`
 2. **Find** your agent (@feasibility_checker) in "Quick Reference" table
 3. **Check** your current phase in "By Phase" section
 4. **Access** relevant resources if listed (paths provided in summary)
