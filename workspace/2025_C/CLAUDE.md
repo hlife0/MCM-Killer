@@ -384,9 +384,12 @@ Update VERSION_MANIFEST.json after each. Resume from checkpoint on timeout.
 
 ---
 
-## PDF Reading: Docling MCP
+## PDF Reading: Docling CLI (Preferred)
 
-> [!IMPORTANT] **Use `mcp__docling__convert_document_into_docling_document`**
+> [!IMPORTANT] **Prefer docling CLI over MCP or Python library.**
+> **Primary**: `docling --to md --output <output_dir> <pdf_path>`
+> **Fallback**: `mcp__docling__convert_document_into_docling_document`
+> **NEVER**: `from docling import...` (Python library - blocks workflow)
 > **SEQUENTIAL ONLY**: PDF1→Wait→PDF2
 
 ---

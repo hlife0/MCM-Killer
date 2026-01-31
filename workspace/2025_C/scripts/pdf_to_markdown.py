@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-PDF to Markdown converter using docling.
+PDF to Markdown converter using docling CLI (preferred).
 Fallback when docling MCP times out.
 
 Usage:
@@ -9,32 +9,46 @@ Usage:
 
 import sys
 import os
+import subprocess
+
 
 def convert_pdf_to_markdown(pdf_path: str, output_path: str):
-    """Convert PDF to Markdown using docling."""
+    """Convert PDF to Markdown using docling CLI (preferred)."""
     try:
-        from docling.document_converter import DocumentConverter
+        # Get output directory from output_path
+        output_dir = os.path.dirname(output_path) or "."
+        os.makedirs(output_dir, exist_ok=True)
 
-        print(f"Converting: {pdf_path}")
+        print(f"Converting via docling CLI: {pdf_path}")
 
-        converter = DocumentConverter()
-        result = converter.convert(pdf_path)
+        result = subprocess.run(
+            ["docling", "--to", "md", "--output", output_dir, pdf_path],
+            capture_output=True,
+            text=True,
+            timeout=120
+        )
 
-        # Export to markdown
-        markdown_content = result.document.export_to_markdown()
+        if result.returncode == 0:
+            # docling outputs to output_dir with same basename as input
+            base_name = os.path.splitext(os.path.basename(pdf_path))[0]
+            generated_file = os.path.join(output_dir, f"{base_name}.md")
 
-        # Write output
-        with open(output_path, 'w', encoding='utf-8') as f:
-            f.write(markdown_content)
+            # Rename to expected output_path if different
+            if generated_file != output_path and os.path.exists(generated_file):
+                os.rename(generated_file, output_path)
 
-        print(f"Output saved to: {output_path}")
-        return True
+            print(f"Output saved to: {output_path}")
+            return True
+        else:
+            print(f"docling CLI error: {result.stderr}")
+            return False
 
-    except ImportError:
-        print("docling not installed. Installing...")
-        os.system(f"{sys.executable} -m pip install docling")
-        # Retry after install
-        return convert_pdf_to_markdown(pdf_path, output_path)
+    except FileNotFoundError:
+        print("docling CLI not found, falling back to PyMuPDF...")
+        return False
+    except subprocess.TimeoutExpired:
+        print("docling CLI timeout, falling back to PyMuPDF...")
+        return False
     except Exception as e:
         print(f"Error: {e}")
         return False

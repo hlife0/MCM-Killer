@@ -107,6 +107,27 @@ template = "Title: {TITLE}".format_map(safe_dict)
 
 ---
 
+## 📄 Reading O-Prize Papers (Use Docling CLI)
+
+> [!CRITICAL] **Use docling CLI to read PDFs. Do NOT use Python library directly.**
+
+**Primary Method (CLI)**:
+```bash
+docling --to md --output output/reference_papers reference_papers/2401298.pdf
+```
+
+**Read exactly 5 papers** for calibration. Each takes 3-5 minutes via CLI.
+
+**Fallback (MCP)** - Only if CLI fails:
+```
+mcp__docling__convert_document_into_docling_document
+source: "file:///D:/path/to/paper.pdf"
+```
+
+**NEVER use Python library directly** (`from docling import...`) - it's slow and blocks workflow.
+
+---
+
 ## Dual-Mode Operation (Protocol-Invoked)
 
 ### Mode 1: Style Extraction (Generate/Refresh)

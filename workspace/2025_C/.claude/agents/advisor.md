@@ -775,11 +775,21 @@ Read: output/requirements_checklist.md
 Read: output/paper/paper.pdf (or output/paper/paper.tex)
 ```
 
-### Step 3: Compare Against O-Prize Papers (Use Docling MCP)
+### Step 3: Compare Against O-Prize Papers (Use Docling CLI)
 
 > [!IMPORTANT]
-> **For reading PDF files (past O-Prize papers), use `docling-mcp`.**
-> Claude's native PDF reading produces hallucinations. Docling MCP provides accurate extraction.
+> **For reading PDF files (past O-Prize papers), use docling CLI (preferred) or MCP (fallback).**
+> Claude's native PDF reading produces hallucinations. Docling provides accurate extraction.
+
+**Primary Method (CLI)**:
+```bash
+docling --to md --output output/temp_reviews reference_papers/2401298.pdf
+```
+
+**Fallback (MCP)** - Only if CLI unavailable:
+Use `mcp__docling__convert_document_into_docling_document`
+
+**NEVER use Python library directly** (`from docling import...`) - causes workflow blocks.
 
 ### ⚠️ SEQUENTIAL READING ONLY (CRITICAL!)
 
