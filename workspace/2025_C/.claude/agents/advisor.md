@@ -720,7 +720,7 @@ When agent escalates issue, your first response:
 
 **What to do**:
 1. **READ**: `output/docs/research_notes.md` (the file Director specifies)
-2. **COMPARE** (optional): Read 1-2 O-Prize papers from `reference_papers/` to calibrate standards
+2. **COMPARE**: Read at least 5 O-Prize papers from `reference_papers/` to calibrate standards
 3. **EVALUATE**: Methodology sophistication on 1-10 scale
 4. **WRITE**: Brief report to `output/docs/validation/methodology_evaluation_{i}_advisor.md`
 5. **RESPOND**: Using brief format (Grade + Verdict + File verified + Report path)

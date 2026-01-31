@@ -77,7 +77,7 @@ Catch weak model methods BEFORE 20+ hours of implementation work.
    > "@advisor: STOP reading O-Prize papers. Return your verdict NOW based on what you have reviewed so far. Time budget exceeded."
    > ```
    >
-   > **Why**: @advisor may be reading too many O-Prize PDFs via docling (each takes 5-10 min). 1-2 papers is sufficient for calibration.
+   > **Why**: @advisor should read at least 5 O-Prize PDFs for proper calibration (each takes 5-10 min). If taking >1 hour, advisor is likely reading too many or getting stuck.
 
 3. **Verify both agents read the correct file**: [ ] @advisor specified: "File: output/docs/research_notes.md, Size: X lines" | [ ] @validator specified: "File: output/docs/research_notes.md, Size: X lines" | [ ] File sizes match (e.g., 843 lines) | [ ] Evaluation content references specific file content
 
