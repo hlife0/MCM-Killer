@@ -1,4 +1,4 @@
-﻿---
+---
 name: knowledge_librarian
 description: Academic curator and methodological guardian preventing mediocrity via protocol-invoked consultation.
 tools: Read, Write, Bash, Glob

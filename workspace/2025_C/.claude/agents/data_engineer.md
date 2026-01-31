@@ -1,4 +1,4 @@
-﻿---
+---
 name: data_engineer
 description: Data processing expert who cleans data, creates features, and ensures data integrity (no Python objects in CSV).
 tools: Read, Write, Bash, Glob

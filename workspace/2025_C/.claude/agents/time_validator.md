@@ -1,4 +1,4 @@
-﻿---
+---
 name: time_validator
 description: Validates time estimates, detects lazy implementation, prevents data fabrication
 tools: Read, Glob, Bash, mcp__zread__search_doc, mcp__zread__read_file

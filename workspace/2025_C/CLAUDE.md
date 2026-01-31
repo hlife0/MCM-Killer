@@ -30,6 +30,7 @@ You are the **conductor** of the 18-agent orchestra. You don't perform individua
 | **Task Management** | **knowledge_base/task_management.md** |
 | **Anti-Patterns** | **knowledge_base/anti_patterns.md** |
 | **File Integrity** | **knowledge_base/file_integrity_guide.md** |
+| **Director Examples** | **knowledge_base/director_examples.md** |
 
 ---
 
@@ -437,26 +438,11 @@ Agent discovers upstream problem → Suggests Rewind → Director evaluates (sev
 
 ### Completion Report Format (Mandatory)
 
-```markdown
-Director, Phase {X} COMPLETE.
-## Timing
-Phase: {X} ({name}) | Start: {ISO} | End: {ISO} | Duration: {XX}m | Expected: {min}-{max}m
-## Deliverables
-Output: {list} | Status: SUCCESS/PARTIAL/FAILED
-## Self-Assessment
-Quality: HIGH/MEDIUM/LOW | Confidence: {1-10} | Issues: {list or "None"}
-```
+**Template**: See knowledge_base/director_examples.md#completion-report-format
 
 ### Director Time Validation Call (BLOCKING TIME GATE)
 
-```
-@time_validator: Phase Time Check (BLOCKING TIME GATE)
-Phase: {X} ({name}) | Agent: @{agent} | Duration: {XX}m | MINIMUM: {YY}m
-Cumulative Total: {ZZ}m / 480m (8-hour minimum)
-Check: 1. Query output/implementation/logs/phase_{X}_timing.json 2. Compare vs logged 3. Validate against MINIMUM (no threshold buffer)
-ENFORCEMENT: Duration < MINIMUM = REJECT + FORCE RERUN (workflow does NOT stop)
-Return: APPROVE / REJECT_INSUFFICIENT_TIME / INVESTIGATE
-```
+**Template**: See knowledge_base/director_examples.md#director-time-validation-call
 
 **Rejection Protocol (DO NOT STOP WORKFLOW)**:
 1. Log in time_rejections.md
@@ -473,29 +459,7 @@ Return: APPROVE / REJECT_INSUFFICIENT_TIME / INVESTIGATE
 
 **Path**: `output/docs/consultations/phase_{X}_{agent}_{YYYY-MM-DDTHH-MM-SS}.md`
 
-**Template**:
-```markdown
-# Phase {X} Consultation: @{agent_name}
-**Timestamp**: {ISO} | **Phase**: {X} - {name} | **Duration**: {XX} min
-
-## Work Summary
-{Brief description}
-
-## Deliverables
-- {file1}: {description}
-
-## Key Decisions
-1. {Decision + rationale}
-
-## Issues
-- {Issue}: {Resolution}
-
-## Recommendations for Next Phase
-{What next agent needs}
-
-## Self-Assessment
-Confidence: {1-10} | Completeness: {%} | Rigor: HIGH/MEDIUM/LOW
-```
+**Template**: See knowledge_base/director_examples.md#consultation-export-template
 
 **Director Verification**: `ls output/docs/consultations/phase_{X}_*.md | wc -l` (expect ≥1 per agent)
 
@@ -653,10 +617,7 @@ When @time_validator predicts >48 hours training: **ESCALATE_TO_DIRECTOR** for d
 
 ### Checkpoint/Resume Protocol
 
-**Checkpoint Tracking** (in VERSION_MANIFEST.json):
-```json
-{ "phase_7a": {"status": "completed", "timestamp": "..."}, "phase_7b": {"status": "in_progress"} }
-```
+**Checkpoint Tracking**: See knowledge_base/director_examples.md#checkpoint-tracking
 
 **Resume**: On timeout, check VERSION_MANIFEST.json → resume from last completed sub-phase.
 
@@ -674,37 +635,7 @@ When @time_validator predicts >48 hours training: **ESCALATE_TO_DIRECTOR** for d
 
 > [!CAUTION] **When validation completes, send ALL agents needing rework in parallel.**
 
-### Multi-Agent Rework
-
-**Scenario**: Validation gate completes with multiple NEEDS_REVISION
-
-```
-@feasibility_checker: NEEDS_REVISION
-@advisor: NEEDS_REVISION
-@data_engineer: FEASIBLE 8/10
-@code_translator: APPROVED
-
-YOU MUST:
-1. Identify ALL agents with NEEDS_REVISION
-2. Send parallel revision requests to ALL
-3. Wait for ALL to complete
-4. Send ALL for re-verification
-5. Proceed only when ALL approve
-```
-
-**Decision Tree**:
-```
-Validation Gate → Collect verdicts
-  0 agents NEEDS_REVISION → Proceed
-  1 agent → Single-agent rework
-  2-3 agents → Multi-agent parallel rework
-  4+ agents → Consider rewind
-```
-
-**Required Verdict Checks**:
-- @validator: "APPROVED" or "All tests passed" or "Ready"
-- @advisor: "APPROVED" or "Ready for submission" or "Meets standards"
-- If "NEEDS REVISION" or "REJECTED" → Cycle NOT complete, send back
+**Multi-Agent Rework Protocol**: See knowledge_base/director_examples.md#multi-agent-rework-and-decision-tree
 
 ---
 
@@ -840,17 +771,7 @@ Provide context: `@modeler: Design model for Requirement 3. Context: Poisson for
 > - **REJECT if**: Phase row not updated | Status still "PENDING" or "IN_PROGRESS" when phase is done | Timestamps missing
 > - **Batch updates are ACADEMIC FRAUD** - proves Director skipped the checklist
 >
-> **EXAMPLE** (correct behavior):
-> ```
-> Phase 0 completes → Director updates orchestration_log.md (Phase 0 row: COMPLETE) → THEN calls Phase 0.2
-> Phase 0.2 completes → Director updates orchestration_log.md (Phase 0.2 row: COMPLETE) → THEN calls Phase 0.5
-> ```
->
-> **EXAMPLE** (WRONG - will be REJECTED):
-> ```
-> Phase 0 completes → Phase 0.2 completes → Phase 0.5 completes → Director batch updates all three
-> ❌ REJECTED: Phases 0, 0.2, 0.5 were not individually logged
-> ```
+> **Examples**: See knowledge_base/director_examples.md#orchestration-log-examples
 
 > [!CRITICAL] **TIMESTAMPS MUST COME FROM TIMING LOGS, NOT BE MANUALLY TYPED**
 >
@@ -860,18 +781,7 @@ Provide context: `@modeler: Design model for Requirement 3. Context: Poisson for
 > 3. Calculate duration from the JSON's `duration_minutes` field
 > 4. **NEVER manually type a timestamp** - this is ACADEMIC FRAUD
 >
-> **Example Correct Flow**:
-> ```bash
-> # After phase ends, read the timing log
-> cat output/implementation/logs/phase_0_timing.json
-> # Output: {"start_time": "2026-01-31T08:00:12", "end_time": "2026-01-31T08:35:47", "duration_minutes": 35.58, ...}
-> # Use THESE values in orchestration_log.md
-> ```
->
-> **REJECT CONDITIONS**:
-> - Timestamps in orchestration_log.md that don't match timing JSON = FRAUD
-> - Timing JSON doesn't exist = PROTOCOL VIOLATION (Director skipped time_tracker.py)
-> - Manually typed timestamps (e.g., `2026-01-31T08:00:00` round numbers) = SUSPICIOUS
+> **Examples**: See knowledge_base/director_examples.md#timestamps-from-timing-log
 
 Maintain `output/docs/orchestration_log.md` to track the competition.
 
@@ -889,19 +799,7 @@ At minimum, the orchestration log must capture:
 
 Maintain `output/docs/known_issues.md` to track all issues encountered during autonomous execution.
 
-**Format**:
-```markdown
-# Known Issues
-
-## [Issue ID] - Brief Title
-**Phase**: X.X
-**Timestamp**: YYYY-MM-DD HH:MM
-**Trigger**: What caused this issue
-**Automatic Action**: Rule applied (1-4)
-**Workaround**: What was done
-**Impact**: Low/Medium/High (blocks submission?)
-**Status**: Mitigated/Monitoring/Resolved
-```
+**Format**: See knowledge_base/director_examples.md#issue-tracking-format
 
 **Purpose**: Enables full autonomy by documenting issues instead of stopping to ask user
 

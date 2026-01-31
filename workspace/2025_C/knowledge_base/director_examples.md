@@ -13,6 +13,14 @@ This file contains detailed examples and scenarios extracted from CLAUDE.md to k
 5. [Mock Court DEFCON 1 Examples](#mock-court-defcon-1-examples)
 6. [Re-verification Approval Examples](#re-verification-approval-examples)
 7. [Parallel Work Patterns](#parallel-work-patterns)
+8. [Multi-Agent Rework and Decision Tree](#multi-agent-rework-and-decision-tree)
+9. [Completion Report Format](#completion-report-format)
+10. [Director Time Validation Call](#director-time-validation-call)
+11. [Consultation Export Template](#consultation-export-template)
+12. [Checkpoint Tracking](#checkpoint-tracking)
+13. [Orchestration Log Examples](#orchestration-log-examples)
+14. [Timestamps from Timing Log](#timestamps-from-timing-log)
+15. [Issue Tracking Format](#issue-tracking-format)
 
 ---
 
@@ -378,6 +386,170 @@ After first major section:
   → @advisor reviews draft
   → Feedback informs remaining work
 ```
+
+---
+
+## Multi-Agent Rework and Decision Tree
+
+### Multi-Agent Rework
+
+**Scenario**: Validation gate completes with multiple NEEDS_REVISION
+
+```
+@feasibility_checker: NEEDS_REVISION
+@advisor: NEEDS_REVISION
+@data_engineer: FEASIBLE 8/10
+@code_translator: APPROVED
+
+YOU MUST:
+1. Identify ALL agents with NEEDS_REVISION
+2. Send parallel revision requests to ALL
+3. Wait for ALL to complete
+4. Send ALL for re-verification
+5. Proceed only when ALL approve
+```
+
+**Decision Tree**:
+```
+Validation Gate → Collect verdicts
+  0 agents NEEDS_REVISION → Proceed
+  1 agent → Single-agent rework
+  2-3 agents → Multi-agent parallel rework
+  4+ agents → Consider rewind
+```
+
+**Required Verdict Checks**:
+- @validator: "APPROVED" or "All tests passed" or "Ready"
+- @advisor: "APPROVED" or "Ready for submission" or "Meets standards"
+- If "NEEDS REVISION" or "REJECTED" → Cycle NOT complete, send back
+
+---
+
+## Completion Report Format
+
+**Mandatory format for agent phase completion reports**:
+
+```markdown
+Director, Phase {X} COMPLETE.
+## Timing
+Phase: {X} ({name}) | Start: {ISO} | End: {ISO} | Duration: {XX}m | Expected: {min}-{max}m
+## Deliverables
+Output: {list} | Status: SUCCESS/PARTIAL/FAILED
+## Self-Assessment
+Quality: HIGH/MEDIUM/LOW | Confidence: {1-10} | Issues: {list or "None"}
+```
+
+---
+
+## Director Time Validation Call
+
+**BLOCKING TIME GATE prompt template**:
+
+```
+@time_validator: Phase Time Check (BLOCKING TIME GATE)
+Phase: {X} ({name}) | Agent: @{agent} | Duration: {XX}m | MINIMUM: {YY}m
+Cumulative Total: {ZZ}m / 480m (8-hour minimum)
+Check: 1. Query output/implementation/logs/phase_{X}_timing.json 2. Compare vs logged 3. Validate against MINIMUM (no threshold buffer)
+ENFORCEMENT: Duration < MINIMUM = REJECT + FORCE RERUN (workflow does NOT stop)
+Return: APPROVE / REJECT_INSUFFICIENT_TIME / INVESTIGATE
+```
+
+---
+
+## Consultation Export Template
+
+**Path**: `output/docs/consultations/phase_{X}_{agent}_{YYYY-MM-DDTHH-MM-SS}.md`
+
+**Template**:
+```markdown
+# Phase {X} Consultation: @{agent_name}
+**Timestamp**: {ISO} | **Phase**: {X} - {name} | **Duration**: {XX} min
+
+## Work Summary
+{Brief description}
+
+## Deliverables
+- {file1}: {description}
+
+## Key Decisions
+1. {Decision + rationale}
+
+## Issues
+- {Issue}: {Resolution}
+
+## Recommendations for Next Phase
+{What next agent needs}
+
+## Self-Assessment
+Confidence: {1-10} | Completeness: {%} | Rigor: HIGH/MEDIUM/LOW
+```
+
+---
+
+## Checkpoint Tracking
+
+**VERSION_MANIFEST.json checkpoint format for Phase 7 sub-phases**:
+
+```json
+{ "phase_7a": {"status": "completed", "timestamp": "..."}, "phase_7b": {"status": "in_progress"} }
+```
+
+**Resume**: On timeout, check VERSION_MANIFEST.json → resume from last completed sub-phase.
+
+---
+
+## Orchestration Log Examples
+
+**CORRECT behavior** (update after each phase):
+```
+Phase 0 completes → Director updates orchestration_log.md (Phase 0 row: COMPLETE) → THEN calls Phase 0.2
+Phase 0.2 completes → Director updates orchestration_log.md (Phase 0.2 row: COMPLETE) → THEN calls Phase 0.5
+```
+
+**WRONG - will be REJECTED** (batch updates):
+```
+Phase 0 completes → Phase 0.2 completes → Phase 0.5 completes → Director batch updates all three
+❌ REJECTED: Phases 0, 0.2, 0.5 were not individually logged
+```
+
+---
+
+## Timestamps from Timing Log
+
+**Timestamps MUST come from timing logs, NOT be manually typed**:
+
+```bash
+# After phase ends, read the timing log
+cat output/implementation/logs/phase_0_timing.json
+# Output: {"start_time": "2026-01-31T08:00:12", "end_time": "2026-01-31T08:35:47", "duration_minutes": 35.58, ...}
+# Use THESE values in orchestration_log.md
+```
+
+**REJECT CONDITIONS**:
+- Timestamps in orchestration_log.md that don't match timing JSON = FRAUD
+- Timing JSON doesn't exist = PROTOCOL VIOLATION (Director skipped time_tracker.py)
+- Manually typed timestamps (e.g., `2026-01-31T08:00:00` round numbers) = SUSPICIOUS
+
+---
+
+## Issue Tracking Format
+
+**Format for `output/docs/known_issues.md`**:
+
+```markdown
+# Known Issues
+
+## [Issue ID] - Brief Title
+**Phase**: X.X
+**Timestamp**: YYYY-MM-DD HH:MM
+**Trigger**: What caused this issue
+**Automatic Action**: Rule applied (1-4)
+**Workaround**: What was done
+**Impact**: Low/Medium/High (blocks submission?)
+**Status**: Mitigated/Monitoring/Resolved
+```
+
+**Purpose**: Enables full autonomy by documenting issues instead of stopping to ask user.
 
 ---
 

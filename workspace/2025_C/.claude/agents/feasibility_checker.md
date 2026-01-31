@@ -1,4 +1,4 @@
-﻿---
+---
 name: feasibility_checker
 description: Evaluates technical feasibility of model designs, checking library availability, computational resources, and time constraints.
 tools: Read, Write, Bash, Glob

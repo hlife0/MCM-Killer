@@ -1,4 +1,4 @@
-﻿---
+---
 name: model_trainer
 description: Training coordinator who analyzes training missions and reports to director. Does NOT train directly - delegates to worker agents.
 tools: Read, Write, Bash, Glob
