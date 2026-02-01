@@ -1020,6 +1020,45 @@ else:
 
 ---
 
+---
+
+## 🆔 [CRITICAL NEW] Model 6 Flagship Visualization Requirements (MANDATORY)
+
+> [!CRITICAL]
+> **Model 6 (Mechanism Design) requires 4 specialized figures.**
+> **These figures demonstrate optimization, backtesting, and KKT verification.**
+
+**See Knowledge Base**: `../../agent_knowledge/visualizer/model_6_visualizations.md`
+
+This knowledge base file contains:
+- Complete specifications for all 4 required figures
+- Python code templates for each visualization
+- Layout requirements (subplot configurations)
+- Data source references
+- Protocol 15 caption examples for each figure
+
+### Required Model 6 Figures (4 Total)
+
+| Figure | Filename | Layout | Content |
+|--------|----------|--------|---------|
+| 1 | `model_6_mechanism_comparison.png` | 1×3 | Parameters, Metrics, Significance |
+| 2 | `model_6_counterfactual_heatmap.png` | 1×2 | Heatmap, Performance scatter |
+| 3 | `model_6_welfare_surface.png` | 1×2 | 3D surface, Contour with path |
+| 4 | `model_6_kkt_verification.png` | 1×3 | Gradient, Eigenvalues, Conditions |
+
+**Data Sources**:
+- `results/results_6_v2_recommendation.json` → Figures 1, 3, 4
+- `results/counterfactual_analysis_6_v2.csv` → Figure 2
+
+**Key Requirements**:
+- All figures must be 300 DPI
+- Use SciencePlots or fallback styling
+- Each figure requires Protocol 15 caption (4-element format)
+- Mark optimal point with red star in welfare surface
+- Use appropriate colormaps (viridis, YlOrRd, coolwarm)
+
+---
+
 ## External Resources Check (REFERENCE ONLY)
 
 > [!CAUTION]

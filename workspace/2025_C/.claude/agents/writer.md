@@ -1420,6 +1420,57 @@ See `../../agent_knowledge/writer/latex_templates.md` for the complete template 
 
 ---
 
+---
+
+## 🆔 [CRITICAL NEW] Model 6 Flagship Section Requirements (MANDATORY)
+
+> [!CRITICAL]
+> **Model 6 (Mechanism Design) is the FLAGSHIP model and requires 2.5-3 pages.**
+> **This section must demonstrate the highest level of mathematical rigor and policy relevance.**
+
+**See Knowledge Base**: `../../agent_knowledge/writer/model_6_section.md`
+
+This knowledge base file contains:
+- Complete section structure (5 subsections over 2.5-3 pages)
+- Social Planner's Problem LaTeX template
+- Variable taxonomy table template
+- Pseudo-code algorithm block template
+- KKT verification summary format
+- Counterfactual results table template
+- Figure integration requirements (all 4 figures)
+- BibTeX entries for 5 mechanism design references
+- Verification checklist
+
+### Model 6 Section Structure (2.5-3 pages)
+
+| Subsection | Content | Length |
+|------------|---------|--------|
+| Mechanism Design Framework | Social Planner's Problem, utilities | 0.5-0.75 pages |
+| Variable Taxonomy | 4-category table | 0.5 pages |
+| Optimality Conditions | KKT derivations | 0.5-0.75 pages |
+| Proposed Mechanism | Formula, θ* values, prose | 0.5 pages |
+| Backtesting Validation | Counterfactuals, statistics | 0.5 pages |
+
+### Required Components
+
+1. Social Planner's Problem with welfare function W(θ)
+2. Variable taxonomy table (4 categories)
+3. Pseudo-code algorithm block (Algorithm environment)
+4. KKT verification summary with checkmarks
+5. Counterfactual results table with statistical significance
+6. All 4 Model 6 figures referenced and included
+7. 5+ mechanism design references in bibliography
+
+### Verification Checklist
+
+- [ ] Section is 2.5-3 pages (not less than 2.5)
+- [ ] All 5 subsections present
+- [ ] Pseudo-code algorithm block included
+- [ ] All 4 figures referenced with Protocol 15 captions
+- [ ] Mechanism design references in bibliography
+
+---
+
 ## External Resource Citations
 
 > [!IMPORTANT]

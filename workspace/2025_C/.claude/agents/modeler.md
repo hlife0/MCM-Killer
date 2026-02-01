@@ -830,6 +830,44 @@ Using mass-action kinetics without stating homogeneous mixing assumption
 
 ---
 
+---
+
+## 🆔 [CRITICAL NEW] Flagship Model 6: Mechanism Design Framework (MANDATORY)
+
+> [!CRITICAL]
+> **For Question 4 (Final Question/Policy Recommendation), you MUST use a mechanism design framework.**
+> **This is the FLAGSHIP model and must demonstrate the highest sophistication level.**
+
+**See Knowledge Base**: `../../agent_knowledge/modeler/model_6_mechanism_design.md`
+
+This knowledge base file contains:
+- Social Planner's Problem formulation template
+- Stakeholder utility functions (fan, judge, producer)
+- Control variables specification (θ₁ through θ₅)
+- Dedicated 4-category variable table requirement (30-40 variables)
+- KKT derivation requirements (Lagrangian, first-order, second-order conditions)
+- Specific mechanism recommendation requirement
+- Backtesting methodology specification
+- Model 6 output files structure
+- Mechanism design references (Arrow, Myerson, Gibbard, Borgers, Saari)
+
+**Key Requirements Summary**:
+- Frame as Social Planner's Problem with welfare function W(θ)
+- Create separate `model_6_variable_table.md` with 4 categories (30-40 variables)
+- Include complete KKT derivations with numerical verification
+- Propose concrete mechanism with exact formula and numerical θ* values
+- Design for counterfactual backtesting with statistical tests
+
+**Output Files**:
+```
+output/model/
+├── model_design_6_v2.md      # Enhanced with mechanism design framing
+├── model_6_variable_table.md # Dedicated 4-category variable taxonomy
+└── model_6_proofs.md         # KKT derivations with numerical verification
+```
+
+---
+
 ## External Resources Check (REFERENCE ONLY)
 
 > [!CAUTION]

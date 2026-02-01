@@ -838,6 +838,51 @@ Re-verification verdict MUST:
 
 ---
 
+---
+
+## 🆔 [CRITICAL NEW] Model 6 Flagship Implementation Requirements (MANDATORY)
+
+> [!CRITICAL]
+> **Model 6 (Mechanism Design) requires specialized implementation components.**
+> **This is the flagship model and must demonstrate the highest implementation sophistication.**
+
+**See Knowledge Base**: `../../agent_knowledge/code_translator/model_6_implementation.md`
+
+This knowledge base file contains:
+- MechanismParams dataclass with status_quo() and optimal() class methods
+- StakeholderWeights and SeasonResult dataclasses
+- compute_welfare() function specification
+- verify_kkt_conditions() function specification
+- backtest_mechanism() function specification
+- run_statistical_tests() function (McNemar, Fisher's z, Permutation)
+- generate_counterfactual_table() function
+- Output file structure and JSON output schema
+- Test suite requirements
+
+**Required Functions Summary**:
+1. `MechanismParams` dataclass with `status_quo()` and `optimal()` class methods
+2. `compute_welfare(params, results, weights)` → social welfare value
+3. `verify_kkt_conditions(params, gradient, hessian)` → KKT verification dict
+4. `backtest_mechanism(season_data, params)` → List[SeasonResult]
+5. `run_statistical_tests(sq_results, opt_results)` → statistical test results
+6. `generate_counterfactual_table(sq_results, opt_results, season_ids)` → DataFrame
+
+**Output Files**:
+```
+output/implementation/
+├── code/
+│   ├── model_6_v2.py           # Main implementation
+│   └── test_model_6_v2.py      # Test suite
+├── data/
+│   └── features_6_v2.pkl       # Enhanced features
+└── results/
+    ├── results_6_v2.csv                    # Optimization results
+    ├── counterfactual_analysis_6_v2.csv    # Season-by-season
+    └── results_6_v2_recommendation.json    # Final recommendation
+```
+
+---
+
 ## External Resources Check (REFERENCE ONLY)
 
 > [!CAUTION]
