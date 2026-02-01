@@ -214,11 +214,12 @@ Before passing to @writer:
 
 ### Pre-Work Checklist
 
-1. **Read** `external_resources/active/summary_for_agents.md`
-2. **Find** your agent (@narrative_weaver) in "Quick Reference" table
-3. **Check** your current phase in "By Phase" section
-4. **Access** relevant resources if listed (paths provided in summary)
-5. **Proceed** with your work
+1. **Read** `past_work/active/summary_for_agents.md` **(FIRST - higher priority, 75/100 pre-approved)**
+2. **Read** `external_resources/active/summary_for_agents.md`
+3. **Find** your agent (@narrative_weaver) in "Quick Reference" table
+4. **Check** your current phase in "By Phase" section
+5. **Access** relevant resources if listed (paths provided in summary)
+6. **Proceed** with your work
 
 ### If Summary Is Empty or No Relevant Resources
 

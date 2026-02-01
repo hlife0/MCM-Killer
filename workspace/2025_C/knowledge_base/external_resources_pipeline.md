@@ -1,7 +1,7 @@
 # External Resources Pipeline
 
-> **Version**: 3.2.0
-> **Purpose**: Complete documentation for external resource handling
+> **Version**: 3.2.1
+> **Purpose**: Complete documentation for external resource and past work handling
 
 ---
 
@@ -11,20 +11,24 @@ External resources are **SUPPLEMENTARY**. Internal knowledge (HMML 2.0) takes pr
 
 The pipeline enables users to provide external papers, code, and data that can enhance the modeling process without disrupting the core workflow.
 
+**NEW in v3.2.1**: Past Work Pipeline with higher priority (75/100 pre-approved).
+
 ---
 
 ## Agents
 
 | Agent | Role | Phase | Trigger |
 |-------|------|-------|---------|
-| `@resource_ingestor` | Monitor inbox/, process manual uploads | 0.1 | Files in inbox/ |
-| `@quality_checker` | Validate quality, syntax check code | 0.1 | Files in staging/ |
-| `@knowledge_curator` | Index, tag, maintain summary_for_agents.md | On-demand | After quality check |
-| `@resource_manager` | Folder structure, lifecycle, hash verification | Background | Continuous |
+| `@resource_ingestor` | Monitor inbox/ (both pipelines), process uploads | 0.1 | Files in inbox/ |
+| `@quality_checker` | Validate quality, syntax check, pre-approve past_work | 0.1 | Files in staging/ |
+| `@knowledge_curator` | Index, tag, maintain summary_for_agents.md (both) | On-demand | After quality check |
+| `@resource_manager` | Folder structure, lifecycle, hash verification (both) | Background | Continuous |
 
 ---
 
 ## Folder Structure
+
+### External Resources
 
 ```
 external_resources/       # GITIGNORED
@@ -40,6 +44,22 @@ external_resources/       # GITIGNORED
 ├── rejected/                    # Failed quality check
 │   └── (with rejection reasons)
 ├── archived/                    # Historical resources
+└── index.json                   # Master index (with SHA-256 hashes)
+```
+
+### Past Work (HIGHER PRIORITY)
+
+```
+past_work/                # GITIGNORED
+├── inbox/                       # User drops past work files here
+│   └── (previous submissions, verified code)
+├── staging/                     # Brief processing (auto-approved)
+│   └── (processed, syntax check pending for code)
+├── active/                      # Ready for use (HIGH PRIORITY)
+│   └── summary_for_agents.md   # Context overlay (READ FIRST)
+├── rejected/                    # Only syntax failures (code)
+│   └── (with rejection reasons)
+├── archived/                    # Historical
 └── index.json                   # Master index (with SHA-256 hashes)
 ```
 
@@ -73,7 +93,89 @@ Supported formats:
 - Updates summary_for_agents.md
 
 ### Step 5: Context Injection
-ALL agents read `external_resources/active/summary_for_agents.md` before starting their tasks.
+ALL agents read BOTH summary files before starting their tasks:
+1. `past_work/active/summary_for_agents.md` (READ FIRST - higher priority)
+2. `external_resources/active/summary_for_agents.md`
+
+---
+
+## Past Work Pipeline (HIGHER PRIORITY)
+
+> [!IMPORTANT] **Past work resources are PRE-APPROVED with 75/100 score.**
+> They have HIGHER PRIORITY than external resources and should be consulted FIRST.
+
+### Overview
+
+Past work resources are **pre-approved references** from previous competitions or verified implementations. They receive:
+- **Score**: 75/100 (equivalent to 7.5/10) - pre-set, not calculated
+- **Status**: PRE_APPROVED - bypasses quality scoring
+- **Syntax Check**: Still required for code files (hard constraint)
+- **Priority**: Listed FIRST in summary_for_agents.md
+
+### Resource ID Format
+
+| Source | Prefix | Example |
+|--------|--------|---------|
+| External Resources | `MAN_` | `MAN_20260201_abc123` |
+| Past Work | `PWK_` | `PWK_20260201_def456` |
+
+### Processing Differences
+
+| Step | External Resources | Past Work |
+|------|-------------------|-----------|
+| Inbox Monitoring | `external_resources/inbox/` | `past_work/inbox/` |
+| Metadata Generation | Same | Same + `pre_approved: true` |
+| Quality Scoring | Full 4-criterion scoring | **SKIP** (pre-set 75/100) |
+| Syntax Check (code) | Required | Required |
+| Score Threshold | >= 7.0 to pass | **Always 75/100** |
+| Priority | Standard | **HIGH** (listed first) |
+
+### When to Use Past Work
+
+- Previous MCM competition submissions
+- Tested and verified model implementations
+- Reference code that has been run successfully
+- Documents with known accuracy
+- Approaches that have been validated
+
+### Integration with summary_for_agents.md
+
+Past work appears in a priority section at the TOP:
+
+```markdown
+# Past Work Resources Summary for Agents
+
+> [!IMPORTANT] **Past work resources have HIGHER PRIORITY than external resources.**
+> These are pre-approved references with score 75/100.
+
+## PRIORITY RESOURCES: Past Work (Pre-Approved 75/100)
+
+These resources are pre-approved and should be consulted FIRST:
+
+1. **PWK_001** - previous_sir_model.py (CODE)
+   - Pre-approved reference implementation
+   - Path: `past_work/active/PWK_001/content.py`
+   - Recommended for: @modeler, @code_translator
+
+2. **PWK_002** - last_year_approach.md (DOCUMENT)
+   - Previous competition methodology
+   - Path: `past_work/active/PWK_002/content.md`
+   - Recommended for: @researcher, @writer
+
+---
+
+## External Resources (Standard Scoring)
+...
+```
+
+### Priority Order
+
+When agents consult resources, they should follow this priority:
+
+1. **Past Work (PWK_*)** - 75/100 pre-approved, consult FIRST
+2. **External Resources >= 8.0** - High quality
+3. **External Resources >= 7.0** - Standard approved
+4. **Conditional (5.0-6.9)** - Use with caution, verify claims
 
 ---
 
@@ -228,18 +330,36 @@ Full agent specs available at:
 
 ### Before Each Phase
 ```bash
-# Agent startup
+# Agent startup - READ BOTH SUMMARIES
+cat past_work/active/summary_for_agents.md         # READ FIRST (higher priority)
 cat external_resources/active/summary_for_agents.md
 # Check for relevant resources for this phase
 ```
 
 ### After Phase Completion
 ```bash
-# Verify no new resources added during phase
-python docs/newplan/10_tools/indexer.py verify
+# Verify no new resources added during phase (both pipelines)
+python docs/newplan/10_tools/indexer.py verify --all
 ```
 
 ### In Paper Writing (Phase 7+)
-- Cite all used external resources
+- Cite all used external resources and past work
 - Include in references
-- Note: External = supplementary, not primary
+- Note: External = supplementary, Past Work = reference implementation
+- Past work has higher credibility (pre-approved)
+
+---
+
+## Summary Comparison
+
+| Aspect | External Resources | Past Work |
+|--------|-------------------|-----------|
+| Location | `external_resources/inbox/` | `past_work/inbox/` |
+| ID Prefix | `MAN_` | `PWK_` |
+| Quality Score | Calculated (0-10 scale, threshold 7.0) | Pre-set 75/100 |
+| Quality Check | Full 4-criterion scoring | SKIP (pre-approved) |
+| Syntax Check | Required for code | Required for code |
+| Priority | Standard | **HIGH** (listed first) |
+| Use Case | New resources to evaluate | Verified references |
+| Summary File | `external_resources/active/summary_for_agents.md` | `past_work/active/summary_for_agents.md` |
+| Read Order | Second | **First** |

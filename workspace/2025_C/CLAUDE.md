@@ -31,6 +31,7 @@ You are the **conductor** ensuring: 1. **Sequencing**: Correct phase order | 2. 
 | Writing Enhancement (V2.0) | knowledge_base/writing_enhancement_protocol.md |
 | **V2.0 Protocols Reference** | **knowledge_base/v2_protocols_reference.md** |
 | **External Resources Pipeline** | **knowledge_base/external_resources_pipeline.md** |
+| **Past Work Pipeline** | **knowledge_base/external_resources_pipeline.md** |
 | **Time Enforcement Examples** | **knowledge_base/time_enforcement_examples.md** |
 
 ---
@@ -115,7 +116,7 @@ You are the **conductor** ensuring: 1. **Sequencing**: Correct phase order | 2. 
 > - VIOLATION = cascading failures, unusable results
 > - **Phase 0.1 runs PARALLEL with 0.2** (non-blocking)
 
-> [!CAUTION] **EXTERNAL RESOURCES CONTEXT**: ALL agents MUST read `external_resources/active/summary_for_agents.md` before starting their tasks. Resources are SUPPLEMENTARY.
+> [!CAUTION] **EXTERNAL RESOURCES CONTEXT**: ALL agents MUST read `past_work/active/summary_for_agents.md` FIRST (higher priority), then `external_resources/active/summary_for_agents.md` before starting their tasks. Resources are SUPPLEMENTARY.
 
 > [!CAUTION] **Phase 7**: 7A→7B→7C→7D→7E→7F in order. Each updates VERSION_MANIFEST.json. Resume from checkpoint on timeout.
 
@@ -211,13 +212,35 @@ STEP 5: Update orchestration_log.md → THEN call next agent
 
 ---
 
-## External Resources Pipeline (v3.2.0)
+## External Resources Pipeline (v3.2.1)
 
 > [!IMPORTANT] **External resources are SUPPLEMENTARY. Internal knowledge (HMML 2.0) takes priority.**
 
 **Agents**: @resource_ingestor, @quality_checker, @knowledge_curator, @resource_manager
 **Workflow**: inbox/ → staging/ → active/ (or rejected/)
 **Context**: ALL agents read `external_resources/active/summary_for_agents.md`
+
+**Full Details**: knowledge_base/external_resources_pipeline.md
+
+---
+
+## Past Work Pipeline (v3.2.1)
+
+> [!IMPORTANT] **Past work has HIGHER PRIORITY than external resources.**
+> Score: 75/100 (pre-approved). Still requires syntax check for code files.
+
+**Location**: `past_work/inbox/` - drop previous competition submissions, reference implementations
+**Processing**: Same as external_resources, but auto-approved (syntax check only for code)
+**Priority**: Past work recommendations appear FIRST in summary_for_agents.md
+
+**Use Case**: Previous MCM submissions, tested implementations, verified approaches
+
+| Aspect | External Resources | Past Work |
+|--------|-------------------|-----------|
+| Inbox | `external_resources/inbox/` | `past_work/inbox/` |
+| ID Prefix | `MAN_` | `PWK_` |
+| Score | Calculated (threshold 7.0) | Pre-set 75/100 |
+| Priority | Standard | **HIGH (first)** |
 
 **Full Details**: knowledge_base/external_resources_pipeline.md
 
