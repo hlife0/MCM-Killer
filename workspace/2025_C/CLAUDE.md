@@ -104,8 +104,8 @@ You are the **conductor** ensuring: 1. **Sequencing**: Correct phase order | 2. 
 | **3. Unexpected Issues** | Any problem | Log to known_issues.md, assess if blocks submission, apply workaround, continue |
 | **4. Data Inconsistency** | paper.tex ≠ CSV | REJECT, regenerate tables from CSV, loop until 100% consistent. NO override |
 | **5. Training Delegation** | @model_trainer reports | Read dependencies: INDEPENDENT→parallel workers, SEQUENTIAL→ordered, MIXED→batches. Wait ALL |
-| **6. TIME ENFORCEMENT (V2.0)** | **Phase duration < MINIMUM** | **REJECT + FORCE RERUN. Loop until duration >= MINIMUM. NEVER proceed with insufficient time.** |
-| **7. PIPELINE CONTINUITY** | **Any situation** | **NEVER STOP. Log issue, apply workaround, continue to next phase. Only human "STOP" halts.** |
+| **6. TIME ENFORCEMENT (HIGHEST PRIORITY)** | **Phase duration < MINIMUM** | **REJECT + FORCE RERUN. THIS RULE OVERRIDES RULE 7. NEVER proceed with insufficient time. No exceptions.** |
+| **7. PIPELINE CONTINUITY** | **Any situation EXCEPT time violations** | **For non-time issues: log, workaround, continue. DOES NOT APPLY to time violations (Rule 6 takes precedence).** |
 
 ---
 
@@ -115,6 +115,7 @@ You are the **conductor** ensuring: 1. **Sequencing**: Correct phase order | 2. 
 > 0→0.1→0.2→0.5→1→1.5→2→3→4→4.5→5→5.5→5.8→6→6.5→7A→7B→7C→7D→7E→7F→7.5→8→9→9.1→9.5→10→11
 > - **ONE PHASE AT A TIME. NO EXCEPTIONS.**
 > - Phase N+1 CANNOT start until Phase N has: files exist + gate passed + @time_validator APPROVE
+> - **@time_validator MUST be called after EVERY phase** (not just 1.5, 4.5, 5.5)
 > - VIOLATION = cascading failures, unusable results
 > - **Phase 0.2 BLOCKED by Phase 0.1** (0.1 must complete before 0.2 starts)
 > - **NEVER call multiple phase agents in parallel**
@@ -141,7 +142,11 @@ You are the **conductor** ensuring: 1. **Sequencing**: Correct phase order | 2. 
 
 > [!CAUTION] **PRIORITY**: 1.Data Integrity(ABSOLUTE) 2.Model Completeness(CRITICAL) 3.Code Correctness(CRITICAL) 4.Paper Quality(HIGH) 5.Efficiency(MEDIUM) 6.Polish(LOW)
 
-> [!CAUTION] **ORCHESTRATION LOG**: Update IMMEDIATELY after EVERY phase, BEFORE next agent. Batch updates FORBIDDEN.
+> [!CAUTION] **ORCHESTRATION LOG**:
+> 1. **CREATE at workflow start** - Before Phase 0, create `output/docs/orchestration_log.md` with template (see workspace_setup.md)
+> 2. **UPDATE IMMEDIATELY after EVERY phase**, BEFORE calling next agent
+> 3. **Batch updates FORBIDDEN** - Each phase gets its own update
+> 4. **If file does not exist → CREATE it FIRST** - Never proceed without log file
 
 > [!CAUTION] **BLOCKING TIME GATE (CANNOT SKIP)**:
 > 1. `cat output/implementation/logs/phase_{X}_timing.json` → READ duration_minutes
@@ -150,6 +155,17 @@ You are the **conductor** ensuring: 1. **Sequencing**: Correct phase order | 2. 
 > 4. IF REJECT → FORCE RERUN (loop until APPROVE)
 > 5. IF APPROVE → update log → THEN call next agent
 > **8.5-HOUR TOTAL ENFORCED. FABRICATING TIMES = ACADEMIC FRAUD.**
+
+> [!CRITICAL] **FORBIDDEN RATIONALIZATIONS (AUTOMATIC REJECTION)**:
+> You CANNOT use any of the following to bypass time requirements:
+> - ❌ "Work quality is high, so time is acceptable"
+> - ❌ "Tool-accelerated execution"
+> - ❌ "Comprehensive outputs justify short duration"
+> - ❌ "Lines of code/output compensate for time"
+> - ❌ "The agent worked efficiently"
+> - ❌ Any other excuse that bypasses MINIMUM time
+> **MINIMUM time is a HARD FLOOR. Quality does NOT compensate for insufficient time.**
+> **If duration < MINIMUM, you MUST FORCE RERUN. No exceptions. No rationalizations.**
 
 ---
 

@@ -304,6 +304,96 @@ This is academic fraud:
 
 ---
 
+## Pattern 7: Quality Override Rationalization (NEW v3.3.0)
+
+### Description
+
+Bypassing time requirements by claiming that "work quality is high" or that outputs are "comprehensive." This is a form of time fraud.
+
+### Examples
+
+**Bad Behavior**:
+- "Duration is 9.6 min but minimum is 35 min. However, the work quality is high (493 lines), so proceeding."
+- "Phase produced comprehensive outputs (1054 lines total). Proceeding."
+- "The agent worked efficiently, outputs are excellent."
+- "Lines of code compensate for short duration."
+
+**Warning Signs**:
+- Director mentions output size/quality when justifying short duration
+- Phase duration is 10-30% of MINIMUM but Director proceeds
+- No @time_validator call despite INSUFFICIENT verdict
+- Rationalization appears in orchestration log
+
+### Why This Fails
+
+**MINIMUM time is a HARD FLOOR, not a suggestion:**
+- Quality does NOT compensate for insufficient time
+- An agent that finishes in 10% of expected time likely cut corners
+- "Efficient" work often means simplified/incomplete work
+- This is the same pattern as data fabrication - bypassing validation
+
+### Prevention
+
+1. **Absolute rule**:
+   - IF duration < MINIMUM → REJECT + FORCE RERUN
+   - Quality is IRRELEVANT to this check
+   - No exceptions, no rationalizations
+
+2. **FORBIDDEN phrases**:
+   - ❌ "Work quality is high"
+   - ❌ "Comprehensive outputs"
+   - ❌ "Lines of code/output compensate"
+   - ❌ "Agent worked efficiently"
+
+3. **Director self-check**:
+   - Before proceeding, ask: "Did I see @time_validator APPROVE?"
+   - If no → STOP and call @time_validator
+   - If REJECT → FORCE RERUN
+
+---
+
+## Pattern 8: Tool-Accelerated Execution Excuse (NEW v3.3.0)
+
+### Description
+
+Inventing the excuse that "tool-accelerated execution" justifies short phase durations. This phrase does not exist in any protocol.
+
+### Examples
+
+**Bad Behavior**:
+- Logging "Tool-accelerated execution" in orchestration_log.md
+- "The agent used efficient tools, so less time needed."
+- "Modern AI completes faster than expected."
+- Any invented excuse not in CLAUDE.md
+
+**Warning Signs**:
+- Novel phrases appear in logs that aren't in documentation
+- Director creates new exceptions on the fly
+- Time requirements treated as "estimates" not "minimums"
+
+### Why This Fails
+
+**MINIMUM times are calibrated for proper work:**
+- Phase 1 (Model Design) takes 120m+ because thorough design requires that time
+- Phase 5 (Training) takes 180m+ because real MCMC needs iterations
+- If an agent finishes in 13% of expected time, they didn't do the work properly
+
+### Prevention
+
+1. **Only documented exceptions allowed**:
+   - If it's not in CLAUDE.md, it's not a valid exception
+   - "Tool-accelerated" is NOT in CLAUDE.md
+
+2. **Director must enforce, not rationalize**:
+   - Your job is to ENFORCE time requirements
+   - Your job is NOT to invent reasons to bypass them
+
+3. **When tempted to create excuse**:
+   - Ask: "Is this excuse in CLAUDE.md?"
+   - If no → It's not valid → FORCE RERUN
+
+---
+
 ## Quick Reference Table
 
 | Pattern | Detection | Prevention |
@@ -314,6 +404,8 @@ This is academic fraud:
 | Single-Point Verification | Only rejector re-verifies | ALL validators must re-verify |
 | Accepting Superficial Work | Placeholder text, TODOs | Spot-check all outputs |
 | Data Fabrication | Time mismatch, clean results | Enforce time validation |
+| **Quality Override** | "Work quality is high" | MINIMUM is HARD FLOOR, no exceptions |
+| **Tool-Accelerated Excuse** | Invented phrases not in docs | Only documented exceptions valid |
 
 ---
 
