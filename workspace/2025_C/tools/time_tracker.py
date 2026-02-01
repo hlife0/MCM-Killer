@@ -21,35 +21,38 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional, Dict, Any
 
-# Phase time requirements (configurable per phase)
+# Phase time requirements - MINIMUM values aligned with CLAUDE.md (v3.3.0)
+# threshold_pct is kept for legacy compatibility but NOT used for enforcement
+# min_min IS the hard floor - no threshold reduction applied
 PHASE_TIME_REQUIREMENTS = {
-    "0":   {"name": "Problem Understanding",   "min_min": 20,  "max_min": 30,   "threshold_pct": 0.70},
-    "0.2": {"name": "Knowledge Retrieval",     "min_min": 7,   "max_min": 15,   "threshold_pct": 0.70},
-    "0.5": {"name": "Methodology Gate",        "min_min": 10,  "max_min": 20,   "threshold_pct": 0.70},
-    "1":   {"name": "Model Design",            "min_min": 90,  "max_min": 360,  "threshold_pct": 0.70},
-    "1.5": {"name": "Time Validation",         "min_min": 4,   "max_min": 10,   "threshold_pct": 0.60},
-    "2":   {"name": "Feasibility Check",       "min_min": 20,  "max_min": 30,   "threshold_pct": 0.70},
-    "3":   {"name": "Data Processing",         "min_min": 40,  "max_min": 120,  "threshold_pct": 0.70},
-    "4":   {"name": "Code Translation",        "min_min": 40,  "max_min": 120,  "threshold_pct": 0.70},
-    "4.5": {"name": "Fidelity Check",          "min_min": 4,   "max_min": 10,   "threshold_pct": 0.60},
-    "5":   {"name": "Model Training",          "min_min": 360, "max_min": 2880, "threshold_pct": 0.30},  # 30% for training
-    "5.5": {"name": "Data Authenticity",       "min_min": 4,   "max_min": 10,   "threshold_pct": 0.60},
-    "5.8": {"name": "Insight Extraction",      "min_min": 10,  "max_min": 20,   "threshold_pct": 0.70},
-    "6":   {"name": "Visualization",           "min_min": 20,  "max_min": 30,   "threshold_pct": 0.70},
-    "6.5": {"name": "Visual Gate",             "min_min": 4,   "max_min": 10,   "threshold_pct": 0.60},
-    "7A":  {"name": "Paper Framework",         "min_min": 10,  "max_min": 15,   "threshold_pct": 0.70},
-    "7B":  {"name": "Model Sections",          "min_min": 30,  "max_min": 40,   "threshold_pct": 0.70},
-    "7C":  {"name": "Results Integration",     "min_min": 15,  "max_min": 20,   "threshold_pct": 0.70},
-    "7D":  {"name": "Analysis Sections",       "min_min": 10,  "max_min": 15,   "threshold_pct": 0.70},
-    "7E":  {"name": "Conclusions",             "min_min": 10,  "max_min": 15,   "threshold_pct": 0.70},
-    "7F":  {"name": "LaTeX Compilation",       "min_min": 5,   "max_min": 10,   "threshold_pct": 0.60},
-    "7.5": {"name": "LaTeX Gate",              "min_min": 4,   "max_min": 10,   "threshold_pct": 0.60},
-    "8":   {"name": "Summary",                 "min_min": 20,  "max_min": 30,   "threshold_pct": 0.70},
-    "9":   {"name": "Polish",                  "min_min": 20,  "max_min": 30,   "threshold_pct": 0.70},
-    "9.1": {"name": "Mock Judging",            "min_min": 10,  "max_min": 30,   "threshold_pct": 0.70},
-    "9.5": {"name": "Editor Feedback",         "min_min": 10,  "max_min": 60,   "threshold_pct": 0.50},
-    "10":  {"name": "Final Review",            "min_min": 20,  "max_min": 30,   "threshold_pct": 0.70},
-    "11":  {"name": "Self-Evolution",          "min_min": 4,   "max_min": 10,   "threshold_pct": 0.60},
+    "0":   {"name": "Problem Understanding",   "min_min": 35,  "max_min": 60,   "threshold_pct": 1.0},
+    "0.1": {"name": "External Resources",      "min_min": 15,  "max_min": 30,   "threshold_pct": 1.0},
+    "0.2": {"name": "Knowledge Retrieval",     "min_min": 20,  "max_min": 30,   "threshold_pct": 1.0},
+    "0.5": {"name": "Methodology Gate",        "min_min": 25,  "max_min": 40,   "threshold_pct": 1.0},
+    "1":   {"name": "Model Design",            "min_min": 120, "max_min": 360,  "threshold_pct": 1.0},
+    "1.5": {"name": "Time Validation",         "min_min": 10,  "max_min": 20,   "threshold_pct": 1.0},
+    "2":   {"name": "Feasibility Check",       "min_min": 35,  "max_min": 60,   "threshold_pct": 1.0},
+    "3":   {"name": "Data Processing",         "min_min": 75,  "max_min": 120,  "threshold_pct": 1.0},
+    "4":   {"name": "Code Translation",        "min_min": 75,  "max_min": 120,  "threshold_pct": 1.0},
+    "4.5": {"name": "Fidelity Check",          "min_min": 10,  "max_min": 20,   "threshold_pct": 1.0},
+    "5":   {"name": "Model Training",          "min_min": 180, "max_min": 2880, "threshold_pct": 1.0},  # 3 hours MINIMUM per CLAUDE.md
+    "5.5": {"name": "Data Authenticity",       "min_min": 10,  "max_min": 20,   "threshold_pct": 1.0},
+    "5.8": {"name": "Insight Extraction",      "min_min": 25,  "max_min": 40,   "threshold_pct": 1.0},
+    "6":   {"name": "Visualization",           "min_min": 35,  "max_min": 60,   "threshold_pct": 1.0},
+    "6.5": {"name": "Visual Gate",             "min_min": 10,  "max_min": 20,   "threshold_pct": 1.0},
+    "7A":  {"name": "Paper Framework",         "min_min": 25,  "max_min": 40,   "threshold_pct": 1.0},
+    "7B":  {"name": "Model Sections",          "min_min": 60,  "max_min": 90,   "threshold_pct": 1.0},
+    "7C":  {"name": "Results Integration",     "min_min": 45,  "max_min": 60,   "threshold_pct": 1.0},
+    "7D":  {"name": "Analysis Sections",       "min_min": 25,  "max_min": 40,   "threshold_pct": 1.0},
+    "7E":  {"name": "Conclusions",             "min_min": 32,  "max_min": 45,   "threshold_pct": 1.0},
+    "7F":  {"name": "LaTeX Compilation",       "min_min": 15,  "max_min": 30,   "threshold_pct": 1.0},
+    "7.5": {"name": "LaTeX Gate",              "min_min": 10,  "max_min": 20,   "threshold_pct": 1.0},
+    "8":   {"name": "Summary",                 "min_min": 35,  "max_min": 60,   "threshold_pct": 1.0},
+    "9":   {"name": "Polish",                  "min_min": 35,  "max_min": 60,   "threshold_pct": 1.0},
+    "9.1": {"name": "Mock Judging",            "min_min": 20,  "max_min": 45,   "threshold_pct": 1.0},
+    "9.5": {"name": "Editor Feedback",         "min_min": 20,  "max_min": 60,   "threshold_pct": 1.0},
+    "10":  {"name": "Final Review",            "min_min": 35,  "max_min": 60,   "threshold_pct": 1.0},
+    "11":  {"name": "Self-Evolution",          "min_min": 10,  "max_min": 20,   "threshold_pct": 1.0},
 }
 
 LOG_DIR = Path("output/implementation/logs")
@@ -122,14 +125,15 @@ def end_phase(phase: str, agent: str, status: str = "completed") -> Dict[str, An
     data['duration_minutes'] = round(duration, 2)
     data['status'] = status
 
-    # Calculate threshold
-    min_threshold = data['expected_min'] * data['threshold_pct']
+    # Calculate threshold - min_min IS the hard floor, no reduction (v3.3.0)
+    # threshold_pct is now always 1.0, so min_threshold == expected_min
+    min_threshold = data['expected_min']  # Use MINIMUM directly, no threshold reduction
     data['min_threshold'] = min_threshold
 
-    # Preliminary validation
+    # Preliminary validation - MINIMUM is the hard floor
     if duration < min_threshold:
         data['time_verdict'] = "INSUFFICIENT"
-        data['time_message'] = f"Duration {duration:.1f} min < threshold {min_threshold:.1f} min"
+        data['time_message'] = f"Duration {duration:.1f} min < MINIMUM {min_threshold:.1f} min - REJECT"
     elif duration > data['expected_max'] * 2:
         data['time_verdict'] = "EXCESSIVE"
         data['time_message'] = f"Duration {duration:.1f} min > 2x max {data['expected_max']} min"
@@ -184,19 +188,16 @@ def validate_phase(phase: str) -> Dict[str, Any]:
         "agent": data.get('agent', 'Unknown'),
         "duration_minutes": duration,
         "expected_range": f"{expected_min}-{expected_max} min",
-        "threshold": f"{min_threshold:.1f} min ({data.get('threshold_pct', 0.7)*100:.0f}%)",
+        "minimum": f"{expected_min} min (HARD FLOOR - no threshold reduction)",
         "start_time": data.get('start_time'),
         "end_time": data.get('end_time'),
     }
 
-    if duration < min_threshold:
+    # MINIMUM is the hard floor - duration < min_min = REJECT (v3.3.0)
+    if duration < expected_min:
         result['verdict'] = "REJECT_INSUFFICIENT_TIME"
         result['action'] = "RERUN_REQUIRED"
-        result['message'] = f"Phase completed in {duration:.1f} min, below threshold of {min_threshold:.1f} min. Work may be incomplete or simplified. FORCE RERUN."
-    elif duration < expected_min:
-        result['verdict'] = "WARN_FAST"
-        result['action'] = "INVESTIGATE"
-        result['message'] = f"Phase completed in {duration:.1f} min, faster than expected {expected_min} min. Verify quality."
+        result['message'] = f"Phase completed in {duration:.1f} min, below MINIMUM of {expected_min} min. FORCE RERUN."
     elif duration > expected_max * 2:
         result['verdict'] = "WARN_SLOW"
         result['action'] = "NOTE"

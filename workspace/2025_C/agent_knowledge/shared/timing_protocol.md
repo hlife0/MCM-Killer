@@ -1,7 +1,10 @@
-# Shared Timing Protocol for All Agents (v3.2.0)
+# Shared Timing Protocol for All Agents (v3.3.0)
 
 > **Purpose**: Common timing and consultation export requirements for all agents.
 > This file is referenced by each agent to ensure consistent phase timing and documentation.
+>
+> **v3.3.0 CRITICAL CHANGE**: MINIMUM is now the HARD FLOOR. No threshold buffer.
+> Duration < MINIMUM = REJECT. No exceptions.
 
 ---
 
@@ -11,6 +14,7 @@ Every agent MUST:
 1. Track their own phase timing using `time_tracker.py`
 2. Export a consultation document after completing work
 3. Include timing information in completion reports
+4. **NEVER complete a phase below the MINIMUM time**
 
 ---
 
@@ -54,39 +58,42 @@ python tools/time_tracker.py list
 
 ---
 
-## Phase Time Requirements
+## Phase Time Requirements (v3.3.0 - HARD MINIMUMS)
 
-| Phase | Name | Min Time | Max Time | Threshold |
-|-------|------|----------|----------|-----------|
-| 0 | Problem Understanding | 20 min | 30 min | 14 min (70%) |
-| 0.2 | Knowledge Retrieval | 7 min | 15 min | 5 min (70%) |
-| 0.5 | Methodology Gate | 10 min | 20 min | 7 min (70%) |
-| 1 | Model Design | 90 min | 360 min | 63 min (70%) |
-| 1.5 | Time Validation | 4 min | 10 min | 3 min (60%) |
-| 2 | Feasibility Check | 20 min | 30 min | 14 min (70%) |
-| 3 | Data Processing | 40 min | 120 min | 28 min (70%) |
-| 4 | Code Translation | 40 min | 120 min | 28 min (70%) |
-| 4.5 | Fidelity Check | 4 min | 10 min | 3 min (60%) |
-| 5 | Model Training | 360 min | 2880 min | 108 min (30%) |
-| 5.5 | Data Authenticity | 4 min | 10 min | 3 min (60%) |
-| 5.8 | Insight Extraction | 10 min | 20 min | 7 min (70%) |
-| 6 | Visualization | 20 min | 30 min | 14 min (70%) |
-| 6.5 | Visual Gate | 4 min | 10 min | 3 min (60%) |
-| 7A | Paper Framework | 10 min | 15 min | 7 min (70%) |
-| 7B | Model Sections | 30 min | 40 min | 21 min (70%) |
-| 7C | Results Integration | 15 min | 20 min | 11 min (70%) |
-| 7D | Analysis Sections | 10 min | 15 min | 7 min (70%) |
-| 7E | Conclusions | 10 min | 15 min | 7 min (70%) |
-| 7F | LaTeX Compilation | 5 min | 10 min | 3 min (60%) |
-| 7.5 | LaTeX Gate | 4 min | 10 min | 3 min (60%) |
-| 8 | Summary | 20 min | 30 min | 14 min (70%) |
-| 9 | Polish | 20 min | 30 min | 14 min (70%) |
-| 9.1 | Mock Judging | 10 min | 30 min | 7 min (70%) |
-| 9.5 | Editor Feedback | 10 min | 60 min | 5 min (50%) |
-| 10 | Final Review | 20 min | 30 min | 14 min (70%) |
-| 11 | Self-Evolution | 4 min | 10 min | 3 min (60%) |
+> **CRITICAL**: MINIMUM is the HARD FLOOR. No threshold buffer. Duration < MINIMUM = REJECT.
 
-**Threshold**: Minimum acceptable time = min_time × threshold_percentage
+| Phase | Name | MINIMUM | Max Time | Notes |
+|-------|------|---------|----------|-------|
+| 0 | Problem Understanding | **35 min** | 60 min | HARD FLOOR |
+| 0.1 | External Resources | **15 min** | 30 min | HARD FLOOR |
+| 0.2 | Knowledge Retrieval | **20 min** | 30 min | HARD FLOOR |
+| 0.5 | Methodology Gate | **25 min** | 40 min | HARD FLOOR |
+| 1 | Model Design | **120 min (2h)** | 360 min | HARD FLOOR |
+| 1.5 | Time Validation | **10 min** | 20 min | HARD FLOOR |
+| 2 | Feasibility Check | **35 min** | 60 min | HARD FLOOR |
+| 3 | Data Processing | **75 min** | 120 min | HARD FLOOR |
+| 4 | Code Translation | **75 min** | 120 min | HARD FLOOR |
+| 4.5 | Fidelity Check | **10 min** | 20 min | HARD FLOOR |
+| 5 | Model Training | **180 min (3h)** | 2880 min | **CRITICAL - 3 HOURS MINIMUM** |
+| 5.5 | Data Authenticity | **10 min** | 20 min | HARD FLOOR |
+| 5.8 | Insight Extraction | **25 min** | 40 min | HARD FLOOR |
+| 6 | Visualization | **35 min** | 60 min | HARD FLOOR |
+| 6.5 | Visual Gate | **10 min** | 20 min | HARD FLOOR |
+| 7A | Paper Framework | **25 min** | 40 min | HARD FLOOR |
+| 7B | Model Sections | **60 min** | 90 min | HARD FLOOR |
+| 7C | Results Integration | **45 min** | 60 min | HARD FLOOR |
+| 7D | Analysis Sections | **25 min** | 40 min | HARD FLOOR |
+| 7E | Conclusions | **32 min** | 45 min | HARD FLOOR |
+| 7F | LaTeX Compilation | **15 min** | 30 min | HARD FLOOR |
+| 7.5 | LaTeX Gate | **10 min** | 20 min | HARD FLOOR |
+| 8 | Summary | **35 min** | 60 min | HARD FLOOR |
+| 9 | Polish | **35 min** | 60 min | HARD FLOOR |
+| 9.1 | Mock Judging | **20 min** | 45 min | HARD FLOOR |
+| 9.5 | Editor Feedback | **20 min** | 60 min | HARD FLOOR |
+| 10 | Final Review | **35 min** | 60 min | HARD FLOOR |
+| 11 | Self-Evolution | **10 min** | 20 min | HARD FLOOR |
+
+**ENFORCEMENT**: Duration < MINIMUM = REJECT_INSUFFICIENT_TIME. No threshold reduction. MINIMUM is the floor.
 
 ---
 
@@ -148,7 +155,7 @@ echo "phase_1_modeler_${TIMESTAMP}.md"
 
 ---
 
-## Completion Report Format (v3.2.0)
+## Completion Report Format (v3.3.0)
 
 All agents MUST include timing in their completion reports:
 
@@ -212,11 +219,15 @@ If APPROVE: Proceed to next phase
 
 ---
 
-## Minimum Time Awareness
+## Minimum Time Awareness (v3.3.0 - CRITICAL)
 
-**Know Your Phase Minimum**: Each phase has a minimum time requirement.
+> **HARD RULE**: You MUST NOT complete your phase before reaching the MINIMUM time.
+> Duration < MINIMUM = REJECT. No exceptions. No threshold buffer.
+
+**Know Your Phase Minimum**: Each phase has a MINIMUM time requirement that is a HARD FLOOR.
 
 If you finish significantly faster than the minimum:
+- **You MUST continue working** until you reach the MINIMUM
 - You likely missed something important
 - Use remaining time for: Double-checking work, considering edge cases, improving quality
 - DO NOT rush to completion just to save time
@@ -227,6 +238,12 @@ If you finish significantly faster than the minimum:
 - Simplified implementation
 - Skipped validation steps
 - Missing edge cases
+
+**ENFORCEMENT (v3.3.0)**:
+- Duration < MINIMUM = **REJECT_INSUFFICIENT_TIME**
+- No threshold buffer (the old 70%/30% thresholds are REMOVED)
+- MINIMUM IS the rejection threshold
+- If rejected, you MUST RERUN the phase
 
 ---
 
