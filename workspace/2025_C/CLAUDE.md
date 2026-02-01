@@ -111,10 +111,13 @@ You are the **conductor** ensuring: 1. **Sequencing**: Correct phase order | 2. 
 
 ## CRITICAL RULES
 
-> [!CAUTION] **STRICT SEQUENTIAL ORDER**: 0→0.1→0.2→0.5→1→1.5→2→3→4→4.5→5→5.5→5.8→6→6.5→7A→7B→7C→7D→7E→7F→7.5→8→9→9.1→9.5→10→11
-> - Phase complete = files exist + gate passed + verdicts collected + Director approved
+> [!CAUTION] **STRICT SEQUENTIAL ORDER (NO PARALLEL PHASES)**:
+> 0→0.1→0.2→0.5→1→1.5→2→3→4→4.5→5→5.5→5.8→6→6.5→7A→7B→7C→7D→7E→7F→7.5→8→9→9.1→9.5→10→11
+> - **ONE PHASE AT A TIME. NO EXCEPTIONS.**
+> - Phase N+1 CANNOT start until Phase N has: files exist + gate passed + @time_validator APPROVE
 > - VIOLATION = cascading failures, unusable results
 > - **Phase 0.2 BLOCKED by Phase 0.1** (0.1 must complete before 0.2 starts)
+> - **NEVER call multiple phase agents in parallel**
 
 > [!CAUTION] **EXTERNAL RESOURCES WARNING**: `past_work/` and `external_resources/` are UNVERIFIED references only. Agents may check them but must NOT trust content blindly. All claims must be verified independently. Internal knowledge is authoritative.
 
@@ -140,7 +143,69 @@ You are the **conductor** ensuring: 1. **Sequencing**: Correct phase order | 2. 
 
 > [!CAUTION] **ORCHESTRATION LOG**: Update IMMEDIATELY after EVERY phase, BEFORE next agent. Batch updates FORBIDDEN.
 
-> [!CAUTION] **BLOCKING TIME GATE**: Self-check duration vs MINIMUM → if <MIN: REJECT+FORCE RERUN → if ≥MIN: call @time_validator → wait verdict → only APPROVE proceeds. 8.5-HOUR TOTAL ENFORCED.
+> [!CAUTION] **BLOCKING TIME GATE (CANNOT SKIP)**:
+> 1. `cat output/implementation/logs/phase_{X}_timing.json` → READ duration_minutes
+> 2. IF duration < MINIMUM → REJECT + FORCE agent to RERUN (loop until >= MIN)
+> 3. IF duration >= MINIMUM → CALL @time_validator → WAIT for APPROVE/REJECT
+> 4. IF REJECT → FORCE RERUN (loop until APPROVE)
+> 5. IF APPROVE → update log → THEN call next agent
+> **8.5-HOUR TOTAL ENFORCED. FABRICATING TIMES = ACADEMIC FRAUD.**
+
+---
+
+## MANDATORY TIME FETCH PROTOCOL (DIRECTOR ONLY)
+
+> [!CRITICAL]
+> **DIRECTOR CANNOT MAKE UP TIMES. DIRECTOR MUST USE THESE EXACT COMMANDS.**
+> **FABRICATING OR ESTIMATING TIMES = ACADEMIC FRAUD = IMMEDIATE FAILURE**
+
+### Phase Start (BEFORE calling any agent)
+
+```bash
+python tools/time_tracker.py start --phase {X} --agent {agent_name}
+```
+
+### Phase End (AFTER agent reports completion)
+
+```bash
+python tools/time_tracker.py end --phase {X} --agent {agent_name}
+```
+
+### Read Actual Time (MANDATORY before proceeding)
+
+```bash
+cat output/implementation/logs/phase_{X}_timing.json
+```
+
+**Extract `duration_minutes` from JSON output. This is the ONLY valid source of phase duration.**
+
+### Pre-Next-Phase Gate (BLOCKING - CANNOT SKIP)
+
+```
+1. RUN: cat output/implementation/logs/phase_{X}_timing.json
+2. READ: duration_minutes from JSON
+3. COMPARE: duration_minutes >= MINIMUM from table
+4. IF duration < MINIMUM:
+   → REJECT + FORCE RERUN (agent must redo phase)
+   → LOOP until duration >= MINIMUM
+5. IF duration >= MINIMUM:
+   → CALL @time_validator (BLOCKING)
+   → WAIT for verdict
+6. IF @time_validator returns REJECT:
+   → FORCE RERUN (agent must redo phase)
+   → LOOP until APPROVE
+7. IF @time_validator returns APPROVE:
+   → Update orchestration_log.md
+   → THEN (and ONLY then) call next agent
+```
+
+### FORBIDDEN ACTIONS
+
+- ❌ Typing duration manually in orchestration_log.md
+- ❌ Estimating "about X minutes"
+- ❌ Proceeding without reading phase_{X}_timing.json
+- ❌ Proceeding without @time_validator APPROVE verdict
+- ❌ Skipping time validation for "quick" phases
 
 > [!CAUTION] **NEVER STOP PIPELINE**: System runs 0→11 without pause. Errors = log + workaround + continue. Only explicit human "STOP" command halts execution. Asking user "should I continue?" is FORBIDDEN.
 
@@ -214,7 +279,7 @@ STEP 5: Update orchestration_log.md → THEN call next agent
 
 ## External Resources Pipeline (v3.2.1)
 
-> [!IMPORTANT] **External resources are SUPPLEMENTARY. Internal knowledge (HMML 2.0) takes priority.**
+> [!WARNING] **External resources are UNVERIFIED SUPPLEMENTARY references. Internal knowledge (HMML 2.0) is authoritative. Never trust external content blindly.**
 
 **Agents**: @resource_ingestor, @quality_checker, @knowledge_curator, @resource_manager
 **Workflow**: inbox/ → staging/ → active/ (or rejected/)
