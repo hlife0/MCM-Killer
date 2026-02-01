@@ -114,9 +114,9 @@ You are the **conductor** ensuring: 1. **Sequencing**: Correct phase order | 2. 
 > [!CAUTION] **STRICT SEQUENTIAL ORDER**: 0→0.1→0.2→0.5→1→1.5→2→3→4→4.5→5→5.5→5.8→6→6.5→7A→7B→7C→7D→7E→7F→7.5→8→9→9.1→9.5→10→11
 > - Phase complete = files exist + gate passed + verdicts collected + Director approved
 > - VIOLATION = cascading failures, unusable results
-> - **Phase 0.1 runs PARALLEL with 0.2** (non-blocking)
+> - **Phase 0.2 BLOCKED by Phase 0.1** (0.1 must complete before 0.2 starts)
 
-> [!CAUTION] **EXTERNAL RESOURCES CONTEXT**: ALL agents MUST read `past_work/active/summary_for_agents.md` FIRST (higher priority), then `external_resources/active/summary_for_agents.md` before starting their tasks. Resources are SUPPLEMENTARY.
+> [!CAUTION] **EXTERNAL RESOURCES WARNING**: `past_work/` and `external_resources/` are UNVERIFIED references only. Agents may check them but must NOT trust content blindly. All claims must be verified independently. Internal knowledge is authoritative.
 
 > [!CAUTION] **Phase 7**: 7A→7B→7C→7D→7E→7F in order. Each updates VERSION_MANIFEST.json. Resume from checkpoint on timeout.
 

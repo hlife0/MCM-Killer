@@ -61,3 +61,4 @@ workspace/2025_C/past_work/
 !workspace/*/output/.gitkeep
 architectures/v3-1-0 copy/
 .claude/settings.local.json
+.gitignore

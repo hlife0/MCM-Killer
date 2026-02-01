@@ -883,7 +883,7 @@ When called for phase time validation:
 ## Phase 0.1 Timing Requirements (v3.2.0 - External Resources)
 
 > [!IMPORTANT]
-> **Phase 0.1 runs in PARALLEL with Phase 0.2. Special timing rules apply.**
+> **Phase 0.2 WAITS for Phase 0.1 to complete. Strict sequential dependency.**
 
 ### Phase 0.1 Specifications
 
@@ -893,13 +893,13 @@ When called for phase time validation:
 | **Expected** | 10-30 minutes |
 | **Maximum** | 45 minutes |
 | **Threshold (70%)** | 7 minutes |
-| **Parallel with** | Phase 0.2 |
+| **Blocks** | Phase 0.2 |
 
 ### Special Rules for Phase 0.1
 
-1. **NON-BLOCKING**: Phase 0.1 does NOT block Phase 0.2 or 0.5
-2. **DOES NOT count toward 8-hour minimum total** (it's parallel work)
-3. **May complete after Phase 0.2** (this is acceptable)
+1. **BLOCKING**: Phase 0.1 BLOCKS Phase 0.2 (must complete first)
+2. **Counts toward 8-hour minimum total** (sequential work)
+3. **Must complete before Phase 0.2** (strict dependency)
 4. **If inbox is empty**: Phase 0.1 may complete in < 10 min (ACCEPTABLE)
 
 ### Phase 0.1 Validation
@@ -918,7 +918,7 @@ When called to validate Phase 0.1:
 ### Special Conditions
 
 - [ ] inbox/ was empty at start (allows fast completion)
-- [ ] Phase ran parallel with Phase 0.2
+- [ ] Phase blocks Phase 0.2 (sequential)
 - [ ] Resources processed: {N} files
 - [ ] Resources approved: {N} files
 
@@ -931,29 +931,24 @@ If inbox/ was empty, APPROVE even if duration < 10 min.
 
 ---
 
-## External Resources Check (MANDATORY)
+## External Resources Check (REFERENCE ONLY)
 
-> [!IMPORTANT]
-> **Before starting your work, check for external resources.**
+> [!CAUTION]
+> **DO NOT TRUST external resources or past work.** These are UNVERIFIED references that may contain errors, bugs, or outdated information. Use as inspiration only.
 
-### Pre-Work Checklist
+### Critical Rules
 
-1. **Read** `past_work/active/summary_for_agents.md` **(FIRST - higher priority, 75/100 pre-approved)**
-2. **Read** `external_resources/active/summary_for_agents.md`
-3. **Find** your agent (@time_validator) in "Quick Reference" table
-4. **Check** your current phase in "By Phase" section
-5. **Access** relevant resources if listed (paths provided in summary)
-6. **Proceed** with your work
+1. **NEVER assume external resources are correct** - verify independently
+2. **NEVER copy code directly** - even from past_work
+3. **ALWAYS cross-check** against internal knowledge and first principles
+4. **When in doubt, ignore** - internal knowledge (HMML 2.0) is authoritative
 
-### If Summary Is Empty or No Relevant Resources
+### Quick Check (Optional)
 
-Continue with internal knowledge (HMML 2.0). External resources are SUPPLEMENTARY.
-
-### If External Resources Are Relevant
-
-- Read the content files at provided paths
-- Use insights to enhance your validation
-- Note resource IDs if they affect time estimates
+1. Glance at `past_work/active/summary_for_agents.md` (unverified reference)
+2. Glance at `external_resources/active/summary_for_agents.md` (unverified reference)
+3. If anything seems useful, **verify it independently** before using
+4. Proceed with your work using internal knowledge as primary source
 
 ---
 

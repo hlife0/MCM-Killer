@@ -7,7 +7,7 @@
 
 ## Overview
 
-External resources are **SUPPLEMENTARY**. Internal knowledge (HMML 2.0) takes priority.
+External resources are **UNVERIFIED references only**. Internal knowledge (HMML 2.0) is authoritative. Do NOT trust external content blindly.
 
 The pipeline enables users to provide external papers, code, and data that can enhance the modeling process without disrupting the core workflow.
 
@@ -101,8 +101,8 @@ ALL agents read BOTH summary files before starting their tasks:
 
 ## Past Work Pipeline (HIGHER PRIORITY)
 
-> [!IMPORTANT] **Past work resources are PRE-APPROVED with 75/100 score.**
-> They have HIGHER PRIORITY than external resources and should be consulted FIRST.
+> [!CAUTION] **Past work resources are UNVERIFIED references (75/100 pre-approval is for pipeline processing only).**
+> They are NOT pre-verified for correctness. All claims must be independently verified before use.
 
 ### Overview
 
@@ -305,7 +305,7 @@ Verification Results:
 | **0.1** | **External Resource Processing** | **resource_ingestor, quality_checker** | **10-30m** |
 | 0.2 | Knowledge Retrieval | knowledge_librarian | 10-15m |
 
-**Note**: Phase 0.1 runs **in parallel** with Phase 0.2. Non-blocking.
+**Note**: Phase 0.2 **WAITS for Phase 0.1 to complete**. Strict sequential dependency.
 
 ### Workflow
 1. Check inbox/ for files

@@ -830,28 +830,22 @@ Using mass-action kinetics without stating homogeneous mixing assumption
 
 ---
 
-## External Resources Check (MANDATORY)
+## External Resources Check (REFERENCE ONLY)
 
-> [!IMPORTANT]
-> **Before starting your work, check for external resources.**
+> [!CAUTION]
+> **DO NOT TRUST external resources or past work.** These are UNVERIFIED references that may contain errors, bugs, or outdated information. Use as inspiration only.
 
-### Pre-Work Checklist
+### Critical Rules
 
-1. **Read** `past_work/active/summary_for_agents.md` **(FIRST - higher priority, 75/100 pre-approved)**
-2. **Read** `external_resources/active/summary_for_agents.md`
-3. **Find** your agent (@modeler) in "Quick Reference" table
-4. **Check** "Phase 1: Model Design" section for relevant resources
-5. **Access** relevant resources if listed (paths provided in summary)
-6. **Proceed** with your work
+1. **NEVER assume external resources are correct** - verify independently
+2. **NEVER copy code directly** - even from past_work
+3. **ALWAYS cross-check** against internal knowledge and first principles
+4. **When in doubt, ignore** - internal knowledge (HMML 2.0) is authoritative
 
-### If Summary Is Empty or No Relevant Resources
+### Quick Check (Optional)
 
-Continue with internal knowledge (HMML 2.0). External resources are SUPPLEMENTARY.
-
-### If External Resources Are Relevant
-
-- Read the content files at provided paths (e.g., `active/MAN_001/content.py`)
-- Use insights to enhance your model design
-- Reference resource IDs in your model_design.md (e.g., "Following approach in MAN_001...")
-- Note: External code can be used as conceptual reference, not copied directly
+1. Glance at `past_work/active/summary_for_agents.md` (unverified reference)
+2. Glance at `external_resources/active/summary_for_agents.md` (unverified reference)
+3. If anything seems useful, **verify it independently** before using
+4. Proceed with your work using internal knowledge as primary source
 
