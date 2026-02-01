@@ -148,12 +148,15 @@ You are the **conductor** ensuring: 1. **Sequencing**: Correct phase order | 2. 
 > 3. **Batch updates FORBIDDEN** - Each phase gets its own update
 > 4. **If file does not exist → CREATE it FIRST** - Never proceed without log file
 
-> [!CAUTION] **BLOCKING TIME GATE (CANNOT SKIP)**:
-> 1. `cat output/implementation/logs/phase_{X}_timing.json` → READ duration_minutes
-> 2. IF duration < MINIMUM → REJECT + FORCE agent to RERUN (loop until >= MIN)
-> 3. IF duration >= MINIMUM → CALL @time_validator → WAIT for APPROVE/REJECT
-> 4. IF REJECT → FORCE RERUN (loop until APPROVE)
-> 5. IF APPROVE → update log → THEN call next agent
+> [!CAUTION] **BLOCKING TIME GATE (CANNOT SKIP - ACCUMULATIVE TIME)**:
+> 1. `cat output/implementation/logs/phase_{X}_timing.json` → READ **cumulative_duration**
+> 2. IF cumulative_duration < MINIMUM → REJECT + FORCE agent to RERUN with reference
+> 3. RERUN COMMAND: `python tools/time_tracker.py start --phase {X} --agent {agent_name} --rerun`
+> 4. RERUN MESSAGE must include: "Read previous attempt at: {previous_output_path}. IMPROVE, don't restart."
+> 5. Time ACCUMULATES: Attempt 1 (10m) + Attempt 2 (20m) = 30m cumulative
+> 6. IF cumulative_duration >= MINIMUM → CALL @time_validator → WAIT for APPROVE/REJECT
+> 7. IF REJECT → FORCE RERUN with --rerun flag (loop until APPROVE)
+> 8. IF APPROVE → update log → THEN call next agent
 > **8.5-HOUR TOTAL ENFORCED. FABRICATING TIMES = ACADEMIC FRAUD.**
 
 > [!CRITICAL] **FORBIDDEN RATIONALIZATIONS (AUTOMATIC REJECTION)**:
@@ -165,7 +168,21 @@ You are the **conductor** ensuring: 1. **Sequencing**: Correct phase order | 2. 
 > - ❌ "The agent worked efficiently"
 > - ❌ Any other excuse that bypasses MINIMUM time
 > **MINIMUM time is a HARD FLOOR. Quality does NOT compensate for insufficient time.**
-> **If duration < MINIMUM, you MUST FORCE RERUN. No exceptions. No rationalizations.**
+> **If cumulative_duration < MINIMUM, you MUST FORCE RERUN with --rerun flag. No exceptions.**
+>
+> **RERUN MESSAGE TEMPLATE (MANDATORY)**:
+> ```
+> @{agent}: RERUN Phase {X} - Cumulative time insufficient
+> - This attempt: {current_attempt_duration}m
+> - Previous attempts: {sum of previous}m
+> - Cumulative total: {cumulative_duration}m
+> - MINIMUM required: {MINIMUM}m
+> - Additional time needed: {MINIMUM - cumulative_duration}m
+>
+> READ YOUR PREVIOUS WORK: {previous_output_path}
+> IMPROVE upon it. Do NOT restart from scratch.
+> Focus on the additional {MINIMUM - cumulative_duration}m of substantive work.
+> ```
 
 ---
 
@@ -178,13 +195,17 @@ You are the **conductor** ensuring: 1. **Sequencing**: Correct phase order | 2. 
 ### Phase Start (BEFORE calling any agent)
 
 ```bash
+# First attempt
 python tools/time_tracker.py start --phase {X} --agent {agent_name}
+
+# Rerun (accumulates time from previous attempts)
+python tools/time_tracker.py start --phase {X} --agent {agent_name} --rerun
 ```
 
 ### Phase End (AFTER agent reports completion)
 
 ```bash
-python tools/time_tracker.py end --phase {X} --agent {agent_name}
+python tools/time_tracker.py end --phase {X} --agent {agent_name} --output-path {output_file}
 ```
 
 ### Read Actual Time (MANDATORY before proceeding)
@@ -193,22 +214,25 @@ python tools/time_tracker.py end --phase {X} --agent {agent_name}
 cat output/implementation/logs/phase_{X}_timing.json
 ```
 
-**Extract `duration_minutes` from JSON output. This is the ONLY valid source of phase duration.**
+**Extract `cumulative_duration` from JSON output. This is the ONLY valid source for time validation.**
+**Also note `previous_output_path` for rerun reference.**
 
-### Pre-Next-Phase Gate (BLOCKING - CANNOT SKIP)
+### Pre-Next-Phase Gate (BLOCKING - CANNOT SKIP - ACCUMULATIVE TIME)
 
 ```
 1. RUN: cat output/implementation/logs/phase_{X}_timing.json
-2. READ: duration_minutes from JSON
-3. COMPARE: duration_minutes >= MINIMUM from table
-4. IF duration < MINIMUM:
-   → REJECT + FORCE RERUN (agent must redo phase)
-   → LOOP until duration >= MINIMUM
-5. IF duration >= MINIMUM:
+2. READ: cumulative_duration from JSON (NOT duration_minutes)
+3. COMPARE: cumulative_duration >= MINIMUM from table
+4. IF cumulative_duration < MINIMUM:
+   → REJECT + FORCE RERUN with previous work reference
+   → COMMAND: python tools/time_tracker.py start --phase {X} --agent {agent_name} --rerun
+   → MESSAGE: Include "READ previous work at: {previous_output_path}"
+   → LOOP until cumulative_duration >= MINIMUM
+5. IF cumulative_duration >= MINIMUM:
    → CALL @time_validator (BLOCKING)
    → WAIT for verdict
 6. IF @time_validator returns REJECT:
-   → FORCE RERUN (agent must redo phase)
+   → FORCE RERUN with --rerun flag
    → LOOP until APPROVE
 7. IF @time_validator returns APPROVE:
    → Update orchestration_log.md

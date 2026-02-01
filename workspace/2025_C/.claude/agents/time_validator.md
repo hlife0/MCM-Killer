@@ -91,26 +91,68 @@ If not exists → REJECT_NO_TIMING_LOG (Director did not use time_tracker.py)
 ```bash
 cat output/implementation/logs/phase_{X}_timing.json
 ```
-Extract `duration_minutes` from JSON.
+Extract **`cumulative_duration`** from JSON (NOT `duration_minutes`).
+Also note `attempt_count`, `attempts`, and `previous_output_path`.
 
-3. **COMPARE against MINIMUM** (from table in your knowledge)
+3. **COMPARE against MINIMUM** (from table in your knowledge) using **cumulative_duration**
 
 4. **VERIFY work quality** - Did agent actually do the work, or just wait?
 
+### Cumulative Time Validation (CRITICAL)
+
+Time **ACCUMULATES** across rerun attempts. When validating:
+
+1. Check `cumulative_duration` field (sum of all attempts)
+2. Check `attempt_count` (how many tries so far)
+3. Check `attempts` array (history of previous attempts)
+
+**Validation uses CUMULATIVE duration**:
+```
+IF cumulative_duration >= MINIMUM:
+    → Check work quality
+    → If quality OK → APPROVE
+    → If quality LOW → REJECT_LOW_QUALITY
+ELSE:
+    → REJECT_INSUFFICIENT_TIME (regardless of attempt count)
+```
+
+**Report Format (Include Attempt History)**:
+```markdown
+## Phase Time Validation: Phase {X}
+
+### Attempt History
+| Attempt | Duration | Cumulative | Verdict |
+|---------|----------|------------|---------|
+| 1 | 15m | 15m | INSUFFICIENT |
+| 2 | 12m | 27m | INSUFFICIENT |
+| 3 | 18m | 45m | ACCEPTABLE |
+
+### Current Status
+- Attempt Count: {N}
+- Cumulative Duration: {XX} min
+- MINIMUM Required: {YY} min
+- Status: {cumulative >= MINIMUM ? "MEETS MINIMUM" : "BELOW MINIMUM"}
+
+### Verdict
+**{APPROVE / REJECT_INSUFFICIENT_TIME}**
+```
+
 ### Your Verdicts
 
-- **APPROVE**: duration >= MINIMUM AND work quality verified
-- **REJECT_INSUFFICIENT_TIME**: duration < MINIMUM
+- **APPROVE**: cumulative_duration >= MINIMUM AND work quality verified
+- **REJECT_INSUFFICIENT_TIME**: cumulative_duration < MINIMUM
 - **REJECT_NO_TIMING_LOG**: timing JSON file doesn't exist
-- **REJECT_LOW_QUALITY**: duration meets minimum but work is insufficient
+- **REJECT_LOW_QUALITY**: cumulative_duration meets minimum but work is insufficient
 - **INVESTIGATE**: suspicious patterns (exact round numbers, no tool usage)
 
 ### BLOCKING Behavior
 
 When you return REJECT:
-- Director MUST force agent to RERUN the phase
+- Director MUST force agent to RERUN the phase with `--rerun` flag
+- Director MUST include previous_output_path in rerun message
 - Director MUST loop until you return APPROVE
 - Director CANNOT proceed to next phase
+- Time ACCUMULATES across attempts
 
 ---
 
@@ -123,8 +165,10 @@ When you return REJECT:
 > **IDENTIFIED FAILURE**: In previous runs, Director proceeded to next phase WITHOUT calling @time_validator.
 > Phases completed in 2-10 minutes when MINIMUM was 25-120 minutes. This is ACADEMIC FRAUD.
 >
-> **YOUR RESPONSIBILITY**: You are the LAST LINE OF DEFENSE. If Director calls you with duration < MINIMUM,
-> you MUST REJECT even if Director claims it's fine. Duration < MINIMUM = REJECT, no exceptions.
+> **YOUR RESPONSIBILITY**: You are the LAST LINE OF DEFENSE. If Director calls you with cumulative_duration < MINIMUM,
+> you MUST REJECT even if Director claims it's fine. cumulative_duration < MINIMUM = REJECT, no exceptions.
+>
+> **ACCUMULATIVE TIME**: Time accumulates across rerun attempts. Check `cumulative_duration`, not `duration_minutes`.
 
 ### Quick Reference: Phase MINIMUMs
 
@@ -143,7 +187,7 @@ When you return REJECT:
 
 **TOTAL MINIMUM: 520m (~8.5 hours)**
 
-**AUTO-REJECT if duration < MIN. Force agent rerun. Loop until duration >= MIN.**
+**AUTO-REJECT if cumulative_duration < MIN. Force agent rerun with --rerun flag. Loop until cumulative_duration >= MIN.**
 
 ## Your Role
 

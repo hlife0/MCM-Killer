@@ -1,7 +1,8 @@
 # Time Enforcement Examples
 
-> **Version**: 2.0.0
+> **Version**: 3.0.0
 > **Purpose**: Examples of correct and incorrect time enforcement behavior
+> **Key Change (v3.0.0)**: Time ACCUMULATES across rerun attempts
 
 ---
 
@@ -10,6 +11,8 @@
 In previous runs, phases completed in 2-10 minutes when MINIMUM is 25-120 minutes. This completely undermines system integrity and produces garbage output.
 
 **Root Cause**: Director proceeded to next phase without checking duration against MINIMUM.
+
+**New in v3.0.0**: Time now ACCUMULATES across rerun attempts. Agents reference previous work.
 
 ---
 
@@ -133,25 +136,82 @@ Director: "Proceeding to Phase 5.5..."
 
 ---
 
-## Example 4: Multiple Rejections (Loop Until Pass)
+## Example 4: Multiple Rejections with ACCUMULATIVE TIME (v3.0.0)
+
+**NEW BEHAVIOR**: Time accumulates across attempts. Agent references previous work.
 
 ```
-Phase 3 complete. Duration: 12 min.
-Director: "REJECT. 12m < 75m MIN. @data_engineer: RERUN."
+# Attempt 1
+python tools/time_tracker.py start --phase 3 --agent data_engineer
+@data_engineer: [Works on data processing]
+python tools/time_tracker.py end --phase 3 --agent data_engineer --output-path output/docs/data_report.md
 
-@data_engineer: [Reruns]
-Phase 3 complete. Duration: 45 min.
-Director: "REJECT. 45m < 75m MIN. @data_engineer: RERUN. Include all feature engineering."
+Phase 3 complete. This attempt: 12 min. Cumulative: 12 min.
+Director: "REJECT. Cumulative 12m < 75m MIN."
+Director: "Command: python tools/time_tracker.py start --phase 3 --agent data_engineer --rerun"
 
-@data_engineer: [Expands scope]
-Phase 3 complete. Duration: 78 min.
-Director: "@time_validator: Validate Phase 3 (78m vs 75m MIN)"
-@time_validator: "APPROVE."
+# Attempt 2 (ACCUMULATES)
+python tools/time_tracker.py start --phase 3 --agent data_engineer --rerun
+Director: "@data_engineer: RERUN Phase 3.
+   Cumulative so far: 12m. MINIMUM: 75m. Additional needed: 63m.
+   READ YOUR PREVIOUS WORK: output/docs/data_report.md
+   IMPROVE upon it, do NOT restart from scratch."
+
+@data_engineer: [READS previous output, expands and deepens analysis]
+python tools/time_tracker.py end --phase 3 --agent data_engineer --output-path output/docs/data_report.md
+
+Phase 3 complete. This attempt: 35 min. Cumulative: 47 min.
+Director: "REJECT. Cumulative 47m < 75m MIN."
+
+# Attempt 3 (ACCUMULATES)
+python tools/time_tracker.py start --phase 3 --agent data_engineer --rerun
+Director: "@data_engineer: RERUN Phase 3.
+   Cumulative so far: 47m. MINIMUM: 75m. Additional needed: 28m.
+   READ YOUR PREVIOUS WORK: output/docs/data_report.md
+   Continue improving. Add missing feature engineering."
+
+@data_engineer: [READS previous output, adds additional features]
+python tools/time_tracker.py end --phase 3 --agent data_engineer --output-path output/docs/data_report.md
+
+Phase 3 complete. This attempt: 31 min. Cumulative: 78 min.
+Director: "@time_validator: Validate Phase 3 (78m cumulative vs 75m MIN)"
+@time_validator: "APPROVE. Cumulative 78m >= 75m. 3 attempts total."
 
 Director: "Proceeding to Phase 4..."
 ```
 
-**Key Point**: Director LOOPS until duration >= MINIMUM. No exceptions.
+**Key Points**:
+- Time ACCUMULATES: 12m + 35m + 31m = 78m
+- Each rerun uses `--rerun` flag
+- Agent reads `previous_output_path` before starting
+- Agent IMPROVES upon previous work, doesn't restart
+- Final validation uses `cumulative_duration`
+
+---
+
+## Example 4b: OLD BEHAVIOR (Deprecated)
+
+**OLD (WRONG)**: Each attempt restarted from scratch, time reset.
+
+```
+# OLD BEHAVIOR - DO NOT USE
+Phase 3 complete. Duration: 12 min.
+Director: "REJECT. 12m < 75m MIN. @data_engineer: RERUN."
+
+@data_engineer: [Starts from scratch, discards previous work]
+Phase 3 complete. Duration: 45 min.
+Director: "REJECT. 45m < 75m MIN. @data_engineer: RERUN."
+
+@data_engineer: [Starts from scratch AGAIN, wastes previous 45m of work]
+Phase 3 complete. Duration: 78 min.
+Director: "APPROVE."
+```
+
+**Why OLD is Wrong**:
+- Total actual work: 12m + 45m + 78m = 135 minutes wasted
+- Each rerun discarded previous work
+- Agent repeats same work multiple times
+- No improvement, just repetition
 
 ---
 
@@ -182,18 +242,20 @@ Director: "Proceeding to Phase 4.5..."
 
 ---
 
-## What To Do When Duration < MINIMUM
+## What To Do When Cumulative Duration < MINIMUM
 
 1. **DO NOT PROCEED** to next phase
 2. **DO NOT ASK USER** what to do
-3. **FORCE AGENT TO RERUN** the phase
-4. **LOOP** until duration >= MINIMUM
-5. **THEN** call @time_validator for final approval
-6. **ONLY ON APPROVE** update orchestration_log.md and proceed
+3. **FORCE AGENT TO RERUN** with `--rerun` flag
+4. **INCLUDE PREVIOUS OUTPUT PATH** in rerun message
+5. **AGENT MUST READ PREVIOUS WORK** and improve upon it
+6. **LOOP** until cumulative_duration >= MINIMUM
+7. **THEN** call @time_validator for final approval
+8. **ONLY ON APPROVE** update orchestration_log.md and proceed
 
 ---
 
-## Checklist for Director
+## Checklist for Director (v3.0.0 - Accumulative Time)
 
 Before calling ANY next agent:
 
@@ -202,16 +264,20 @@ STEP 1: Read phase timing log
    → cat output/implementation/logs/phase_{X}_timing.json
    → IF FILE DOES NOT EXIST: STOP. Phase is INVALID.
 
-STEP 2: Extract duration from JSON
-   → duration_minutes: {value}
+STEP 2: Extract CUMULATIVE duration from JSON
+   → cumulative_duration: {value}  (NOT duration_minutes)
+   → Also note: previous_output_path, attempt_count
 
-STEP 3: Compare against MINIMUM (from table)
-   → IF duration < MINIMUM: AUTO-REJECT. FORCE agent to RERUN.
-   → IF duration >= MINIMUM: PROCEED to Step 4.
+STEP 3: Compare cumulative_duration against MINIMUM (from table)
+   → IF cumulative_duration < MINIMUM:
+     → AUTO-REJECT
+     → COMMAND: python tools/time_tracker.py start --phase {X} --agent {agent} --rerun
+     → MESSAGE: Include previous_output_path, tell agent to IMPROVE not restart
+   → IF cumulative_duration >= MINIMUM: PROCEED to Step 4.
 
 STEP 4: Call @time_validator (BLOCKING)
    → Wait for verdict: APPROVE / REJECT
-   → IF REJECT: FORCE RERUN. Loop until APPROVE.
+   → IF REJECT: FORCE RERUN with --rerun flag. Loop until APPROVE.
    → IF APPROVE: Update orchestration_log.md, THEN call next agent.
 ```
 
@@ -225,7 +291,9 @@ STEP 4: Call @time_validator (BLOCKING)
 | Self-approve | Director says "looks good" | No @time_validator call |
 | Ignore rejection | Director proceeds after REJECT | Violates blocking gate |
 | User escalation | Director asks user what to do | System must be autonomous |
-| Partial rerun | Agent redoes only part | Full phase must rerun |
+| **Restart from scratch** | **Agent ignores previous work on rerun** | **Wastes accumulated time** |
+| **Missing --rerun flag** | **Time resets instead of accumulating** | **Previous work lost** |
+| **No previous_output_path** | **Agent doesn't know what to reference** | **Cannot improve** |
 
 ---
 
@@ -238,3 +306,5 @@ Insufficient time = Academic fraud because:
 - The output is effectively fabricated
 
 **The BLOCKING TIME GATE MUST BE ENFORCED. NO EXCEPTIONS.**
+
+**Time ACCUMULATES across attempts. Agents MUST reference previous work.**

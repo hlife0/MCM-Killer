@@ -62,3 +62,4 @@ workspace/2025_C/past_work/
 architectures/v3-1-0 copy/
 .claude/settings.local.json
 .gitignore
+CLAUDE.md

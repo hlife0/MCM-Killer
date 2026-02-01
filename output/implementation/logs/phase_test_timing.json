@@ -1,0 +1,31 @@
+{
+  "phase": "test",
+  "phase_name": "Unknown",
+  "agent": "reader",
+  "start_time": "2026-02-01T21:26:23.900098",
+  "current_attempt_start": "2026-02-01T21:26:41.874790",
+  "end_time": "2026-02-01T21:26:54.383646",
+  "duration_minutes": 0.21,
+  "current_attempt_duration": 0.21,
+  "cumulative_duration": 0.37,
+  "attempt_count": 2,
+  "attempts": [
+    {
+      "attempt_number": 1,
+      "start_time": "2026-02-01T21:26:23.900098",
+      "end_time": "2026-02-01T21:26:33.769657",
+      "duration_minutes": 0.16,
+      "status": "completed",
+      "verdict": "EXCESSIVE"
+    }
+  ],
+  "status": "completed",
+  "expected_min": 0,
+  "expected_max": 0,
+  "threshold_pct": 1.0,
+  "previous_output_path": "output/docs/test.md",
+  "output_path": "output/docs/test_v2.md",
+  "min_threshold": 0,
+  "time_verdict": "EXCESSIVE",
+  "time_message": "Cumulative 0.4 min > 2x max 0 min"
+}

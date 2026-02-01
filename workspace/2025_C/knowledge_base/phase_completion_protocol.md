@@ -53,40 +53,50 @@ After EVERY phase completion, Director MUST validate time with @time_validator. 
 4. **8.5-hour minimum total workflow** is achieved
 5. **Phase 5 (Model Training) requires 3 hours minimum**
 
-**ENFORCEMENT RULE**:
+**ENFORCEMENT RULE (ACCUMULATIVE TIME)**:
 ```
-IF actual_duration < minimum_time:
+IF cumulative_duration < minimum_time:
     REJECT phase
     DO NOT STOP workflow
-    FORCE agent to RERUN phase
-    Agent MUST spend at least minimum_time
-    Loop until duration >= minimum_time
+    FORCE agent to RERUN phase WITH PREVIOUS WORK REFERENCE
+
+    RERUN COMMAND:
+    python tools/time_tracker.py start --phase {X} --agent {agent} --rerun
+
+    RERUN MESSAGE TO AGENT:
+    "Your previous attempt contributed {current_attempt_duration}m.
+     Cumulative time: {cumulative_duration}m. Minimum: {minimum_time}m.
+     READ your previous work at: {previous_output_path}
+     IMPROVE upon it, do not restart from scratch."
+
+    Time ACCUMULATES: previous + current = cumulative
+    Loop until cumulative_duration >= minimum_time
 ENDIF
 ```
 
 ---
 
-## BLOCKING TIME GATE Workflow (MANDATORY)
+## BLOCKING TIME GATE Workflow (MANDATORY - ACCUMULATIVE TIME)
 
-> [!CRITICAL] **This workflow is BLOCKING. Director CANNOT skip any step. Workflow NEVER stops on rejection - FORCE RERUN instead.**
+> [!CRITICAL] **This workflow is BLOCKING. Director CANNOT skip any step. Workflow NEVER stops on rejection - FORCE RERUN with --rerun flag instead. TIME ACCUMULATES across attempts.**
 
 ```
 Agent completes phase → Reports to Director
                 ↓
 ┌─────────────────────────────────────────────────────────────┐
 │ STEP 7a: Director SELF-CHECK                                │
-│ Compare actual duration vs MINIMUM from table               │
-│ Duration >= MINIMUM?                                        │
-│ (NO threshold buffer - MINIMUM IS the hard floor)           │
+│ Compare CUMULATIVE duration vs MINIMUM from table           │
+│ cumulative_duration >= MINIMUM?                             │
+│ (Time accumulates across all rerun attempts)                │
 └─────────────────────────────────────────────────────────────┘
         ↓ NO                              ↓ YES
 ┌───────────────────────────┐         ┌───────────────────────────────┐
 │ STEP 7b: REJECT           │         │ STEP 7c: Call @time_validator │
-│ Log rejection             │         │ Include self-check result     │
+│ Log rejection             │         │ Include cumulative_duration   │
 │ DO NOT STOP WORKFLOW      │         └───────────────────────────────┘
-│ FORCE RERUN               │                     ↓
-│ Return to Step 2          │         ┌───────────────────────────────┐
-│ LOOP until duration >= MIN│         │ STEP 7d: WAIT for verdict     │
+│ FORCE RERUN with --rerun  │                     ↓
+│ Include previous_output   │         ┌───────────────────────────────┐
+│ LOOP until cumulative MIN │         │ STEP 7d: WAIT for verdict     │
 └───────────────────────────┘         │ APPROVE / REJECT / INVESTIGATE│
                                       └───────────────────────────────┘
                                                   ↓
@@ -103,11 +113,11 @@ Agent completes phase → Reports to Director
 
 **Key Points**:
 - @time_validator is the **BLOCKING TIME GATE** - no progression without APPROVE
-- Director self-check catches obvious violations immediately (duration < MINIMUM)
-- **MINIMUM IS the hard floor** - NO threshold buffer (-30% concept REMOVED)
-- **Workflow NEVER stops on rejection** - FORCE RERUN until APPROVE
-- Even if self-check passes, @time_validator must still verify
-- Track **cumulative time** across all phases
+- Director self-check catches obvious violations immediately (cumulative_duration < MINIMUM)
+- **MINIMUM IS the hard floor** - Time ACCUMULATES across all rerun attempts
+- **Workflow NEVER stops on rejection** - FORCE RERUN with --rerun flag until APPROVE
+- When rerunning, agent MUST reference previous work at `previous_output_path`
+- Track **cumulative time** across all phases AND all attempts within a phase
 - Skipping @time_validator = Academic Fraud
 
 ---
@@ -238,19 +248,19 @@ Return: APPROVE / REJECT_INSUFFICIENT_TIME / INVESTIGATE
 
 | Condition | Verdict | Action |
 |-----------|---------|--------|
-| Duration >= MINIMUM | APPROVE | Proceed to next phase |
-| **Duration < MINIMUM** | **REJECT_INSUFFICIENT_TIME** | **FORCE RERUN (do NOT stop)** |
+| Cumulative Duration >= MINIMUM | APPROVE | Proceed to next phase |
+| **Cumulative Duration < MINIMUM** | **REJECT_INSUFFICIENT_TIME** | **FORCE RERUN with --rerun (do NOT stop)** |
 | Logged != Reported (>10% diff) | INVESTIGATE | Verify timestamps, potential fraud |
 
-**NO THRESHOLD BUFFER** - The MINIMUM is the rejection point. No -30% buffer exists.
+**Time ACCUMULATES across attempts** - Attempt 1 (10m) + Attempt 2 (20m) = 30m cumulative.
 
 ---
 
-## Rejection Protocol (DO NOT STOP - FORCE RERUN)
+## Rejection Protocol (DO NOT STOP - FORCE RERUN WITH PREVIOUS WORK REFERENCE)
 
 When @time_validator returns `REJECT_INSUFFICIENT_TIME`:
 
-> [!CRITICAL] **Workflow NEVER stops on rejection. FORCE agent to RERUN phase.**
+> [!CRITICAL] **Workflow NEVER stops on rejection. FORCE agent to RERUN phase with --rerun flag. Agent MUST reference previous work.**
 
 ### Step 1: Log Rejection
 Append to `output/docs/time_rejections.md`:
@@ -259,37 +269,50 @@ Append to `output/docs/time_rejections.md`:
 ## Rejection: Phase {X} - {timestamp}
 
 - **Agent**: @{agent_name}
-- **Reported Duration**: {XX} minutes
+- **Attempt**: #{attempt_count}
+- **This Attempt Duration**: {current_attempt_duration} minutes
+- **Cumulative Duration**: {cumulative_duration} minutes
 - **MINIMUM Required**: {YY} minutes
-- **Reason**: Duration below MINIMUM (INSUFFICIENT TIME = ACADEMIC FRAUD)
-- **Action**: FORCE RERUN (workflow continues)
-- **Cumulative Total**: {ZZ} minutes / 520 minutes
+- **Additional Time Needed**: {MINIMUM - cumulative_duration} minutes
+- **Reason**: Cumulative duration below MINIMUM
+- **Action**: FORCE RERUN with --rerun flag (workflow continues)
+- **Previous Output Path**: {previous_output_path}
 ```
 
-### Step 2: FORCE Phase Rerun (DO NOT STOP WORKFLOW)
-Send message to agent:
+### Step 2: FORCE Phase Rerun WITH PREVIOUS WORK REFERENCE
 
+**Director command**:
+```bash
+python tools/time_tracker.py start --phase {X} --agent {agent_name} --rerun
 ```
-@{agent}: Phase {X} REJECTED - INSUFFICIENT TIME = ACADEMIC FRAUD
 
-Your reported duration ({actual} min) is below the MINIMUM ({minimum} min).
-This indicates incomplete or rushed work.
+**Message to agent**:
+```
+@{agent}: Phase {X} REJECTED - INSUFFICIENT CUMULATIVE TIME
 
-**YOU MUST RERUN Phase {X}**:
-1. Do not rush or skip steps
-2. Complete all required tasks thoroughly
-3. Spend at LEAST {minimum} minutes on this phase
-4. Report accurate timing
+Attempt #{attempt_count} completed. Duration breakdown:
+- This attempt: {current_attempt_duration} min
+- Previous attempts: {sum of previous} min
+- Cumulative total: {cumulative_duration} min
+- MINIMUM required: {minimum} min
+- Additional time needed: {minimum - cumulative_duration} min
 
-MINIMUM required: {minimum} minutes (this is the HARD FLOOR, no buffer)
+**CRITICAL: USE YOUR PREVIOUS WORK AS REFERENCE**
 
-**WORKFLOW DOES NOT STOP. LOOP UNTIL duration >= MINIMUM.**
+Your previous output is at: {previous_output_path}
+1. READ your previous work first
+2. IDENTIFY what can be improved, expanded, or deepened
+3. Build upon your existing work, do NOT restart from scratch
+4. Focus on the additional {minimum - cumulative_duration} minutes of substantive work
+
+Time accumulates across attempts. Your goal is cumulative_duration >= {minimum}m.
 ```
 
 ### Step 3: Loop Until APPROVE
-- **DO NOT STOP WORKFLOW** - rejection triggers rerun, not halt
-- Allow maximum 3 reruns before escalation
-- After 3 failed reruns, escalate to @director for investigation
+- **DO NOT STOP WORKFLOW** - rejection triggers rerun with --rerun flag, not halt
+- Time ACCUMULATES across all attempts
+- Agent MUST reference previous work at {previous_output_path}
+- After 5 failed reruns, escalate to @director for investigation
 - **Workflow cannot proceed** until APPROVE received
 
 ---
