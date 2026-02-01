@@ -185,7 +185,18 @@ def end_phase(phase: str, agent: str, status: str = "completed", output_path: st
 
     # Calculate cumulative duration
     previous_cumulative = data.get('cumulative_duration', 0) or 0
-    total_cumulative = previous_cumulative + current_attempt_duration
+
+    # Handle resumed phases (after rewind)
+    if data.get('rewind_completed') and data.get('duration_before_pause'):
+        # For resumed phases, add duration_before_pause to the calculation
+        # previous_cumulative already includes cumulative_before_pause from pause
+        # We need to ensure we're not double-counting
+        # The cumulative_before_pause was set during pause, so previous_cumulative reflects that
+        total_cumulative = previous_cumulative + current_attempt_duration
+        data['duration_after_resume'] = round(current_attempt_duration, 2)
+        data['total_phase_duration'] = round(data.get('duration_before_pause', 0) + current_attempt_duration, 2)
+    else:
+        total_cumulative = previous_cumulative + current_attempt_duration
 
     data['end_time'] = end_time.isoformat()
     data['current_attempt_duration'] = round(current_attempt_duration, 2)
@@ -289,6 +300,90 @@ def validate_phase(phase: str) -> Dict[str, Any]:
     return result
 
 
+def pause_phase(phase: str, reason: str) -> Dict[str, Any]:
+    """
+    Pause timing for a phase (used during rewinds).
+
+    Args:
+        phase: Phase identifier
+        reason: Reason for pause (e.g., "REWIND to Phase 3")
+
+    Returns:
+        Dictionary with pause info
+    """
+    log_path = get_log_path(phase)
+
+    if not log_path.exists():
+        raise ValueError(f"Phase {phase} was never started. Cannot pause.")
+
+    with open(log_path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+
+    if data.get('status') != 'in_progress':
+        raise ValueError(f"Phase {phase} is not in progress. Status: {data.get('status')}")
+
+    pause_time = datetime.now()
+    start_time = datetime.fromisoformat(data.get('current_attempt_start', data['start_time']))
+    duration_before_pause = (pause_time - start_time).total_seconds() / 60
+    previous_cumulative = data.get('cumulative_duration', 0) or 0
+
+    data['status'] = 'paused_for_rewind'
+    data['pause_time'] = pause_time.isoformat()
+    data['pause_reason'] = reason
+    data['duration_before_pause'] = round(duration_before_pause, 2)
+    data['cumulative_before_pause'] = round(previous_cumulative + duration_before_pause, 2)
+
+    with open(log_path, 'w', encoding='utf-8') as f:
+        json.dump(data, f, indent=2)
+
+    print(f"[TIME_TRACKER] Phase {phase} PAUSED at {pause_time.isoformat()}")
+    print(f"[TIME_TRACKER] Reason: {reason}")
+    print(f"[TIME_TRACKER] Duration before pause: {duration_before_pause:.1f} min")
+    print(f"[TIME_TRACKER] Cumulative before pause: {data['cumulative_before_pause']:.1f} min")
+
+    return data
+
+
+def resume_phase(phase: str, agent: str) -> Dict[str, Any]:
+    """
+    Resume timing for a phase after rewind completes.
+
+    Args:
+        phase: Phase identifier
+        agent: Agent name
+
+    Returns:
+        Dictionary with resume info
+    """
+    log_path = get_log_path(phase)
+
+    if not log_path.exists():
+        raise ValueError(f"Phase {phase} was never started. Cannot resume.")
+
+    with open(log_path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+
+    if data.get('status') != 'paused_for_rewind':
+        raise ValueError(f"Phase {phase} is not paused. Status: {data.get('status')}")
+
+    resume_time = datetime.now()
+    data['status'] = 'in_progress'
+    data['resume_time'] = resume_time.isoformat()
+    data['current_attempt_start'] = resume_time.isoformat()
+    data['rewind_completed'] = True
+    data['agent'] = agent  # Update agent in case it changed
+
+    with open(log_path, 'w', encoding='utf-8') as f:
+        json.dump(data, f, indent=2)
+
+    print(f"[TIME_TRACKER] Phase {phase} RESUMED at {resume_time.isoformat()}")
+    print(f"[TIME_TRACKER] Agent: @{agent}")
+    print(f"[TIME_TRACKER] Duration before pause: {data.get('duration_before_pause', 0):.1f} min")
+    print(f"[TIME_TRACKER] Rewind completed, continuing from where we left off")
+
+    return data
+
+
 def list_phases() -> None:
     """List all phase timing logs with cumulative duration tracking."""
     LOG_DIR.mkdir(parents=True, exist_ok=True)
@@ -342,6 +437,16 @@ if __name__ == "__main__":
     validate_parser = subparsers.add_parser('validate', help='Validate phase timing')
     validate_parser.add_argument('--phase', '-p', required=True, help='Phase ID')
 
+    # pause command
+    pause_parser = subparsers.add_parser('pause', help='Pause timing for rewind')
+    pause_parser.add_argument('--phase', '-p', required=True, help='Phase ID')
+    pause_parser.add_argument('--reason', '-r', required=True, help='Reason for pause (e.g., "REWIND to Phase 3")')
+
+    # resume command
+    resume_parser = subparsers.add_parser('resume', help='Resume timing after rewind')
+    resume_parser.add_argument('--phase', '-p', required=True, help='Phase ID')
+    resume_parser.add_argument('--agent', '-a', required=True, help='Agent name')
+
     # list command
     list_parser = subparsers.add_parser('list', help='List all phase timing logs')
 
@@ -355,6 +460,12 @@ if __name__ == "__main__":
         print(json.dumps(result, indent=2))
     elif args.command == 'validate':
         result = validate_phase(args.phase)
+        print(json.dumps(result, indent=2))
+    elif args.command == 'pause':
+        result = pause_phase(args.phase, args.reason)
+        print(json.dumps(result, indent=2))
+    elif args.command == 'resume':
+        result = resume_phase(args.phase, args.agent)
         print(json.dumps(result, indent=2))
     elif args.command == 'list':
         list_phases()

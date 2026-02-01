@@ -437,6 +437,129 @@ cbar = plt.colorbar(sm, ax=ax, label='Interpretability Score')
 
 ---
 
+### 11. Sensitivity Analysis Framework Diagram
+
+**Purpose**: Show the structure and flow of sensitivity analysis approach
+
+**When to Use**: Methodology section when describing sensitivity analysis approach
+
+**Mermaid Template**:
+```mermaid
+flowchart TB
+    subgraph Inputs["Input Parameters"]
+        P1["GDP (±20%)"]
+        P2["Population (±15%)"]
+        P3["Investment (±25%)"]
+        P4["Historical (±10%)"]
+    end
+
+    subgraph Methods["Sensitivity Methods"]
+        M1["Local: OAT"]
+        M2["Screening: Morris"]
+        M3["Global: Sobol"]
+    end
+
+    subgraph Outputs["Visualizations"]
+        O1["Tornado Diagram"]
+        O2["μ* vs σ Plot"]
+        O3["Sobol Bar Chart"]
+    end
+
+    subgraph Insights["Key Findings"]
+        I1["Most Influential"]
+        I2["Interactions"]
+        I3["Negligible"]
+    end
+
+    Inputs --> Methods
+    M1 --> O1
+    M2 --> O2
+    M3 --> O3
+    Outputs --> Insights
+```
+
+**Caption Format**: "Figure X: Sensitivity analysis framework applies three complementary methods. Local OAT analysis produces tornado diagrams for quick parameter ranking, Morris screening identifies non-linear effects via μ*-σ plots, and Sobol indices provide variance-based attribution. This multi-method approach reveals GDP as the dominant factor (S₁=0.35), with host×GDP interactions explaining an additional 12% variance."
+
+**Related Templates**: See `sensitivity_analysis_templates.md` for complete matplotlib code for tornado diagrams, spider plots, and Sobol visualizations.
+
+---
+
+### 12. Validation Pipeline Diagram
+
+**Purpose**: Show the complete model validation workflow
+
+**When to Use**: Methodology section when describing validation approach
+
+**Mermaid Template**:
+```mermaid
+flowchart LR
+    subgraph Stage1["Convergence Checks"]
+        A["R-hat < 1.1"]
+        B["ESS > 400"]
+    end
+
+    subgraph Stage2["Fit Quality"]
+        C["Residual Diagnostics"]
+        D["PPC Checks"]
+    end
+
+    subgraph Stage3["Predictive"]
+        E["Cross-Validation"]
+        F["Calibration"]
+    end
+
+    subgraph Gate["Validation Gate"]
+        G{All Pass?}
+    end
+
+    Stage1 --> Stage2 --> Stage3 --> Gate
+    Gate -->|Yes| H["APPROVED"]
+    Gate -->|No| I["REJECTED"]
+```
+
+**Caption Format**: "Figure X: Three-stage validation pipeline ensures model reliability before predictions. Stage 1 verifies MCMC convergence (all R-hat < 1.1, minimum ESS = 1,847), Stage 2 confirms distributional fit via residual diagnostics (Q-Q R² = 0.987) and posterior predictive checks (Bayesian p = 0.47), Stage 3 assesses 10-fold CV performance (RMSE = 4.8) and calibration (ECE = 0.023). All criteria passed."
+
+**Related Templates**: See `model_validation_figures.md` for complete matplotlib code for residual diagnostics, MCMC trace plots, and calibration diagrams.
+
+---
+
+### 13. Uncertainty Propagation Diagram
+
+**Purpose**: Show how uncertainty flows through the modeling pipeline
+
+**When to Use**: Discussion section when explaining uncertainty sources
+
+**Mermaid Template**:
+```mermaid
+flowchart LR
+    subgraph Data["Data Uncertainty"]
+        D1["Measurement<br/>Error"]
+        D2["Missing<br/>Values"]
+    end
+
+    subgraph Model["Model Uncertainty"]
+        M1["Parameter<br/>Uncertainty"]
+        M2["Structure<br/>Uncertainty"]
+    end
+
+    subgraph Prediction["Prediction Uncertainty"]
+        P1["Epistemic<br/>(Reducible)"]
+        P2["Aleatoric<br/>(Irreducible)"]
+    end
+
+    subgraph Output["Total Uncertainty"]
+        O["95% CI:<br/>±6.5 medals"]
+    end
+
+    Data --> Model --> Prediction --> Output
+```
+
+**Caption Format**: "Figure X: Uncertainty propagates through three stages. Data uncertainty (measurement error in GDP figures, 3.2% missing values) contributes 15% of total variance. Model uncertainty (posterior parameter distributions, model structure choice) contributes 38%. The remaining 47% is irreducible aleatoric noise from inherent performance variability. Total 95% prediction interval spans ±6.5 medals."
+
+**Related Templates**: See `uncertainty_visualization_advanced.md` for complete matplotlib code for uncertainty decomposition and credible interval visualizations.
+
+---
+
 ## Integration with Statistical Figures
 
 ### Balanced Figure Distribution
@@ -500,8 +623,10 @@ Following the standardized naming format:
 - [ ] Groupings (subgraphs) used for related components
 
 **Visual Quality**:
+- [ ] **Init block included** (see `professional_styling_guide.md`)
+- [ ] **Node classes defined** (input, process, output, decision)
 - [ ] Consistent color scheme with statistical figures
-- [ ] 300 DPI resolution
+- [ ] 300 DPI resolution (render at 3000px width)
 - [ ] No overlapping text
 - [ ] Clean, uncluttered layout
 
@@ -514,3 +639,32 @@ Following the standardized naming format:
 - [ ] Figure referenced in text before appearing
 - [ ] Text explains what to observe in the figure
 - [ ] Figure complements (not duplicates) prose explanation
+
+---
+
+## Professional Styling Reference
+
+All Mermaid diagrams MUST include professional styling. See:
+
+1. **`professional_styling_guide.md`** - Color palettes, node classes, typography
+2. **`mermaid_advanced_templates.md`** - Complete templates with styling
+3. **`rendering_best_practices.md`** - CLI commands, resolution, quality checks
+
+### Quick Start: Minimum Professional Styling
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#4a90d9', 'primaryTextColor': '#fff', 'primaryBorderColor': '#2c5282', 'fontSize': '16px'}}}%%
+
+flowchart TB
+    classDef input fill:#e6f3ff,stroke:#2c5282,stroke-width:2px,color:#1a365d
+    classDef process fill:#4a90d9,stroke:#2c5282,stroke-width:2px,color:#fff
+    classDef output fill:#c6f6d5,stroke:#276749,stroke-width:2px,color:#1c4532
+
+    A["Input"]:::input --> B["Process"]:::process --> C["Output"]:::output
+```
+
+### Rendering Command
+
+```bash
+mmdc -i diagram.mmd -o output.png -w 3000 -H 2000 -b white
+```

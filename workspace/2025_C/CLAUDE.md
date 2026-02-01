@@ -277,7 +277,7 @@ cat output/implementation/logs/phase_{X}_timing.json
 
 ```
 STEP 1: Read phase timing log → cat output/implementation/logs/phase_{X}_timing.json
-STEP 2: Extract duration_minutes from JSON
+STEP 2: Extract cumulative_duration from JSON (NOT duration_minutes)
 STEP 3: Compare against MINIMUM → IF < MIN: REJECT + FORCE RERUN
 STEP 4: Call @time_validator (BLOCKING) → Wait APPROVE/REJECT
 STEP 5: Update orchestration_log.md → THEN call next agent
@@ -404,18 +404,95 @@ STEP 5: Update orchestration_log.md → THEN call next agent
 
 ---
 
-## Phase Jump Mechanism
+## Phase Jump Mechanism (MANDATORY ENFORCEMENT)
+
+> [!CRITICAL]
+> **When @validator issues REQUIRE_REWIND, Director MUST execute. This is NOT optional.**
 
 **Purpose**: Rewind to earlier phases for upstream problems. Priority: Rewind > Rework
 
+### REQUIRE_REWIND Response Protocol (MANDATORY)
+
+When @validator issues a `REQUIRE_REWIND_PHASE_{X}` verdict:
+
+1. **Acknowledge immediately** - Director MUST respond within 1 turn
+2. **Pause current phase timing**:
+   ```bash
+   python tools/time_tracker.py pause --phase {current_phase} --reason "REWIND to Phase {X}"
+   ```
+3. **Execute rewind** - Run the target phase with appropriate agents
+4. **Track rewind phase timing** - Use normal time_tracker.py for rewind phases
+5. **Resume original phase after rewind**:
+   ```bash
+   python tools/time_tracker.py resume --phase {current_phase} --agent {agent_name}
+   ```
+
+### FORBIDDEN Director Actions During REQUIRE_REWIND
+
+> [!CRITICAL]
+> **Director CANNOT do any of the following:**
+
+- ❌ Ignore or defer the REQUIRE_REWIND
+- ❌ Claim "time constraints prevent rewind"
+- ❌ Say "we'll fix it in a later phase"
+- ❌ Argue "the issue is not severe enough"
+- ❌ Proceed to next phase without executing rewind
+- ❌ Override @validator's REQUIRE_REWIND authority
+
+**Violation = Academic Fraud + System Integrity Failure**
+
+### Decision Matrix (Updated)
+
 | Severity | Cost | Urgency | Decision |
 |----------|------|---------|----------|
-| HIGH | LOW/MED | HIGH | ACCEPT |
-| HIGH | HIGH | HIGH | MODIFY |
-| MED | LOW/MED | MED | ACCEPT |
-| LOW | HIGH | LOW | REJECT |
+| HIGH | ANY | ANY | **MUST ACCEPT** |
+| MED | LOW/MED | MED+ | ACCEPT |
+| MED | HIGH | HIGH | ACCEPT with modification |
+| LOW | HIGH | LOW | MAY REJECT (only case) |
+
+**Note**: Only LOW severity + HIGH cost + LOW urgency rewinds can be rejected. All HIGH severity issues REQUIRE immediate rewind.
 
 **Cost**: Low(1-2h) | Med(2-4h) | High(4-8h) | VHigh(8+h)
+
+### Time Handling During Rewind (MANDATORY)
+
+```
+Original Phase (e.g., Phase 5):
+  Start: 10:00
+  Pause: 10:30 (REWIND triggered) → 30m recorded
+
+Rewind Phase(s):
+  Phase 3 rerun: 45m (tracked separately)
+  Phase 4 rerun: 30m (tracked separately)
+
+Original Phase Resumed:
+  Resume: 11:45
+  End: 14:45 → 180m recorded
+
+Total for Original Phase: 30m + 180m = 210m (meets minimum)
+Rewind time: 75m (counts toward 8.5h total)
+```
+
+### Phase Jump for Content Balance Issues
+
+When @judge_zero detects page balance problems, use this routing table:
+
+| Issue Type | Rewind Target | Primary Agent | Supporting Agent | Est. Cost |
+|------------|--------------|---------------|------------------|-----------|
+| Under-length (<24 pages) | Phase 7 | @writer | @visualizer | Low-Med (1-2h) |
+| Blank space (>50% on any page) | Phase 7.5 | @editor | @writer | Low (30min) |
+| Models under-represented (<38%) | Phase 7B | @writer | @modeler | Med (1h) |
+| Results over-represented (>30%) | Phase 7C | @writer | @visualizer | Med (1h) |
+| Analysis under-represented (<8%) | Phase 7D | @writer | @validator | Med (1h) |
+| Missing sensitivity analysis | Phase 5.5 | @validator | @model_trainer | High (2-3h) |
+
+**Content Balance DEFCON 1 Triggers**:
+- Trigger 7: Under-Length Paper (<24 pages) → Expansion required
+- Trigger 8: Excessive Blank Space (>50% on any page) → Layout review
+- Trigger 9: Content Imbalance (>15% deviation from target) → Rebalancing required
+- Trigger 10: Sparse Page (<200 words, no figure) → Content fill
+
+**Reference**: Protocol 22 (Content Balance Verification), `agent_knowledge/judge_zero/`
 
 **Examples**: knowledge_base/director_examples.md#phase-jump-decision-examples
 

@@ -201,50 +201,74 @@ Tests whether method improves over baselines.
 
 ---
 
-## 🆔 [ NEW] Phase Jump Capability
+## 🆔 [CRITICAL] Phase Jump Capability - REQUIRE_REWIND Authority
 
-### Your Rewind Authority
+> [!CRITICAL]
+> **When you detect upstream problems requiring rewind, Director MUST execute. This is NOT a suggestion.**
 
-**Can Suggest Rewind To**:
+### Your REQUIRE_REWIND Authority
+
+**REQUIRE_REWIND Targets (Director CANNOT Override)**:
 - **Phase 1 (modeler)**: When model methodology has fundamental errors
 - **Phase 3 (data processing)**: When feature data is missing or has serious quality issues
 - **Phase 4 (code implementation)**: When code implementation has critical bugs that indicate design flaws
 
-### When to Suggest Rewind
+### When to REQUIRE_REWIND
 
-✅ **Suggest Rewind to Phase 1 When**:
+✅ **REQUIRE_REWIND to Phase 1 When**:
 - Model fundamentally cannot produce valid results (e.g., always predicts negative values)
 - Model's mathematical assumptions are violated by the data
 - Model is missing critical components that make it unusable
 
-✅ **Suggest Rewind to Phase 3 When**:
+✅ **REQUIRE_REWIND to Phase 3 When**:
 - Feature data is completely missing required fields
 - Feature data has systematic corruption (e.g., all values are NaN)
 - Feature data format is incompatible with model requirements
 
-✅ **Suggest Rewind to Phase 4 When**:
+✅ **REQUIRE_REWIND to Phase 4 When**:
 - Code implementation suggests the model design itself is flawed
 - Code reveals fundamental misunderstandings in the model design
 - Multiple critical implementation bugs that stem from design ambiguity
 
-❌ **DON'T Suggest Rewind For**:
+❌ **DON'T REQUIRE_REWIND For**:
 - Minor bugs that can be fixed in code
 - Missing random seeds or reproducibility issues
 - Edge cases that need handling
 - Code style or optimization issues
 
-### How to Initiate Rewind
+### FORBIDDEN Director Responses
 
-When you discover fundamental upstream problems:
+> [!CRITICAL]
+> **Director CANNOT use any of these to reject a REQUIRE_REWIND:**
+
+- ❌ "Time constraints prevent rewind"
+- ❌ "We'll fix it in a later phase"
+- ❌ "The issue is not severe enough"
+- ❌ "Let's proceed and see if it causes problems"
+- ❌ Any rationalization that bypasses the rewind requirement
+
+**Director MUST acknowledge and execute within 1 turn.**
+
+### How to Initiate REQUIRE_REWIND
+
+When you discover fundamental upstream problems, issue a **REQUIRE_REWIND** (not a suggestion):
 
 ```
-Director, I need to Rewind to Phase {1/3/4}.
+Director, REQUIRE_REWIND to Phase {1/3/4}.
+
+## Verdict: REQUIRE_REWIND_PHASE_{1/3/4}
 
 ## Problem Description
 {Clear description of the fundamental problem}
 
 ## Root Cause
 {Analysis of why this is an upstream Phase problem}
+
+## Evidence (MANDATORY)
+- Specific file: {file_path}
+- Specific line(s): {line numbers}
+- Exact issue: {what is wrong}
+- Impact: {why this blocks progress}
 
 ## Examples:
 ### Phase 1 Problems:
@@ -268,32 +292,95 @@ Director, I need to Rewind to Phase {1/3/4}.
 - Can Preserve: problem/*, output/docs/consultation/*, some outputs
 - Redo Required: {what needs to be redone}
 
-## Rewind Recommendation
+## REQUIRE_REWIND Details
 **Target Phase**: {phase number}
 **Reason**: {why this phase needs to fix the issue}
 **Fix Plan**: {specific suggestions}
+**Time Handling**: Director MUST pause current phase timing before rewind
 
-## Urgency
-- [ ] LOW: Can wait for current phase to complete
-- [ ] MEDIUM: Should address before continuing
-- [x] HIGH: Cannot proceed without fixing
+## Severity
+- [ ] LOW: Minor issue (use REWORK, not REWIND)
+- [ ] MEDIUM: Significant issue
+- [x] HIGH: Cannot proceed without fixing - REWIND MANDATORY
 
-**Rewind Recommendation Report**: output/docs/rewind/rewind_rec_{i}_validator_phase{target}.md
+**REQUIRE_REWIND Report**: output/docs/rewind/rewind_rec_{i}_validator_phase{target}.md
 ```
 
-### Updated Report Format
+### Updated Report Format (MANDATORY)
 
 Add this section to your validation report:
 
 ```markdown
 ## Upstream Issues Found
 - Found upstream problems: Yes/No
-- Suggesting Rewind: Yes/No
+- REQUIRE_REWIND issued: Yes/No
 - If Yes:
+  - Verdict: REQUIRE_REWIND_PHASE_{1/3/4}
   - Target Phase: {phase number}
   - Problem: {description}
   - Root cause: {analysis}
+  - Director response required: MUST acknowledge and execute
   - Rewind report: output/docs/rewind/rewind_rec_{i}_validator_phase{target}.md
+```
+
+### Director Response Protocol
+
+When @validator issues REQUIRE_REWIND, Director MUST respond:
+
+```markdown
+## REQUIRE_REWIND Acknowledged
+
+Received: REQUIRE_REWIND_PHASE_{X} from @validator
+Action: Executing rewind to Phase {X}
+
+### Time Handling
+1. Pausing current phase: python tools/time_tracker.py pause --phase {current} --reason "REWIND to Phase {X}"
+2. Will resume after rewind completes
+
+### Execution Plan
+{specific steps to execute the rewind}
+```
+
+---
+
+## PASS/FAIL Threshold Definition (MANDATORY)
+
+> [!CRITICAL]
+> **All validation verdicts MUST follow these explicit thresholds. No exceptions.**
+
+### Score Thresholds
+
+| Score Range | Verdict | Action |
+|-------------|---------|--------|
+| >= 7.0 | **PASS** | Proceed to next phase |
+| 5.0 - 6.9 | **CONDITIONAL_PASS** | Minor issues - document, proceed with caution |
+| < 5.0 | **FAIL** | BLOCK - Cannot proceed, requires rework |
+
+### Severity Auto-Escalation (MANDATORY)
+
+**Any of these conditions = AUTOMATIC FAIL, regardless of numeric score:**
+
+1. **ANY HIGH severity issue** → AUTOMATIC FAIL + REQUIRE_REWIND
+2. **3+ MEDIUM severity issues** → AUTOMATIC FAIL + REQUIRE_REWORK
+3. **Data integrity violation** → AUTOMATIC FAIL + REQUIRE_REWIND to source phase
+4. **Physical impossibility detected** (negative values, >100%, etc.) → AUTOMATIC FAIL + REQUIRE_REWIND
+
+### Verdict Format (ENFORCED)
+
+```
+Grade: X.Y/10 | Verdict: PASS / CONDITIONAL_PASS / FAIL
+
+Severity Summary:
+- HIGH issues: {count} → {AUTO_FAIL if > 0}
+- MEDIUM issues: {count} → {AUTO_FAIL if >= 3}
+- LOW issues: {count}
+
+Threshold Check:
+- Score: X.Y/10 {>= 7.0 ? "PASS" : (>= 5.0 ? "CONDITIONAL" : "FAIL")}
+- Auto-fail triggers: {list any that apply}
+
+Final Verdict: {PASS/CONDITIONAL_PASS/FAIL}
+Action: {PROCEED/PROCEED_WITH_CAUTION/BLOCK_REQUIRE_REWORK/BLOCK_REQUIRE_REWIND}
 ```
 
 ---

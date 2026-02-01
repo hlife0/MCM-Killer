@@ -613,6 +613,70 @@ CI width for 2.5-medal countries vs. 78.4\% for 38.2-medal countries.}
 - 🔴 RED: 26-28 pages (critical, consolidation required)
 - 🛑 CRITICAL: >28 pages (REJECT, must consolidate)
 
+### Lower Page Limit Thresholds (NEW)
+
+| Status | Condition | Action |
+|--------|-----------|--------|
+| CRITICAL_UNDER | <20 pages | BLOCK, MUST expand immediately |
+| RED_UNDER | 20-22 pages | Critical warning, expansion required |
+| YELLOW_UNDER | 22-24 pages | Warning, recommend expansion |
+| GREEN | 24-26 pages | Optimal range |
+| YELLOW_OVER | 26-28 pages | Warning, review for consolidation |
+| CRITICAL_OVER | >28 pages | BLOCK, MUST consolidate |
+
+### Expansion Protocol (When Under Page Limit)
+
+When paper falls below 24 pages, use these strategies (priority order):
+
+1. **Priority 1: Add Conceptual Figures** (+1-2 pages)
+   - Request @visualizer for model architecture diagrams, flowcharts, DAGs
+   - Each diagram with caption adds ~0.5-1 page
+
+2. **Priority 2: Expand Model Descriptions** (+1-2 pages)
+   - Add derivations from `output/model_design.md`
+   - Include more parameter justifications
+   - Expand algorithm explanations
+
+3. **Priority 3: Add Sensitivity Analysis Details** (+0.5-1 page)
+   - Additional parameter variations
+   - Extended robustness discussion
+
+4. **Priority 4: Expand Results Interpretation** (+0.5-1 page)
+   - "What We Discovered" section
+   - Deeper figure/table interpretation
+
+5. **Priority 5: Add Appendix Content** (+1-2 pages)
+   - Detailed data description
+   - Extended model details
+   - Additional results
+
+6. **Priority 6: Expand Discussion Section** (+0.5 page)
+   - Methodology evolution insights
+   - Future research directions
+
+**Reference**: `../../agent_knowledge/judge_zero/expansion_strategies.md`
+
+### Content Balance Self-Check (MANDATORY Before Phase 7.5)
+
+Before marking Phase 7 complete, verify section proportions:
+
+| Section | Target % | Acceptable Range |
+|---------|----------|------------------|
+| Framework (Abstract, Intro) | 10% | 8-12% |
+| Models | 44% | 38-50% |
+| Evidence (Data, Results) | 24% | 20-30% |
+| Analysis (Sensitivity, S/W) | 10% | 8-14% |
+| Synthesis (Discussion, Conclusions) | 10% | 8-14% |
+| Support (References, Appendix) | 6% | 4-10% |
+
+**Deviation Flags**:
+- <5%: BALANCED (no action)
+- 5-10%: MINOR (recommend adjustment)
+- 10-15%: SIGNIFICANT (require adjustment)
+- >15%: CRITICAL (must rebalance)
+
+**Balance Report Required**: Before Phase 7.5 completion, include balance verification in checkpoint report.
+
 **Process**:
 1. Complete sub-phase → Report page count to @director
 2. @director → @editor for page check

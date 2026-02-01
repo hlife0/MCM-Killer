@@ -521,7 +521,7 @@ Phase 0 completes → Phase 0.2 completes → Phase 0.5 completes → Director b
 ```bash
 # After phase ends, read the timing log
 cat output/implementation/logs/phase_0_timing.json
-# Output: {"start_time": "2026-01-31T08:00:12", "end_time": "2026-01-31T08:35:47", "duration_minutes": 35.58, ...}
+# Output: {"start_time": "2026-01-31T08:00:12", "end_time": "2026-01-31T08:35:47", "duration_minutes": 35.58, "cumulative_duration": 35.58, "current_attempt_duration": 35.58, "attempt_count": 1, ...}
 # Use THESE values in orchestration_log.md
 ```
 

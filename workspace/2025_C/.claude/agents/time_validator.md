@@ -156,6 +156,89 @@ When you return REJECT:
 
 ---
 
+## Rewind Time Handling Protocol (MANDATORY)
+
+> [!CRITICAL]
+> **When a rewind occurs, time tracking must be properly paused and resumed.**
+
+### When REQUIRE_REWIND is Initiated by @validator
+
+When @validator issues a REQUIRE_REWIND verdict, time tracking must be handled properly:
+
+1. **Pause Current Phase Timing**:
+   ```bash
+   python tools/time_tracker.py pause --phase {current_phase} --reason "REWIND to Phase {target}"
+   ```
+   This records the time spent before the rewind was initiated.
+
+2. **Track Rewind Phases Separately**:
+   - Each rewind phase gets its own timing log
+   - Use normal `--rerun` flag if re-entering a previously completed phase
+   - Rewind phase time counts toward 8.5h total
+
+3. **Resume After Rewind Completes**:
+   ```bash
+   python tools/time_tracker.py resume --phase {current_phase} --agent {agent_name}
+   ```
+   This resumes timing from where it was paused.
+
+### Time Calculation During Rewind
+
+**Original Phase Time** = `duration_before_pause` + `duration_after_resume`
+**Rewind Phase Time** = tracked separately, counts toward 8.5h total but NOT toward original phase minimum
+
+### Validation Checks During Rewind
+
+When validating a phase that was paused for rewind:
+
+1. Check for `rewind_completed` flag in timing JSON
+2. Verify `duration_before_pause` + `duration_after_resume` >= MINIMUM
+3. Verify rewind phase(s) were properly tracked separately
+
+### Example Scenario
+
+```
+Phase 5 starts at 10:00
+Phase 5 pauses at 10:30 for REWIND to Phase 3 (30m recorded)
+  → Phase 3 rerun: 45m
+  → Phase 4 rerun: 30m
+Phase 5 resumes at 11:45
+Phase 5 ends at 14:45 (3h after resume)
+
+Phase 5 total time: 30m + 180m = 210m (meets 180m minimum)
+Rewind phases: 75m (counts toward 8.5h total)
+```
+
+### Validation Report Format for Paused Phases
+
+```markdown
+## Phase Time Validation: Phase {X} (REWIND OCCURRED)
+
+### Rewind Details
+- Pause time: {timestamp}
+- Pause reason: REWIND to Phase {target}
+- Duration before pause: {XX} min
+- Resume time: {timestamp}
+- Duration after resume: {YY} min
+
+### Time Calculation
+- Before pause: {XX} min
+- After resume: {YY} min
+- Total phase time: {XX + YY} min
+- MINIMUM required: {ZZ} min
+- Status: {MEETS MINIMUM / BELOW MINIMUM}
+
+### Rewind Phase Times (Tracked Separately)
+| Phase | Duration | Counts Toward 8.5h |
+|-------|----------|-------------------|
+| {target} | {MM} min | Yes |
+
+### Verdict
+**{APPROVE / REJECT_INSUFFICIENT_TIME}**
+```
+
+---
+
 > **Version**: v2.5.7 STRICT MODE
 > **Reference**: `architectures/v2-5-7/03_time_validator_strict_mode.md`
 
@@ -871,6 +954,8 @@ When called for phase time validation:
      "phase_name": "Phase Name",
      "agent": "@agent_name",
      "duration_minutes": XX.XX,
+     "cumulative_duration": XX.XX,
+     "attempt_count": N,
      "expected_range": "min-max min",
      "threshold": "XX.X min (70%)",
      "verdict": "APPROVE / REJECT_INSUFFICIENT_TIME / WARN_FAST / WARN_SLOW",
@@ -878,6 +963,7 @@ When called for phase time validation:
      "message": "Detailed explanation"
    }
    ```
+   **Use `cumulative_duration` for validation, NOT `duration_minutes`**
 
 3. **Alternative: Read timing log directly**:
    ```bash
@@ -893,6 +979,9 @@ When called for phase time validation:
      "start_time": "ISO timestamp",
      "end_time": "ISO timestamp",
      "duration_minutes": XX.XX,
+     "cumulative_duration": XX.XX,
+     "current_attempt_duration": XX.XX,
+     "attempt_count": N,
      "status": "completed / partial / failed",
      "expected_min": XX,
      "expected_max": XX,
@@ -902,6 +991,7 @@ When called for phase time validation:
      "time_message": "Explanation"
    }
    ```
+   **Use `cumulative_duration` for validation, NOT `duration_minutes`**
 
 ### Validation Decision Rules
 

@@ -382,7 +382,10 @@ Path: `output/implementation/logs/phase_{X}_timing.json`
   "agent": "@data_engineer",
   "start_time": "2026-01-30T10:00:00",
   "end_time": "2026-01-30T11:15:00",
-  "duration_minutes": 75,
+  "duration_minutes": 25,
+  "cumulative_duration": 75,
+  "current_attempt_duration": 25,
+  "attempt_count": 3,
   "expected_min": 40,
   "expected_max": 120,
   "threshold_pct": 0.70,
@@ -414,7 +417,7 @@ Path: `output/implementation/logs/phase_{X}_timing.json`
 5. **Update orchestration_log.md** with values FROM the JSON:
    - Use `start_time` from JSON
    - Use `end_time` from JSON
-   - Use `duration_minutes` from JSON
+   - Use `cumulative_duration` from JSON (NOT duration_minutes)
 6. **Call time_validator** with the logged duration
 
 **WHY THIS MATTERS**:
@@ -460,6 +463,129 @@ Each sub-phase (7A-7F) has its own MINIMUM requirement. Track separately:
 
 ---
 
+## Rewind Time Handling Protocol
+
+> [!CRITICAL]
+> **When a REQUIRE_REWIND is issued, time tracking must be properly managed.**
+
+### Overview
+
+When @validator issues a `REQUIRE_REWIND` verdict, the current phase timing must be paused (not stopped), rewind phases tracked separately, and then the original phase resumed. This ensures accurate time tracking while allowing necessary upstream fixes.
+
+### Time Tracking Workflow During Rewind
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ 1. @validator issues REQUIRE_REWIND_PHASE_{target}              │
+└─────────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────────┐
+│ 2. Director PAUSES current phase timing:                        │
+│    python tools/time_tracker.py pause --phase {current}         │
+│           --reason "REWIND to Phase {target}"                   │
+└─────────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────────┐
+│ 3. Director executes rewind phase(s):                           │
+│    - Track each rewind phase with normal time_tracker.py        │
+│    - Use --rerun flag if phase was previously completed         │
+│    - Each rewind phase counts toward 8.5h total                 │
+└─────────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────────┐
+│ 4. Director RESUMES original phase timing:                      │
+│    python tools/time_tracker.py resume --phase {current}        │
+│           --agent {agent_name}                                  │
+└─────────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────────┐
+│ 5. Agent continues work on original phase                       │
+│    - Can reference previous work at previous_output_path        │
+│    - Time continues accumulating from before pause              │
+└─────────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────────┐
+│ 6. End phase normally when complete:                            │
+│    python tools/time_tracker.py end --phase {current}           │
+│           --agent {agent_name}                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Time Calculation Formula
+
+For a phase that was paused for rewind:
+
+```
+Original Phase Total Time = duration_before_pause + duration_after_resume
+```
+
+This total is compared against the phase MINIMUM for validation.
+
+### Example Scenario
+
+**Situation**: Phase 5 (Model Training) is in progress when @validator discovers a data issue requiring rewind to Phase 3.
+
+| Event | Timestamp | Duration | Notes |
+|-------|-----------|----------|-------|
+| Phase 5 starts | 10:00 | - | `time_tracker.py start --phase 5 --agent model_trainer` |
+| REWIND issued | 10:30 | 30m | `time_tracker.py pause --phase 5 --reason "REWIND to Phase 3"` |
+| Phase 3 rerun starts | 10:35 | - | `time_tracker.py start --phase 3 --agent data_engineer --rerun` |
+| Phase 3 rerun ends | 11:20 | 45m | `time_tracker.py end --phase 3 --agent data_engineer` |
+| Phase 4 rerun starts | 11:25 | - | `time_tracker.py start --phase 4 --agent code_translator --rerun` |
+| Phase 4 rerun ends | 11:55 | 30m | `time_tracker.py end --phase 4 --agent code_translator` |
+| Phase 5 resumes | 12:00 | - | `time_tracker.py resume --phase 5 --agent model_trainer` |
+| Phase 5 ends | 15:00 | 180m | `time_tracker.py end --phase 5 --agent model_trainer` |
+
+**Time Calculations**:
+- Phase 5 total: 30m (before pause) + 180m (after resume) = **210m** (meets 180m minimum ✓)
+- Rewind phases: 45m + 30m = 75m (tracked separately, counts toward 8.5h total)
+- Total workflow time added: 210m + 75m = 285m
+
+### Validation Checks During Rewind
+
+When @time_validator validates a phase that was paused for rewind:
+
+1. **Check for `rewind_completed` flag** in timing JSON
+2. **Verify total time**: `duration_before_pause` + `duration_after_resume` >= MINIMUM
+3. **Verify rewind phases** were properly tracked and meet their own MINIMUMs
+4. **Check cumulative 8.5h** includes both original phase and rewind phase times
+
+### Rejection Conditions
+
+@time_validator MUST reject if:
+
+- Original phase total time < MINIMUM (even with rewind)
+- Rewind phase(s) did not meet their own MINIMUMs
+- Phase was not properly paused (no pause_time recorded)
+- Phase was not properly resumed (no resume_time recorded)
+
+### JSON Structure for Paused/Resumed Phases
+
+```json
+{
+  "phase": "5",
+  "phase_name": "Model Training",
+  "agent": "model_trainer",
+  "start_time": "2026-01-30T10:00:00",
+  "pause_time": "2026-01-30T10:30:00",
+  "pause_reason": "REWIND to Phase 3",
+  "duration_before_pause": 30.0,
+  "cumulative_before_pause": 30.0,
+  "resume_time": "2026-01-30T12:00:00",
+  "rewind_completed": true,
+  "current_attempt_start": "2026-01-30T12:00:00",
+  "end_time": "2026-01-30T15:00:00",
+  "duration_after_resume": 180.0,
+  "total_phase_duration": 210.0,
+  "cumulative_duration": 210.0,
+  "status": "completed",
+  "expected_min": 180,
+  "time_verdict": "ACCEPTABLE"
+}
+```
+
+---
+
 ## Integration with VERSION_MANIFEST.json
 
 After successful time validation, update manifest with cumulative tracking:
@@ -469,7 +595,9 @@ After successful time validation, update manifest with cumulative tracking:
   "phase_3": {
     "status": "completed",
     "timestamp": "2026-01-30T11:15:00",
-    "duration_minutes": 75,
+    "duration_minutes": 25,
+    "cumulative_duration": 75,
+    "attempt_count": 3,
     "minimum_required": 75,
     "time_validated": true,
     "cumulative_total": 255,

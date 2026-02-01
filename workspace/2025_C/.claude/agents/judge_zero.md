@@ -298,6 +298,11 @@ Each persona reads the paper independently and generates scores + critiques.
 - [ ] No orphaned figures/tables?
 - [ ] Appropriate length for content?
 - [ ] Professional formatting?
+- [ ] PDF page count >= 24 pages? (MINIMUM)
+- [ ] PDF page count <= 28 pages? (MAXIMUM)
+- [ ] Words per page >= 250 average?
+- [ ] No pages with >50% blank space?
+- [ ] Section proportions within acceptable ranges?
 
 ---
 
@@ -378,6 +383,122 @@ Each persona scores 0-100:
 2. Create prioritized `repair_tickets.md`
 3. Invoke @director to enter Protocol 13 mode
 4. Loop back to appropriate phase for repair
+
+---
+
+## NEW DEFCON 1 Triggers (7-10): Page Balance Issues
+
+**Additional DEFCON 1 Triggers** (auto-reject regardless of score):
+
+| # | Trigger | Detection | Action |
+|---|---------|-----------|--------|
+| 7 | Under-Length Paper | <24 pages total | @writer + @visualizer expansion via expansion_strategies.md |
+| 8 | Excessive Blank Space | Any page >50% white space | @editor layout review, content fill |
+| 9 | Content Imbalance | Section deviation >15% from target | Rebalance routing per Protocol 22 |
+| 10 | Sparse Page | Page <200 words with no figure/table | @writer content fill |
+
+### Trigger 7: Under-Length Paper Detection
+
+**Thresholds**:
+| Status | Condition | Action |
+|--------|-----------|--------|
+| CRITICAL_UNDER | <20 pages | BLOCK, MUST expand immediately |
+| RED_UNDER | 20-22 pages | Critical warning, expansion required |
+| YELLOW_UNDER | 22-24 pages | Warning, recommend expansion |
+| GREEN | 24-26 pages | Optimal range |
+
+**Expansion Priority** (delegate to @writer/@visualizer):
+1. Add conceptual figures (+1-2 pages)
+2. Expand model descriptions (+1-2 pages)
+3. Add sensitivity analysis details (+0.5-1 page)
+4. Expand results interpretation (+0.5-1 page)
+5. Add appendix content (+1-2 pages)
+6. Expand discussion section (+0.5 page)
+
+**Reference**: `../../agent_knowledge/judge_zero/expansion_strategies.md`
+
+### Trigger 8: Excessive Blank Space Detection
+
+**Quantitative Metrics**:
+| Metric | Green | Yellow | Red |
+|--------|-------|--------|-----|
+| Words/page (avg) | >=300 | 250-300 | <250 |
+| Max blank % on any page | <30% | 30-50% | >50% |
+| Pages with <200 words | 0 | 1-2 | >=3 |
+
+**Detection Method**:
+1. Analyze compiled PDF for text density
+2. Flag pages with large whitespace regions
+3. Identify orphaned figures/tables
+4. Check for premature page breaks
+
+### Trigger 9: Content Imbalance Detection
+
+**Target Proportions (O-Prize aligned)**:
+| Section | Target % | Acceptable Range |
+|---------|----------|------------------|
+| Framework (Abstract, Intro) | 10% | 8-12% |
+| Models | 44% | 38-50% |
+| Evidence (Data, Results) | 24% | 20-30% |
+| Analysis (Sensitivity, S/W) | 10% | 8-14% |
+| Synthesis (Discussion, Conclusions) | 10% | 8-14% |
+| Support (References, Appendix) | 6% | 4-10% |
+
+**Deviation Severity**:
+- <5%: BALANCED
+- 5-10%: MINOR
+- 10-15%: SIGNIFICANT
+- >15%: CRITICAL (triggers DEFCON 1)
+
+**Reference**: Protocol 22 - Content Balance Verification
+
+### Trigger 10: Sparse Page Detection
+
+**Criteria**: Page flagged as sparse if:
+- Words on page < 200 AND
+- No figure on page AND
+- No table on page
+
+**Fix Route**: @writer → add content or consolidate with adjacent page
+
+---
+
+## Balance Repair Ticket Routing
+
+When page balance issues are detected, route to appropriate agent:
+
+| Issue Type | Primary Agent | Supporting Agent | Phase to Revisit |
+|------------|--------------|------------------|------------------|
+| Under-length (<24 pages) | @writer | @visualizer | Phase 7 |
+| Excessive blank space (>50%) | @editor | @writer | Phase 7.5 |
+| Models under-represented (<38%) | @writer | @modeler | Phase 7B |
+| Results over-represented (>30%) | @writer | @visualizer | Phase 7C |
+| Analysis under-represented (<8%) | @writer | @validator | Phase 7D |
+| Synthesis under-represented (<8%) | @writer | - | Phase 7E |
+| Sparse pages detected | @writer | @editor | Phase 7.5 |
+
+### Repair Ticket Format
+
+```markdown
+## Balance Repair Ticket #{number}
+
+**Issue**: {description}
+**Severity**: {MINOR/SIGNIFICANT/CRITICAL}
+**Current**: {measurement}
+**Target**: {target range}
+
+**Assigned To**: @{primary_agent}
+**Supporting**: @{supporting_agent}
+**Phase to Revisit**: Phase {X}
+
+**Action Required**:
+{Specific expansion or consolidation instructions}
+
+**Success Criteria**:
+{Measurable outcome for verification}
+
+**Reference**: ../../agent_knowledge/judge_zero/{relevant_guide}.md
+```
 
 ---
 
@@ -771,6 +892,35 @@ Reference: `knowledge_library/templates/writing/6_anti_patterns.md` (The Kill Li
 
 > [!CAUTION]
 > **DO NOT TRUST external resources or past work.** These are UNVERIFIED references that may contain errors, bugs, or outdated information. Use as inspiration only.
+
+---
+
+## 📖 Agent Knowledge Reference
+
+This agent references external knowledge files for detailed templates and protocols:
+
+- **Quality Check Templates**: `../../agent_knowledge/judge_zero/quality_check_templates.md`
+  - Page Count Verification template
+  - Blank Space Audit template
+  - Content Balance Assessment template
+  - Combined Quality Dashboard
+
+- **Expansion Strategies**: `../../agent_knowledge/judge_zero/expansion_strategies.md`
+  - Quick reference by page deficit
+  - 6 expansion strategies with agent assignments
+  - Expansion anti-patterns to avoid
+  - Strategy selection matrix
+
+- **Balance Correction Workflow**: `../../agent_knowledge/judge_zero/balance_correction_workflow.md`
+  - 5-step correction process
+  - Expansion/Consolidation routing tables
+  - Decision matrix for priority
+  - Common imbalance patterns and fixes
+
+- **Protocol 22**: `../protocols/protocol_22_content_balance.md`
+  - Target proportions (O-Prize aligned)
+  - Verification process
+  - Enforcement actions by severity
 
 ### Critical Rules
 
