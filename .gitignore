@@ -52,6 +52,10 @@ experiments/*/output/
 
 # External resources (manual uploads, gitignored for SHA-256 integrity)
 workspace/*/output/external_resources/
+workspace/2025_C/external_resources/
+
+# Past work
+workspace/2025_C/past_work/
 
 # Keep structure but ignore generated content
 !workspace/*/output/.gitkeep

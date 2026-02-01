@@ -218,7 +218,7 @@ STEP 5: Update orchestration_log.md → THEN call next agent
 
 **Agents**: @resource_ingestor, @quality_checker, @knowledge_curator, @resource_manager
 **Workflow**: inbox/ → staging/ → active/ (or rejected/)
-**Context**: ALL agents read `external_resources/active/summary_for_agents.md`
+**Context**: ALL agents read `past_work/active/summary_for_agents.md` FIRST, then `external_resources/active/summary_for_agents.md`
 
 **Full Details**: knowledge_base/external_resources_pipeline.md
 
